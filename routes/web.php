@@ -14,6 +14,6 @@
 Route::get('/', 'HomeController@index');
 
 
-Route::get('starter', function () {
-    return view('starter');
+Route::get('products', function () {
+    return view('products.index');
 });
