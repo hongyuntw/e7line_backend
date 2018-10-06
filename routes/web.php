@@ -12,3 +12,8 @@
 */
 
 Route::get('/', 'HomeController@index');
+
+
+Route::get('starter', function () {
+    return view('starter');
+});
