@@ -30,21 +30,24 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">HEADER</li>
+            <li class="header">管理系統</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>商品管理</span></a></li>
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>頁面管理</span></a></li>
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>帳號管理</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+            <li class="{{ (request()->is('/'))? 'active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>主控台</span>
+                </a>
+            </li>
+            <li class="treeview{{ (request()->is('products*'))? ' active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>商品管理</span>
                     <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
+                    <li><a href="#">商品列表</a></li>
+                    <li><a href="#">新增商品</a></li>
                 </ul>
             </li>
         </ul>

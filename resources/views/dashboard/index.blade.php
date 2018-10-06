@@ -9,11 +9,11 @@
     <section class="content-header">
         <h1>
             主控台
-            <small>Optional description</small>
+            <small>後台管理首頁</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
+            <li><a href="#"><i class="fa fa-dashboard"></i> 主控台</a></li>
+            <li class="active">後台管理首頁</li>
         </ol>
     </section>
 

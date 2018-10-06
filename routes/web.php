@@ -11,9 +11,16 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
-
+Route::get('/', 'DashboardController@index');
 
 Route::get('products', function () {
     return view('products.index');
+});
+
+Route::get('products/create', function () {
+    return view('products.create');
+});
+
+Route::get('products/{product}/edit', function ($product) {
+    return view('products.edit');
 });

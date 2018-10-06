@@ -8,12 +8,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            商品列表
-            <small>Optional description</small>
+            商品管理
+            <small></small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
+            <li><a href="#"><i class="fa fa-shopping-bag"></i> 商品管理</a></li>
+            <li class="active">商品列表</li>
         </ol>
     </section>
 
@@ -23,6 +23,55 @@
         <!--------------------------
           | Your Page Content Here |
           -------------------------->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">全站商品一覽表</h3>
+
+                        <div class="box-tools">
+                            <a class="btn btn-success btn-sm" href="#">新增商品</a>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th class="text-center" style="width: 10px;">#</th>
+                                <th class="text-center">名稱</th>
+                                <th class="text-center" style="width: 250px">分類</th>
+                                <th class="text-center" style="width: 120px">價格</th>
+                                <th class="text-center" style="width: 120px">管理功能</th>
+                            </tr>
+                            <tr>
+                                <td>1.</td>
+                                <td>商品一</td>
+                                <td>商品分類</td>
+                                <td>100 元/個</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-xs btn-primary">編輯</a>
+                                    <a href="#" class="btn btn-xs btn-danger">刪除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li><a href="#">&laquo;</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">&raquo;</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
 
     </section>
     <!-- /.content -->
