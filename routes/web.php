@@ -11,16 +11,10 @@
 |
 */
 
-Route::get('/', 'DashboardController@index');
+Route::get('/', 'DashboardController@index')->name('dashboard.index');
 
-Route::get('products', function () {
-    return view('products.index');
-});
+Route::get('products', 'ProductController@index')->name('products.index');
 
-Route::get('products/create', function () {
-    return view('products.create');
-});
+Route::get('products/create', 'ProductController@create')->name('products.create');
 
-Route::get('products/{product}/edit', function ($product) {
-    return view('products.edit');
-});
+Route::get('products/{product}/edit', 'ProductController@edit')->name('products.edit');

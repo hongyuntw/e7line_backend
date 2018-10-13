@@ -33,7 +33,7 @@
             <li class="header">管理系統</li>
             <!-- Optionally, you can add icons to the links -->
             <li class="{{ (request()->is('/'))? 'active' : '' }}">
-                <a href="#">
+                <a href="{{ route('dashboard.index') }}">
                     <i class="fa fa-dashboard"></i> <span>主控台</span>
                 </a>
             </li>
@@ -46,8 +46,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">商品列表</a></li>
-                    <li><a href="#">新增商品</a></li>
+                    <li><a href="{{ route('products.index') }}">商品列表</a></li>
+                    <li><a href="{{ route('products.create') }}">新增商品</a></li>
                 </ul>
             </li>
         </ul>
