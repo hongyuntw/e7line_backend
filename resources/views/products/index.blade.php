@@ -51,7 +51,7 @@
                                 <td>商品分類</td>
                                 <td>{{ $product->price }} 元/{{ $product->unit }}</td>
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-xs btn-primary">編輯</a>
+                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-xs btn-primary">編輯</a>
                                     <a href="#" class="btn btn-xs btn-danger">刪除</a>
                                 </td>
                             </tr>

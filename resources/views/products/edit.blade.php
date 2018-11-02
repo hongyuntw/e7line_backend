@@ -33,7 +33,11 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form">
+                        <form role="form" action="{{ route('products.update', $product->id) }}" method="post">
+
+                            @csrf
+                            @method('PATCH')
+
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="title">名稱</label>
@@ -49,7 +53,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="price">價格</label>
-                                    <input type="text" class="form-control" id="price" name="price" placeholder="請輸入價格" value="{{ $product->price }}">
+                                    <input type="number" class="form-control" id="price" name="price" placeholder="請輸入價格" value="{{ $product->price }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="unit">單位</label>
