@@ -41,6 +41,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'price' => 'required|integer',
+            'unit' => 'required',
+            'description' => 'required',
+        ]);
+
         Product::create($request->all());
 
         return redirect()->route('products.index');
@@ -81,6 +88,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'price' => 'required|integer',
+            'unit' => 'required',
+            'description' => 'required',
+        ]);
+
         $product->update($request->all());
 
         return redirect()->route('products.index');

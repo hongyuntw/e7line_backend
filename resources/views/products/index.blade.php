@@ -31,7 +31,7 @@
                         <h3 class="box-title">全站商品一覽表</h3>
 
                         <div class="box-tools">
-                            <a class="btn btn-success btn-sm" href="#">新增商品</a>
+                            <a class="btn btn-success btn-sm" href="{{ route('products.create') }}">新增商品</a>
                         </div>
                     </div>
                     <!-- /.box-header -->
