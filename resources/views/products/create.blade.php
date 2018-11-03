@@ -58,10 +58,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="category">分類</label>
-                                    <select id="category" class="form-control">
-                                        <option>分類一</option>
-                                        <option>分類二</option>
-                                        <option>分類三</option>
+                                    <select id="category" name="category_id" class="form-control">
+                                        @foreach($categories as $category)
+                                        <option value="{{ $category->id }}"{{ (old('category_id') == $category->id)? ' selected' : '' }}>{{ $category->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
