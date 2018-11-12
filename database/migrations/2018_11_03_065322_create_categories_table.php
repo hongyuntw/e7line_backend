@@ -15,11 +15,11 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-
+            $table->unsignedInteger('type_id');
             $table->string('name');
-            $table->unsignedInteger('type_id')->default(0);
             $table->timestamps();
         });
+
     }
 
     /**

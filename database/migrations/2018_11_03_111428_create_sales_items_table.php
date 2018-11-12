@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateSalesItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('sales_items', function (Blueprint $table) {
             $table->increments('id');
-
-            $table->string('name');
-            $table->unsignedInteger('type_id')->default(0);
+            $table->unsignedInteger('sale_id');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('sale_price')->default(0.00); //當時購買物品的價錢
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('sales_items');
     }
 }

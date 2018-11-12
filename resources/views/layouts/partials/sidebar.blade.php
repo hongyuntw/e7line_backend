@@ -49,6 +49,26 @@
                     <li><a href="{{ route('products.index') }}">商品列表</a></li>
                     <li><a href="{{ route('products.create') }}">新增商品</a></li>
                 </ul>
+                <a href="#">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>訂單管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('products.index') }}">訂單列表</a></li>
+                </ul>
+                <a href="#">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>會員管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('products.index') }}">會員列表</a></li>
+                </ul>
             </li>
         </ul>
         <!-- /.sidebar-menu -->
