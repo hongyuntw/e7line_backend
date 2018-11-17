@@ -18,18 +18,44 @@ class ProductsTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create('zh_TW');
         $total = 20;
-        $units = ['個', '顆', '盒', '台', '粒'];
-
-        foreach(range(1, 3) as $i) {
+        $units = ['瓶', '個'];
+//        $alcohol = [
+//            'beer' => ['啤酒'],
+//            'spirit' => ['烈酒'],
+//            'wine' => ['紅酒'],
+//            'drinkware' => ['酒具'],
+//        ];
+//        foreach (range(1, 100) as $id) {
+//            $type=rand(0,3);
+//            $myunit='';
+//            if($type==3){
+//                $myunit='個';
+//            }
+//            else{
+//                $myunit='瓶';
+//            }
+//            $category=0;
+//            $product= Product::create([
+//                'name'=> $alcohol[rand(0,3)][0],
+//                'price' => rand(20, 10000),
+//                'unit'=> $myunit,
+//                'description' => $faker->realText(rand(100, 200)),
+//                'created_at' => now()->subDays($total - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
+//                'updated_at' => now()->subDays($total - $id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
+//                'category_id' => rand(1,10),
+//            ]);
+//        }
+        foreach (range(1, 6) as $i) {
             $category = Category::create([
-                'name' => '分類 '.$i,
+                'name' => $faker->realText(rand(10, 10)),
+                'type_id' => rand(1, 4),
             ]);
-
             foreach (range(1, $total) as $id) {
                 Product::create([
+                    'category_id' => rand(0, 10), // 酒有10種
                     'name' => $faker->realText(rand(10, 15)),
                     'price' => rand(20, 10000),
-                    'unit' => $units[rand(0, 4)],
+                    'unit' => $units[rand(0, 1)],
                     'description' => $faker->realText(rand(100, 200)),
                     'category_id' => $category->id,
                     'created_at' => now()->subDays($total - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),

@@ -57,7 +57,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('products.index') }}">訂單列表</a></li>
+                    <li><a href="{{ route('sales.index') }}">訂單列表</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>

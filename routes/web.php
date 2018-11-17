@@ -26,6 +26,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('products/{product}', 'ProductController@update')->name('products.update');
     Route::delete('products/{product}', 'ProductController@destroy')->name('products.destroy');
 
+
+
+    Route::get('sales', 'SaleController@index')->name('sales.index');
+//    Route::get('sales/create', 'SaleController@create')->name('sales.create');
+    Route::post('sales', 'SaleController@store')->name('sales.store');
+    Route::get('sales/{sale}/edit', 'SaleController@edit')->name('sales.edit');
+    Route::patch('sales/{sale}', 'SaleController@update')->name('sales.update');
+    Route::delete('sales/{sale}', 'SaleController@destroy')->name('sales.destroy');
+
 });
 
 Auth::routes();
