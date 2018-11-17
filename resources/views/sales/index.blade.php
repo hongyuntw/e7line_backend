@@ -52,7 +52,7 @@
                                 @foreach ($sales as $sale)
                                     <tr>
                                         <td>{{ $sale->id }}.</td>
-                                        <td>{{ $sale->user_id }}</td>
+                                        <td>{{ $sale->member->name }}</td>
                                         <td>{{ $sale->order_name}}</td>
                                         <td>{{ $sale->order_date }}</td>
                                         <td>{{ $sale->order_phone }}</td>

@@ -16,9 +16,9 @@ class Sale extends Model
         'order_address',
         'order_date',
     ];
-    public function user()
+    public function member()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Member::class);
     }
     public function salesitem()
     {
