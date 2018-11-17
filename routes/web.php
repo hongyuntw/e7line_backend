@@ -35,6 +35,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('sales/{sale}', 'SaleController@update')->name('sales.update');
     Route::delete('sales/{sale}', 'SaleController@destroy')->name('sales.destroy');
 
+
+    Route::get('members', 'MemberController@index')->name('members.index');
+//    Route::get('members/create', 'MemberController@create')->name('members.create');
+    Route::post('members', 'MemberController@store')->name('members.store');
+    Route::get('members/{member}/edit', 'MemberController@edit')->name('members.edit');
+    Route::patch('members/{member}', 'MemberController@update')->name('members.update');
+    Route::delete('members/{member}', 'MemberController@destroy')->name('members.destroy');
+
 });
 
 Auth::routes();

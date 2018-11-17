@@ -9,7 +9,7 @@ class Sale extends Model
     //
     protected $table = 'sales';
     protected $fillable = [
-        'user_id',
+        'member_id',
         'order_name',
         'order_phone',
         'order_note',
@@ -20,7 +20,7 @@ class Sale extends Model
     {
         return $this->belongsTo(Member::class);
     }
-    public function salesitem()
+    public function salesitems()
     {
         return $this->hasMany(SalesItem::class);
     }

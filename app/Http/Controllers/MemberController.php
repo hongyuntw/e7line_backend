@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Member;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -14,6 +15,12 @@ class MemberController extends Controller
     public function index()
     {
         //
+        $members = Member::orderBy('created_at')->get();
+
+        $data = [
+            'members' => $members,
+        ];
+        return view('members.index', $data);
     }
 
     /**

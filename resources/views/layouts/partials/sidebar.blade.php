@@ -67,7 +67,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('products.index') }}">會員列表</a></li>
+                    <li><a href="{{ route('members.index') }}">會員列表</a></li>
                 </ul>
             </li>
         </ul>

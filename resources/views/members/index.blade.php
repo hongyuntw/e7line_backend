@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', '訂單列表')
+@section('title', '會員列表')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -8,12 +8,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                訂單管理
+                會員管理
                 <small></small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> 訂單管理</a></li>
-                <li class="active">訂單列表</li>
+                <li><a href="#"><i class="fa fa-shopping-bag"></i> 會員管理</a></li>
+                <li class="active">會員列表</li>
             </ol>
         </section>
 
@@ -28,10 +28,10 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">全站訂單一覽表</h3>
+                            <h3 class="box-title">全站會員一覽表</h3>
 
                             {{--<div class="box-tools">--}}
-                            {{--<a class="btn btn-success btn-sm" href="{{ route('products.create') }}">新增訂單</a>--}}
+                            {{--<a class="btn btn-success btn-sm" href="{{ route('products.create') }}">新增會員</a>--}}
                             {{--</div>--}}
                         </div>
                         <!-- /.box-header -->
@@ -39,42 +39,22 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <th class="text-center" style="width: 10px;">id</th>
-                                    <th class="text-center" style="width: 70px">用戶名稱</th>
-                                    <th class="text-center" style="width: 70px">訂單者姓名</th>
-                                    <th class="text-center" style="width: 50px">訂單日期</th>
-                                    <th class="text-center" style="width: 80px">訂單電話</th>
-                                    <th class="text-center" style="width: 200px">訂單地址</th>
-                                    <th class="text-center" style="width: 150px">訂單註記</th>
-                                    <th class="text-center" style="width: 250px">詳細資訊</th>
-                                    <th class="text-center" style="width: 50px">訂單金額</th>
+                                    <th class="text-center" style="width: 70px">會員名稱</th>
+                                    <th class="text-center" style="width: 70px">會員帳號</th>
+                                    <th class="text-center" style="width: 70px">註冊日期</th>
                                     <th class="text-center" style="width: 120px">管理功能</th>
                                 </tr>
-                                @foreach ($sales as $sale)
+                                @foreach ($members as $member)
                                     <tr>
-                                        <td>{{ $sale->id }}.</td>
-                                        <td>{{ $sale->member->name }}</td>
-                                        <td>{{ $sale->order_name}}</td>
-                                        <td>{{ $sale->order_date }}</td>
-                                        <td>{{ $sale->order_phone }}</td>
-                                        <td>{{ $sale->order_address }}</td>
-                                        <td>{{ $sale->order_note }}</td>
-                                        <td>
-                                            @foreach($sale->salesitems as $item)
-                                                {{$item->product->name}} x {{$item->quantity}}
-                                                <br>
-                                            @endforeach
-                                        </td>
-                                        @php($totalprice=0)
-                                        @foreach($sale->salesitems as $item)
-                                            @php($totalprice+=$item->quantity*$item->sale_price)
-                                        @endforeach
-                                        <td>
-                                            {{$totalprice}}元
-                                        </td>
+                                        <td>{{ $member->id }}.</td>
+                                        <td>{{ $member->name }}</td>
+                                        <td>{{ $member->email}}</td>
+                                        <td>{{ $member->created_at }}</td>
+
                                         <td class="text-center">
-                                            <a href="{{ route('sales.edit', $sale->id) }}"
+                                            <a href="{{ route('members.edit', $member->id) }}"
                                                class="btn btn-xs btn-primary">編輯</a>
-                                            <form action="{{ route('sales.destroy', $sale->id) }}" method="post"
+                                            <form action="{{ route('members.destroy', $member->id) }}" method="post"
                                                   style="display: inline-block">
                                                 @csrf
                                                 @method('DELETE')
