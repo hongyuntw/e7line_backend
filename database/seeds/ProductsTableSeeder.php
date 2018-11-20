@@ -54,7 +54,8 @@ class ProductsTableSeeder extends Seeder
                 Product::create([
                     'category_id' => rand(0, 10), // 酒有10種
                     'name' => $faker->realText(rand(10, 15)),
-                    'price' => rand(20, 10000),
+                    'listprice' => rand(20, 10000),
+                    'saleprice' => rand(40, 50000),
                     'unit' => $units[rand(0, 1)],
                     'description' => $faker->realText(rand(100, 200)),
                     'category_id' => $category->id,

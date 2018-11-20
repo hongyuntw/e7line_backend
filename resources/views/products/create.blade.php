@@ -65,8 +65,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="price">價格</label>
-                                    <input type="text" class="form-control" id="price" name="price" placeholder="請輸入價格" value="{{ old('price') }}">
+                                    <label for="saleprice">價格</label>
+                                    <input type="text" class="form-control" id="saleprice" name="saleprice" placeholder="請輸入價格" value="{{ old('saleprice') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="unit">單位</label>

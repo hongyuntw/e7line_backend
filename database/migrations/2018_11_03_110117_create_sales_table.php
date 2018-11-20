@@ -21,6 +21,7 @@ class CreateSalesTable extends Migration
             $table->string('order_note',100);
             $table->string('order_address',100);
             $table->dateTime('order_date');
+            $table->integer('shipment')->default(0);
             $table->timestamps();
         });
     }

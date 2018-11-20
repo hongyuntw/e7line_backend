@@ -47,6 +47,7 @@
                                     <th class="text-center" style="width: 150px">訂單註記</th>
                                     <th class="text-center" style="width: 250px">詳細資訊</th>
                                     <th class="text-center" style="width: 50px">訂單金額</th>
+                                    <th class="text-center" style="width: 50px">訂單狀況</th>
                                     <th class="text-center" style="width: 120px">管理功能</th>
                                 </tr>
                                 @foreach ($sales as $sale)
@@ -71,6 +72,7 @@
                                         <td>
                                             {{$totalprice}}元
                                         </td>
+                                        <td>{{  ($sale->shipment==0) ? '處理中' : '已完成'  }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('sales.edit', $sale->id) }}"
                                                class="btn btn-xs btn-primary">編輯</a>

@@ -65,11 +65,13 @@ class SaleController extends Controller
     public function edit(Sale $sale)
     {
         //
+
         $salesitems = $sale->salesitems;
         $data = [
             'sale' => $sale,
             'salesitems' => $salesitems,
 //            'salesitems'=> $sale->salesitem(),
+
         ];
 
         return view('sales.edit', $data);

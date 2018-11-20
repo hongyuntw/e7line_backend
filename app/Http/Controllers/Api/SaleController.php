@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ProductResource;
-use App\Product;
+use App\Sale;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductController extends Controller
+class SaleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('updated_at', 'desc')
-            ->take(10)
-            ->get();
-
-        return ProductResource::collection($products);
+        //
     }
 
     /**
@@ -31,7 +26,28 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'member_id'=>'required',
+                'order_name' => 'required|string',
+                'order_phone' => 'required',
+                'order_address' => 'required|string',
+            ]
+        );
 
+        Sale::create([
+            'member_id' => $request->input('member_id'),
+            'order_name' => $request->input('order_name'),
+            'order_phone' => Hash::make($request->input('order_phone')),
+            'order_address' => $request->input('order_address'),
+            'order_date' => now(),
+            'order_note'=>$request->input('order_note'),
+        ]);
+
+        return response()->json([
+            'success' => true,
+        ]);
     }
 
     /**
@@ -48,12 +64,12 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        return new ProductResource($product);
+        //
     }
 
     /**

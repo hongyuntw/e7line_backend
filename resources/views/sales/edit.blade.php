@@ -89,10 +89,11 @@
                                         <input type="text" class="form-control" id="salesitem" name="salesitem"
                                                disabled="true"
                                                value="{{ $salesitem->product->name }}">
-                                        <input type="number" class="form-control" id="quantity" name="quantity" disabled="true"
+                                        <input type="number" class="form-control" id="quantity" name="quantity"
                                                value="{{ old('quantity', $salesitem->quantity) }}">
                                     @endforeach
                                 </div>
+                                    <input type="checkbox" name="shipment" >是否完成
                                 <div class="form-group">
                                     <label for="cover">產品圖</label>
                                     <input type="file" id="cover">
