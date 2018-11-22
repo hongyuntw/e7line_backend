@@ -97,6 +97,7 @@ class SaleController extends Controller
             'order_address' => 'required',
             'quantity' => 'integer'
         ]);
+        $sale->shipment = $request->shipment;
         $sale->update($request->all());
         return redirect()->route('sales.index');
     }

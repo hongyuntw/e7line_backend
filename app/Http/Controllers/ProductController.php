@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use App\Type;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -31,9 +32,10 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $types = Type::all();
         $categories = Category::all();
-
         $data = [
+            'types' => $types,
             'categories' => $categories,
         ];
 
@@ -50,12 +52,13 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'price' => 'required|integer',
+            'saleprice' => 'required|integer',
+            'listprice' => 'required|integer',
             'unit' => 'required',
             'description' => 'required',
         ]);
 
-        Product::create($request->all());
+        $product = Product::create(dd($request->all()));
 
         return redirect()->route('products.index');
     }
@@ -79,11 +82,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $types = Type::all();
         $categories = Category::all();
-
         $data = [
             'product' => $product,
-            'categories' => $categories,
+            'types' => $types,
+            'categories' =>$categories,
         ];
 
         return view('products.edit', $data);
@@ -106,7 +110,6 @@ class ProductController extends Controller
         ]);
 
         $product->update($request->all());
-
         return redirect()->route('products.index');
     }
 

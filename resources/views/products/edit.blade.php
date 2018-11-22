@@ -41,41 +41,48 @@
                             <div class="box-body">
 
                                 @if ($errors->any())
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
-                                    請修正以下表單錯誤：
-                                    <ul>
-                                        @foreach($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
+                                        請修正以下表單錯誤：
+                                        <ul>
+                                            @foreach($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 @endif
 
                                 <div class="form-group">
                                     <label for="title">名稱</label>
-                                    <input type="text" class="form-control" id="title" name="name" placeholder="請輸入名稱" value="{{ old('name', $product->name) }}">
+                                    <input type="text" class="form-control" id="title" name="name" placeholder="請輸入名稱"
+                                           value="{{ old('name', $product->name) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="category">分類</label>
-                                    <select id="category" name="category_id" class="form-control">
+                                    <label for="category_id">Category</label>
+                                    <select id="category_id" name="category_id" class="form-control">
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}"{{ (old('category_id', $product->category_id) == $category->id)? ' selected' : '' }}>{{ $category->name }}</option>
+                                            <option
+                                                value="{{ $category->id }}"{{ (old('$category_id', $product->category_id) == $category->id)? ' selected' : '' }}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="saleprice">價格</label>
-                                    <input type="number" class="form-control" id="saleprice" name="saleprice" placeholder="請輸入價格" value="{{ old('saleprice', $product->saleprice) }}">
+                                    <input type="number" class="form-control" id="saleprice" name="saleprice"
+                                           placeholder="請輸入價格" value="{{ old('saleprice', $product->saleprice) }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="unit">單位</label>
-                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="請輸入單位" value="{{ old('unit', $product->unit) }}">
+                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="請輸入單位"
+                                           value="{{ old('unit', $product->unit) }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="description">描述</label>
-                                    <textarea class="form-control" id="description" rows="5" name="description" placeholder="請輸入描述">{{ old('description', $product->description) }}</textarea>
+                                    <textarea class="form-control" id="description" rows="5" name="description"
+                                              placeholder="請輸入描述">{{ old('description', $product->description) }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="cover">產品圖</label>

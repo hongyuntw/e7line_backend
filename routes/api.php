@@ -20,6 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('products', 'Api\ProductController@index');
 Route::get('products/{product}', 'Api\ProductController@show');
 
+Route::get('carts', 'Api\CartController@index');
+
+Route::get('categories', 'Api\CategoryController@index');
+
+Route::get('types', 'Api\TypeController@index');
+
 Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');
 

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ProductResource;
-use App\Product;
+use App\Cart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +15,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('updated_at', 'desc')
-            ->get();
+        //
+        $carts = Cart::all();
 
 //        return ProductResource::collection($products);
-        return response()->json($products);
+        return response()->json($carts);
     }
 
     /**
@@ -28,10 +27,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
         //
-
     }
 
     /**
@@ -48,12 +46,12 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        return response()->json($product);
+        //
     }
 
     /**

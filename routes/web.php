@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('products/{product}', 'ProductController@update')->name('products.update');
     Route::delete('products/{product}', 'ProductController@destroy')->name('products.destroy');
 
-
+    Route::post('categories', 'CategoryController@store')->name('categories.store');
 
     Route::get('sales', 'SaleController@index')->name('sales.index');
 //    Route::get('sales/create', 'SaleController@create')->name('sales.create');
@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('members/{member}/edit', 'MemberController@edit')->name('members.edit');
     Route::patch('members/{member}', 'MemberController@update')->name('members.update');
     Route::delete('members/{member}', 'MemberController@destroy')->name('members.destroy');
+
+
+
 
 });
 

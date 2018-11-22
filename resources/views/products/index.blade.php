@@ -38,17 +38,21 @@
                     <div class="box-body">
                         <table class="table table-bordered">
                             <tr>
-                                <th class="text-center" style="width: 10px;">#</th>
-                                <th class="text-center">名稱</th>
-                                <th class="text-center" style="width: 250px">分類</th>
-                                <th class="text-center" style="width: 120px">價格</th>
+                                <th class="text-center" style="width: 10px;">ID</th>
+                                <th class="text-center" style="width: 150px">商品名稱</th>
+                                <th class="text-center" style="width: 150px">Type</th>
+                                <th class="text-center" style="width: 150px">Category</th>
+                                <th class="text-center" style="width: 120px">ListPrice</th>
+                                <th class="text-center" style="width: 120px">SalePirce</th>
                                 <th class="text-center" style="width: 120px">管理功能</th>
                             </tr>
                             @foreach ($products as $product)
                             <tr>
                                 <td>{{ $product->id }}.</td>
                                 <td>{{ $product->name }}</td>
+                                <td>{{ $product->category->type->name }}</td>
                                 <td>{{ $product->category->name }}</td>
+                                <td>{{ $product->listprice }} 元/{{ $product->unit }}</td>
                                 <td>{{ $product->saleprice }} 元/{{ $product->unit }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-xs btn-primary">編輯</a>

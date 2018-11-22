@@ -57,7 +57,8 @@
 
                                 <div class="form-group">
                                     <label for="title">訂單者姓名</label>
-                                    <input type="text" class="form-control" id="title" name="order_name" placeholder="請輸入訂單姓名"
+                                    <input type="text" class="form-control" id="title" name="order_name"
+                                           placeholder="請輸入訂單姓名"
                                            value="{{ old('order_name', $sale->order_name) }}">
                                 </div>
                                 {{--<div class="form-group">--}}
@@ -70,7 +71,8 @@
                                 {{--</div>--}}
                                 <div class="form-group">
                                     <label for="order_phone">訂單電話</label>
-                                    <input type="text" class="form-control" id="order_phone" name="order_phone" placeholder="請輸入電話"
+                                    <input type="text" class="form-control" id="order_phone" name="order_phone"
+                                           placeholder="請輸入電話"
                                            value="{{ old('order_phone', $sale->order_phone) }}">
                                 </div>
                                 <div class="form-group">
@@ -93,7 +95,10 @@
                                                value="{{ old('quantity', $salesitem->quantity) }}">
                                     @endforeach
                                 </div>
-                                    <input type="checkbox" name="shipment" >是否完成
+                                <input type="hidden" value="0" name="shipment">
+                                <input {{$sale->shipment==1 ? 'checked' : ''}}
+                                       id="shipment" value="1" type="checkbox" name="shipment">是否結單
+
                                 <div class="form-group">
                                     <label for="cover">產品圖</label>
                                     <input type="file" id="cover">

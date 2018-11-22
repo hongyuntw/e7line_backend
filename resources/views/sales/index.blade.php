@@ -45,7 +45,7 @@
                                     <th class="text-center" style="width: 80px">訂單電話</th>
                                     <th class="text-center" style="width: 200px">訂單地址</th>
                                     <th class="text-center" style="width: 150px">訂單註記</th>
-                                    <th class="text-center" style="width: 250px">詳細資訊</th>
+                                    <th class="text-center" style="width: 230px">詳細資訊</th>
                                     <th class="text-center" style="width: 50px">訂單金額</th>
                                     <th class="text-center" style="width: 50px">訂單狀況</th>
                                     <th class="text-center" style="width: 120px">管理功能</th>

@@ -17,4 +17,8 @@ class Member extends Model
     {
         return $this->hasMany(Sale::class);
     }
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
 }
