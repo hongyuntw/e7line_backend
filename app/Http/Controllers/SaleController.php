@@ -99,6 +99,14 @@ class SaleController extends Controller
         ]);
         $sale->shipment = $request->shipment;
         $sale->update($request->all());
+        foreach (array_keys($request->id) as $id){
+            foreach ($sale->salesitems as $item){
+                if($id == $item->id){
+                   $item->quantity = $request->id[$id];
+                   $item->update();
+                }
+            }
+        }
         return redirect()->route('sales.index');
     }
 

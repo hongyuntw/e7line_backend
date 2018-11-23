@@ -88,10 +88,11 @@
                                 <div class="form-group">
                                     <label for="salesitem">訂單資料</label>
                                     @foreach($salesitems as $salesitem)
+                                        {{--<input type="text" value="{{$salesitem->quantity}}" name="{{$salesitem->id}}" id="{{$salesitem->id}}">--}}
                                         <input type="text" class="form-control" id="salesitem" name="salesitem"
                                                disabled="true"
                                                value="{{ $salesitem->product->name }}">
-                                        <input type="number" class="form-control" id="quantity" name="quantity"
+                                        <input type="number" class="form-control" id="quantity" name="id[{{$salesitem->id}}]"
                                                value="{{ old('quantity', $salesitem->quantity) }}">
                                     @endforeach
                                 </div>
