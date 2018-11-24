@@ -45,24 +45,17 @@ class ProductsTableSeeder extends Seeder
 //                'category_id' => rand(1,10),
 //            ]);
 //        }
-        foreach (range(1, 6) as $i) {
-            $category = Category::create([
-                'name' => $faker->realText(rand(10, 10)),
-                'type_id' => rand(1, 4),
+        foreach (range(1, 50) as $id) {
+            Product::create([
+                'category_id' => rand(1, 14), // 酒有10種
+                'name' => $faker->realText(rand(10, 15)),
+                'listprice' => rand(20, 10000),
+                'saleprice' => rand(40, 50000),
+                'unit' => $units[rand(0, 1)],
+                'description' => $faker->realText(rand(100, 200)),
+                'created_at' => now()->subDays($total - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
+                'updated_at' => now()->subDays($total - $id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
             ]);
-            foreach (range(1, $total) as $id) {
-                Product::create([
-                    'category_id' => rand(0, 10), // 酒有10種
-                    'name' => $faker->realText(rand(10, 15)),
-                    'listprice' => rand(20, 10000),
-                    'saleprice' => rand(40, 50000),
-                    'unit' => $units[rand(0, 1)],
-                    'description' => $faker->realText(rand(100, 200)),
-                    'category_id' => $category->id,
-                    'created_at' => now()->subDays($total - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
-                    'updated_at' => now()->subDays($total - $id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
-                ]);
-            }
         }
     }
 }

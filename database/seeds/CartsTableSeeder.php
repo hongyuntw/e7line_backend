@@ -25,5 +25,10 @@ class CartsTableSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+        $carts = Cart::all();
+        foreach ($carts as $cart){
+            $cart->price = $cart->product->saleprice * $cart->quantity;
+            $cart->update();
+        }
     }
 }
