@@ -38,42 +38,30 @@
                         <div class="box-body">
                             <table class="table table-bordered">
                                 <tr>
-                                    <th class="text-center" style="width: 10px;">id</th>
-                                    <th class="text-center" style="width: 70px">用戶名稱</th>
-                                    <th class="text-center" style="width: 70px">訂單者姓名</th>
-                                    <th class="text-center" style="width: 50px">訂單日期</th>
-                                    <th class="text-center" style="width: 80px">訂單電話</th>
-                                    <th class="text-center" style="width: 200px">訂單地址</th>
-                                    <th class="text-center" style="width: 150px">訂單註記</th>
-                                    <th class="text-center" style="width: 230px">詳細資訊</th>
-                                    <th class="text-center" style="width: 50px">訂單金額</th>
-                                    <th class="text-center" style="width: 50px">訂單狀況</th>
+                                    <th class="text-center" style="width: 10px;">訂單編號</th>
+                                    <th class="text-center" style="width: 70px">訂單日期</th>
+                                    <th class="text-center" style="width: 70px">顧客名稱</th>
+                                    <th class="text-center" style="width: 70px">訂單金額</th>
+                                    <th class="text-center" style="width: 50px">訂單狀態</th>
                                     <th class="text-center" style="width: 120px">管理功能</th>
                                 </tr>
                                 @foreach ($sales as $sale)
-                                    <tr>
+                                    <tr class="text-center">
+
                                         <td>{{ $sale->id }}.</td>
-                                        <td>{{ $sale->member->name }}</td>
-                                        <td>{{ $sale->order_name}}</td>
                                         <td>{{ $sale->order_date }}</td>
-                                        <td>{{ $sale->order_phone }}</td>
-                                        <td>{{ $sale->order_address }}</td>
-                                        <td>{{ $sale->order_note }}</td>
-                                        <td>
-                                            @foreach($sale->salesitems as $item)
-                                                {{$item->product->name}} x {{$item->quantity}}
-                                                <br>
-                                            @endforeach
-                                        </td>
+                                        <td>{{ $sale->order_name }}</td>
                                         @php($totalprice=0)
                                         @foreach($sale->salesitems as $item)
                                             @php($totalprice+=$item->quantity*$item->sale_price)
                                         @endforeach
+                                        <td>{{$totalprice}}元</td>
                                         <td>
-                                            {{$totalprice}}元
+                                            <span class="{{  ($sale->shipment==0) ? 'label label-warning' : 'label label-success'  }}">
+                                                {{  ($sale->shipment==0) ? '處理中' : '已完成'  }}
+                                            </span>
                                         </td>
-                                        <td>{{  ($sale->shipment==0) ? '處理中' : '已完成'  }}</td>
-                                        <td class="text-center">
+                                        <td>
                                             <a href="{{ route('sales.edit', $sale->id) }}"
                                                class="btn btn-xs btn-primary">編輯</a>
                                             <form action="{{ route('sales.destroy', $sale->id) }}" method="post"
