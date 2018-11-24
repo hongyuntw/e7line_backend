@@ -67,12 +67,10 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
-        'members' => [
-            'driver' => 'eloquent',
             'model' => App\Member::class,
         ],
+
+
 
         // 'users' => [
         //     'driver' => 'database',
@@ -101,11 +99,7 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
-        'members' => [
-            'provider' => 'members',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
+
     ],
 
 ];

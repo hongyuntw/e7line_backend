@@ -7,6 +7,7 @@ use App\Member;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -51,6 +52,7 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+
     }
 
     public function logout()
@@ -62,8 +64,12 @@ class AuthController extends Controller
 
     public function me()
     {
+//        dd($request);
+//        $user = JWTAuth::toUser($request);
         return response()->json(auth('api')->user());
+//        return response()->json($user);
     }
+
 
     public function refresh()
     {
