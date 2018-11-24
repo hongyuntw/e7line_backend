@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
+use App\Member;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -15,13 +16,13 @@ class AuthController extends Controller
             $request,
             [
                 'name' => 'required|string',
-                'email' => 'required|string|email|unique:users',
+                'email' => 'required|string|email|unique:members',
                 'password' => 'required|string|min:6',
                 'password_confirmation' => 'required|string|same:password',
             ]
         );
 
-        User::create([
+        Member::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
