@@ -86,14 +86,15 @@
                                               placeholder="請輸入描述">{{ old('order_note', $sale->order_note) }}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="salesitem">訂單資料</label>
+                                    <label for="salesitem">訂單資料</label><br>
                                     @foreach($salesitems as $salesitem)
                                         {{--<input type="text" value="{{$salesitem->quantity}}" name="{{$salesitem->id}}" id="{{$salesitem->id}}">--}}
-                                        <input type="text" class="form-control" id="salesitem" name="salesitem"
+                                        <input style="display: inline-block; width: 70%" type="text" class="form-control" id="salesitem" name="salesitem"
                                                disabled="true"
                                                value="{{ $salesitem->product->name }}">
-                                        <input type="number" class="form-control" id="quantity" name="id[{{$salesitem->id}}]"
+                                        <input style="display: inline-block; width: 25%" type="number" class="form-control" id="quantity" name="id[{{$salesitem->id}}]"
                                                value="{{ old('quantity', $salesitem->quantity) }}">
+                                        <br>
                                     @endforeach
                                 </div>
                                 <input type="hidden" value="0" name="shipment">
