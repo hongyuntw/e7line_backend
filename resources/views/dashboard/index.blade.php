@@ -29,7 +29,7 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{ $sales }}</h3>
 
                         <p>本日訂單</p>
                     </div>
