@@ -21,9 +21,9 @@ class Member extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Sale::class);
     }
-    public function cart()
+    public function carts()
     {
-        return $this->belongsTo(Cart::class);
+        return $this->hasMany(Cart::class);
     }
     protected $hidden = [
         'password', 'remember_token',

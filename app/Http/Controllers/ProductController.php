@@ -56,9 +56,19 @@ class ProductController extends Controller
             'listprice' => 'required|integer',
             'unit' => 'required',
             'description' => 'required',
+            'upload' => 'required|image',
         ]);
-
-        $product = Product::create(dd($request->all()));
+//        $file = $request->file('upload');
+        $file = $request->upload;
+        $path = dd($file->path());
+        $extension = $file->extension();
+        $info = [
+            'mime-type' => $file->getMimeType(),
+            'original_filename' => $file->getClientOriginalName(),
+            'extension' => $file->getClientOriginalExtension(),
+            'size' => $file->getClientSize(),
+        ];
+        $product = Product::create($request->all());
 
         return redirect()->route('products.index');
     }

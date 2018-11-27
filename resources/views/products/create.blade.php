@@ -33,7 +33,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" action="{{ route('products.store') }}" method="post">
+                        <form role="form" action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
 
                             @csrf
 
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cover">產品圖</label>
-                                    <input type="file" id="cover">
+                                    <input type="file" id="upload" name="upload">
                                 </div>
                             </div>
                             <!-- /.box-body -->
