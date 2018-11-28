@@ -56,19 +56,16 @@ class ProductController extends Controller
             'listprice' => 'required|integer',
             'unit' => 'required',
             'description' => 'required',
-            'upload' => 'required|image',
+            'image' => 'required|image',
         ]);
 //        $file = $request->file('upload');
-        $file = $request->upload;
-        $path = dd($file->path());
-        $extension = $file->extension();
-        $info = [
-            'mime-type' => $file->getMimeType(),
-            'original_filename' => $file->getClientOriginalName(),
-            'extension' => $file->getClientOriginalExtension(),
-            'size' => $file->getClientSize(),
-        ];
+        $file = $request->file('image');
         $product = Product::create($request->all());
+        $unique_name = $product->id.'.'.$file->extension();
+        $product->imagename = $unique_name;
+        $product->update();
+        $request->file('image')->move(public_path().'/storage',$unique_name);
+       // $path = $request->file->storeAs('路路徑', '');
 
         return redirect()->route('products.index');
     }

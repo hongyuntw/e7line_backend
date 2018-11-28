@@ -11,6 +11,9 @@
 |
 */
 
+
+
+
 Route::get('/', function () {
     return redirect()->route('dashboard.index');
 });
@@ -49,3 +52,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Auth::routes();
+Route::group([
+    'namespace' => 'Auth',
+
+], function () {
+    Route::get('/password/reset/{token}', 'PasswordResetController@resetpassword');
+
+});

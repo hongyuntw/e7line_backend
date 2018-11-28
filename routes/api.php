@@ -30,8 +30,8 @@ Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');
 
 
-
-
+Route::get('image/{filename}','PhotoController@image');
+Route::post('password/reset','PasswordResetController@create');
 Route::middleware('auth:api')->group(function () {
 
     Route::post('orders', 'Api\OrderController@store');
@@ -40,3 +40,15 @@ Route::middleware('auth:api')->group(function () {
     Route::post('refresh', 'Api\AuthController@refresh');
 
 });
+
+Route::group([
+    'namespace' => 'Auth',
+    'middleware' => 'api',
+    'prefix' => 'password'
+], function () {
+    Route::post('create', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+
+    Route::post('reset', 'PasswordResetController@reset')->name('member_reset');
+});
+

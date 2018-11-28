@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->integer('saleprice');
             $table->integer('isSelling')->default(1); // 1有在賣 0沒在賣
             $table->string('name');
+            $table->string('imagename')->default('');
             $table->string('unit', 5);
             $table->text('description');
 

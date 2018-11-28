@@ -43,7 +43,7 @@ return [
 
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'users',
+            'provider' => 'members',
         ],
     ],
 
@@ -67,9 +67,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'members' => [
+            'driver' => 'eloquent',
             'model' => App\Member::class,
         ],
-
 
 
         // 'users' => [
@@ -99,7 +102,11 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
-
+        'members' => [
+            'provider' => 'members',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
     ],
 
 ];

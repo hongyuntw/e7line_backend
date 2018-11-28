@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cover">產品圖</label>
-                                    <input type="file" id="upload" name="upload">
+                                    <input type="file" id="image" name="image">
                                 </div>
                             </div>
                             <!-- /.box-body -->
