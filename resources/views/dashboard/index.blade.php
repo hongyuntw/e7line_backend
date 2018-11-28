@@ -29,7 +29,7 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>{{ $sales }}</h3>
+                        <h3>{{ $sales_today }}</h3>
 
                         <p>本日訂單</p>
                     </div>
@@ -46,7 +46,7 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3> {{ $income_month }} </h3>
 
                         <p>本月收入</p>
                     </div>
@@ -63,7 +63,7 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>{{ $members_month }}</h3>
 
                         <p>本月新會員</p>
                     </div>
@@ -80,7 +80,7 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3> {{$members_total}} </h3>
 
                         <p>會員數量</p>
                     </div>
