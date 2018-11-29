@@ -16,7 +16,7 @@ class SaleController extends Controller
     public function index()
     {
         //
-        $sales = Sale::orderBy('created_at')->get();
+        $sales = Sale::orderBy('created_at', 'desc')->get();
 
         $data = [
             'sales' => $sales,
