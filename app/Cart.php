@@ -10,7 +10,10 @@ class Cart extends Model
     protected $table = 'carts';
 
     protected $fillable = [
-        'name',
+        'member_id',
+        'product_id',
+        'quantity',
+        'price',
     ];
 
     public function member()

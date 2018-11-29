@@ -21,7 +21,7 @@ Route::get('products', 'Api\ProductController@index');
 Route::get('products/{product}', 'Api\ProductController@show');
 
 Route::get('carts', 'Api\CartController@index');
-
+Route::get('carts/{cart}', 'Api\CartController@show');
 Route::get('categories', 'Api\CategoryController@index');
 
 Route::get('types', 'Api\TypeController@index');
@@ -34,7 +34,7 @@ Route::get('image/{filename}','PhotoController@image');
 Route::post('password/reset','PasswordResetController@create');
 Route::middleware('auth:api')->group(function () {
 
-    Route::post('orders', 'Api\OrderController@store');
+    Route::post('sales', 'Api\OrderController@store');
     Route::post('logout', 'Api\AuthController@logout');
     Route::get('me', 'Api\AuthController@me');
     Route::post('refresh', 'Api\AuthController@refresh');

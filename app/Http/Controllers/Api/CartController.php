@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Cart;
+use App\Http\Resources\CartResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -19,7 +20,8 @@ class CartController extends Controller
         $carts = Cart::all();
 
 //        return ProductResource::collection($products);
-        return response()->json($carts);
+//        return response()->json($carts);
+        return CartResource::collection($carts);
     }
 
     /**
@@ -49,9 +51,10 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Cart $cart)
     {
         //
+        return new CartResource($cart);
     }
 
     /**
