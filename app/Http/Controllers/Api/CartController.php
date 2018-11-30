@@ -93,5 +93,35 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+
+    }
+
+    public function sub(Request $request)
+    {
+        $cart = Cart::find($request->id);
+        $cart->quantity +=1;
+        $cart->update();
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+    public function add(Request $request)
+    {
+        $cart = Cart::find($request->id);
+        $cart->quantity +=1;
+        $cart->update();
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+    public function delete(Request $request)
+    {
+        $cart = Cart::find($request->id);
+
+        $cart->delete();
+
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }

@@ -88,7 +88,7 @@ class PasswordResetController extends Controller
     {
         $request->validate([
             'email' => 'required|string|email',
-            'password' => 'required|string|confirmed',
+            'password' => 'required|string|confirmed|min:6',
             'password_confirmation' => 'required|string|same:password',
             'token' => 'required|string'
         ]);
@@ -96,23 +96,32 @@ class PasswordResetController extends Controller
             ['token', $request->token],
             ['email', $request->email]
         ])->first();
-        if (!$passwordReset)
-            return response()->json([
-                'message' => 'This password reset token is invalid.'
-            ], 404);
+        if (!$passwordReset){
+//            return response()->json([
+//                'message' => 'This password reset token is invalid.'
+//            ], 404);
+            $path = back()->getTargetUrl();
+            echo "<script type='text/javascript'>alert('This password reset token is invalid.'); location.href = '{$path}'</script>";
+//            return redirect()->back();
+        }
+//
+
 //            return error;
         $member = Member::where('email', $passwordReset->email)->first();
-        if (!$member)
-            return response()->json([
-                'message' => 'we cant find a user with that email address'
-            ], 404);
+        if (!$member){
+            $path = back()->getTargetUrl();
+            echo "<script type='text/javascript'>alert('we cant find a user with that email address'); location.href = '{$path}'</script>";
+
+        }
+//            return response()->json([
+//                'message' => 'we cant find a user with that email address'
+//            ], 404);
         $member->password = bcrypt($request->password);
         $member->save();
         $passwordReset->delete();
         $member->notify(new PasswordResetSuccess($passwordReset));
-        echo "<script type='text/javascript'>alert('success');</script>";
-        return response()->json([
-            'success' => true,
-        ]);
+        $path = back()->getTargetUrl();
+        echo "<script type='text/javascript'>alert('change password success'); location.href = '{$path}'</script>";
+
     }
 }

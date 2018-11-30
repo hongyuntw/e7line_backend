@@ -40,6 +40,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('me', 'Api\AuthController@me');
     Route::post('refresh', 'Api\AuthController@refresh');
 
+
+    Route::post('carts/delete', 'Api\CartController@delete');
+    Route::post('carts/add', 'Api\CartController@add');
+    Route::post('carts/sub', 'Api\CartController@sub');
+
 });
 
 Route::group([
