@@ -51,10 +51,12 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Cart $cart)
+    public function show($id)
     {
         //
-        return new CartResource($cart);
+        $carts = Cart::where('member_id',$id)->get();
+//        return new CartResource($cart);
+        return CartResource::collection($carts);
     }
 
     /**
