@@ -59,7 +59,7 @@
                                         <td>{{ $product->saleprice }} 元/{{ $product->unit }}</td>
                                         <td>
                                             <span
-                                        class="{{  ($product->isSelling==0) ? 'label label-warning' : 'label label-success'  }}">
+                                                class="{{  ($product->isSelling==0) ? 'label label-warning' : 'label label-success'  }}">
                                                 {{  ($product->isSelling==0) ? '已下架' : '上架中'  }}
                                             </span></td>
                                         <td class="text-center">

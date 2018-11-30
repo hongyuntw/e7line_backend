@@ -15,7 +15,7 @@ class MemberController extends Controller
     public function index()
     {
         //
-        $members = Member::orderBy('created_at')->get();
+        $members = Member::orderBy('created_at')->paginate(15);
 
         $data = [
             'members' => $members,

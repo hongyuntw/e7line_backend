@@ -16,7 +16,7 @@ class SaleController extends Controller
     public function index()
     {
         //
-        $sales = Sale::orderBy('created_at', 'desc')->get();
+        $sales = Sale::orderBy('created_at', 'desc')->paginate(15);
 
         $data = [
             'sales' => $sales,
@@ -54,6 +54,27 @@ class SaleController extends Controller
     public function show($id)
     {
         //
+
+    }
+    public function showup()
+    {
+        //
+        $sales = Sale::where('shipment',0)->orderBy('created_at', 'desc')->paginate(15);
+
+        $data = [
+            'sales' => $sales,
+        ];
+        return view('sales.up', $data);
+    }
+    public function showremove()
+    {
+        //
+        $sales = Sale::where('shipment',1)->orderBy('created_at', 'desc')->paginate(15);
+
+        $data = [
+            'sales' => $sales,
+        ];
+        return view('sales.remove', $data);
     }
 
     /**

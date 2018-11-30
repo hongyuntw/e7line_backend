@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('products/{product}', 'ProductController@destroy')->name('products.destroy');
     Route::post('products/{product}', 'ProductController@remove')->name('products.remove');
     Route::post('products/up/{product}', 'ProductController@upup')->name('products.upup');
+    Route::get('products/showup}', 'ProductController@showup')->name('products.showup');
+    Route::get('products/showremove}', 'ProductController@showremove')->name('products.showremove');
     Route::post('categories', 'CategoryController@store')->name('categories.store');
 
     Route::get('sales', 'SaleController@index')->name('sales.index');
@@ -38,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('sales/{sale}/edit', 'SaleController@edit')->name('sales.edit');
     Route::patch('sales/{sale}', 'SaleController@update')->name('sales.update');
     Route::delete('sales/{sale}', 'SaleController@destroy')->name('sales.destroy');
+    Route::get('sales/showup}', 'SaleController@showup')->name('sales.showup');
+    Route::get('sales/showremove}', 'SaleController@showremove')->name('sales.showremove');
 
 
     Route::get('members', 'MemberController@index')->name('members.index');

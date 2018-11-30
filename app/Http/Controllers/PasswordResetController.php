@@ -110,6 +110,7 @@ class PasswordResetController extends Controller
         $member->save();
         $passwordReset->delete();
         $member->notify(new PasswordResetSuccess($passwordReset));
+        echo "<script type='text/javascript'>alert('success');</script>";
         return response()->json([
             'success' => true,
         ]);

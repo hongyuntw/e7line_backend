@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'DESC')->get();
+        $products = Product::orderBy('created_at', 'DESC')->paginate(15);
 
         $data = [
             'products' => $products,
@@ -81,6 +81,24 @@ class ProductController extends Controller
         //
     }
 
+    public function showup()
+    {
+        $products = Product::where('isSelling',1)->orderBy('created_at', 'DESC')->paginate(15);
+
+        $data = [
+            'products' => $products,
+        ];
+        return view('products.up', $data);
+    }
+    public function showremove()
+    {
+        $products = Product::where('isSelling',0)->orderBy('created_at', 'DESC')->paginate(15);
+
+        $data = [
+            'products' => $products,
+        ];
+        return view('products.remove', $data);;
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -137,12 +155,12 @@ class ProductController extends Controller
     {
         $product->isSelling = 1;
         $product->update();
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
     public function remove(Product $product)
     {
         $product->isSelling = 0;
         $product->update();
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
 }
