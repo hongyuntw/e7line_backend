@@ -18,6 +18,19 @@ class PhotoController extends Controller
 
         $path = public_path().'/storage/'.$fileName;
         $file = File::get($path);
-        return Image::make($file)->response();
+        $url = Storage::url($file);
+//        return Image::make($file)->response();
+        return $url;
+    }
+
+
+    public function allimage()
+    {
+        $allimage = Storage::disk('public')->files();
+        $myarr = [];
+        foreach ($allimage as $image){
+            array_push($myarr,Storage::url($image));
+        }
+       return $myarr;
     }
 }

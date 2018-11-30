@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('products/{product}', 'ProductController@update')->name('products.update');
     Route::delete('products/{product}', 'ProductController@destroy')->name('products.destroy');
     Route::post('products/{product}', 'ProductController@remove')->name('products.remove');
-
+    Route::post('products/up/{product}', 'ProductController@upup')->name('products.upup');
     Route::post('categories', 'CategoryController@store')->name('categories.store');
 
     Route::get('sales', 'SaleController@index')->name('sales.index');

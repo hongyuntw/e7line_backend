@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('updated_at', 'desc')
+        $products = Product::where('isSelling',1)->orderBy('updated_at', 'desc')
             ->get();
 
 //        return ProductResource::collection($products);

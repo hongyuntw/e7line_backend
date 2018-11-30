@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('isSelling',1)->orderBy('created_at', 'DESC')->get();
+        $products = Product::orderBy('created_at', 'DESC')->get();
 
         $data = [
             'products' => $products,
@@ -133,6 +133,12 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
+    public function upup(Product $product)
+    {
+        $product->isSelling = 1;
+        $product->update();
+        return redirect()->route('products.index');
+    }
     public function remove(Product $product)
     {
         $product->isSelling = 0;

@@ -31,6 +31,7 @@ Route::post('login', 'Api\AuthController@login');
 
 
 Route::get('image/{filename}','PhotoController@image');
+Route::get('image','PhotoController@allimage');
 Route::post('password/reset','PasswordResetController@create');
 Route::middleware('auth:api')->group(function () {
 
