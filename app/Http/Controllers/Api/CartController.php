@@ -70,6 +70,10 @@ class CartController extends Controller
         //
     }
 
+    public function addincart()
+    {
+        
+    }
     /**
      * Update the specified resource in storage.
      *

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -7,6 +9,7 @@ use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
 use App\Member;
 use App\PasswordReset;
+
 class PasswordResetController extends Controller
 {
     /**
@@ -33,16 +36,18 @@ class PasswordResetController extends Controller
                 'email' => $member->email,
                 'token' => str_random(60),
                 'created_at' => now(),
-             ]
+            ]
         );
         if ($member && $passwordReset)
             $member->notify(
                 new PasswordResetRequest($passwordReset->token)
             );
         return response()->json([
+            'success' => true,
             'message' => 'We have e-mailed your password reset link!'
         ]);
     }
+
     /**
      * Find token password reset
      *
@@ -66,7 +71,8 @@ class PasswordResetController extends Controller
         }
         return response()->json($passwordReset);
     }
-     /**
+
+    /**
      * Reset password
      *
      * @param  [string] email
@@ -82,8 +88,9 @@ class PasswordResetController extends Controller
         $data = [
             'token' => $token,
         ];
-        return view('memberPasswordReset',$data);
+        return view('memberPasswordReset', $data);
     }
+
     public function reset(Request $request)
     {
         $request->validate([
@@ -96,7 +103,7 @@ class PasswordResetController extends Controller
             ['token', $request->token],
             ['email', $request->email]
         ])->first();
-        if (!$passwordReset){
+        if (!$passwordReset) {
 //            return response()->json([
 //                'message' => 'This password reset token is invalid.'
 //            ], 404);
@@ -108,7 +115,7 @@ class PasswordResetController extends Controller
 
 //            return error;
         $member = Member::where('email', $passwordReset->email)->first();
-        if (!$member){
+        if (!$member) {
             $path = back()->getTargetUrl();
             echo "<script type='text/javascript'>alert('we cant find a user with that email address'); location.href = '{$path}'</script>";
 
