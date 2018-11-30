@@ -56,10 +56,9 @@
                                 <td>{{ $product->saleprice }} 元/{{ $product->unit }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-xs btn-primary">編輯</a>
-                                    <form action="{{ route('products.destroy', $product->id) }}" method="post" style="display: inline-block">
+                                    <form action="{{ route('products.remove', $product->id) }}" method="post" style="display: inline-block">
                                         @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-xs btn-danger">刪除</button>
+                                        <button type="submit" class="btn btn-xs btn-danger">下架</button>
                                     </form>
                                 </td>
                             </tr>
