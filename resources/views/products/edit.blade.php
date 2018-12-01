@@ -33,7 +33,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" action="{{ route('products.update', $product->id) }}" method="post">
+                        <form role="form" action="{{ route('products.update', $product->id) }}" method="post" enctype="multipart/form-data">
 
                             @csrf
                             @method('PATCH')
@@ -69,8 +69,13 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                    <div class="form-group">
+                                        <label for="listprice">listprice</label>
+                                        <input type="number" class="form-control" id="listprice" name="listprice"
+                                               placeholder="請輸入價格" value="{{ old('listprice', $product->listprice) }}">
+                                    </div>
                                 <div class="form-group">
-                                    <label for="saleprice">價格</label>
+                                    <label for="saleprice">saleprice</label>
                                     <input type="number" class="form-control" id="saleprice" name="saleprice"
                                            placeholder="請輸入價格" value="{{ old('saleprice', $product->saleprice) }}">
                                 </div>
@@ -86,7 +91,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cover">產品圖</label>
-                                    <input type="file" id="cover">
+                                    <br>
+                                    <img src="{{ '/storage/'.$product->imagename }}" style="width:252px; height:246px;">
+                                    <input type="file" id="image" name="image">
                                 </div>
                             </div>
                             <!-- /.box-body -->

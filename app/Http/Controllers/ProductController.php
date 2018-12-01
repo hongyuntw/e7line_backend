@@ -64,7 +64,7 @@ class ProductController extends Controller
         //
         $this->validate($request, [
             'name' => 'required',
-            'saleprice' => 'required|integer|lt:listprice|min:0',
+            'saleprice' => 'required|integer|lte:listprice|min:0',
             'listprice' => 'required|integer|min:0',
             'unit' => 'required',
             'description' => 'required',
@@ -127,6 +127,7 @@ class ProductController extends Controller
             'product' => $product,
             'types' => $types,
             'categories' =>$categories,
+
         ];
 
         return view('products.edit', $data);
@@ -143,11 +144,22 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'saleprice' => 'required|integer|min:0',
+            'saleprice' => 'required|integer|min:0|lte:listprice',
+            'listprice' => 'required|integer|min:0',
             'unit' => 'required',
             'description' => 'required',
+            'image' => 'image',
         ]);
 
+        if($request->image!=null){
+            $file = $request->file('image');
+            $unique_name = $product->id.'.'.$file->extension();
+            $product->imagename = $unique_name;
+            $product->update();
+            $request->file('image')->move(public_path().'/storage',$unique_name);
+        }
+
+        // $path = $request->file->storeAs('路路徑', '');
         $product->update($request->all());
         return redirect()->route('products.index');
     }
