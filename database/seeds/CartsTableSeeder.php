@@ -27,7 +27,7 @@ class CartsTableSeeder extends Seeder
         }
         $carts = Cart::all();
         foreach ($carts as $cart){
-            $cart->price = $cart->product->saleprice * $cart->quantity;
+            $cart->price = $cart->product->saleprice;
             $cart->update();
         }
     }
