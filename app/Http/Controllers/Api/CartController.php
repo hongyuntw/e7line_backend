@@ -74,6 +74,17 @@ class CartController extends Controller
     public function addincart(Request $request)
     {
         $member =auth('api')->user();
+        $carts = $member->carts;
+        foreach ($carts as $cart){
+            if($cart->product_id == $request->id){
+                $cart->quantity+=1;
+                $cart->price+=Product::find($request->id)->saleprice;
+                $cart->update();
+                return response()->json([
+                    'success' => true,
+                ]);
+            }
+        }
         $product = Product::find($request->id);
         Cart::create([
             'member_id' => $member->id,
@@ -116,6 +127,7 @@ class CartController extends Controller
     {
         $cart = Cart::find($request->id);
         $cart->quantity -=1;
+        $cart->price-=$cart->product->saleprice;
         $cart->update();
         return response()->json([
             'success' => true,
@@ -125,6 +137,7 @@ class CartController extends Controller
     {
         $cart = Cart::find($request->id);
         $cart->quantity +=1;
+        $cart->price+=$cart->product->saleprice;
         $cart->update();
         return response()->json([
             'success' => true,

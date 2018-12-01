@@ -42,7 +42,7 @@
                                     <th class="text-center" style="width: 70px">會員名稱</th>
                                     <th class="text-center" style="width: 70px">會員帳號</th>
                                     <th class="text-center" style="width: 70px">註冊日期</th>
-                                    <th class="text-center" style="width: 120px">管理功能</th>
+                                    {{--<th class="text-center" style="width: 120px">管理功能</th>--}}
                                 </tr>
                                 @foreach ($members as $member)
                                     <tr class="text-center">
@@ -51,16 +51,16 @@
                                         <td>{{ $member->email}}</td>
                                         <td>{{ $member->created_at }}</td>
 
-                                        <td class="text-center">
-                                            <a href="{{ route('members.edit', $member->id) }}"
-                                               class="btn btn-xs btn-primary">編輯</a>
-                                            <form action="{{ route('members.destroy', $member->id) }}" method="post"
-                                                  style="display: inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-xs btn-danger">刪除</button>
-                                            </form>
-                                        </td>
+                                        {{--<td class="text-center">--}}
+                                            {{--<a href="{{ route('members.edit', $member->id) }}"--}}
+                                               {{--class="btn btn-xs btn-primary">編輯</a>--}}
+                                            {{--<form action="{{ route('members.destroy', $member->id) }}" method="post"--}}
+                                                  {{--style="display: inline-block">--}}
+                                                {{--@csrf--}}
+                                                {{--@method('DELETE')--}}
+                                                {{--<button type="submit" class="btn btn-xs btn-danger">刪除</button>--}}
+                                            {{--</form>--}}
+                                        {{--</td>--}}
                                     </tr>
                                 @endforeach
                             </table>
