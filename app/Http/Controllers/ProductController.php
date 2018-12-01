@@ -64,8 +64,8 @@ class ProductController extends Controller
         //
         $this->validate($request, [
             'name' => 'required',
-            'saleprice' => 'required|integer',
-            'listprice' => 'required|integer',
+            'saleprice' => 'required|integer|lt:listprice|min:0',
+            'listprice' => 'required|integer|min:0',
             'unit' => 'required',
             'description' => 'required',
             'image' => 'required|image',
@@ -143,7 +143,7 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'saleprice' => 'required|integer',
+            'saleprice' => 'required|integer|min:0',
             'unit' => 'required',
             'description' => 'required',
         ]);

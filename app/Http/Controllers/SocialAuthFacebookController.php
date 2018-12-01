@@ -16,7 +16,7 @@ class SocialAuthFacebookController extends Controller
     public function redirect()
     {
 //        return Socialite::driver('facebook')->redirect();
-        return Socialite::with('facebook')->redirect();
+        return Socialite::driver('facebook')->redirect();
 
     }
 
@@ -29,7 +29,7 @@ class SocialAuthFacebookController extends Controller
     public function callback(SocialFacebookAccountService $service)
     {
         $user = $service->createOrGetMember(Socialite::driver('facebook')->member());
-        auth()->login($user);
+        auth('api')->login($user);
         return redirect()->to('/home');
     }
 }
