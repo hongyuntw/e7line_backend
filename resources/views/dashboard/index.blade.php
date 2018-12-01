@@ -108,7 +108,7 @@
                 <!-- LINE CHART -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">營收表</h3>
+                        <h3 class="box-title">近半年營收表</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -127,7 +127,7 @@
                 <!-- DONUT CHART -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Donut Chart</h3>
+                        <h3 class="box-title">近半年營收比例</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -162,9 +162,10 @@
         element: 'donut_chart',
         data: [
                 @foreach ($type as $type)
-                    {label: "{{ $type->name }}", value: 25},
+                    {label: "{{ $type->type }}", value:{{ $type->proportion }}},
                 @endforeach
-        ]
+        ],
+        formatter: function (y) { return y+"%"}
     });
     Morris.Line({
         element: 'line_chart',
