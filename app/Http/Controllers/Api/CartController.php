@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Cart;
 use App\Http\Resources\CartResource;
+use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -70,9 +71,20 @@ class CartController extends Controller
         //
     }
 
-    public function addincart()
+    public function addincart(Request $request)
     {
-        
+        $member =auth('api')->user();
+        $product = Product::find($request->id);
+        Cart::create([
+            'member_id' => $member->id,
+            'product_id' => $request->input('id'),
+            'quantity' => 1,
+            'price' => $product->saleprice,
+        ]);
+        return response()->json([
+            'success' => true,
+        ]);
+
     }
     /**
      * Update the specified resource in storage.
@@ -103,7 +115,7 @@ class CartController extends Controller
     public function sub(Request $request)
     {
         $cart = Cart::find($request->id);
-        $cart->quantity +=1;
+        $cart->quantity -=1;
         $cart->update();
         return response()->json([
             'success' => true,
