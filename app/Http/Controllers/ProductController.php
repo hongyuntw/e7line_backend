@@ -50,6 +50,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $this->validate($request, [
             'name' => 'required',
             'saleprice' => 'required|integer',
@@ -65,9 +66,11 @@ class ProductController extends Controller
         $product->imagename = $unique_name;
         $product->update();
         $request->file('image')->move(public_path().'/storage',$unique_name);
-       // $path = $request->file->storeAs('路路徑', '');
-
+        // $path = $request->file->storeAs('路路徑', '');
         return redirect()->route('products.index');
+
+
+
     }
 
     /**

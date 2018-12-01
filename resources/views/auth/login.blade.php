@@ -31,7 +31,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ route('dashboard.index') }}"><b>Admin</b>LTE</a>
+        <a href="{{ route('dashboard.index') }}"><b>John</b>99</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -78,7 +78,7 @@
             </div>
         </form>
 
-        <a href="{{ route('password.request') }}">忘記密碼</a> | <a href="{{ route('register') }}" class="text-center">註冊帳號</a>
+        <a href="{{ route('password.request') }}">忘記密碼</a>  <a hidden href="{{ route('register') }}" class="text-center">註冊帳號</a>
 
     </div>
     <!-- /.login-box-body -->

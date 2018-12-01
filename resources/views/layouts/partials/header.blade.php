@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{route('dashboard.index')}}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>A</b>LT</span>
+        <span class="logo-mini"><b>J</b>99</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Admin</b>LTE</span>
+        <span class="logo-lg"><b>John</b>99</span>
     </a>
 
     <!-- Header Navbar -->
@@ -119,14 +119,14 @@
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <!-- The user image in the navbar-->
-                        <img src="{{ asset('img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+                        <img src="{{asset('img/123.jpg')}}" class="user-image" >
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span class="hidden-xs">{{Auth::user()->name}}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            <img src="{{ asset('img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                            <img src="{{asset('img/123.jpg')}}" class="img-circle">
 
                             <p>
                                 {{Auth::user()->name}} - Web Developer
@@ -151,7 +151,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="{{ route('users.index') }}" class="btn btn-default btn-flat">管理者頁面</a>
                             </div>
                             <div class="pull-right">
                                 <a class="btn btn-default btn-flat" href="{{ route('logout') }}"

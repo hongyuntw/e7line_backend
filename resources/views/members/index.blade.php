@@ -37,7 +37,7 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table class="table table-bordered">
-                                <tr>
+                                <tr class="text-center">
                                     <th class="text-center" style="width: 10px;">id</th>
                                     <th class="text-center" style="width: 70px">會員名稱</th>
                                     <th class="text-center" style="width: 70px">會員帳號</th>
@@ -45,7 +45,7 @@
                                     <th class="text-center" style="width: 120px">管理功能</th>
                                 </tr>
                                 @foreach ($members as $member)
-                                    <tr>
+                                    <tr class="text-center">
                                         <td>{{ $member->id }}.</td>
                                         <td>{{ $member->name }}</td>
                                         <td>{{ $member->email}}</td>

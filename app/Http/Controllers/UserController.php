@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,6 +15,12 @@ class UserController extends Controller
     public function index()
     {
         //
+        $users = User::orderBy('created_at')->paginate(15);
+
+        $data = [
+            'users' => $users,
+        ];
+        return view('users.index', $data);
     }
 
     /**
@@ -24,6 +31,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('users.create');
     }
 
     /**
@@ -34,7 +42,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|string|same:password',
+        ]);
+//        $file = $request->file('upload');
+//        $file = $request->file('image');
+        $product = User::create($request->all());
+//        $unique_name = $product->id.'.'.$file->extension();
+//        $product->imagename = $unique_name;
+//        $product->update();
+//        $request->file('image')->move(public_path().'/storage',$unique_name);
+        // $path = $request->file->storeAs('路路徑', '');
+
+        return redirect()->route('users.index');
     }
 
     /**
