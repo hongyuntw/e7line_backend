@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -51,7 +52,9 @@ class UserController extends Controller
         ]);
 //        $file = $request->file('upload');
 //        $file = $request->file('image');
-        $product = User::create($request->all());
+        $user = User::create($request->all());
+        $user->password = Hash::make($user->password);
+        $user->update();
 //        $unique_name = $product->id.'.'.$file->extension();
 //        $product->imagename = $unique_name;
 //        $product->update();
