@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::get('products/showremove}', 'ProductController@showremove')->name('products.showremove');
     Route::post('categories', 'CategoryController@store')->name('categories.store');
 
+    Route::get('products/search', 'ProductController@search')->name('products.search');
+
+
     Route::get('sales', 'SaleController@index')->name('sales.index');
 //    Route::get('sales/create', 'SaleController@create')->name('sales.create');
     Route::post('sales', 'SaleController@store')->name('sales.store');

@@ -113,9 +113,10 @@ class SaleController extends Controller
 
 
         $this->validate($request, [
-            'order_name' => 'required',
-            'order_phone' => 'required',
-            'order_address' => 'required',
+            'order_name' => 'required|max:60',
+            'order_phone' => 'required|max:20',
+            'order_address' => 'required|max:70',
+            'order_note' => 'required|max:70',
             'quantity' => 'integer'
         ]);
         $sale->shipment = $request->shipment;

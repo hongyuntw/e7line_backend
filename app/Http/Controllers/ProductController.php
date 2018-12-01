@@ -24,7 +24,18 @@ class ProductController extends Controller
 
         return view('products.index', $data);
     }
+    public function search(Request $request)
+    {
 
+        $name = $request->namebesearch;
+
+        $products = Product::where('name','like',"%{$name}%")->orderBy('created_at', 'DESC')->paginate(15);
+        $data = [
+            'products' => $products,
+        ];
+
+        return view('products.search', $data);
+    }
     /**
      * Show the form for creating a new resource.
      *

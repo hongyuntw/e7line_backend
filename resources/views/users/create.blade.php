@@ -93,7 +93,7 @@
                             <!-- /.box-body -->
 
                             <div class="box-footer text-right">
-                                <a class="btn btn-link" href="#">取消</a>
+                                <a class="btn btn-link" href="{{route('users.index')}}">取消</a>
                                 <button type="submit" class="btn btn-primary">新增</button>
                             </div>
                         </form>
