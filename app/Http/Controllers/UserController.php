@@ -41,6 +41,18 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function levelup(User $user)
+    {
+        $user->level = 0;
+        $user->update();
+        return redirect()->back();
+    }
+    public function leveldown(User $user)
+    {
+        $user->level = 1;
+        $user->update();
+        return redirect()->back();
+    }
     public function store(Request $request)
     {
 
@@ -54,6 +66,7 @@ class UserController extends Controller
 //        $file = $request->file('image');
         $user = User::create($request->all());
         $user->password = Hash::make($user->password);
+        $user->level = 1;
         $user->update();
 //        $unique_name = $product->id.'.'.$file->extension();
 //        $product->imagename = $unique_name;
