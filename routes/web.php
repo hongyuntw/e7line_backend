@@ -36,7 +36,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('products/search', 'ProductController@search')->name('products.search');
 
-
+    Route::post('users/levelup/{user}', 'UserController@levelup')->name('users.levelup');
+    Route::post('users/leveldown/{user}', 'UserController@leveldown')->name('users.leveldown');
     Route::get('sales', 'SaleController@index')->name('sales.index');
 //    Route::get('sales/create', 'SaleController@create')->name('sales.create');
     Route::post('sales', 'SaleController@store')->name('sales.store');
@@ -57,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('users', 'UserController@index')->name('users.index');
     Route::get('users/create', 'UserController@create')->name('users.create');
     Route::post('users', 'UserController@store')->name('users.store');
+
 
     Route::get('ads', 'ADController@index')->name('ads.index');
     Route::get('ads/{ad}/edit', 'AdController@edit')->name('ads.edit');

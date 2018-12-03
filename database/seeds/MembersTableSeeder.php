@@ -13,7 +13,7 @@ class MembersTableSeeder extends Seeder
     public function run()
     {
         //
-//        Member::truncate();
+        Member::truncate();
         $faker = \Faker\Factory::create('zh_TW');
         foreach (range(1,20)as $id){
             Member::create([
