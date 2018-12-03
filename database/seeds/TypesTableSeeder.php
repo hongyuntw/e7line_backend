@@ -14,7 +14,7 @@ class TypesTableSeeder extends Seeder
     {
         //
         Type::truncate();
-        $ourtype=['beer','spirit','wine','drinkware'];
+        $ourtype=['Beer','Spirit','Wine','Drinkware'];
         foreach (range(1,4)as $id){
             Type::create([
                 'name'=> $ourtype[$id-1],

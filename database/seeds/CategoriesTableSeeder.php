@@ -15,11 +15,10 @@ class CategoriesTableSeeder extends Seeder
     {
         //
         Category::truncate();
-        $beer = ['ALE', 'LAGER', 'LAMBIC'];
-        $spirit = ['BRANDY', 'WHISKY', 'RUM', 'MEZCAL', 'GIN', 'VODKA'];
-        $wine = ['SAUVIGNON BLANC', 'RIESLING', 'CABERNET SAUVIGNON', 'MERLET', 'PINOT NOIR'];
-        $faker = \Faker\Factory::create('zh_TW');
-        $count = 0;
+        $beer = ['Ale', 'Lager', 'Lambic'];
+        $spirit = ['Brandy', 'Whisky', 'Rum', 'Mezcal', 'Gin', 'Vodka'];
+        $wine = ['Sauvignon Blanc', 'Riesling', 'Cabernet Sauvignon', 'Merlet', 'Pinot Noir'];
+        $drinkwine = ['Glassware', 'Wine Bucket', 'Wine Opener'];
         for ($i = 0; $i < count($beer); $i++) {
             Category::create([
                 'type_id'=> 1,
@@ -35,6 +34,12 @@ class CategoriesTableSeeder extends Seeder
         for ($i = 0; $i < count($wine); $i++) {
             Category::create([
                 'type_id'=> 3,
+                'name' => $wine[$i],
+            ]);
+        }
+        for ($i = 0; $i < count($drinkwine); $i++) {
+            Category::create([
+                'type_id'=> 4,
                 'name' => $wine[$i],
             ]);
         }

@@ -162,7 +162,7 @@
         element: 'donut_chart',
         data: [
                 @foreach ($type as $type)
-                    {label: "{{ $type->type }}", value:{{ $type->proportion }}},
+                    {label: "{{ strtoupper($type->type) }}", value:{{ $type->proportion }}},
                 @endforeach
         ],
         formatter: function (y) { return y+"%"}
