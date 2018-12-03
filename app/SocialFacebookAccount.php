@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialFacebookAccount extends Model
 {
-    protected $fillable = ['member_id', 'provider_member_id', 'provider'];
+    protected $fillable = ['user_id', 'provider_user_id', 'provider'];
 
-    public function member()
+    public function user()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(User::class);
     }
 }

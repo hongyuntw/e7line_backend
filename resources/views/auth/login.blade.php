@@ -79,7 +79,7 @@
         </form>
 
         <a href="{{ route('password.request') }}">忘記密碼</a>  <a hidden href="{{ route('register') }}" class="text-center">註冊帳號</a>
-
+        <a href="{{ route('facebook') }}">使用FB登入</a>
     </div>
     <!-- /.login-box-body -->
 </div>

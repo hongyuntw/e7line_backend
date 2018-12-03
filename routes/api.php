@@ -16,8 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/redirect', 'SocialAuthFacebookController@redirect');
-Route::get('/callback', 'SocialAuthFacebookController@callback');
+
 Route::get('products', 'Api\ProductController@index');
 Route::get('products/{product}', 'Api\ProductController@show');
 
@@ -34,12 +33,14 @@ Route::post('login', 'Api\AuthController@login');
 Route::get('image/{filename}','PhotoController@image');
 Route::get('image','PhotoController@allimage');
 Route::post('password/reset','PasswordResetController@create');
+Route::get('ads', 'Api\AdController@index');
 Route::middleware('auth:api')->group(function () {
 
     Route::post('sales', 'Api\OrderController@store');
     Route::post('logout', 'Api\AuthController@logout');
     Route::get('me', 'Api\AuthController@me');
     Route::post('refresh', 'Api\AuthController@refresh');
+
 
 
     Route::post('carts/delete', 'Api\CartController@delete');

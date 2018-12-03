@@ -35,9 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
     'facebook'=>[
-        'client_id'=>env('FACEBOOK_API_ID'),
-        'client_secret'=>env('FACEBOOK_API_SECRET'),
-        'redirect'=>'http://localhost:8000/api/callback',
+        'client_id'=>'336053667186982',
+        'client_secret'=>'00960ad8742e7d272ccbdc3d0db39980',
+        'redirect'=>'https://localhost:8000/callback',
 
     ],
     'google'=>[

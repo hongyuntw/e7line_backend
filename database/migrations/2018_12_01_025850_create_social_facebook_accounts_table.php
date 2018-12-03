@@ -14,8 +14,8 @@ class CreateSocialFacebookAccountsTable extends Migration
     public function up()
     {
         Schema::create('social_facebook_accounts', function (Blueprint $table) {
-            $table->integer('member_id');
-            $table->string('provider_member_id');
+            $table->integer('user_id');
+            $table->string('provider_user_id');
             $table->string('provider');
             $table->timestamps();
         });

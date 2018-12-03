@@ -58,10 +58,16 @@ Route::middleware('auth')->group(function () {
     Route::get('users/create', 'UserController@create')->name('users.create');
     Route::post('users', 'UserController@store')->name('users.store');
 
+    Route::get('ads', 'ADController@index')->name('ads.index');
+    Route::get('ads/{ad}/edit', 'AdController@edit')->name('ads.edit');
+    Route::patch('ads/{ad}', 'AdController@update')->name('ads.update');
+
 
 });
 
 Auth::routes();
+Route::get('/redirect', 'SocialAuthFacebookController@redirect')->name('facebook');
+Route::get('/callback', 'SocialAuthFacebookController@callback');
 Route::group([
     'namespace' => 'Auth',
 
