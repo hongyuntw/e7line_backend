@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Sale;
+use Illuminate\Support\Facades\Mail;
+use App\Suggestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class SaleController extends Controller
+class SuggestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +17,8 @@ class SaleController extends Controller
     public function index()
     {
         //
-        $member = auth('api')->user();
-        $sales = $member->sales;
-        return response()->json($sales);
     }
 
-    public function salesitems(Sale $sale)
-    {
-        $salesitems= $sale->salesitems;
-        return response()->json($salesitems);
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -34,34 +27,26 @@ class SaleController extends Controller
     public function create(Request $request)
     {
         //
-        $this->validate(
-            $request,
-            [
-                'member_id'=>'required',
-                'order_name' => 'required|string',
-                'order_phone' => 'required',
-                'order_address' => 'required|string',
-            ]
-        );
-
-        Sale::create([
-            'member_id' => $request->input('member_id'),
-            'order_name' => $request->input('order_name'),
-            'order_phone' => Hash::make($request->input('order_phone')),
-            'order_address' => $request->input('order_address'),
-            'order_date' => now(),
-            'order_note'=>$request->input('order_note'),
+        Suggestion::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'text' => $request->text,
         ]);
-
+        Mail::raw('John99 已收到你的來信~', function ($message) {
+            $message->to(\request('email'))->subject('John99客戶服務');
+        });
+//        Mail::to($request->email)
+//            ->send(new document());
         return response()->json([
             'success' => true,
         ]);
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -72,7 +57,7 @@ class SaleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -83,7 +68,7 @@ class SaleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -94,8 +79,8 @@ class SaleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -106,7 +91,7 @@ class SaleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

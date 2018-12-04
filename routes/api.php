@@ -26,6 +26,9 @@ Route::get('categories', 'Api\CategoryController@index');
 
 Route::get('types', 'Api\TypeController@index');
 
+
+Route::post('suggestions/create','Api\SuggestionController@create');
+
 Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');
 
@@ -41,7 +44,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('me', 'Api\AuthController@me');
     Route::post('refresh', 'Api\AuthController@refresh');
 
-
+    Route::get('sales/index', 'Api\SaleController@index');
+    Route::get('sales/{sale}', 'Api\SaleController@salesitems');
 
     Route::post('carts/delete', 'Api\CartController@delete');
     Route::post('carts/add', 'Api\CartController@add');

@@ -79,6 +79,16 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ route('ads.index') }}">廣告列表</a></li>
                 </ul>
+                <a href="#">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>客服服務</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('suggestions.index') }}">意見管理</a></li>
+                </ul>
             </li>
         </ul>
         <!-- /.sidebar-menu -->

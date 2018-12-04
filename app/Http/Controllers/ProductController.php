@@ -111,7 +111,7 @@ class ProductController extends Controller
         $data = [
             'products' => $products,
         ];
-        return view('products.remove', $data);;
+        return view('products.remove', $data);
     }
     /**
      * Show the form for editing the specified resource.
