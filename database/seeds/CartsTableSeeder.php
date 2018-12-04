@@ -15,11 +15,11 @@ class CartsTableSeeder extends Seeder
         //
         Cart::truncate();
 
-        $faker = \Faker\Factory::create('zh_TW');
-        foreach (range(1, 100) as $i) {
+
+        foreach (range(1, 20) as $i) {
             Cart::create([
                 'member_id' => $i,
-                'product_id' => rand(1, 40),
+                'product_id' => rand(1, 31),
                 'quantity' => rand(1, 20),
                 'created_at' => now(),
                 'updated_at' => now(),
