@@ -16,8 +16,16 @@ class SaleController extends Controller
     public function index()
     {
         //
+        $member = auth('api')->user();
+        $sales = $member->sales;
+        return response()->json($sales);
     }
 
+    public function salesitems(Sale $sale)
+    {
+        $salesitems= $sale->salesitems;
+        return response()->json($salesitems);
+    }
     /**
      * Show the form for creating a new resource.
      *
