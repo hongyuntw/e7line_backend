@@ -35,9 +35,10 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <th class="text-center" style="width: 10px;">ID</th>
-                                    <th class="text-center" style="width: 150px">來信者信箱</th>
-                                    <th class="text-center" style="width: 150px">來信者姓名</th>
+                                    <th class="text-center" style="width: 50px">來信者信箱</th>
+                                    <th class="text-center" style="width: 50px">來信者姓名</th>
                                     <th class="text-center" style="width: 150px">內容</th>
+                                    <th class="text-center" style="width: 50px">狀態</th>
                                     <th class="text-center" style="width: 120px">管理功能</th>
                                 </tr>
                                 @foreach ($suggestions as $suggestion)
@@ -46,6 +47,11 @@
                                         <td>{{ $suggestion->email }}</td>
                                         <td>{{ $suggestion->name }}</td>
                                         <td>{{ $suggestion->text }}</td>
+                                        <td>
+                                            <span class="{{  ($suggestion->is_replied==0) ? 'label label-warning' : 'label label-success'  }}">
+                                                {{  ($suggestion->is_replied==0) ? '未回覆' : '已回覆'  }}
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{ route('suggestions.edit', $suggestion->id) }}"
                                                class="btn btn-xs btn-primary">回信</a>

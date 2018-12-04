@@ -18,6 +18,7 @@ class CreateSuggestionsTable extends Migration
             $table->string('email');
             $table->string('text');
             $table->string('name');
+            $table->integer('is_replied')->default(0);
             $table->timestamps();
         });
     }

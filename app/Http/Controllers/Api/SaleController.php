@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\SalesItemResource;
 use App\Sale;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,7 @@ class SaleController extends Controller
     public function salesitems(Sale $sale)
     {
         $salesitems= $sale->salesitems;
-        return response()->json($salesitems);
+        return SalesItemResource::collection($salesitems);
     }
     /**
      * Show the form for creating a new resource.

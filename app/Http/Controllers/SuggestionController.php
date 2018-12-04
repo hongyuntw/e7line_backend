@@ -33,6 +33,8 @@ class SuggestionController extends Controller
         Mail::raw($request->reply, function ($message) use ($email,$name) {
             $message->to($email)->subject($name.'你好');
         });
+        $suggestion->is_replied = 1;
+        $suggestion->update();
         return redirect()->route('suggestions.index');
     }
 
