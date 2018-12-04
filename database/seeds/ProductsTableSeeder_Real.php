@@ -1,8 +1,10 @@
 <?php
 
+use App\Category;
+use App\Product;
 use Illuminate\Database\Seeder;
 
-class ProductTableSeeder_Real extends Seeder
+class ProductsTableSeeder_Real extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +14,8 @@ class ProductTableSeeder_Real extends Seeder
     public function run()
     {
         //
+        Category::truncate();
+        Product::truncate();
 
         $category_id =
             [
