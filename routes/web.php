@@ -38,14 +38,18 @@ Route::middleware('auth')->group(function () {
 
     Route::post('users/levelup/{user}', 'UserController@levelup')->name('users.levelup');
     Route::post('users/leveldown/{user}', 'UserController@leveldown')->name('users.leveldown');
+
     Route::get('sales', 'SaleController@index')->name('sales.index');
-//    Route::get('sales/create', 'SaleController@create')->name('sales.create');
     Route::post('sales', 'SaleController@store')->name('sales.store');
     Route::get('sales/{sale}/edit', 'SaleController@edit')->name('sales.edit');
     Route::patch('sales/{sale}', 'SaleController@update')->name('sales.update');
     Route::delete('sales/{sale}', 'SaleController@destroy')->name('sales.destroy');
     Route::get('sales/showup}', 'SaleController@showup')->name('sales.showup');
     Route::get('sales/showremove}', 'SaleController@showremove')->name('sales.showremove');
+
+    Route::get('suggestions', 'SuggestionController@index')->name('suggestions.index');
+    Route::get('suggestions/{suggestion}/edit', 'SuggestionController@edit')->name('suggestions.edit');
+    Route::post('suggestions/reply/{suggestion}', 'SuggestionController@reply')->name('suggestions.reply');
 
 
     Route::get('members', 'MemberController@index')->name('members.index');

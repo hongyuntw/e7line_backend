@@ -27,7 +27,7 @@ Route::get('categories', 'Api\CategoryController@index');
 Route::get('types', 'Api\TypeController@index');
 
 
-
+Route::post('suggestions/create','Api\SuggestionController@create');
 
 Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');

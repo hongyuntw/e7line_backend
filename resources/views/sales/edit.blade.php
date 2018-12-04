@@ -101,10 +101,7 @@
                                 <input {{$sale->shipment==1 ? 'checked' : ''}}
                                        id="shipment" value="1" type="checkbox" name="shipment">是否結單
 
-                                <div class="form-group">
-                                    <label for="cover">產品圖</label>
-                                    <input type="file" id="cover">
-                                </div>
+
                             </div>
                             <!-- /.box-body -->
 
