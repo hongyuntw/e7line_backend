@@ -40,7 +40,7 @@ class CategoriesTableSeeder extends Seeder
         for ($i = 0; $i < count($drinkwine); $i++) {
             Category::create([
                 'type_id'=> 4,
-                'name' => $wine[$i],
+                'name' => $drinkwine[$i],
             ]);
         }
 

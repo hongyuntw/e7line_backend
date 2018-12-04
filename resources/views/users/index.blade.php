@@ -30,7 +30,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">全站管理者一覽表</h3>
                             <div class="box-tools">
-                                @if(Auth::user()->level==0)
+                                @if(Auth::user()->level==0||Auth::user()->level==2)
                                     <td><a class="btn btn-success btn-sm" href="{{ route('users.create') }}">新增管理者</a>
                                     </td>
                                 @endif
