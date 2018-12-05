@@ -5,7 +5,6 @@ use App\SalesItem;
 use Illuminate\Database\Seeder;
 
 class SalesTableSeeder extends Seeder
-{
     /**
      * Run the database seeds.
      *
@@ -20,7 +19,7 @@ class SalesTableSeeder extends Seeder
         foreach(range(1,50) as $sale_id)
         {
             $member_id = rand(1, 20);
-            $order_date = now()->subDays(20 - $sale_id)->addHours(rand(1, 5))->addMinutes(rand(1, 5));
+            $order_date = now()->subDays(50 - $sale_id)->addHours(rand(1, 5))->addMinutes(rand(1, 5));
             Sale::create
             ([
                 'member_id' => $member_id,
@@ -31,7 +30,7 @@ class SalesTableSeeder extends Seeder
                 'order_address' => $faker->realText(rand(15, 30)),
                 'order_date'=> $order_date,
                 'created_at' => $order_date,
-                'updated_at' => now()->subDays(20 - $sale_id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
+                'updated_at' => now()->subDays(50 - $sale_id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
             ]);
 
 
@@ -44,7 +43,7 @@ class SalesTableSeeder extends Seeder
                     'quantity' => rand(1,30),
                     'sale_price' => rand(900,3000),
                     'created_at' => $order_date,
-                    'updated_at' => now()->subDays(20 - $sale_id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
+                    'updated_at' => $order_date,
                 ]);
             }
         }
