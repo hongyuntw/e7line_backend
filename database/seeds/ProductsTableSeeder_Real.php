@@ -126,42 +126,6 @@ class ProductsTableSeeder_Real extends Seeder
 
             ];
 
-        $saleprice =
-            [
-                120,
-                180,
-                130,
-                120,
-                100,
-                90,
-                1500,
-                2000,
-                2000,
-                2999,
-                1500,
-                1899,
-                2900,
-                2850,
-                1200,
-                900,
-                450,
-                50,
-                800,
-                500,
-                700,
-                800,
-                500,
-                300,
-                1200,
-                800,
-                1500,
-                700,
-                700,
-                2800,
-                600,
-                300,
-            ];
-
         $unit =
             [
                 "Bottle",
@@ -240,7 +204,7 @@ class ProductsTableSeeder_Real extends Seeder
                 'category_id' => $category_id[$id],
                 'name' => $name[$id],
                 'listprice' => $listprice[$id],
-                'saleprice' => $saleprice[$id],
+                'saleprice' => $listprice[$id] * (rand(5, 10)*0.1) ,
                 'imagename' => ($id+1).'.jpeg',
                 'unit' => $unit[$id],
                 'description' => $description[$id],
