@@ -33,23 +33,23 @@ class AdsTableSeeder extends Seeder
         Ad::create([
             'name'=> 'default_1',
             'imagename'=> 'default_1.jpeg',
-            'text_1' => '123',
-            'text_2' => '456',
-            'text_3' =>'789',
+            'text_1' => 'John 99',
+            'text_2' => 'The best Liquor Distributor',
+            'text_3' =>'In the world.',
         ]);
         Ad::create([
             'name'=> 'default_2',
             'imagename'=> 'default_2.jpeg',
-            'text_1' => '123',
-            'text_2' => '456',
-            'text_3' =>'789',
+            'text_1' => 'Tonight I will have',
+            'text_2' => 'JUST ONE DRINK',
+            'text_3' =>'hahaha',
         ]);
         Ad::create([
             'name'=> 'default_3',
             'imagename'=> 'default_3.jpeg',
-            'text_1' => '123',
-            'text_2' => '456',
-            'text_3' =>'789',
+            'text_1' => 'Enjoy your bartending',
+            'text_2' => 'at home',
+            'text_3' =>'BuLuBuLu...',
         ]);
     }
 }
