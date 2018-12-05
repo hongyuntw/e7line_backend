@@ -21,6 +21,7 @@ class CartResource extends JsonResource
             'id' => $this->id,
             'member_id' => $this->member_id,
             //'tag_line' => str_limit($this->description, 20),
+            'product_imagename' =>$cart->product->imagename,
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
             'price' => $this->price,
