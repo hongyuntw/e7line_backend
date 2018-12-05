@@ -24,6 +24,7 @@ class SalesTableSeeder extends Seeder
             Sale::create
             ([
                 'member_id' => $member_id,
+                'shipment' => $sale_id<=40 ? 1 : 0,
                 'order_name' => $faker->name,
                 'order_phone' => $faker->phoneNumber,
                 'order_note' => $faker->realText(rand(10, 40)),
