@@ -55,15 +55,15 @@ class ProductsTableSeeder_Real extends Seeder
 
         $name =
             [
-                "Archipelago Brewery Singapore Blonde Ale Craft beer",
+                "Archipelago Brewery Singapore Blonde",
                 "Brewdog Dead Pony Pale Ale",
                 "Singha Lager Beer",
                 "Tsingtao Pure Draft Beer",
                 "Lindemans Cassis Lambic",
                 "Timmermans Tradition Gueuze Lambic",
                 "Dekuyper Peach Brandy",
-                "Carlos I Brandy de Jerez Solera Gran Reserva",
-                "The Glenlivet 12 Year Old Single Malt Whisky",
+                "Carlos I Brandy de Jerez Solera",
+                "Glenlivet 12 Year Old Malt Whisky",
                 "WOLFBURN Northland Original Of 46%",
                 "Captain Morgan Original Spiced Rum",
                 "Real Rum Blanco",
@@ -83,7 +83,7 @@ class ProductsTableSeeder_Real extends Seeder
                 "Merlet Creme de Poire William",
                 "Cono Sur Bicicleta Pinot Noir",
                 "Wyatt Pinot Noir 2016",
-                "Cabos 16 Piece Glass Assorted Glassware Set",
+                "Cabos Glass Assorted Glassware Set",
                 "Ladies Champagne Flute 2018",
                 "Wineware Modern Wine Bucket",
                 "Wine Opener - Old York",
