@@ -5,6 +5,7 @@ use App\SalesItem;
 use Illuminate\Database\Seeder;
 
 class SalesTableSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      *
