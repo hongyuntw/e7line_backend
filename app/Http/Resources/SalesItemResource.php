@@ -16,7 +16,7 @@ class SalesItemResource extends JsonResource
      */
     public function toArray($request)
     {
-        $product = Product::find($this->product - id);
+        $product = Product::find($this->product -> id);
         return [
             'id' => $this->id,
             'sale_id' => $this->sale_id,

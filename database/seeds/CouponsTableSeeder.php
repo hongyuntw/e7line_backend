@@ -17,8 +17,8 @@ class CouponsTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
         foreach (range(1,30) as $id){
             Coupon::create([
-                'code' => $faker->text(10),
-                'type' => rand(0,3),
+                'code' => str_random(10),
+                'type' => rand(1,3),
                 'is_used' => 0,
             ]);
         }

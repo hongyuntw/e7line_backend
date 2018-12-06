@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Coupon;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CouponController extends Controller
 {
@@ -15,12 +16,8 @@ class CouponController extends Controller
     public function index()
     {
         //
-        $coupons = Coupon::orderBy('created_at')->paginate(15);
-
-        $data = [
-            'coupons' => $coupons,
-        ];
-        return view('coupons.index', $data);
+        $coupons = Coupon::all();
+        return response()->json($coupons);
     }
 
     /**

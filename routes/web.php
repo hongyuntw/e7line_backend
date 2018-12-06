@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::get('sales/showup}', 'SaleController@showup')->name('sales.showup');
     Route::get('sales/showremove}', 'SaleController@showremove')->name('sales.showremove');
 
+    Route::get('coupons', 'CouponController@index')->name('coupons.index');
+
     Route::get('suggestions', 'SuggestionController@index')->name('suggestions.index');
     Route::get('suggestions/{suggestion}/edit', 'SuggestionController@edit')->name('suggestions.edit');
     Route::post('suggestions/reply/{suggestion}', 'SuggestionController@reply')->name('suggestions.reply');
@@ -74,10 +76,12 @@ Route::middleware('auth')->group(function () {
 Auth::routes();
 Route::get('/redirect', 'SocialAuthFacebookController@redirect')->name('facebook');
 Route::get('/callback', 'SocialAuthFacebookController@callback');
+
+
 Route::group([
     'namespace' => 'Auth',
 
 ], function () {
-    Route::get('/password/reset/{token}', 'PasswordResetController@resetpassword');
+    Route::get('/member/password/reset/{token}', 'PasswordResetController@resetpassword');
 
 });
