@@ -40,7 +40,7 @@ class SalesTableSeeder extends Seeder
                 SalesItem::create
                 ([
                     'sale_id' => $sale_id,
-                    'product_id' => rand(1,32),
+                    'product_id' => rand(1,55),
                     'quantity' => rand(1,30),
                     'sale_price' => rand(900,3000),
                     'created_at' => $order_date,
