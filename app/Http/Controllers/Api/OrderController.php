@@ -28,28 +28,32 @@ class OrderController extends Controller
             'order_date' => now(),
             'shipment' => 0,
         ]);
-        foreach ($mycarts as $salesitem){
+        $coupon = Coupon::where('code', '=', $request->code)->first();
+        foreach ($mycarts as $salesitem) {
             $salesitem = SalesItem::create([
                 'sale_id' => $sale->id,
                 'product_id' => $salesitem->product_id,
                 'quantity' => $salesitem->quantity,
                 'sale_price' => 0,
             ]);
-            if($request->coupon==0){
+            if (!$coupon) {
                 $salesitem->sale_price = $salesitem->product->saleprice;
-            }
-            else if($request->coupon==1){
-                $salesitem->sale_price = $salesitem->product->saleprice*0.9;
-            }
-            else if($request->coupon==2){
-                $salesitem->sale_price = $salesitem->product->saleprice*0.8;
-            }
-            else if($request->coupon==3){
-                $salesitem->sale_price = $salesitem->product->saleprice*0.7;
+            } else if ($coupon->type == 1) {
+                $salesitem->sale_price = $salesitem->product->saleprice * 0.9;
+                $coupon->is_used = 1;
+                $coupon->update();
+            } else if ($coupon->type == 2) {
+                $salesitem->sale_price = $salesitem->product->saleprice * 0.8;
+                $coupon->is_used = 1;
+                $coupon->update();
+            } else if ($coupon->type == 3) {
+                $salesitem->sale_price = $salesitem->product->saleprice * 0.7;
+                $coupon->is_used = 1;
+                $coupon->update();
             }
             $salesitem->update();
         }
-        foreach($mycarts as $mycart){
+        foreach ($mycarts as $mycart) {
             Cart::destroy($mycart->id);
         }
         return response()->json([
