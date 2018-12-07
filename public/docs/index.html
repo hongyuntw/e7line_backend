@@ -1,0 +1,4141 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/all.js"></script>
+
+
+          <script>
+        $(function() {
+            setupLanguages(["bash","javascript"]);
+        });
+      </script>
+      </head>
+
+  <body class="">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        <img src="images/logo.png" />
+                    <div class="lang-selector">
+                                  <a href="#" data-language-name="bash">bash</a>
+                                  <a href="#" data-language-name="javascript">javascript</a>
+                            </div>
+                            <div class="search">
+              <input type="text" class="search" id="input-search" placeholder="Search">
+            </div>
+            <ul class="search-results"></ul>
+              <div id="toc">
+      </div>
+                    <ul class="toc-footer">
+                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+                            </ul>
+            </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+          <!-- START_INFO -->
+<h1>Info</h1>
+<p>Welcome to the generated API reference.
+<a href="http://localhost/docs/collection.json">Get Postman Collection</a></p>
+<!-- END_INFO -->
+<h1>general</h1>
+<!-- START_86e0ac5d4f8ce9853bc22fd08f2a0109 -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/products" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/products");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[
+    {
+        "id": 53,
+        "listprice": 1500,
+        "saleprice": 1050,
+        "isSelling": 1,
+        "name": "London Dry Gin",
+        "imagename": "53.jpeg",
+        "unit": "Bottle",
+        "description": "The quintessential expression of a classic, traditional London Dry Gin. Bold, complex and aromatic – smooth enough for a Martini, yet rich and balanced, perfect for a G&amp;T.",
+        "category_id": 8,
+        "created_at": "2019-01-08 11:32:49",
+        "updated_at": "2019-01-08 16:57:49"
+    },
+    {
+        "id": 52,
+        "listprice": 1200,
+        "saleprice": 840,
+        "isSelling": 1,
+        "name": "Conniption Navy Strength Gin",
+        "imagename": "52.jpeg",
+        "unit": "Bottle",
+        "description": "A novel two-step process launches Conniption Navy Strength Gin into the world, setting a course for a gin that is enticingly intense yet surprisingly balanced. It all starts with a gin base produced from vapor infusion in our custom-designed German pot still.",
+        "category_id": 8,
+        "created_at": "2019-01-07 09:31:49",
+        "updated_at": "2019-01-07 13:55:49"
+    },
+    {
+        "id": 51,
+        "listprice": 570,
+        "saleprice": 570,
+        "isSelling": 1,
+        "name": "27Seconds - Rosé",
+        "imagename": "51.jpeg",
+        "unit": "Bottle",
+        "description": "Also present is a red floral lift with hints of herbs.",
+        "category_id": 13,
+        "created_at": "2019-01-06 11:33:49",
+        "updated_at": "2019-01-06 13:00:49"
+    },
+    {
+        "id": 50,
+        "listprice": 650,
+        "saleprice": 455,
+        "isSelling": 1,
+        "name": "27Seconds - Blanc",
+        "imagename": "50.jpeg",
+        "unit": "Bottle",
+        "description": "A delicious core of passion fruit, gooseberry and succulent acidity. It’s smooth flowing on the palate with a lasting refreshing mouth feel. Especially delicious with Thai food.",
+        "category_id": 10,
+        "created_at": "2019-01-05 08:33:49",
+        "updated_at": "2019-01-05 14:57:49"
+    },
+    {
+        "id": 49,
+        "listprice": 700,
+        "saleprice": 630,
+        "isSelling": 1,
+        "name": "27Seconds - Pinot Noir",
+        "imagename": "49.jpeg",
+        "unit": "Bottle",
+        "description": "We’re still not convinced we like the sound of this – however, this wine really does punch above its price point, with more layers of complexity than a good game of jenga. It is rich with dark fruit, mixed spice and earthy characters.",
+        "category_id": 14,
+        "created_at": "2019-01-04 08:35:49",
+        "updated_at": "2019-01-04 14:51:49"
+    },
+    {
+        "id": 48,
+        "listprice": 950,
+        "saleprice": 855,
+        "isSelling": 1,
+        "name": "Porta Gran Reserva Single Vineyard",
+        "imagename": "48.jpeg",
+        "unit": "Bottle",
+        "description": "Porta Reserva Cabernet Sauvignon",
+        "category_id": 14,
+        "created_at": "2019-01-03 08:31:49",
+        "updated_at": "2019-01-03 16:56:49"
+    },
+    {
+        "id": 47,
+        "listprice": 3400,
+        "saleprice": 2380,
+        "isSelling": 1,
+        "name": "SOLARIS Riesling Sweet 720ml",
+        "imagename": "47.jpeg",
+        "unit": "Bottle",
+        "description": "Mann’s Wine created Solaris as a wine that could stand up to the world’s finest wines, a wine that Japan could point to with pride. Manns' brand supervisor, Dai Shimazaki, holder of the French National Diploma of Oenologist and one of 100 Japanese people respected worldwide, is a winemaker attracting global attention.",
+        "category_id": 11,
+        "created_at": "2019-01-02 09:31:49",
+        "updated_at": "2019-01-02 12:40:49"
+    },
+    {
+        "id": 46,
+        "listprice": 600,
+        "saleprice": 300,
+        "isSelling": 1,
+        "name": "Black Galvanized Wine Ice Bucket",
+        "imagename": "46.jpeg",
+        "unit": "Pack",
+        "description": "No description available.",
+        "category_id": 16,
+        "created_at": "2019-01-01 09:33:49",
+        "updated_at": "2019-01-01 14:50:49"
+    },
+    {
+        "id": 45,
+        "listprice": 1200,
+        "saleprice": 720,
+        "isSelling": 1,
+        "name": "Stainless Steel Champagne Bucket",
+        "imagename": "45.jpeg",
+        "unit": "Pack",
+        "description": "Steel naturally retains coldness when ice is added, keeping your Champagne crisp longer.",
+        "category_id": 16,
+        "created_at": "2018-12-31 08:34:49",
+        "updated_at": "2018-12-31 14:57:49"
+    },
+    {
+        "id": 44,
+        "listprice": 700,
+        "saleprice": 350,
+        "isSelling": 1,
+        "name": "5 Pcs Wine Bottle Opener",
+        "imagename": "44.jpeg",
+        "unit": "Pack",
+        "description": "Five piece set includes a 3-function wine bottle corkscrew, classic bottle stopper with rubber grip, a drip ring with felt lining, foil cutter and a wine pourer with rubber ring. Bottled up in a rubberized finish wine bottle case with magnetic closure.",
+        "category_id": 17,
+        "created_at": "2018-12-30 11:31:49",
+        "updated_at": "2018-12-30 14:50:49"
+    },
+    {
+        "id": 43,
+        "listprice": 1000,
+        "saleprice": 900,
+        "isSelling": 1,
+        "name": "Wine Opener Set",
+        "imagename": "43.jpeg",
+        "unit": "Pack",
+        "description": "9-Piece Stainless Steel Wine Opener Set:a lever corkscrew wine opener-Rabbit Wine opener, a foil cutter, a wine pourer, a wine collar (drip ring), 2 bottle stoppers, a thermometer and 2 replacement screws (spiral worm)",
+        "category_id": 17,
+        "created_at": "2018-12-29 09:33:49",
+        "updated_at": "2018-12-29 12:50:49"
+    },
+    {
+        "id": 42,
+        "listprice": 2000,
+        "saleprice": 1400,
+        "isSelling": 1,
+        "name": "COMMANDO Brandy",
+        "imagename": "42.jpeg",
+        "unit": "Bottle",
+        "description": "No description available.",
+        "category_id": 4,
+        "created_at": "2018-12-28 07:35:49",
+        "updated_at": "2018-12-28 14:51:49"
+    },
+    {
+        "id": 41,
+        "listprice": 210,
+        "saleprice": 168,
+        "isSelling": 1,
+        "name": "E&amp;J Brandy Proof: 80 200ML AA",
+        "imagename": "41.jpeg",
+        "unit": "Bottle",
+        "description": "No description available.",
+        "category_id": 4,
+        "created_at": "2018-12-27 09:32:48",
+        "updated_at": "2018-12-27 16:46:48"
+    },
+    {
+        "id": 40,
+        "listprice": 2400,
+        "saleprice": 1680,
+        "isSelling": 1,
+        "name": "1818 Or Whisky",
+        "imagename": "40.jpeg",
+        "unit": "Bottle",
+        "description": "No description available.",
+        "category_id": 5,
+        "created_at": "2018-12-26 08:33:48",
+        "updated_at": "2018-12-26 12:59:48"
+    },
+    {
+        "id": 39,
+        "listprice": 800,
+        "saleprice": 560,
+        "isSelling": 1,
+        "name": "Gold Ram Blended Scotch Whisky",
+        "imagename": "39.jpeg",
+        "unit": "Bottle",
+        "description": "No description available.",
+        "category_id": 5,
+        "created_at": "2018-12-25 10:35:48",
+        "updated_at": "2018-12-25 14:47:48"
+    },
+    {
+        "id": 38,
+        "listprice": 6000,
+        "saleprice": 3600,
+        "isSelling": 1,
+        "name": "500ml Single Malt Whisky",
+        "imagename": "38.jpeg",
+        "unit": "Bottle",
+        "description": "Sweet, woody aromas and flavours of tropical fruits, toffee, vanilla custard, caramelized apples and dusty straw, tea with a chewy, vibrant, and fruity full body. Peppery spices, and oak spice finish.",
+        "category_id": 5,
+        "created_at": "2018-12-24 09:35:48",
+        "updated_at": "2018-12-24 13:50:48"
+    },
+    {
+        "id": 37,
+        "listprice": 350,
+        "saleprice": 280,
+        "isSelling": 1,
+        "name": "Lindemans Strawberry Lambic Beer",
+        "imagename": "37.jpeg",
+        "unit": "Bottle",
+        "description": "No description available.",
+        "category_id": 3,
+        "created_at": "2018-12-23 07:35:48",
+        "updated_at": "2018-12-23 12:46:48"
+    },
+    {
+        "id": 36,
+        "listprice": 100,
+        "saleprice": 50,
+        "isSelling": 1,
+        "name": "Blue Point Spring Fling",
+        "imagename": "36.jpeg",
+        "unit": "Bottle",
+        "description": "Spring Fling is a Copper Ale. It finds the perfect balance between malt, barley and spice making it a delicious, easy-drinking brew. Crisp and refreshing with subtle hints of nuts and honey.",
+        "category_id": 1,
+        "created_at": "2018-12-22 11:34:48",
+        "updated_at": "2018-12-22 14:54:48"
+    },
+    {
+        "id": 35,
+        "listprice": 100,
+        "saleprice": 80,
+        "isSelling": 1,
+        "name": "Blue Point Toasted Lager",
+        "imagename": "35.jpeg",
+        "unit": "Bottle",
+        "description": "Toasted Lager, our flagship brand, is and American Amber lager that's copper in color.",
+        "category_id": 2,
+        "created_at": "2018-12-21 10:33:48",
+        "updated_at": "2018-12-21 12:41:48"
+    },
+    {
+        "id": 34,
+        "listprice": 100,
+        "saleprice": 90,
+        "isSelling": 1,
+        "name": "Blue Point Oktoberfest",
+        "imagename": "34.jpeg",
+        "unit": "Bottle",
+        "description": "Originally brewed a couple hundred years ago to celebrate the betrothal of the Crown Prince of Bavaria, we're helping keep the tradition alive by brewing Oktoberfest every fall for our most royal\/loyal followers.",
+        "category_id": 2,
+        "created_at": "2018-12-20 09:33:48",
+        "updated_at": "2018-12-20 12:53:48"
+    },
+    {
+        "id": 33,
+        "listprice": 100,
+        "saleprice": 100,
+        "isSelling": 1,
+        "name": "Blue Point Blueberry Ale",
+        "imagename": "33.jpeg",
+        "unit": "Bottle",
+        "description": "Blue Points Blueberry Ale is a crisp golden ale with just a hint of blueberry flavor and a mild hops finish. Not your typical fruit-forward beer, Blueberry Ale unleashes a lively berry aroma and gives way to a well-balanced session ale that is refreshing year round.",
+        "category_id": 1,
+        "created_at": "2018-12-19 07:35:48",
+        "updated_at": "2018-12-19 14:43:48"
+    },
+    {
+        "id": 32,
+        "listprice": 300,
+        "saleprice": 150,
+        "isSelling": 1,
+        "name": "Wine Opener - Old York",
+        "imagename": "32.jpeg",
+        "unit": "Pack",
+        "description": "This double hinged corkscrew wine opener features the Old York Cellars' logo on handle",
+        "category_id": 17,
+        "created_at": "2018-12-18 09:34:47",
+        "updated_at": "2018-12-18 14:00:47"
+    },
+    {
+        "id": 31,
+        "listprice": 600,
+        "saleprice": 600,
+        "isSelling": 1,
+        "name": "Wineware Modern Wine Bucket",
+        "imagename": "31.jpeg",
+        "unit": "Bucket",
+        "description": "Great for chilling your White Wine and Rose, add some cold water and ice and it sits perfectly on a dinner table",
+        "category_id": 16,
+        "created_at": "2018-12-17 09:31:47",
+        "updated_at": "2018-12-17 12:45:47"
+    },
+    {
+        "id": 30,
+        "listprice": 2800,
+        "saleprice": 2240,
+        "isSelling": 1,
+        "name": "Ladies Champagne Flute 2018",
+        "imagename": "30.jpeg",
+        "unit": "Pack",
+        "description": "The Lismore ‘Nine Ladies Dancing’ Flute is part of the prestige seasonal gifts uniting two age old traditions; the much loved 12 Days of Christmas carol and Waterford’s iconic Lismore pattern, a best-selling design since 1952. This luxurious crystal champagne flute, with the nine ladies dancing unique engraved design, is presented with a wine charm and celebratory red packaging making a wonderful collectable gift in the elegant 12 Days series which completes this year.",
+        "category_id": 15,
+        "created_at": "2018-12-16 10:34:47",
+        "updated_at": "2018-12-16 12:59:47"
+    },
+    {
+        "id": 29,
+        "listprice": 700,
+        "saleprice": 420,
+        "isSelling": 1,
+        "name": "Glass Assorted Glassware Set",
+        "imagename": "29.jpeg",
+        "unit": "Pack",
+        "description": "Complete your Pinterest-perfect dinner or party plan with a complete set of 8 rocks glasses 8 and cooler glasses. The cool, sleek design is as comfortable as it is interesting. Which means when your guests’ mouths drop at the sight of your spread - their glasses won’t.",
+        "category_id": 15,
+        "created_at": "2018-12-15 11:33:47",
+        "updated_at": "2018-12-15 14:45:47"
+    },
+    {
+        "id": 28,
+        "listprice": 700,
+        "saleprice": 490,
+        "isSelling": 1,
+        "name": "Wyatt Pinot Noir 2016",
+        "imagename": "28.jpeg",
+        "unit": "Bottle",
+        "description": "A wonderfully lush, fruit-driven Pinot Noir, full and round on the palate that finishes beautifully. It drinks well on its own and is easy to match with meat, chicken, and even some fish dishes.",
+        "category_id": 14,
+        "created_at": "2018-12-14 11:31:47",
+        "updated_at": "2018-12-14 16:50:47"
+    },
+    {
+        "id": 27,
+        "listprice": 1500,
+        "saleprice": 1350,
+        "isSelling": 1,
+        "name": "Cono Sur Bicicleta Pinot Noir",
+        "imagename": "27.jpeg",
+        "unit": "Bottle",
+        "description": "The Cono Sur vineyard workers travel around our estate by bicycle, tending the vines using natural methods, in order to produce the best quality grapes. Our Bicicleta wines are a tribute to them.",
+        "category_id": 14,
+        "created_at": "2018-12-13 08:32:47",
+        "updated_at": "2018-12-13 12:42:47"
+    },
+    {
+        "id": 26,
+        "listprice": 800,
+        "saleprice": 800,
+        "isSelling": 1,
+        "name": "Merlet Creme de Poire William",
+        "imagename": "26.jpeg",
+        "unit": "Bottle",
+        "description": "Merlet's lightly coloured crème de poire, traditionally made with real Williams pears and bursting with flavour. Merlet can trace their beginnings back to 1850 when Firmin Merlet started producing using his pot still.",
+        "category_id": 13,
+        "created_at": "2018-12-12 07:32:47",
+        "updated_at": "2018-12-12 15:00:47"
+    },
+    {
+        "id": 25,
+        "listprice": 1200,
+        "saleprice": 840,
+        "isSelling": 1,
+        "name": "Merlet and Fils Triple Sec",
+        "imagename": "25.jpeg",
+        "unit": "Bottle",
+        "description": "Merlet Triple Sec is an orange flavoured liqueur made by macerating oranges and other citrus fruits in alcohol and then distilling before hydrating and sweetening with sugar.",
+        "category_id": 13,
+        "created_at": "2018-12-11 09:32:46",
+        "updated_at": "2018-12-11 15:54:46"
+    },
+    {
+        "id": 24,
+        "listprice": 300,
+        "saleprice": 300,
+        "isSelling": 1,
+        "name": "Justin Cabernet Sauvignon",
+        "imagename": "24.jpeg",
+        "unit": "Bottle",
+        "description": "At JUSTIN®, we combine traditional Old World methods—like hand-harvesting and small-barrel aging in French oak—with New World technology. For example: the “Air Knife,” an ingenious process invented by our winemakers, boosts grape quality and efficiency.",
+        "category_id": 12,
+        "created_at": "2018-12-10 11:34:46",
+        "updated_at": "2018-12-10 13:54:46"
+    },
+    {
+        "id": 23,
+        "listprice": 500,
+        "saleprice": 250,
+        "isSelling": 1,
+        "name": "FITVINE Cabernet Sauvignon",
+        "imagename": "23.jpeg",
+        "unit": "Bottle",
+        "description": "Classic Cabernet nose of currant, lavender, black licorice and a hint of new oak. Rich purpose soft tannins wrap around flavors of cedar, boysenberry and coffee, chocolate with a hint of leather. Full flavored, clean taste with a smooth finish.",
+        "category_id": 12,
+        "created_at": "2018-12-09 09:32:46",
+        "updated_at": "2018-12-09 13:00:46"
+    },
+    {
+        "id": 22,
+        "listprice": 800,
+        "saleprice": 720,
+        "isSelling": 1,
+        "name": "Most Wanted",
+        "imagename": "22.jpeg",
+        "unit": "Bottle",
+        "description": "No description available.",
+        "category_id": 11,
+        "created_at": "2018-12-08 11:31:46",
+        "updated_at": "2018-12-08 15:46:46"
+    },
+    {
+        "id": 21,
+        "listprice": 700,
+        "saleprice": 700,
+        "isSelling": 1,
+        "name": "Barefoot California Riesling Wine",
+        "imagename": "21.jpeg",
+        "unit": "Bottle",
+        "description": "This is a lovely wine with tasty aromas and flavors of Mandarin orange and tangerine, layered with luscious peach &amp; juicy pear. Hints of jasmine and honey complement the sweet and refreshing finish. Perfect match with white cheeses, fruit, appetizers and spicy cuisine. Yummy!",
+        "category_id": 11,
+        "created_at": "2018-12-07 09:34:46",
+        "updated_at": "2018-12-07 12:56:46"
+    },
+    {
+        "id": 20,
+        "listprice": 500,
+        "saleprice": 500,
+        "isSelling": 1,
+        "name": "Sauvignon Blanc, Pays d’Oc IGP",
+        "imagename": "20.jpeg",
+        "unit": "Bottle",
+        "description": "This wine is part of Baron Philippe de Rothschild’s pays d’Oc varietal range that comprises of seven varietal wines. This Sauvignon Blanc is a staff favourite and offers a crisp, aromatic and fashionable style. The diverse micro-climates of the Languedoc accommodates for the seven varietals across several parcels of land in and around Limoux.",
+        "category_id": 10,
+        "created_at": "2018-12-06 08:35:46",
+        "updated_at": "2018-12-06 16:53:46"
+    },
+    {
+        "id": 19,
+        "listprice": 800,
+        "saleprice": 800,
+        "isSelling": 1,
+        "name": "Greystone Sauvignon Blanc 2017",
+        "imagename": "19.jpeg",
+        "unit": "Bottle",
+        "description": "Clear pale lemon in colour.  Opulent aromas of pineapple, tropical fruits, lemon balm and fresh cut herbs.  Expect a generous and textual mouthfeel from the barrel ferment, minerality, juicy acidity and soft phenolics on the back palate.",
+        "category_id": 10,
+        "created_at": "2018-12-05 08:35:46",
+        "updated_at": "2018-12-05 14:50:46"
+    },
+    {
+        "id": 18,
+        "listprice": 50,
+        "saleprice": 35,
+        "isSelling": 1,
+        "name": "Smirnoff Ice Vodka Premix Drink",
+        "imagename": "18.jpeg",
+        "unit": "Bottle",
+        "description": "Made with Smirnoff vodka. With the classic taste of lemon. Premium ice triple filtered vodka mixed drink Drink ice cold",
+        "category_id": 9,
+        "created_at": "2018-12-04 10:32:46",
+        "updated_at": "2018-12-04 16:50:46"
+    },
+    {
+        "id": 17,
+        "listprice": 450,
+        "saleprice": 270,
+        "isSelling": 1,
+        "name": "Absolut Vodka",
+        "imagename": "17.jpeg",
+        "unit": "Bottle",
+        "description": "Absolut Vodka is the leading brand of Premium vodka offering the true taste of vodka in original or your favorite flavors made from natural ingredients.",
+        "category_id": 9,
+        "created_at": "2018-12-03 09:35:46",
+        "updated_at": "2018-12-03 14:47:46"
+    },
+    {
+        "id": 16,
+        "listprice": 900,
+        "saleprice": 810,
+        "isSelling": 1,
+        "name": "Tanqueray Export Strength Dry Gin",
+        "imagename": "16.jpeg",
+        "unit": "Bottle",
+        "description": "The Tanqueray Export Quality London Dry Gin is made with four distinct botanicals for an unrivalled flavour (juniper, coriander, wild celery and liquorice). A four step distillation process is involved in the making of Tanqueray London Dry Gin. The only flavours you will get after the distillation are those of the botanicals with only strength from the neutral spirit. Mix with ice, tonic and lime.",
+        "category_id": 8,
+        "created_at": "2018-12-02 07:34:45",
+        "updated_at": "2018-12-02 16:47:45"
+    },
+    {
+        "id": 15,
+        "listprice": 1200,
+        "saleprice": 840,
+        "isSelling": 1,
+        "name": "Essential Gin",
+        "imagename": "15.jpeg",
+        "unit": "Bottle",
+        "description": "Our premium 100% field-to-flask Gin is handcrafted at our flagship distillery in Vernon to showcase the Okanagan terroir.",
+        "category_id": 8,
+        "created_at": "2018-12-01 11:33:45",
+        "updated_at": "2018-12-01 15:53:45"
+    },
+    {
+        "id": 14,
+        "listprice": 2850,
+        "saleprice": 2565,
+        "isSelling": 1,
+        "name": "Marca Negra Dobadan Mezcal",
+        "imagename": "14.jpeg",
+        "unit": "Bottle",
+        "description": "Distilled from Agave rhodacantha, aka Mexicano, and bottled at 48% ABV. Truly wonderful, palate is full of ripe banana and juicy grilled pineapple, with light touches of spices like cinnamon and nutmeg. Rich and mouthfilling, with robust fruit and sweet agave.",
+        "category_id": 7,
+        "created_at": "2018-11-30 09:34:45",
+        "updated_at": "2018-11-30 15:47:45"
+    },
+    {
+        "id": 13,
+        "listprice": 2900,
+        "saleprice": 2900,
+        "isSelling": 1,
+        "name": "MZCL",
+        "imagename": "13.jpeg",
+        "unit": "Bottle",
+        "description": "MZCL, probably better known as Mezcal, is a spirit derived from the agave plant, which is native to Mexico. It is renowned as a special drink due to its extensive and time consuming production process. Salt &amp; Silver commit to many characteristics that make MZCL unique and interesting – a cool, dynamic label outside the bottle, a prestigious and extremely well crafted drink inside the bottle. MZCL is both modern and nostalgic at the same time.",
+        "category_id": 7,
+        "created_at": "2018-11-29 07:35:45",
+        "updated_at": "2018-11-29 12:51:45"
+    },
+    {
+        "id": 12,
+        "listprice": 1899,
+        "saleprice": 1709,
+        "isSelling": 1,
+        "name": "Real Rum Blanco",
+        "imagename": "12.jpeg",
+        "unit": "Bottle",
+        "description": "Real Rum is a genuine Caribbean rum, produced in the Dominican Republic. It’s a classical strong drink for those who appreciate the real values of life. Real Rum is the rum just as it is – without many words or legends. It’s an excellent choice for mixing cocktails and a guarantee to live it up.",
+        "category_id": 6,
+        "created_at": "2018-11-28 09:35:45",
+        "updated_at": "2018-11-28 15:59:45"
+    },
+    {
+        "id": 11,
+        "listprice": 1500,
+        "saleprice": 1350,
+        "isSelling": 1,
+        "name": "Captain Morgan Original Spiced Rum",
+        "imagename": "11.jpeg",
+        "unit": "Bottle",
+        "description": "Captain Morgan is the original party spirit, a spiced rum that was born and blended to have a good time. So grab a bottle of Captain Morgan Spiced Rum, raise a leg, and toast to the adventure to be had. Captain’s orders!",
+        "category_id": 6,
+        "created_at": "2018-11-27 11:35:45",
+        "updated_at": "2018-11-27 14:00:45"
+    },
+    {
+        "id": 10,
+        "listprice": 2999,
+        "saleprice": 2699,
+        "isSelling": 1,
+        "name": "WOLFBURN Northland Original",
+        "imagename": "10.jpeg",
+        "unit": "Bottle",
+        "description": "Wolfburn is the most northerly whisky distillery on the scottish mainland. Originally founded in 1821, in its day it was one of the biggest in Scotland.",
+        "category_id": 5,
+        "created_at": "2018-11-26 08:35:45",
+        "updated_at": "2018-11-26 12:46:45"
+    },
+    {
+        "id": 9,
+        "listprice": 2000,
+        "saleprice": 2000,
+        "isSelling": 1,
+        "name": "Single Malt Whisky",
+        "imagename": "9.jpeg",
+        "unit": "Bottle",
+        "description": "Prominent aromas of ripe pear, vanilla and smooth honeycomb honey with a background presence of spicy orange peel zest and delicate hazelnut oak notes. Bursting with vibrant fruit, honey and pear nates, married with rich flavours of dark chocolate ginger, cinnamon and hints of liquorice root. Lingering vibrant and harmonious finish.",
+        "category_id": 5,
+        "created_at": "2018-11-25 07:31:45",
+        "updated_at": "2018-11-25 16:59:45"
+    },
+    {
+        "id": 8,
+        "listprice": 2000,
+        "saleprice": 1400,
+        "isSelling": 1,
+        "name": "Carlos I Brandy",
+        "imagename": "8.jpeg",
+        "unit": "Bottle",
+        "description": "Carlos I Brandy de Jerez Solera Gran Reserva is the epitome of noble Spanish brandies.",
+        "category_id": 4,
+        "created_at": "2018-11-24 09:35:45",
+        "updated_at": "2018-11-24 17:00:45"
+    },
+    {
+        "id": 7,
+        "listprice": 1500,
+        "saleprice": 900,
+        "isSelling": 1,
+        "name": "Dekuyper Peach Brandy",
+        "imagename": "7.jpeg",
+        "unit": "Bottle",
+        "description": "Savor sweet moments with our seven brandy flavors. From Blackberry Brandy as an after dinner treat to striking up a good conversation over Coffee Brandy, there's always an occasion to sit back and enjoy.",
+        "category_id": 4,
+        "created_at": "2018-11-23 11:31:45",
+        "updated_at": "2018-11-23 15:51:45"
+    },
+    {
+        "id": 6,
+        "listprice": 90,
+        "saleprice": 81,
+        "isSelling": 1,
+        "name": "Timmermans Tradition Gueuze Lambic",
+        "imagename": "6.jpeg",
+        "unit": "Bottle",
+        "description": "No description available",
+        "category_id": 3,
+        "created_at": "2018-11-22 08:33:45",
+        "updated_at": "2018-11-22 16:58:45"
+    },
+    {
+        "id": 5,
+        "listprice": 100,
+        "saleprice": 100,
+        "isSelling": 1,
+        "name": "Lindemans Cassis Lambic",
+        "imagename": "5.jpeg",
+        "unit": "Bottle",
+        "description": "Lindemans Cassis is a lambic made from local barley, unmalted wheat, and wild yeast. After spontaneous fermentation the lambic is aged in oak. Black currants are added creating a secondary fermentation and yielding an ale of exceptional flavor and complexity.",
+        "category_id": 3,
+        "created_at": "2018-11-21 07:32:45",
+        "updated_at": "2018-11-21 14:40:45"
+    },
+    {
+        "id": 4,
+        "listprice": 120,
+        "saleprice": 96,
+        "isSelling": 1,
+        "name": "Tsingtao Pure Draft Beer",
+        "imagename": "4.jpeg",
+        "unit": "Bottle",
+        "description": "In 1903, beer-savvy settlers from Germany and Great Britain founded Tsingtao Brewery in Qingdao, China. What makes Tsingtao great is the fresh spring water from Laoshan Mountain, the same place China's ancient religious belief Taoism originated. Today Tsingtao is the #1 Chinese beer in the U.S. and the #1 consumer product exported from China. Product of China",
+        "category_id": 2,
+        "created_at": "2018-11-20 09:31:45",
+        "updated_at": "2018-11-20 12:43:45"
+    },
+    {
+        "id": 3,
+        "listprice": 130,
+        "saleprice": 130,
+        "isSelling": 1,
+        "name": "Singha Lager Beer",
+        "imagename": "3.jpeg",
+        "unit": "Bottle",
+        "description": "Singha Lager only uses the finest quality barley, malt and hops that are imported from around the world. These products are then blended with pure Artisian water producing a product pale yellow in colour, distinctively rich in flavor with strong hop and slightly spicy characters.",
+        "category_id": 2,
+        "created_at": "2018-11-19 07:34:44",
+        "updated_at": "2018-11-19 16:53:44"
+    },
+    {
+        "id": 2,
+        "listprice": 180,
+        "saleprice": 126,
+        "isSelling": 1,
+        "name": "Brewdog Dead Pony Pale Ale",
+        "imagename": "2.jpeg",
+        "unit": "Bottle",
+        "description": "Brewdog Dead Pony Pale Ale",
+        "category_id": 1,
+        "created_at": "2018-11-18 10:34:44",
+        "updated_at": "2018-11-18 15:49:44"
+    },
+    {
+        "id": 1,
+        "listprice": 120,
+        "saleprice": 108,
+        "isSelling": 1,
+        "name": "Archipelago Brewery Singapore Blonde",
+        "imagename": "1.jpeg",
+        "unit": "Bottle",
+        "description": "Singapore Blonde Ale 6-bottle Pack is a filtered blonde malt ale with a tangy, natural citrus taste and a hint of sweetness specially brewed with Calamansi Lime and Pandan Leaves. SBA is utterly refreshing with grilled meats, salads and spicy dishes.",
+        "category_id": 1,
+        "created_at": "2018-11-17 08:32:44",
+        "updated_at": "2018-11-17 12:55:44"
+    }
+]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/products</code></p>
+<!-- END_86e0ac5d4f8ce9853bc22fd08f2a0109 -->
+<!-- START_a285e63bc2d1a5b9428ae9aed745c779 -->
+<h2>Show the form for creating a new resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/products/{product}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/products/{product}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "id": 1,
+    "listprice": 120,
+    "saleprice": 108,
+    "isSelling": 1,
+    "name": "Archipelago Brewery Singapore Blonde",
+    "imagename": "1.jpeg",
+    "unit": "Bottle",
+    "description": "Singapore Blonde Ale 6-bottle Pack is a filtered blonde malt ale with a tangy, natural citrus taste and a hint of sweetness specially brewed with Calamansi Lime and Pandan Leaves. SBA is utterly refreshing with grilled meats, salads and spicy dishes.",
+    "category_id": 1,
+    "created_at": "2018-11-17 08:32:44",
+    "updated_at": "2018-11-17 12:55:44"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/products/{product}</code></p>
+<!-- END_a285e63bc2d1a5b9428ae9aed745c779 -->
+<!-- START_acb8269be2928b6a8d3878ae76e8e34a -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/carts" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/carts");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[
+    {
+        "id": 1,
+        "member_id": 1,
+        "product_imagename": "6.jpeg",
+        "product_id": 6,
+        "quantity": 8,
+        "price": 81,
+        "product_name": "Timmermans Tradition Gueuze Lambic",
+        "created_at": "2018\/12\/07 06:31:28",
+        "updated_at": "2018\/12\/07 06:31:30"
+    },
+    {
+        "id": 2,
+        "member_id": 2,
+        "product_imagename": "21.jpeg",
+        "product_id": 21,
+        "quantity": 1,
+        "price": 700,
+        "product_name": "Barefoot California Riesling Wine",
+        "created_at": "2018\/12\/07 06:31:28",
+        "updated_at": "2018\/12\/07 06:31:30"
+    },
+    {
+        "id": 3,
+        "member_id": 3,
+        "product_imagename": "21.jpeg",
+        "product_id": 21,
+        "quantity": 15,
+        "price": 700,
+        "product_name": "Barefoot California Riesling Wine",
+        "created_at": "2018\/12\/07 06:31:28",
+        "updated_at": "2018\/12\/07 06:31:30"
+    },
+    {
+        "id": 4,
+        "member_id": 4,
+        "product_imagename": "14.jpeg",
+        "product_id": 14,
+        "quantity": 10,
+        "price": 2565,
+        "product_name": "Marca Negra Dobadan Mezcal",
+        "created_at": "2018\/12\/07 06:31:28",
+        "updated_at": "2018\/12\/07 06:31:30"
+    },
+    {
+        "id": 5,
+        "member_id": 5,
+        "product_imagename": "18.jpeg",
+        "product_id": 18,
+        "quantity": 5,
+        "price": 35,
+        "product_name": "Smirnoff Ice Vodka Premix Drink",
+        "created_at": "2018\/12\/07 06:31:28",
+        "updated_at": "2018\/12\/07 06:31:30"
+    },
+    {
+        "id": 6,
+        "member_id": 6,
+        "product_imagename": "25.jpeg",
+        "product_id": 25,
+        "quantity": 17,
+        "price": 840,
+        "product_name": "Merlet and Fils Triple Sec",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:30"
+    },
+    {
+        "id": 7,
+        "member_id": 7,
+        "product_imagename": "28.jpeg",
+        "product_id": 28,
+        "quantity": 8,
+        "price": 490,
+        "product_name": "Wyatt Pinot Noir 2016",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 8,
+        "member_id": 8,
+        "product_imagename": "9.jpeg",
+        "product_id": 9,
+        "quantity": 8,
+        "price": 2000,
+        "product_name": "Single Malt Whisky",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 9,
+        "member_id": 9,
+        "product_imagename": "28.jpeg",
+        "product_id": 28,
+        "quantity": 19,
+        "price": 490,
+        "product_name": "Wyatt Pinot Noir 2016",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 10,
+        "member_id": 10,
+        "product_imagename": "13.jpeg",
+        "product_id": 13,
+        "quantity": 5,
+        "price": 2900,
+        "product_name": "MZCL",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 11,
+        "member_id": 11,
+        "product_imagename": "6.jpeg",
+        "product_id": 6,
+        "quantity": 9,
+        "price": 81,
+        "product_name": "Timmermans Tradition Gueuze Lambic",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 12,
+        "member_id": 12,
+        "product_imagename": "31.jpeg",
+        "product_id": 31,
+        "quantity": 9,
+        "price": 600,
+        "product_name": "Wineware Modern Wine Bucket",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 13,
+        "member_id": 13,
+        "product_imagename": "17.jpeg",
+        "product_id": 17,
+        "quantity": 15,
+        "price": 270,
+        "product_name": "Absolut Vodka",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 14,
+        "member_id": 14,
+        "product_imagename": "25.jpeg",
+        "product_id": 25,
+        "quantity": 16,
+        "price": 840,
+        "product_name": "Merlet and Fils Triple Sec",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 15,
+        "member_id": 15,
+        "product_imagename": "20.jpeg",
+        "product_id": 20,
+        "quantity": 2,
+        "price": 500,
+        "product_name": "Sauvignon Blanc, Pays d’Oc IGP",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 16,
+        "member_id": 16,
+        "product_imagename": "13.jpeg",
+        "product_id": 13,
+        "quantity": 11,
+        "price": 2900,
+        "product_name": "MZCL",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 17,
+        "member_id": 17,
+        "product_imagename": "11.jpeg",
+        "product_id": 11,
+        "quantity": 11,
+        "price": 1350,
+        "product_name": "Captain Morgan Original Spiced Rum",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 18,
+        "member_id": 18,
+        "product_imagename": "6.jpeg",
+        "product_id": 6,
+        "quantity": 3,
+        "price": 81,
+        "product_name": "Timmermans Tradition Gueuze Lambic",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 19,
+        "member_id": 19,
+        "product_imagename": "20.jpeg",
+        "product_id": 20,
+        "quantity": 4,
+        "price": 500,
+        "product_name": "Sauvignon Blanc, Pays d’Oc IGP",
+        "created_at": "2018\/12\/07 06:31:29",
+        "updated_at": "2018\/12\/07 06:31:31"
+    },
+    {
+        "id": 20,
+        "member_id": 20,
+        "product_imagename": "10.jpeg",
+        "product_id": 10,
+        "quantity": 12,
+        "price": 2699,
+        "product_name": "WOLFBURN Northland Original",
+        "created_at": "2018\/12\/07 06:31:30",
+        "updated_at": "2018\/12\/07 06:31:32"
+    },
+    {
+        "id": 21,
+        "member_id": 21,
+        "product_imagename": "52.jpeg",
+        "product_id": 52,
+        "quantity": 1,
+        "price": 840,
+        "product_name": "Conniption Navy Strength Gin",
+        "created_at": "2018\/12\/07 14:43:47",
+        "updated_at": "2018\/12\/07 14:43:47"
+    },
+    {
+        "id": 22,
+        "member_id": 21,
+        "product_imagename": "53.jpeg",
+        "product_id": 53,
+        "quantity": 33,
+        "price": 1050,
+        "product_name": "London Dry Gin",
+        "created_at": "2018\/12\/07 14:44:00",
+        "updated_at": "2018\/12\/07 15:09:05"
+    },
+    {
+        "id": 23,
+        "member_id": 21,
+        "product_imagename": "51.jpeg",
+        "product_id": 51,
+        "quantity": 13,
+        "price": 570,
+        "product_name": "27Seconds - Rosé",
+        "created_at": "2018\/12\/07 15:09:34",
+        "updated_at": "2018\/12\/07 15:09:43"
+    }
+]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/carts</code></p>
+<!-- END_acb8269be2928b6a8d3878ae76e8e34a -->
+<!-- START_75afb775ab4a18790abf23a96dc0f760 -->
+<h2>Display the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/carts/{cart}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/carts/{cart}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[
+    {
+        "id": 1,
+        "member_id": 1,
+        "product_imagename": "6.jpeg",
+        "product_id": 6,
+        "quantity": 8,
+        "price": 81,
+        "product_name": "Timmermans Tradition Gueuze Lambic",
+        "created_at": "2018\/12\/07 06:31:28",
+        "updated_at": "2018\/12\/07 06:31:30"
+    }
+]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/carts/{cart}</code></p>
+<!-- END_75afb775ab4a18790abf23a96dc0f760 -->
+<!-- START_109013899e0bc43247b0f00b67f889cf -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/categories" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/categories");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[
+    {
+        "id": 1,
+        "type_id": 1,
+        "name": "Ale",
+        "created_at": "2018-12-07 06:30:50",
+        "updated_at": "2018-12-07 06:30:50"
+    },
+    {
+        "id": 2,
+        "type_id": 1,
+        "name": "Lager",
+        "created_at": "2018-12-07 06:30:50",
+        "updated_at": "2018-12-07 06:30:50"
+    },
+    {
+        "id": 3,
+        "type_id": 1,
+        "name": "Lambic",
+        "created_at": "2018-12-07 06:30:50",
+        "updated_at": "2018-12-07 06:30:50"
+    },
+    {
+        "id": 4,
+        "type_id": 2,
+        "name": "Brandy",
+        "created_at": "2018-12-07 06:30:50",
+        "updated_at": "2018-12-07 06:30:50"
+    },
+    {
+        "id": 5,
+        "type_id": 2,
+        "name": "Whisky",
+        "created_at": "2018-12-07 06:30:50",
+        "updated_at": "2018-12-07 06:30:50"
+    },
+    {
+        "id": 6,
+        "type_id": 2,
+        "name": "Rum",
+        "created_at": "2018-12-07 06:30:50",
+        "updated_at": "2018-12-07 06:30:50"
+    },
+    {
+        "id": 7,
+        "type_id": 2,
+        "name": "Mezcal",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 8,
+        "type_id": 2,
+        "name": "Gin",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 9,
+        "type_id": 2,
+        "name": "Vodka",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 10,
+        "type_id": 3,
+        "name": "Sauvignon Blanc",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 11,
+        "type_id": 3,
+        "name": "Riesling",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 12,
+        "type_id": 3,
+        "name": "Cabernet Sauvignon",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 13,
+        "type_id": 3,
+        "name": "Merlet",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 14,
+        "type_id": 3,
+        "name": "Pinot Noir",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 15,
+        "type_id": 4,
+        "name": "Glassware",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 16,
+        "type_id": 4,
+        "name": "Wine Bucket",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    },
+    {
+        "id": 17,
+        "type_id": 4,
+        "name": "Wine Opener",
+        "created_at": "2018-12-07 06:30:51",
+        "updated_at": "2018-12-07 06:30:51"
+    }
+]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/categories</code></p>
+<!-- END_109013899e0bc43247b0f00b67f889cf -->
+<!-- START_3927d9858a98b64816c08b1fb902df4b -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/types" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/types");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[
+    {
+        "id": 1,
+        "name": "Beer",
+        "created_at": "2018-12-07 06:31:32",
+        "updated_at": "2018-12-07 06:31:32"
+    },
+    {
+        "id": 2,
+        "name": "Spirit",
+        "created_at": "2018-12-07 06:31:32",
+        "updated_at": "2018-12-07 06:31:32"
+    },
+    {
+        "id": 3,
+        "name": "Wine",
+        "created_at": "2018-12-07 06:31:32",
+        "updated_at": "2018-12-07 06:31:32"
+    },
+    {
+        "id": 4,
+        "name": "Drinkware",
+        "created_at": "2018-12-07 06:31:33",
+        "updated_at": "2018-12-07 06:31:33"
+    }
+]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/types</code></p>
+<!-- END_3927d9858a98b64816c08b1fb902df4b -->
+<!-- START_a909e8ea0666bae5c9464270cdffb87f -->
+<h2>Show the form for creating a new resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/suggestions/create" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/suggestions/create");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/suggestions/create</code></p>
+<!-- END_a909e8ea0666bae5c9464270cdffb87f -->
+<!-- START_d7b7952e7fdddc07c978c9bdaf757acf -->
+<h2>api/register</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/register" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/register");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/register</code></p>
+<!-- END_d7b7952e7fdddc07c978c9bdaf757acf -->
+<!-- START_c3fa189a6c95ca36ad6ac4791a873d23 -->
+<h2>api/login</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/login" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/login");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/login</code></p>
+<!-- END_c3fa189a6c95ca36ad6ac4791a873d23 -->
+<!-- START_f4ac9060a0efacf859a27ba82d9bbad5 -->
+<h2>api/image/{filename}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/image/{filename}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/image/{filename}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "File does not exist at path D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\public\/storage\/1",
+    "exception": "Illuminate\\Contracts\\Filesystem\\FileNotFoundException",
+    "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php",
+    "line": 41,
+    "trace": [
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php",
+            "line": 223,
+            "function": "get",
+            "class": "Illuminate\\Filesystem\\Filesystem",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\app\\Http\\Controllers\\PhotoController.php",
+            "line": 20,
+            "function": "__callStatic",
+            "class": "Illuminate\\Support\\Facades\\Facade",
+            "type": "::"
+        },
+        {
+            "function": "image",
+            "class": "App\\Http\\Controllers\\PhotoController",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
+            "line": 54,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
+            "line": 45,
+            "function": "callAction",
+            "class": "Illuminate\\Routing\\Controller",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 212,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\ControllerDispatcher",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 169,
+            "function": "runController",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 679,
+            "function": "run",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
+            "line": 41,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+            "line": 58,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 681,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 656,
+            "function": "runRouteWithinStack",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 622,
+            "function": "runRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 611,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 176,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Foundation\\Http\\{closure}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\spatie\\laravel-cors\\src\\Cors.php",
+            "line": 28,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Spatie\\Cors\\Cors",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
+            "line": 57,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Fideloper\\Proxy\\TrustProxies",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 31,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 31,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+            "line": 27,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
+            "line": 62,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 151,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 116,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 272,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 256,
+            "function": "callLaravelRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 33,
+            "function": "makeApiCall",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 49,
+            "function": "__invoke",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 68,
+            "function": "resolve",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
+            "line": 54,
+            "function": "getResponse",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 194,
+            "function": "processRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\Generator",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 56,
+            "function": "processRoutes",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "function": "handle",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 29,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 87,
+            "function": "Illuminate\\Container\\{closure}",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 31,
+            "function": "callBoundMethod",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+            "line": 564,
+            "function": "call",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 183,
+            "function": "call",
+            "class": "Illuminate\\Container\\Container",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Command\\Command.php",
+            "line": 255,
+            "function": "execute",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 170,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Command\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Application.php",
+            "line": 888,
+            "function": "run",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Application.php",
+            "line": 264,
+            "function": "doRunCommand",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Application.php",
+            "line": 145,
+            "function": "doRun",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+            "line": 89,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+            "line": 122,
+            "function": "run",
+            "class": "Illuminate\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\artisan",
+            "line": 37,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Console\\Kernel",
+            "type": "-&gt;"
+        }
+    ]
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/image/{filename}</code></p>
+<!-- END_f4ac9060a0efacf859a27ba82d9bbad5 -->
+<!-- START_7da2de512b3c91a068625a0b4051dcb4 -->
+<h2>api/image</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/image" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/image");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[
+    "\/storage\/.gitignore",
+    "\/storage\/1.jpeg",
+    "\/storage\/10.jpeg",
+    "\/storage\/11.jpeg",
+    "\/storage\/12.jpeg",
+    "\/storage\/13.jpeg",
+    "\/storage\/14.jpeg",
+    "\/storage\/15.jpeg",
+    "\/storage\/16.jpeg",
+    "\/storage\/17.jpeg",
+    "\/storage\/18.jpeg",
+    "\/storage\/19.jpeg",
+    "\/storage\/2.jpeg",
+    "\/storage\/20.jpeg",
+    "\/storage\/21.jpeg",
+    "\/storage\/22.jpeg",
+    "\/storage\/23.jpeg",
+    "\/storage\/24.jpeg",
+    "\/storage\/25.jpeg",
+    "\/storage\/26.jpeg",
+    "\/storage\/27.jpeg",
+    "\/storage\/28.jpeg",
+    "\/storage\/29.jpeg",
+    "\/storage\/3.jpeg",
+    "\/storage\/30.jpeg",
+    "\/storage\/31.jpeg",
+    "\/storage\/32.jpeg",
+    "\/storage\/33.jpeg",
+    "\/storage\/34.jpeg",
+    "\/storage\/35.jpeg",
+    "\/storage\/36.jpeg",
+    "\/storage\/37.jpeg",
+    "\/storage\/38.jpeg",
+    "\/storage\/39.jpeg",
+    "\/storage\/4.jpeg",
+    "\/storage\/40.jpeg",
+    "\/storage\/41.jpeg",
+    "\/storage\/42.jpeg",
+    "\/storage\/43.jpeg",
+    "\/storage\/44.jpeg",
+    "\/storage\/45.jpeg",
+    "\/storage\/46.jpeg",
+    "\/storage\/47.jpeg",
+    "\/storage\/48.jpeg",
+    "\/storage\/49.jpeg",
+    "\/storage\/5.jpeg",
+    "\/storage\/50.jpeg",
+    "\/storage\/51.jpeg",
+    "\/storage\/52.jpeg",
+    "\/storage\/53.jpeg",
+    "\/storage\/54.jpeg",
+    "\/storage\/55.jpeg",
+    "\/storage\/58.jpeg",
+    "\/storage\/6.jpeg",
+    "\/storage\/7.jpeg",
+    "\/storage\/8.jpeg",
+    "\/storage\/9.jpeg",
+    "\/storage\/ad_1.jpeg",
+    "\/storage\/ad_2.jpeg",
+    "\/storage\/ad_3.jpeg",
+    "\/storage\/default_1.jpeg",
+    "\/storage\/default_2.jpeg",
+    "\/storage\/default_3.jpeg"
+]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/image</code></p>
+<!-- END_7da2de512b3c91a068625a0b4051dcb4 -->
+<!-- START_8ad860d24dc1cc6dac772d99135ad13e -->
+<h2>api/password/reset</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/password/reset" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/password/reset");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/password/reset</code></p>
+<!-- END_8ad860d24dc1cc6dac772d99135ad13e -->
+<!-- START_207a097f908648c422381f70d1594d40 -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/ads" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/ads");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[
+    {
+        "id": 1,
+        "name": "default_1",
+        "imagename": "default_1.jpeg",
+        "text_1": "John 99",
+        "text_2": "The best Liquor Distributor",
+        "text_3": "In the world.",
+        "created_at": "2018-12-07 06:31:33",
+        "updated_at": "2018-12-07 06:31:33"
+    },
+    {
+        "id": 2,
+        "name": "default_2",
+        "imagename": "default_2.jpeg",
+        "text_1": "Tonight I will have",
+        "text_2": "JUST ONE DRINK",
+        "text_3": "hahaha",
+        "created_at": "2018-12-07 06:31:34",
+        "updated_at": "2018-12-07 06:31:34"
+    },
+    {
+        "id": 3,
+        "name": "default_3",
+        "imagename": "default_3.jpeg",
+        "text_1": "Enjoy your bartending",
+        "text_2": "at home",
+        "text_3": "BuLuBuLu...",
+        "created_at": "2018-12-07 06:31:34",
+        "updated_at": "2018-12-07 06:31:34"
+    }
+]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/ads</code></p>
+<!-- END_207a097f908648c422381f70d1594d40 -->
+<!-- START_5f887747945239ecfaa114ba2fb6fcd8 -->
+<h2>api/sales</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/sales" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/sales");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sales</code></p>
+<!-- END_5f887747945239ecfaa114ba2fb6fcd8 -->
+<!-- START_61739f3220a224b34228600649230ad1 -->
+<h2>api/logout</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/logout" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/logout");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/logout</code></p>
+<!-- END_61739f3220a224b34228600649230ad1 -->
+<!-- START_b19e2ecbb41b5fa6802edaf581aab5f6 -->
+<h2>api/me</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/me" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/me");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/me</code></p>
+<!-- END_b19e2ecbb41b5fa6802edaf581aab5f6 -->
+<!-- START_cedeac35b0eea00a99a69deae0ddc342 -->
+<h2>Show the form for creating a new resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/coupons/check" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/coupons/check");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/coupons/check</code></p>
+<!-- END_cedeac35b0eea00a99a69deae0ddc342 -->
+<!-- START_eb6430388d3567328bfe67d830d35828 -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/coupons/index" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/coupons/index");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/coupons/index</code></p>
+<!-- END_eb6430388d3567328bfe67d830d35828 -->
+<!-- START_783f6b1014cb8d7ee29b942b1777b82b -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/sales/index" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/sales/index");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sales/index</code></p>
+<!-- END_783f6b1014cb8d7ee29b942b1777b82b -->
+<!-- START_b26f2fe3bbdb2cd63143c84070862c31 -->
+<h2>api/sales/{sale}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/sales/{sale}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/sales/{sale}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sales/{sale}</code></p>
+<!-- END_b26f2fe3bbdb2cd63143c84070862c31 -->
+<!-- START_9c9470f999534108f0faebec51684d70 -->
+<h2>api/carts/delete</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/carts/delete" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/carts/delete");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/carts/delete</code></p>
+<!-- END_9c9470f999534108f0faebec51684d70 -->
+<!-- START_1f5be3bda8512a3aa846c7340549a9a4 -->
+<h2>api/carts/add</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/carts/add" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/carts/add");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/carts/add</code></p>
+<!-- END_1f5be3bda8512a3aa846c7340549a9a4 -->
+<!-- START_e504c4c2c3ec8b2ed5ea08c3a722f466 -->
+<h2>Update the specified resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/carts/sub" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/carts/sub");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/carts/sub</code></p>
+<!-- END_e504c4c2c3ec8b2ed5ea08c3a722f466 -->
+<!-- START_32cc1bbbe11f715876c348b9be498991 -->
+<h2>api/carts/addincart</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/carts/addincart" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/carts/addincart");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/carts/addincart</code></p>
+<!-- END_32cc1bbbe11f715876c348b9be498991 -->
+<!-- START_e12245b8a07ec09cd24df427aa8e88c3 -->
+<h2>Show the form for editing the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/carts/addnumincart" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/carts/addnumincart");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/carts/addnumincart</code></p>
+<!-- END_e12245b8a07ec09cd24df427aa8e88c3 -->
+<!-- START_8e9e2f7b6568d14b197402543cdaa874 -->
+<h2>Create token password reset</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/api/password/create" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/password/create");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/password/create</code></p>
+<!-- END_8e9e2f7b6568d14b197402543cdaa874 -->
+<!-- START_28b16f279c1333c2efecf8a89e31b59d -->
+<h2>Find token password reset</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/password/find/{token}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/password/find/{token}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (404):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "This password reset token is invalid."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/password/find/{token}</code></p>
+<!-- END_28b16f279c1333c2efecf8a89e31b59d -->
+<!-- START_30059a09ef3f0284c40e4d06962ce08d -->
+<h2>dashboard</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/dashboard" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/dashboard");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET dashboard</code></p>
+<!-- END_30059a09ef3f0284c40e4d06962ce08d -->
+<!-- START_fcdf2da1997bd4d8d126f782bc06524c -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/products" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET products</code></p>
+<!-- END_fcdf2da1997bd4d8d126f782bc06524c -->
+<!-- START_f991d4ee536427e80930fcd66f55be22 -->
+<h2>Show the form for creating a new resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/products/create" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/create");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET products/create</code></p>
+<!-- END_f991d4ee536427e80930fcd66f55be22 -->
+<!-- START_e69e3804fa0af1eb523e480d661362b7 -->
+<h2>Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/products" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST products</code></p>
+<!-- END_e69e3804fa0af1eb523e480d661362b7 -->
+<!-- START_8c5bdcaf79c3101b1f381b7fe35abe7d -->
+<h2>Show the form for editing the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/products/{product}/edit" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/{product}/edit");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET products/{product}/edit</code></p>
+<!-- END_8c5bdcaf79c3101b1f381b7fe35abe7d -->
+<!-- START_882f4b54b3813c47a7c7713abcf9aa4f -->
+<h2>Update the specified resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "http://localhost/products/{product}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/{product}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH products/{product}</code></p>
+<!-- END_882f4b54b3813c47a7c7713abcf9aa4f -->
+<!-- START_9dc19a575e78a6169cad6bda8a2186de -->
+<h2>Remove the specified resource from storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost/products/{product}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/{product}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE products/{product}</code></p>
+<!-- END_9dc19a575e78a6169cad6bda8a2186de -->
+<!-- START_e8700a04c81402c013f6d0dcbad502cf -->
+<h2>products/{product}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/products/{product}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/{product}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST products/{product}</code></p>
+<!-- END_e8700a04c81402c013f6d0dcbad502cf -->
+<!-- START_bc7273d7f1cfe33f4bc69f21a5a59b6a -->
+<h2>products/up/{product}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/products/up/{product}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/up/{product}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST products/up/{product}</code></p>
+<!-- END_bc7273d7f1cfe33f4bc69f21a5a59b6a -->
+<!-- START_bf7cec4b56f74dfed2e7feef6972c69c -->
+<h2>products/showup}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/products/showup}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/showup}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET products/showup}</code></p>
+<!-- END_bf7cec4b56f74dfed2e7feef6972c69c -->
+<!-- START_34c085c8e52d6251b490e25ab6a0c0f1 -->
+<h2>products/showremove}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/products/showremove}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/showremove}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET products/showremove}</code></p>
+<!-- END_34c085c8e52d6251b490e25ab6a0c0f1 -->
+<!-- START_cb37a009c57f6e054e721aada4d9664b -->
+<h2>Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/categories" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/categories");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST categories</code></p>
+<!-- END_cb37a009c57f6e054e721aada4d9664b -->
+<!-- START_05c2fe19eb36f1a6675c2342eb77edee -->
+<h2>products/search</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/products/search" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/products/search");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET products/search</code></p>
+<!-- END_05c2fe19eb36f1a6675c2342eb77edee -->
+<!-- START_88303871b56de59939d0ed9c0788190e -->
+<h2>Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/users/levelup/{user}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/users/levelup/{user}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST users/levelup/{user}</code></p>
+<!-- END_88303871b56de59939d0ed9c0788190e -->
+<!-- START_c2b4d2ce9b26b67e3e949b060774513d -->
+<h2>users/leveldown/{user}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/users/leveldown/{user}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/users/leveldown/{user}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST users/leveldown/{user}</code></p>
+<!-- END_c2b4d2ce9b26b67e3e949b060774513d -->
+<!-- START_f4af5b185fa7ff10ee631f0dedcdfeef -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/sales" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sales");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET sales</code></p>
+<!-- END_f4af5b185fa7ff10ee631f0dedcdfeef -->
+<!-- START_7ac9282ed7f113e8a757f73538941833 -->
+<h2>Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/sales" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sales");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST sales</code></p>
+<!-- END_7ac9282ed7f113e8a757f73538941833 -->
+<!-- START_b33d5a5cae82c30df64ab1422c405c08 -->
+<h2>Show the form for editing the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/sales/{sale}/edit" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sales/{sale}/edit");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET sales/{sale}/edit</code></p>
+<!-- END_b33d5a5cae82c30df64ab1422c405c08 -->
+<!-- START_a07a2dd4dc7f3eb5f1d5061735317e0e -->
+<h2>Update the specified resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "http://localhost/sales/{sale}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sales/{sale}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH sales/{sale}</code></p>
+<!-- END_a07a2dd4dc7f3eb5f1d5061735317e0e -->
+<!-- START_fc454263ad075e9efe422953380d8468 -->
+<h2>Remove the specified resource from storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost/sales/{sale}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sales/{sale}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE sales/{sale}</code></p>
+<!-- END_fc454263ad075e9efe422953380d8468 -->
+<!-- START_9906e69a7480b4c5f7f9fa2510017933 -->
+<h2>sales/showup}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/sales/showup}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sales/showup}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET sales/showup}</code></p>
+<!-- END_9906e69a7480b4c5f7f9fa2510017933 -->
+<!-- START_ea6c3998f71d304205190df3137a3034 -->
+<h2>sales/showremove}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/sales/showremove}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sales/showremove}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET sales/showremove}</code></p>
+<!-- END_ea6c3998f71d304205190df3137a3034 -->
+<!-- START_1d4104a9cae057bff93df57c989a2d01 -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/coupons" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/coupons");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET coupons</code></p>
+<!-- END_1d4104a9cae057bff93df57c989a2d01 -->
+<!-- START_5c5bb7a3528795d09ae9c636f86415fb -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/suggestions" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/suggestions");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET suggestions</code></p>
+<!-- END_5c5bb7a3528795d09ae9c636f86415fb -->
+<!-- START_7d0f69cbf5469d161c6cce614a3f31c4 -->
+<h2>Show the form for editing the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/suggestions/{suggestion}/edit" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/suggestions/{suggestion}/edit");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET suggestions/{suggestion}/edit</code></p>
+<!-- END_7d0f69cbf5469d161c6cce614a3f31c4 -->
+<!-- START_88a72809a38d4ecf957a058c4d1b8f40 -->
+<h2>suggestions/reply/{suggestion}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/suggestions/reply/{suggestion}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/suggestions/reply/{suggestion}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST suggestions/reply/{suggestion}</code></p>
+<!-- END_88a72809a38d4ecf957a058c4d1b8f40 -->
+<!-- START_4366c2c5918ae3dffcd3166fd3eb424d -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/members" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/members");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET members</code></p>
+<!-- END_4366c2c5918ae3dffcd3166fd3eb424d -->
+<!-- START_e01e449b1efad4b00b40077580c0f384 -->
+<h2>Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/members" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/members");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST members</code></p>
+<!-- END_e01e449b1efad4b00b40077580c0f384 -->
+<!-- START_dcf4d308494a3cf8d756486c16ac3f43 -->
+<h2>Show the form for editing the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/members/{member}/edit" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/members/{member}/edit");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET members/{member}/edit</code></p>
+<!-- END_dcf4d308494a3cf8d756486c16ac3f43 -->
+<!-- START_e1869ec03516e2fa6cfcf5c3bc9e3339 -->
+<h2>Update the specified resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "http://localhost/members/{member}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/members/{member}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH members/{member}</code></p>
+<!-- END_e1869ec03516e2fa6cfcf5c3bc9e3339 -->
+<!-- START_13cd0eb9e728c86e58c7c3b7ca33ffb8 -->
+<h2>Remove the specified resource from storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost/members/{member}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/members/{member}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE members/{member}</code></p>
+<!-- END_13cd0eb9e728c86e58c7c3b7ca33ffb8 -->
+<!-- START_89966bfb9ab533cc3249b91a9090d3dc -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/users" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/users");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET users</code></p>
+<!-- END_89966bfb9ab533cc3249b91a9090d3dc -->
+<!-- START_04094f136cb91c117bde084191e6859d -->
+<h2>Show the form for creating a new resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/users/create" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/users/create");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET users/create</code></p>
+<!-- END_04094f136cb91c117bde084191e6859d -->
+<!-- START_57a8a4ba671355511e22780b1b63690e -->
+<h2>users</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/users" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/users");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST users</code></p>
+<!-- END_57a8a4ba671355511e22780b1b63690e -->
+<!-- START_2fed1ba80a4059a35d2aa3d6b35116c1 -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/ads" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/ads");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET ads</code></p>
+<!-- END_2fed1ba80a4059a35d2aa3d6b35116c1 -->
+<!-- START_d94f8e30f18236a0ae926bc61a506fcb -->
+<h2>Show the form for editing the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/ads/{ad}/edit" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/ads/{ad}/edit");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET ads/{ad}/edit</code></p>
+<!-- END_d94f8e30f18236a0ae926bc61a506fcb -->
+<!-- START_ac8d5a5402493f0ad35b9b1149f5ad95 -->
+<h2>Update the specified resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "http://localhost/ads/{ad}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/ads/{ad}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH ads/{ad}</code></p>
+<!-- END_ac8d5a5402493f0ad35b9b1149f5ad95 -->
+<!-- START_66e08d3cc8222573018fed49e121e96d -->
+<h2>Show the application&#039;s login form.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/login" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/login");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET login</code></p>
+<!-- END_66e08d3cc8222573018fed49e121e96d -->
+<!-- START_ba35aa39474cb98cfb31829e70eb8b74 -->
+<h2>Handle a login request to the application.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/login" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/login");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST login</code></p>
+<!-- END_ba35aa39474cb98cfb31829e70eb8b74 -->
+<!-- START_e65925f23b9bc6b93d9356895f29f80c -->
+<h2>Log the user out of the application.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/logout" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/logout");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST logout</code></p>
+<!-- END_e65925f23b9bc6b93d9356895f29f80c -->
+<!-- START_ff38dfb1bd1bb7e1aa24b4e1792a9768 -->
+<h2>Show the application registration form.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/register" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/register");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET register</code></p>
+<!-- END_ff38dfb1bd1bb7e1aa24b4e1792a9768 -->
+<!-- START_d7aad7b5ac127700500280d511a3db01 -->
+<h2>Handle a registration request for the application.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/register" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/register");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST register</code></p>
+<!-- END_d7aad7b5ac127700500280d511a3db01 -->
+<!-- START_d72797bae6d0b1f3a341ebb1f8900441 -->
+<h2>Display the form to request a password reset link.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/password/reset" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/password/reset");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET password/reset</code></p>
+<!-- END_d72797bae6d0b1f3a341ebb1f8900441 -->
+<!-- START_feb40f06a93c80d742181b6ffb6b734e -->
+<h2>Send a reset link to the given user.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/password/email" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/password/email");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST password/email</code></p>
+<!-- END_feb40f06a93c80d742181b6ffb6b734e -->
+<!-- START_e1605a6e5ceee9d1aeb7729216635fd7 -->
+<h2>Display the password reset view for the given token.</h2>
+<p>If no token is present, display the link request form.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/password/reset/{token}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/password/reset/{token}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET password/reset/{token}</code></p>
+<!-- END_e1605a6e5ceee9d1aeb7729216635fd7 -->
+<!-- START_cafb407b7a846b31491f97719bb15aef -->
+<h2>Reset the given user&#039;s password.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/password/reset" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/password/reset");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST password/reset</code></p>
+<!-- END_cafb407b7a846b31491f97719bb15aef -->
+<!-- START_9824d1c3a7b12f9e74bc8c3f178773fa -->
+<h2>Create a redirect method to facebook api.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/redirect" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/redirect");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (302):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET redirect</code></p>
+<!-- END_9824d1c3a7b12f9e74bc8c3f178773fa -->
+<!-- START_a1022ef14e60895aaf835226143990b3 -->
+<h2>Return a callback method from facebook api.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/callback" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/callback");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "",
+    "exception": "Laravel\\Socialite\\Two\\InvalidStateException",
+    "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\socialite\\src\\Two\\AbstractProvider.php",
+    "line": 209,
+    "trace": [
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\app\\Http\\Controllers\\SocialAuthFacebookController.php",
+            "line": 31,
+            "function": "user",
+            "class": "Laravel\\Socialite\\Two\\AbstractProvider",
+            "type": "-&gt;"
+        },
+        {
+            "function": "callback",
+            "class": "App\\Http\\Controllers\\SocialAuthFacebookController",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
+            "line": 54,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
+            "line": 45,
+            "function": "callAction",
+            "class": "Illuminate\\Routing\\Controller",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 212,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\ControllerDispatcher",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 169,
+            "function": "runController",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 679,
+            "function": "run",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
+            "line": 41,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php",
+            "line": 75,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php",
+            "line": 49,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\View\\Middleware\\ShareErrorsFromSession",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php",
+            "line": 63,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Session\\Middleware\\StartSession",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php",
+            "line": 37,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php",
+            "line": 66,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Cookie\\Middleware\\EncryptCookies",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 681,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 656,
+            "function": "runRouteWithinStack",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 622,
+            "function": "runRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 611,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 176,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Foundation\\Http\\{closure}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\spatie\\laravel-cors\\src\\Cors.php",
+            "line": 28,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Spatie\\Cors\\Cors",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
+            "line": 57,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Fideloper\\Proxy\\TrustProxies",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 31,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 31,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+            "line": 27,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
+            "line": 62,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 151,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 151,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 116,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 272,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 256,
+            "function": "callLaravelRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 33,
+            "function": "makeApiCall",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 49,
+            "function": "__invoke",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 68,
+            "function": "resolve",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
+            "line": 54,
+            "function": "getResponse",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 194,
+            "function": "processRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\Generator",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 56,
+            "function": "processRoutes",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "function": "handle",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 29,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 87,
+            "function": "Illuminate\\Container\\{closure}",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 31,
+            "function": "callBoundMethod",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+            "line": 564,
+            "function": "call",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 183,
+            "function": "call",
+            "class": "Illuminate\\Container\\Container",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Command\\Command.php",
+            "line": 255,
+            "function": "execute",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 170,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Command\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Application.php",
+            "line": 888,
+            "function": "run",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Application.php",
+            "line": 264,
+            "function": "doRunCommand",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\symfony\\console\\Application.php",
+            "line": 145,
+            "function": "doRun",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+            "line": 89,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+            "line": 122,
+            "function": "run",
+            "class": "Illuminate\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\harrychiang user\\Desktop\\wagon\\uwamp\\www\\John99_BackEnd\\artisan",
+            "line": 37,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Console\\Kernel",
+            "type": "-&gt;"
+        }
+    ]
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET callback</code></p>
+<!-- END_a1022ef14e60895aaf835226143990b3 -->
+<!-- START_9999d8fff82c8509e3557b2b73fcd8b7 -->
+<h2>Reset password</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/member/password/reset/{token}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/member/password/reset/{token}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET member/password/reset/{token}</code></p>
+<!-- END_9999d8fff82c8509e3557b2b73fcd8b7 -->
+      </div>
+      <div class="dark-box">
+                        <div class="lang-selector">
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                              </div>
+                </div>
+    </div>
+  </body>
+</html>
