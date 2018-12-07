@@ -56,6 +56,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('carts/add', 'Api\CartController@add');
     Route::post('carts/sub', 'Api\CartController@sub');
     Route::post('carts/addincart', 'Api\CartController@addincart');
+    Route::post('carts/addnumincart', 'Api\CartController@addNumincart');
 
 
 });
