@@ -44,7 +44,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('sales', 'Api\OrderController@store');
     Route::post('logout', 'Api\AuthController@logout');
     Route::get('me', 'Api\AuthController@me');
-    Route::post('refresh', 'Api\AuthController@refresh');
+//    Route::post('refresh', 'Api\AuthController@refresh');
 
     Route::post('coupons/check','Api\CouponController@check');
     Route::get('coupons/index','Api\CouponController@index');

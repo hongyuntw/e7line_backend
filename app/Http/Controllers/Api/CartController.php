@@ -89,7 +89,7 @@ class CartController extends Controller
         Cart::create([
             'member_id' => $member->id,
             'product_id' => $request->input('id'),
-            'quantity' => 1,
+            'quantity' => $request->quantity,
             'price' => $product->saleprice,
         ]);
         return response()->json([
