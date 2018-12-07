@@ -27,20 +27,28 @@ class CouponController extends Controller
      */
     public function check(Request $request)
     {
-        $coupon = Coupon::where('code', $request->code)->get();
+        $coupon = Coupon::where('code','=', $request->code)->first();
         if (!$coupon) {
             return response()->json([
                 'success' => true,
-                'type' =>0,
-            ]);
-        } else {
-            return response()->json([
-                'success' => true,
-                'type' =>0,
+                'type' => 0,
             ]);
         }
-
-
+        else if($coupon) {
+            if($coupon->is_used){
+                return response()->json([
+                    'success' => true,
+                    'type' => 0,
+                ]);
+            }
+            else{
+                $type = $coupon->type;
+                return response()->json([
+                    'success' => true,
+                    'type' => $type,
+                ]);
+            }
+        }
     }
 
     public function create()

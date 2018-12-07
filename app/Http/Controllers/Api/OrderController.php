@@ -35,7 +35,18 @@ class OrderController extends Controller
                 'quantity' => $salesitem->quantity,
                 'sale_price' => 0,
             ]);
-            $salesitem->sale_price = $salesitem->product->saleprice;
+            if($request->coupon==0){
+                $salesitem->sale_price = $salesitem->product->saleprice;
+            }
+            else if($request->coupon==1){
+                $salesitem->sale_price = $salesitem->product->saleprice*0.9;
+            }
+            else if($request->coupon==2){
+                $salesitem->sale_price = $salesitem->product->saleprice*0.8;
+            }
+            else if($request->coupon==3){
+                $salesitem->sale_price = $salesitem->product->saleprice*0.7;
+            }
             $salesitem->update();
         }
         foreach($mycarts as $mycart){
