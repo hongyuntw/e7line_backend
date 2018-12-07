@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Cart;
+use App\Coupon;
 use App\Member;
 use App\Sale;
 use App\SalesItem;
@@ -28,7 +29,8 @@ class OrderController extends Controller
             'order_date' => now(),
             'shipment' => 0,
         ]);
-        $coupon = Coupon::where('code', '=', $request->code)->first();
+        $coupon = Coupon::where('code', '=', $request->coupon)->first();
+
         foreach ($mycarts as $salesitem) {
             $salesitem = SalesItem::create([
                 'sale_id' => $sale->id,
