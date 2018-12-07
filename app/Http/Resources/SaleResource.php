@@ -16,7 +16,8 @@ class SaleResource extends JsonResource
     public function toArray($request)
     {
         $sale =Sale::find($this->id);
-        $saleitems = $sale->saleitems;
+        $saleitems = $sale->salesitems;
+
         $totalprice=0;
         foreach ($saleitems as $saleitem){
             $totalprice += $saleitem->sale_price*$saleitem->quantity;
