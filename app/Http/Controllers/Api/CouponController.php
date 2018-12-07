@@ -25,6 +25,24 @@ class CouponController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function check(Request $request)
+    {
+        $coupon = Coupon::where('code', $request->code)->get();
+        if (!$coupon) {
+            return response()->json([
+                'success' => true,
+                'type' =>0,
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'type' =>0,
+            ]);
+        }
+
+
+    }
+
     public function create()
     {
         //
@@ -33,7 +51,7 @@ class CouponController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,7 +62,7 @@ class CouponController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -55,7 +73,7 @@ class CouponController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -66,8 +84,8 @@ class CouponController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -78,7 +96,7 @@ class CouponController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

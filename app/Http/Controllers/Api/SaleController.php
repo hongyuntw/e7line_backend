@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\SaleResource;
 use App\Http\Resources\SalesItemResource;
 use App\Sale;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class SaleController extends Controller
         //
         $member = auth('api')->user();
         $sales = $member->sales;
-        return response()->json($sales);
+        return SaleResource::collection($sales);
     }
 
     public function salesitems(Sale $sale)

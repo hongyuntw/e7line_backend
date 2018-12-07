@@ -39,16 +39,15 @@ Route::post('password/reset','PasswordResetController@create');
 Route::get('ads', 'Api\AdController@index');
 
 
-
-Route::post('coupons/check','Api\CouponController@check');
-Route::get('coupons/index','Api\CouponController@index');
-
 Route::middleware('auth:api')->group(function () {
 
     Route::post('sales', 'Api\OrderController@store');
     Route::post('logout', 'Api\AuthController@logout');
     Route::get('me', 'Api\AuthController@me');
     Route::post('refresh', 'Api\AuthController@refresh');
+
+    Route::post('coupons/check','Api\CouponController@check');
+    Route::get('coupons/index','Api\CouponController@index');
 
     Route::get('sales/index', 'Api\SaleController@index');
     Route::get('sales/{sale}', 'Api\SaleController@salesitems');
@@ -57,9 +56,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('carts/add', 'Api\CartController@add');
     Route::post('carts/sub', 'Api\CartController@sub');
     Route::post('carts/addincart', 'Api\CartController@addincart');
-
-
-
 
 
 });
