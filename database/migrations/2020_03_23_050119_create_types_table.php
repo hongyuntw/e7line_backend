@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdsTable extends Migration
+class CreateTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateAdsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ads', function (Blueprint $table) {
+        Schema::create('types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('imagename');
-            $table->string('text_1');
-            $table->string('text_2');
-            $table->string('text_3');
-
-            $table->timestamps();
+            $table->timestamp('create_date',0)->nullable();
+            $table->timestamp('update_date',0)->nullable();
         });
     }
 
@@ -32,6 +28,6 @@ class CreateAdsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ads');
+        Schema::dropIfExists('types');
     }
 }

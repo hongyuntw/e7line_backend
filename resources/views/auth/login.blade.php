@@ -31,7 +31,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ route('dashboard.index') }}"><b>John</b>99</a>
+        <a href="{{ route('dashboard.index') }}"><b>e7</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -79,7 +79,6 @@
         </form>
 
         <a href="{{ route('password.request') }}">忘記密碼</a>  <a hidden href="{{ route('register') }}" class="text-center">註冊帳號</a>
-        <a hidden href="{{ route('facebook') }}">使用FB登入</a>
     </div>
     <!-- /.login-box-body -->
 </div>

@@ -16,17 +16,17 @@
             </div>
         </div>
 
-        <!-- search form (Optional) -->
-        <form role="form" action="{{route('products.search')}}" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="namebesearch" class="form-control" placeholder="Search Product...">
-                <span class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-              </button>
-            </span>
-            </div>
-        </form>
-        <!-- /.search form -->
+{{--        <!-- search form (Optional) -->--}}
+{{--        <form role="form" action="{{route('products.search')}}" method="get" class="sidebar-form">--}}
+{{--            <div class="input-group">--}}
+{{--                <input type="text" name="namebesearch" class="form-control" placeholder="Search Product...">--}}
+{{--                <span class="input-group-btn">--}}
+{{--              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>--}}
+{{--              </button>--}}
+{{--            </span>--}}
+{{--            </div>--}}
+{{--        </form>--}}
+{{--        <!-- /.search form -->--}}
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
@@ -37,68 +37,137 @@
                     <i class="fa fa-dashboard"></i> <span>主控台</span>
                 </a>
             </li>
+
+
             <li class="treeview{{ (request()->is('products*'))? ' active' : '' }}">
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>
-                    <span>商品管理</span>
+                    <span>業務資料</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('products.index') }}">商品列表</a></li>
-                    <li><a href="{{ route('products.create') }}">新增商品</a></li>
+                    <li><a href="{{route('users.index')}}">業務列表</a></li>
+                    <li><a href="">客戶--</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>
-                    <span>訂單管理</span>
+                    <span>客戶資料</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('sales.index') }}">訂單列表</a></li>
+                    <li><a href="{{ route('customers.index') }}">客戶列表</a></li>
+                    <li><a href="">客戶--</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>
-                    <span>會員管理</span>
+                    <span>福利狀況</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('members.index') }}">會員列表</a></li>
+                    <li><a href="{{route('welfarestatus.index')}}">福利列表</a></li>
+                    <li><a href="">福利--</a></li>
+                </ul>
+
+                <a href="#">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>交易狀況</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="">交易列表</a></li>
+                    <li><a href="">交易--</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>
-                    <span>廣告管理</span>
+                    <span>郵件列表</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('ads.index') }}">廣告列表</a></li>
+                    <li><a href="">郵件列表</a></li>
+                    <li><a href="">郵件--</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>
-                    <span>客服服務</span>
+                    <span>報價參考</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('suggestions.index') }}">意見管理</a></li>
+                    <li><a href="">報價列表</a></li>
+                    <li><a href="">報價--</a></li>
                 </ul>
-                <a href="#">
-                    <i class="fa fa-shopping-bag"></i>
-                    <span>優惠券服務</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ route('coupons.index') }}">優惠券列表</a></li>
-                </ul>
+{{--                <a href="#">--}}
+{{--                    <i class="fa fa-shopping-bag"></i>--}}
+{{--                    <span>商品管理</span>--}}
+{{--                    <span class="pull-right-container">--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </span>--}}
+{{--                </a>--}}
+{{--                <ul class="treeview-menu">--}}
+{{--                    <li><a href="{{ route('products.index') }}">商品列表</a></li>--}}
+{{--                    <li><a href="{{ route('products.create') }}">新增商品</a></li>--}}
+{{--                </ul>--}}
+{{--                <a href="#">--}}
+{{--                    <i class="fa fa-shopping-bag"></i>--}}
+{{--                    <span>訂單管理</span>--}}
+{{--                    <span class="pull-right-container">--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </span>--}}
+{{--                </a>--}}
+{{--                <ul class="treeview-menu">--}}
+{{--                    <li><a href="{{ route('sales.index') }}">訂單列表</a></li>--}}
+{{--                </ul>--}}
+{{--                <a href="#">--}}
+{{--                    <i class="fa fa-shopping-bag"></i>--}}
+{{--                    <span>會員管理</span>--}}
+{{--                    <span class="pull-right-container">--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </span>--}}
+{{--                </a>--}}
+{{--                <ul class="treeview-menu">--}}
+{{--                    <li><a href="{{ route('members.index') }}">會員列表</a></li>--}}
+{{--                </ul>--}}
+{{--                <a href="#">--}}
+{{--                    <i class="fa fa-shopping-bag"></i>--}}
+{{--                    <span>廣告管理</span>--}}
+{{--                    <span class="pull-right-container">--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </span>--}}
+{{--                </a>--}}
+{{--                <ul class="treeview-menu">--}}
+{{--                    <li><a href="{{ route('ads.index') }}">廣告列表</a></li>--}}
+{{--                </ul>--}}
+{{--                <a href="#">--}}
+{{--                    <i class="fa fa-shopping-bag"></i>--}}
+{{--                    <span>客服服務</span>--}}
+{{--                    <span class="pull-right-container">--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </span>--}}
+{{--                </a>--}}
+{{--                <ul class="treeview-menu">--}}
+{{--                    <li><a href="{{ route('suggestions.index') }}">意見管理</a></li>--}}
+{{--                </ul>--}}
+{{--                <a href="#">--}}
+{{--                    <i class="fa fa-shopping-bag"></i>--}}
+{{--                    <span>優惠券服務</span>--}}
+{{--                    <span class="pull-right-container">--}}
+{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
+{{--                    </span>--}}
+{{--                </a>--}}
+{{--                <ul class="treeview-menu">--}}
+{{--                    <li><a href="{{ route('coupons.index') }}">優惠券列表</a></li>--}}
+{{--                </ul>--}}
             </li>
         </ul>
         <!-- /.sidebar-menu -->

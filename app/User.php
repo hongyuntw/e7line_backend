@@ -10,7 +10,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-
+//    const CREATED_AT = 'create_date';
+//    const UPDATED_AT = 'update_date';
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +21,17 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name', 'email', 'password','level',
     ];
+
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
+    public function concat_records()
+    {
+        return $this->hasMany(ConcatRecord::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

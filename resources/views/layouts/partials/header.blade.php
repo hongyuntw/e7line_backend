@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{route('dashboard.index')}}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>J</b>99</span>
+        <span class="logo-mini"><b>e</b>7</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>John</b>99</span>
+        <span class="logo-lg"><b>e</b>7</span>
     </a>
 
     <!-- Header Navbar -->
@@ -133,25 +133,25 @@
                                 <small>Member since {{Auth::user()->created_at->format('d M y')}}</small>
                             </p>
                         </li>
-                        <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="row">
-                                <div class="col-xs-4 text-center">
-                                    <a href="{{route('products.index')}}">Products</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="{{route('sales.index')}}">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="{{route('members.index')}}">Member</a>
-                                </div>
-                            </div>
-                            <!-- /.row -->
-                        </li>
+{{--                        <!-- Menu Body -->--}}
+{{--                        <li class="user-body">--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-xs-4 text-center">--}}
+{{--                                    <a href="{{route('products.index')}}">Products</a>--}}
+{{--                                </div>--}}
+{{--                                <div class="col-xs-4 text-center">--}}
+{{--                                    <a href="{{route('sales.index')}}">Sales</a>--}}
+{{--                                </div>--}}
+{{--                                <div class="col-xs-4 text-center">--}}
+{{--                                    <a href="{{route('members.index')}}">Member</a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <!-- /.row -->--}}
+{{--                        </li>--}}
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{{ route('users.index') }}" class="btn btn-default btn-flat">管理者頁面</a>
+                                <a href="{{ route('users.index') }}" class="btn btn-default btn-flat">業務頁面</a>
                             </div>
                             <div class="pull-right">
                                 <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
