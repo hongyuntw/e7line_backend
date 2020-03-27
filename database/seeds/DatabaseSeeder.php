@@ -17,6 +17,12 @@ class DatabaseSeeder extends Seeder
         $this->call(WelfareTableSeeder::class);
         $this->call(WelfareStatusTableSeeder::class);
         $this->call(BusinessConcatPersonsTableSeeder::class);
+
+        $this->call(WelfareCompaniesTableSeeder::class);
+        $this->call(WelfareTypeCompanyRelationsTableSeeder::class);
+        $this->call(WelfareTypesTableSeeder::class);
+        $this->call(WelfareDetailsTableSeeder::class);
+
         // $this->call(UsersTableSeeder::class);
 //        $this->call(ProductsTableSeeder_Real::class);
 //        $this->call(CategoriesTableSeeder::class);

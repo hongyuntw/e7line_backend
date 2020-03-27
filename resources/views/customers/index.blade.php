@@ -42,7 +42,7 @@
                                     <div class="col-md-2 col-3">
                                         <label>排序方式</label>
                                         <select name="sortBy" class="form-control form-control-sm">
-                                            @foreach(['create_date','city','area'] as $col)
+                                            @foreach(['create_date','city','area','user_id'] as $col)
                                                 <option @if($col==$sortBy) selected
                                                         @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
                                             @endforeach
@@ -140,7 +140,7 @@
 
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
-                            {{ $customers->links() }}
+                            {{ $customers->appends(request()->input())->links() }}
                         </div>
                     </div>
 

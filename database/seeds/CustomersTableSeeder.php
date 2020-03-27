@@ -13,7 +13,6 @@ class CustomersTableSeeder extends Seeder
         //
 
         $status_name = ['尚未開發','成交','培養','淺在','陌生'];
-
         \App\Customer::truncate();
         $faker = \Faker\Factory::create('zh_TW');
         foreach (range(1,50)as $id){
@@ -27,7 +26,7 @@ class CustomersTableSeeder extends Seeder
                 'city'=> $faker->city,
                 'area'=> $faker->country,
                 'address'=>$faker->address,
-                'user_id'=> rand(0,2),
+                'user_id'=> rand(1,4),
                 'already_set_sales' => false,
                 'is_deleted' => false,
                 'status' => rand(1,5),
@@ -39,7 +38,7 @@ class CustomersTableSeeder extends Seeder
 
         $customers = \App\Customer::all();
         foreach ($customers as $customer){
-            if($customer->user_id>0){
+            if($customer->user_id>1){
                 $customer->already_set_sales = true;
             }
             $customer->update();

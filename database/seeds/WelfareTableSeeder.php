@@ -14,11 +14,11 @@ class WelfareTableSeeder extends Seeder
 
         \App\Welfare::truncate();
         //
-        $welfare_code = ['W001','W002'];
-        $welfare_name = ['春節禮金','尾牙'];
+        $welfare_code = ['W001','W002','W003','W004','W005','W006','W007','W008','W009'];
+        $welfare_name = ['春節','尾牙','端午','51勞動','中秋','生日','電影','旅遊','其他'];
 
         $faker = \Faker\Factory::create('zh_TW');
-        foreach (range(0,1)as $id){
+        foreach (range(0,count($welfare_name)-1)as $id){
             \App\Welfare::create([
                 'code' => $welfare_code[$id],
                 'name' => $welfare_name[$id],

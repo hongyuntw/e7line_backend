@@ -30,6 +30,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">新增客戶資訊</h3>
+
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
@@ -83,16 +84,37 @@
                                            placeholder="請輸入規模"
                                            value="{{ old('scales') }}">
                                 </div>
+
+                                {{--                                    --}}
                                 <div class="form-group">
-                                    <label for="city">縣市</label>
-                                    <input type="text" class="form-control" id="city" name="city" placeholder="請輸入縣市"
-                                           value="{{ old('city') }}">
+                                    <label>縣市及地區</label>
+
+
+                                    <div id="twzipcode"></div>
+                                    <script>
+                                        $("#twzipcode").twzipcode({
+                                            countySel: "臺北市", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+                                            districtSel: "大安區", // 地區預設值
+                                            zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
+                                            css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
+                                            countyName: "city", // 自訂城市 select 標籤的 name 值
+                                            districtName: "area" // 自訂地區 select 標籤的 name 值
+                                        });
+                                    </script>
+
                                 </div>
-                                <div class="form-group">
-                                    <label for="area">地區</label>
-                                    <input type="text" class="form-control" id="area" name="area" placeholder="請輸入地區"
-                                           value="{{ old('area') }}">
-                                </div>
+
+                                {{--                                    --}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="city">縣市</label>--}}
+{{--                                    <input type="text" class="form-control" id="city" name="city" placeholder="請輸入縣市"--}}
+{{--                                           value="{{ old('city') }}">--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="area">地區</label>--}}
+{{--                                    <input type="text" class="form-control" id="area" name="area" placeholder="請輸入地區"--}}
+{{--                                           value="{{ old('area') }}">--}}
+{{--                                </div>--}}
 
                                 <div class="form-group">
                                     <label for="address">地址</label>

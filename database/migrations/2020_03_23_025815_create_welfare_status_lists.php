@@ -17,6 +17,9 @@ class CreateWelfareStatusLists extends Migration
             $table->increments('id');
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('welfare_id');
+            $table->unsignedInteger('welfare_type_id');
+            $table->unsignedInteger('welfare_company_id');
+            $table->unsignedInteger('welfare_detail_id');
             $table->decimal('budget')->default(0);
             $table->string('note')->nullable();
             $table->timestamp('create_date',0)->nullable();

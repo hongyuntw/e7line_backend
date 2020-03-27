@@ -14,11 +14,11 @@ class ConcatRecordsTableSeeder extends Seeder
         //
         \App\ConcatRecord::truncate();
         $faker = \Faker\Factory::create('zh_TW');
-        foreach (range(1,10)as $id){
+        foreach (range(1,70)as $id){
             \App\ConcatRecord::create([
                 'user_id'=> 1,
                 'customer_id'=>rand(1,10),
-                'status' => rand(0,3),
+                'status' => rand(0,2),
                 'development_content'=>$faker->realText(rand(10,100)),
                 'track_content'=>$faker->realText(rand(10,100)),
                 'track_date'=> now()->subDays(20 - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),

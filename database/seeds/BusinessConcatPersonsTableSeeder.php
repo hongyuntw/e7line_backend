@@ -17,7 +17,7 @@ class BusinessConcatPersonsTableSeeder extends Seeder
         foreach (range(1,300)as $id){
             \App\BusinessConcatPerson::create([
                 'name' => $faker->name,
-                'customer_id'=>rand(1,20),
+                'customer_id'=>rand(1,50),
                 'phone_number' => $faker->phoneNumber,
                 'extension_number'=> rand(100,999),
                 'email'=> $faker->email,

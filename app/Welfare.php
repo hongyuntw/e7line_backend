@@ -17,4 +17,6 @@ class Welfare extends Model
     {
         return $this->hasMany(WelfareStatus::class);
     }
+
+
 }

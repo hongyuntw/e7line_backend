@@ -18,7 +18,10 @@ class WelfareStatusTableSeeder extends Seeder
         foreach (range(1,200)as $id){
             \App\WelfareStatus::create([
                 'customer_id' => rand(1,20),
-                'welfare_id' => rand(1,2),
+                'welfare_id' => rand(1,9),
+                'welfare_type_id' =>rand(1,7),
+                'welfare_company_id'=>rand(1,6),
+                'welfare_detail_id'=>rand(1,5),
                 'budget' => rand(1000, 10000),
                 'create_date' => now()->subDays(20 - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
                 'update_date' => now()->subDays(20 - $id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),

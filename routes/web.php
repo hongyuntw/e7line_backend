@@ -18,6 +18,7 @@
 //    return redirect()->route('dashboard.index');
 //});
 
+
 Route::middleware('auth')->group(function () {
 
 //    index
@@ -34,10 +35,18 @@ Route::middleware('auth')->group(function () {
     Route::get('customers/{customer}','CustomersController@show')->name('customers.show');
     Route::post('customers/{customer}', 'CustomersController@delete')->name('customers.delete');
     Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');
+
+    Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');
+
+
+
+    Route::post('add_concat_person/{request?}','CustomersController@add_concat_person')->name('customers.add_concat_person');
+    Route::post('add_concat_record/{request?}','CustomersController@add_concat_record')->name('customers.add_concat_record');
+
+
+
     Route::get('customers/{request?}','CustomersController@index')->name('customers.index');
 
-//    Route::get('customers/mycustomer/{user}','CustomersController@mycustomer')->name('customers.mycustomer');
-//    Route::get('customers/filter','CustomersController@filter')->name('customers.filter');
 
 
 

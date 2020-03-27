@@ -75,7 +75,8 @@
                                     <div class="form-group">
                                         <label for="user_id">負責業務員</label>
                                         @if($customer->already_set_sales == 1)
-                                            <select id="user_id" name="user_id" class="form-control" disabled="disabled">
+                                            <select id="user_id" name="user_id" class="form-control"
+                                                    disabled="disabled">
                                                 @foreach($users as $user)
                                                     <option
                                                         value="{{ $user->id }}"{{ ($user->id == $customer->user_id)? ' selected' : '' }}>{{ $user->name }}</option>
@@ -110,15 +111,31 @@
                                            value="{{ old('scales', $customer->scales) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="city">縣市</label>
-                                    <input type="text" class="form-control" id="city" name="city" placeholder="請輸入縣市"
-                                           value="{{ old('city', $customer->city) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="area">地區</label>
-                                    <input type="text" class="form-control" id="area" name="area" placeholder="請輸入地區"
-                                           value="{{ old('area', $customer->area) }}">
-                                </div>
+                                    <label>縣市及地區</label>
+
+                                    <div id="twzipcode"></div>
+                                    <script>
+                                        $("#twzipcode").twzipcode({
+                                            countySel:  '{!! $customer->city!!}', // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+                                            districtSel: '{!! $customer->area!!}', // 地區預設值
+                                            zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
+                                            css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
+                                            countyName: "city", // 自訂城市 select 標籤的 name 值
+                                            districtName: "area" // 自訂地區 select 標籤的 name 值
+                                        });
+                                    </script>
+
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="city">縣市</label>--}}
+{{--                                    <input type="text" class="form-control" id="city" name="city" placeholder="請輸入縣市"--}}
+{{--                                           value="{{ old('city', $customer->city) }}">--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="area">地區</label>--}}
+{{--                                    <input type="text" class="form-control" id="area" name="area" placeholder="請輸入地區"--}}
+{{--                                           value="{{ old('area', $customer->area) }}">--}}
+{{--                                </div>--}}
 
                                 <div class="form-group">
                                     <label for="address">地址</label>

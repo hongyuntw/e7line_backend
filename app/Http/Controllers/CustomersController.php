@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessConcatPerson;
+use App\ConcatRecord;
 use App\Customer;
 use App\Status;
 use App\User;
+use App\Welfare;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CustomersController extends Controller
 {
@@ -18,7 +22,7 @@ class CustomersController extends Controller
     public function index(Request $request,User $user)
     {
         //
-        $sortBy_text = ['創建日期','縣市','地區'];
+        $sortBy_text = ['創建日期','縣市','地區','業務'];
         $status_text = ['---','尚未開發','成交','培養','淺在','陌生'];
         $status_filter = 0;
         $sortBy = 'create_date';
@@ -112,7 +116,12 @@ class CustomersController extends Controller
             'area' => 'required',
             'active_status' => 'required',
         ]);
-        $customer = Customer::create($request->all());
+//        twzipcode 會包含zipcode 要移除掉
+        $request_data = $request->all();
+        unset($request_data['zipcode']);
+
+
+        $customer = Customer::create($request_data);
         $customer->create_date = now();
         $customer->update();
         // $path = $request->file->storeAs('路路徑', '');
@@ -191,12 +200,13 @@ class CustomersController extends Controller
 
         $to_be_update_data = $request->all();
 //        user choose the user
-        if($user_id>0){
+        if($user_id>1){
             $to_be_update_data['user_id'] = $user_id;
             $to_be_update_data['already_set_sales'] = 1;
         }
 
         $to_be_update_data['update_date'] = now();
+        unset($to_be_update_data['zipcode']);
 //        dd($to_be_update_data);
 
 
@@ -236,13 +246,85 @@ class CustomersController extends Controller
     {
         $business_concat_persons = $customer->business_concat_persons;
         $welfarestatus = $customer->welfarestatus;
+        $concat_records = $customer->concat_records()->orderBy('update_date','DESC')->paginate(5);
+        $welfares = Welfare::all();
+
+//        dd($welfares[0]->name);
 
         $data = [
             'customer' => $customer,
             'business_concat_persons' => $business_concat_persons,
             'welfarestatus' => $welfarestatus,
+            'concat_records' => $concat_records,
+            'welfares'=>$welfares,
         ];
 
         return view('customers.record',$data);
     }
+
+
+    public function insert_concat_person(Request $request)
+    {
+        return view('customers.index');
+    }
+
+
+    public function add_concat_preson(Request $request)
+    {
+
+        $this->validate($request, [
+            'name' => 'required|max:10',
+            'phone_number' => 'required|max:20',
+            'extension_number' => 'required|max:20',
+            'email' => 'required|email|max:50',
+        ]);
+
+        $is_left = false;
+        $data = array(
+            'customer_id'=>$request['customer_id'],
+            'name'=>$request['name'],
+            'phone_number'=>$request['phone_number'],
+            'extension_number'=>$request['extension_number'],
+            'email'=>$request['email'],
+            'create_date'=>now(),
+            'update_date'=>now(),
+            'is_left'=>$is_left,
+        );
+
+        BusinessConcatPerson::insert($data);
+        return response()->json([
+            'success'=>'success',
+        ]);
+
+    }
+
+    public function add_concat_record(Request $request)
+    {
+        $this->validate($request, [
+            'status' => 'required|max:2|min:0',
+            'track_date'=> 'date|nullable',
+        ]);
+        Log::info($request['track_date']);
+
+        $track_date = $request['track_date'];
+
+        $user_id = Auth::user()->id;
+        $data = array(
+            'customer_id'=>$request['customer_id'],
+            'user_id'=>$user_id,
+            'status'=>$request['status'],
+            'development_content'=>$request['development_content'],
+            'track_content'=>$request['track_content'],
+            'track_date'=>$track_date,
+            'create_date'=>now(),
+            'update_date'=>now(),
+        );
+
+
+        ConcatRecord::insert($data);
+        return response()->json([
+            'success'=>'success',
+        ]);
+    }
+
 }
