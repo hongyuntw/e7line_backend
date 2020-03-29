@@ -22,7 +22,7 @@ class CustomersController extends Controller
     public function index(Request $request,User $user)
     {
         //
-        $sortBy_text = ['創建日期','縣市','地區','業務'];
+        $sortBy_text = ['創建日期','縣市','地區','業務名稱'];
         $status_text = ['---','尚未開發','成交','培養','淺在','陌生'];
         $status_filter = 0;
         $sortBy = 'create_date';
@@ -217,6 +217,9 @@ class CustomersController extends Controller
         return redirect()->route('customers.index');
     }
 
+
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -245,11 +248,15 @@ class CustomersController extends Controller
     public function record(Customer $customer)
     {
         $business_concat_persons = $customer->business_concat_persons;
-        $welfarestatus = $customer->welfarestatus;
+        $welfarestatus = $customer->welfarestatus->sortBy('welfare_id');
+//        dd($welfarestatus);
+
         $concat_records = $customer->concat_records()->orderBy('update_date','DESC')->paginate(5);
         $welfares = Welfare::all();
 
-//        dd($welfares[0]->name);
+
+
+
 
         $data = [
             'customer' => $customer,
@@ -303,6 +310,7 @@ class CustomersController extends Controller
         $this->validate($request, [
             'status' => 'required|max:2|min:0',
             'track_date'=> 'date|nullable',
+            'development_content'=>'required',
         ]);
         Log::info($request['track_date']);
 
@@ -325,6 +333,31 @@ class CustomersController extends Controller
         return response()->json([
             'success'=>'success',
         ]);
+    }
+
+    public function update_concat_person(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:10',
+            'phone_number' => 'required|max:20',
+            'extension_number' => 'required|max:20',
+            'email' => 'required|email|max:50',
+            'is_left'=>'required|min:0|max:1',
+        ]);
+        $concat_person_id = $request['concat_person_id'];
+        $concat_person = BusinessConcatPerson::find($concat_person_id);
+
+        $concat_person->name = $request['name'];
+        $concat_person->phone_number = $request['phone_number'];
+        $concat_person->extension_number = $request['extension_number'];
+        $concat_person->email  = $request['email'];
+        $concat_person->is_left = $request['is_left'];
+        $concat_person->update();
+        return response()->json([
+            'success'=>'success',
+        ]);
+
+
     }
 
 }

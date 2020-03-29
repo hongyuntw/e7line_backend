@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::post('customers/{customer}', 'CustomersController@delete')->name('customers.delete');
     Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');
 
+    Route::post('update_concat_person', 'CustomersController@update_concat_person')->name('customers.update_concat_person');
+
     Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');
 
 

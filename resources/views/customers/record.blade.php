@@ -59,6 +59,8 @@
                         </a>
                         <div id="add_concat_form"></div>
 
+
+{{--                        新增聯絡人--}}
                         <script>
                             $(document).ready(function () {
                                 function dynamic_field() {
@@ -118,14 +120,104 @@
                             });
                         </script>
 
+                        {{--                        edit聯絡人--}}
+                        <script>
+{{--                            when edit btn be clicked--}}
+                            function edit_btn_reply_click(clicked_btn_name){
+                                var edit_btn_name  = clicked_btn_name;
+                                // console.log(edit_btn_name);
+                                show_edit_concat(edit_btn_name);
+                            };
+                            //when edit_confirm be clicked
+                            function edit_confirm_btn_reply_click(clicked_btn_name){
+                                var edit_btn_name  = clicked_btn_name;
+                                // console.log(edit_btn_name);
+                                update_edit_concat(edit_btn_name);
+                            };
+                            // update data to db
+                            function update_edit_concat(edit_btn_name){
+                                var edit_inputs = document.getElementsByName(edit_btn_name);
+                                var concat_person_id = edit_btn_name.substring(12);
+                                var input_values = [];
+                                for (var i = 0; i < 5; i++) {
+                                    input_values.push(edit_inputs[i].value);
+                                }
+                                var name = input_values[0];
+                                var phone_number = input_values[1];
+                                var extension_number = input_values[2];
+                                var email = input_values[3];
+                                var is_left = input_values[4];
+                                var customer_id = '{{$customer->id}}';
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '{{ route('customers.update_concat_person') }}',
+                                    data: {
+                                        name: name,
+                                        phone_number: phone_number,
+                                        extension_number: extension_number,
+                                        email: email,
+                                        is_left: is_left,
+                                        customer_id: customer_id,
+                                        concat_person_id :concat_person_id,
+                                    },
+                                    // dataType: 'json',
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                    },
+                                    success: function (data) {
+                                        alert(data.success);
+                                        location.reload()
+                                    },
+                                    error: function (request) {
+                                        var error = JSON.parse(request.responseText);
+                                        var msg = '';
+                                        for (var prop in error['errors']) {
+                                            msg += error['errors'][prop] + '\n';
+                                        }
+                                        alert(msg);
+                                    }
+                                })
+                            };
+                            // cancel be clicked
+                            function edit_cancel_btn_reply_click(clicked_btn_name){
+                                var edit_btn_name  = clicked_btn_name;
+                                // console.log(edit_btn_name);
+                                hide_edit_concat(edit_btn_name);
+                            };
+                            //hide btn
+                            function hide_edit_concat(edit_btn_name) {
+                                var edit_inputs = document.getElementsByName(edit_btn_name);
+                                // console.log(edit_inputs)
+                                for (var i = 0; i < edit_inputs.length -1; i++) {
+                                    // edit_inputs[i].setAttribute("class", "democlass");
+                                    edit_inputs[i].style.display = 'none';
+                                }
+                                // console.log(edit_inputs)
+                            };
+                            //show btn
+                            function show_edit_concat(edit_btn_name) {
+                                var edit_inputs = document.getElementsByName(edit_btn_name);
+                                // console.log(edit_inputs)
+
+                                for (var i = 0; i < edit_inputs.length; i++) {
+                                    // edit_inputs[i].setAttribute("class", "democlass");
+                                    edit_inputs[i].style.display = 'block';
+                                }
+                                // console.log(edit_inputs)
+                            };
+                        </script>
+
 
                         <table class="table table-striped">
                             <thead style="background-color: lightgray">
                             <tr class="text-center">
-                                <th class="text-center" style="width: 10px;">聯絡人姓名</th>
-                                <th class="text-center" style="width: 10px;">聯絡電話</th>
-                                <th class="text-center" style="width: 10px;">分機</th>
-                                <th class="text-center" style="width: 10px;">聯絡信箱</th>
+                                <th class="text-center col-1">聯絡人姓名</th>
+                                <th class="text-center col-1">聯絡電話</th>
+                                <th class="text-center col-1">分機</th>
+                                <th class="text-center col-3">聯絡信箱</th>
+                                <th class="text-center col-1">是否離職</th>
+                                <th class="text-center col-1"></th>
+
                             </tr>
                             </thead>
                             @foreach ($business_concat_persons as $concat_person)
@@ -137,13 +229,57 @@
                                             <path fill-rule="evenodd"
                                                   d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
                                                   clip-rule="evenodd"/>
-                                        </svg>{{ $concat_person->name}}</td>
-                                    <td>{{ $concat_person->phone_number }}</td>
-                                    <td>{{ $concat_person->extension_number}}</td>
-                                    <td>{{ $concat_person->email }}</td>
+                                        </svg>
+                                        {{$concat_person->name}}
+                                        <input type="text" name="edit_concat_{{$concat_person->id}}"
+                                               style="display: none" value="{{ $concat_person->name }}">
+                                    </td>
+                                    <td>
+                                        {{$concat_person->phone_number}}
+                                        <input type="text" name="edit_concat_{{$concat_person->id}}"
+                                               style="display: none"  value="{{ $concat_person->phone_number }}">
+                                    </td>
+                                    <td>
+                                        {{$concat_person->extension_number}}
+
+                                        <input type="text" name="edit_concat_{{$concat_person->id}}"
+                                               style="display: none"  value="{{ $concat_person->extension_number }}">
+                                    </td>
+                                    <td>
+                                        {{$concat_person->email}}
+                                        <input type="text" name="edit_concat_{{$concat_person->id}}"
+                                               style="display: none"  value="{{ $concat_person->email }}">
+                                    </td>
+                                    <td>
+                                        @if($concat_person->is_left==0)否@else是@endif
+                                        <select style="display: none" name="edit_concat_{{$concat_person->id}}">
+{{--                                            <option value="0 @if($customer->is_left==0) 'selected' @endif" >否</option>--}}
+{{--                                            <option value="1 @if($customer->is_left==1) 'selected' @endif" >是</option>--}}
+                                            <option value="0" @if($concat_person->is_left==0) selected="selected" @endif>否</option>
+                                            <option value="1" @if($concat_person->is_left==1) selected="selected" @endif>是</option>
+                                        </select>
+
+                                    </td>
+                                    <td>
+                                        <button onClick="edit_confirm_btn_reply_click(this.name)" class="label label-success" name="edit_concat_{{$concat_person->id}}" style="display:none">
+                                            confirm
+                                        </button>
+                                        <button onClick="edit_cancel_btn_reply_click(this.name)" class="label label-danger" name="edit_concat_{{$concat_person->id}}" style="display:none">
+                                            cancel
+                                        </button>
+                                        <button onClick="edit_btn_reply_click(this.name)" class="label label-info" name="edit_concat_{{$concat_person->id}}">
+                                            edit
+                                        </button>
+                                    </td>
+
                                 </tr>
                             @endforeach
                         </table>
+
+
+
+
+
                     </div>
                     <div class="box-body">
                         <h4 class="text-center">
@@ -154,102 +290,6 @@
                         </a>
                         <div id="add_welfare_form"></div>
 
-                        <script>
-                            $(document).ready(function () {
-                                function dynamic_field() {
-                                    html = '<form method="post" id="dynamic_form">';
-                                    html += '@csrf';
-
-
-                                    html += '<label>目的</label> <br>';
-                                    html += '<select name="welfare">';
-                                    html += '<option value=0>已完成</option>';
-                                    html += '<option value=1>待追蹤</option>'
-                                    html += '<option value=2>其他</option>'
-                                    html += '</select>';
-
-                                    html += '<br>';
-
-                                    html += '<label>福利類別</label> <br>';
-                                    html += '<select name="status">';
-                                    html += '<option value=0>已完成</option>';
-                                    html += '<option value=1>待追蹤</option>'
-                                    html += '<option value=2>其他</option>'
-                                    html += '</select>';
-
-                                    html += '<br>';
-
-
-                                    html += '<label>提供之公司</label> <br>';
-                                    html += '<select name="status">';
-                                    html += '<option value=0>已完成</option>';
-                                    html += '<option value=1>待追蹤</option>'
-                                    html += '<option value=2>其他</option>'
-                                    html += '</select>';
-                                    html += '<br>';
-
-                                    html += '<label>細節</label> <br>';
-                                    html += '<select name="status">';
-                                    html += '<option value=0>已完成</option>';
-                                    html += '<option value=1>待追蹤</option>'
-                                    html += '<option value=2>其他</option>'
-                                    html += '</select>';
-                                    html += '<br>';
-
-
-                                    html += '<button type="button" name="add_welfare" id="add_welfare" class="btn btn-primary">Add</button>';
-                                    html += '<button type="button" name="welfare_cancel_btn" id="welfare_cancel_btn" class="btn btn-danger">Cancel</button>';
-                                    html += '</form>';
-
-                                    $('#add_welfare_form').append(html);
-
-
-                                }
-
-                                $(document).on('click', '#add_welfare_btn', function () {
-                                    dynamic_field();
-                                });
-                                $(document).on('click', '#record_cancel_btn', function () {
-                                    const myNode = document.getElementById("add_record_form");
-                                    myNode.innerHTML = '';
-                                });
-
-                                $(document).on('click', '#add_record', function () {
-                                    var status = document.getElementsByName('status')[0].value;
-                                    var development_content = document.getElementsByName('development_content')[0].value;
-                                    var track_content = document.getElementsByName('track_content')[0].value;
-                                    var track_date = document.getElementsByName('track_date')[0].value;
-                                    var customer_id = '{{$customer->id}}';
-                                    $.ajax({
-                                        method: 'POST',
-                                        url: '{{ route('customers.add_concat_record') }}',
-                                        data: {
-                                            track_content: track_content,
-                                            status: status,
-                                            development_content: development_content,
-                                            track_date: track_date,
-                                            customer_id: customer_id
-                                        },
-                                        // dataType: 'json',
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-                                        },
-                                        success: function (data) {
-                                            alert(data.success);
-                                            location.reload()
-                                        },
-                                        error: function (request) {
-                                            var error = JSON.parse(request.responseText);
-                                            var msg = '';
-                                            for (var prop in error['errors']) {
-                                                msg += error['errors'][prop] + '\n';
-                                            }
-                                            alert(msg);
-                                        }
-                                    })
-                                });
-                            });
-                        </script>
 
 
                         <table class="table table-striped">
@@ -262,6 +302,7 @@
                             </tr>
                             </thead>
                             @foreach ($welfarestatus as $welfare_status)
+
                                 <tr class="text-center">
                                     <td>{{ $welfare_status->welfare->name}}</td>
                                     <td>{{$welfare_status->welfare_type->name}}</td>
@@ -287,7 +328,7 @@
                         </a>
                         <div id="add_record_form"></div>
 
-
+{{--新增concat record--}}
                         <script>
                             $(document).ready(function () {
                                 function dynamic_field() {
@@ -401,7 +442,7 @@
 
                         </table>
                         <tfoot>
-                            {{$concat_records->links()}}
+                        {{$concat_records->links()}}
                         </tfoot>
                     </div>
 
