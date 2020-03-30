@@ -29,76 +29,108 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <form action="{{route('customers.index')}}">
+{{--                            <form action="{{route('customers.index')}}">--}}
                                 <div class="row">
-                                    <div class="col-md-2 col-3">
-                                        <label>客戶篩選</label>
-                                        <select name="user_filter" class="form-control form-control-sm"
-                                                value="{{$user_filter}}">
-                                            <option value="0" @if($user_filter==0) selected @endif>全部客戶</option>
-                                            <option value="1" @if($user_filter==1) selected @endif>我的客戶</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 col-3">
-                                        <label>排序方式</label>
-                                        <select name="sortBy" class="form-control form-control-sm">
-                                            @foreach(['create_date','city','area','user_id'] as $col)
-                                                <option @if($col==$sortBy) selected
-                                                        @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 col-3">
-                                        <label>狀態篩選</label>
-                                        <select name="status_filter" class="form-control form-control-sm">
-                                            @foreach(['0','1','2','3','4','5'] as $col)
-                                                <option @if($col==$status_filter) selected
-                                                        @endif value="{{$col}}">{{$status_text[$loop->index]}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-1 col-3">
-                                        <label>篩選按鈕</label><br>
+                                    <form name="filter_form" action="{{route('customers.index')}}" method="get">
+                                        <div class="col-md-2 col-3">
+                                            <label>客戶篩選</label>
+                                            <select name="user_filter" class="form-control form-control-sm"
+                                                    value="{{$user_filter}}">
+                                                <option value="0" @if($user_filter==0) selected @endif>全部客戶</option>
+                                                <option value="1" @if($user_filter==1) selected @endif>我的客戶</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-3">
+                                            <label>狀態篩選</label>
+                                            <select multiple name="status_filter[]"
+                                                    class="form-control form-control-sm">
+                                                @foreach(['0','1','2','3','4'] as $col)
+                                                    <option @if($col==$status_filter) selected
+                                                            @endif value="{{$col}}">{{$status_text[$loop->index]}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-3">
+                                            <label>排序方式</label>
+                                            <select multiple name="sortBy[]" class="form-control form-control-sm">
+                                                @foreach(['create_date','city','area','user_id','status'] as $col)
+                                                    <option @if($col==$sortBy) selected
+                                                            @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 col-3">
+                                            <label>篩選按鈕</label><br>
+                                            <button type="submit" class="w-100 btn btn-sm bg-blue">Filter</button>
+                                        </div>
+                                    </form>
+                                    <div class="col-md-3 col-3">
+                                        <label>搜尋</label><br>
+                                        <!-- search form (Optional) -->
+                                        <form roe="form" action="{{route('customers.index')}}" method="get">
+                                            <div class="form-inline">
+                                                <select name="search_type" class="form-group">
+                                                    <option value="1">公司名稱</option>
+                                                    <option value="2">地區</option>
 
-                                        <button type="submit" class="w-100 btn btn-sm bg-blue">Filter</button>
+                                                </select>
+                                                <br>
+                                                <div class="inline">
+                                                    <input type="text" name="search_info" class="form-control"
+                                                           placeholder="Search...">
+                                                    <button type="submit" id="search-btn"
+                                                            class="btn btn-flat"><i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- /.search form -->
+
                                     </div>
                                     <div class="col-md-1 col-3">
                                         <label>特殊功能</label><br>
                                         <a class="btn btn-success btn-sm" href="{{route('customers.create')}}">新增客戶</a>
                                     </div>
 
+
                                 </div>
 
-                            </form>
+{{--                            </form>--}}
 
                         </div>
 
                         <!-- /.box-header -->
                         <div class="box-body ">
 
-                            <table class="table table-bordered">
+                            <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th class="text-center" style="width: 150px">客戶名稱</th>
-                                    <th class="text-center" style="width: 120px">規模</th>
-                                    <th class="text-center" style="width: 120px">City</th>
-                                    <th class="text-center" style="width: 120px">Area</th>
-                                    <th class="text-center" style="width: 120px">狀態</th>
-                                    <th class="text-center" style="width: 120px">Sales</th>
-                                    <th class="text-center" style="width: 120px">其他功能</th>
+                                    <th class="text-center" style="width:15%">客戶名稱</th>
+                                    <th class="text-center" style="width:15%">電話</th>
+                                    <th class="text-center" style="width:15%">規模</th>
+                                    <th class="text-center" style="width:15%">縣市地區</th>
+                                    <th class="text-center" style="width:15%">狀態</th>
+                                    <th class="text-center" style="width: 10%">Sales</th>
+                                    <th class="text-center" style="width: 20%">其他功能</th>
 
                                 </tr>
                                 </thead>
+
+                                <script>
+                                    function dbclick_on_customer(customer_id) {
+                                        window.location.href = '/customers/' + customer_id + '/record';
+                                    }
+                                </script>
                                 @foreach ($customers as $customer)
                                     @if($customer->is_deleted==1)
                                         @continue
                                     @endif
 
-                                    <tr class="text-center">
-                                        <td>{{ $customer->name }}</td>
+                                    <tr ondblclick="dbclick_on_customer({{$customer->id}})" class="text-center">
+                                        <td class="text-left">{{ $customer->name }}</td>
+                                        <td>{{ $customer->phone_number  }}</td>
                                         <td>{{ $customer->scales  }}人</td>
-                                        <td>{{ $customer->city }} </td>
-                                        <td>{{ $customer->area }} </td>
+                                        <td class="text-left">{{ $customer->city }}{{$customer->area}} </td>
                                         @if ($customer->status==1)
                                             @php($css='label label-warning')
                                         @elseif($customer->status==2)
@@ -107,12 +139,12 @@
                                             @php($css='label label-info')
                                         @elseif($customer->status==4)
                                             @php($css='label label-primary')
-                                        @elseif($customer->status==5)
-                                            @php($css='label label-danger')
                                         @endif
-                                        <td><label class="{{$css}}">{{ $status_text[$customer->status] }}</label></td>
-                                        <td>{{ $customer->user->name }} </td>
-                                        <td class="text-center">
+                                        <td><label class="label{{$css}}"
+                                                   style="min-width:60px;display: inline-block">{{ $status_text[$customer->status] }}</label>
+                                        </td>
+                                        <td class="text-left">{{ $customer->user->name }} </td>
+                                        <td class="text-left">
                                             <a href="{{ route('customers.show', $customer->id) }}"
                                                class="btn btn-xs btn-primary">詳細</a>
                                             <a href="{{ route('customers.edit', $customer->id) }}"

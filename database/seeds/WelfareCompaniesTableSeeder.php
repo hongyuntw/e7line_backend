@@ -20,7 +20,7 @@ class WelfareCompaniesTableSeeder extends Seeder
         foreach (range(0,count($welfare_name)-1)as $id){
             \App\WelfareCompany::create([
                 'name' => $welfare_name[$id],
-                'welfare_type_company_relation_id'=>rand(1,20),
+                'welfare_type_company_relation_id'=>rand(1,100),
             ]);
         }
     }

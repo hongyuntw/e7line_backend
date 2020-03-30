@@ -21,6 +21,7 @@ class BusinessConcatPersonsTableSeeder extends Seeder
                 'phone_number' => $faker->phoneNumber,
                 'extension_number'=> rand(100,999),
                 'email'=> $faker->email,
+                'want_receive_mail'=>rand(0,1),
                 'is_left' => false,
                 'create_date' => now()->subDays(20 - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
                 'update_date' => now()->subDays(20 - $id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),

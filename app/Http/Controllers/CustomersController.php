@@ -8,6 +8,10 @@ use App\Customer;
 use App\Status;
 use App\User;
 use App\Welfare;
+use App\WelfareCompany;
+use App\WelfareDetail;
+use App\WelfareStatus;
+use App\WelfareType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -19,59 +23,90 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request,User $user)
+    public function index(Request $request, User $user)
     {
         //
-        $sortBy_text = ['創建日期','縣市','地區','業務名稱'];
-        $status_text = ['---','尚未開發','成交','培養','淺在','陌生'];
+//        dd($request);
+        $sortBy_text = ['創建日期', '縣市', '地區', '業務名稱', '狀態'];
+        $status_text = ['---', '尚未開發', '成交', '培養', '淺在'];
         $status_filter = 0;
         $sortBy = 'create_date';
         $query = Customer::query();
 //        0 means show all customers
 //        1 means show my customers
         $user_filter = 0;
+        $search_type = 0;
+        $search_info = '';
 
-        if($request->has('sortBy')){
-            $sortBy = $request->query('sortBy');
-            $query->orderBy($sortBy, 'DESC');
+
+        if ($request->has('search_type')) {
+            $search_type = $request->query('search_type');
         }
+        if ($search_type > 0) {
+            $search_info = $request->query('search_info');
+            switch ($search_type) {
+                case 1:
+                    $query->orWhere('name','like',"%{$search_info}%");
+                    break;
+                case 2:
+                    $query->orWhere('city','like',"%{$search_info}%");
+                    $query->orWhere('area','like',"%{$search_info}%");
+                    break;
+//                case 3:
+//                    $query->orWhere('city','like',"%{$search_info}%");
+
+                default:
+                    break;
+            }
+//            where('name', 'like', "%{$name}%")
+
+        }
+
+
+        if ($request->has('sortBy')) {
+            $sortBy = $request->query('sortBy');
+            foreach ($sortBy as $q) {
+                $query->orderBy($q, 'DESC');
+
+            }
+        }
+//        dd($query);
 //        $customers = Customer::orderBy($sortBy, 'DESC')->paginate(15);
 
-        if($request->has('user_filter')){
+        if ($request->has('user_filter')) {
             $user_filter = $request->query('user_filter');
         }
-        if ($user_filter>0){
-            $query->where('user_id','=',Auth::user()->id);
+        if ($user_filter > 0) {
+            $query->where('user_id', '=', Auth::user()->id);
         }
 
 
-        if($request->has('status_filter')){
+        if ($request->has('status_filter')) {
             $status_filter = $request->query('status_filter');
-            if($status_filter>0){
+            foreach ($status_filter as $s) {
+                if ($s > 0) {
 //                $customers = Customer::where('status','=',$status_filter)->orderBy($sortBy, 'DESC')->paginate(15);
-                $query->where('status','=',$status_filter);
+                    $query->orWhere('status', '=', $s);
+                }
             }
+
         }
 
 
         $customers = $query->paginate(15);
 
 
-
         $customer_filter_value = 0;
         $data = [
             'customers' => $customers,
-            'sortBy'=>$sortBy,
+            'sortBy' => $sortBy,
             'user_filter' => $user_filter,
-            'sortBy_text'=>$sortBy_text,
-            'status_filter'=>$status_filter,
-            'status_text'=>$status_text,
+            'sortBy_text' => $sortBy_text,
+            'status_filter' => $status_filter,
+            'status_text' => $status_text,
         ];
         return view('customers.index', $data);
     }
-
-
-
 
 
     /**
@@ -82,11 +117,11 @@ class CustomersController extends Controller
     public function create()
     {
         //
-        $status_text = ['','尚未開發','成交','培養','淺在','陌生'];
+        $status_text = ['', '尚未開發', '成交', '培養', '淺在'];
         $users = User::all();
         $data = [
             'status_text' => $status_text,
-            'users' =>  $users,
+            'users' => $users,
         ];
 
         return view('customers.create', $data);
@@ -95,7 +130,7 @@ class CustomersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -131,33 +166,33 @@ class CustomersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Customer $customer)
     {
         //
         $users = User::all();
-        $status_text = ['','尚未開發','成交','培養','淺在','陌生'];
+        $status_text = ['', '尚未開發', '成交', '培養', '淺在'];
 
         $data = [
             'users' => $users,
             'customer' => $customer,
-            'status_text'=>$status_text,
+            'status_text' => $status_text,
         ];
-        return view('customers.show',$data);
+        return view('customers.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Customer $customer)
     {
         //
-        $status_text = ['','尚未開發','成交','培養','淺在','陌生'];
+        $status_text = ['', '尚未開發', '成交', '培養', '淺在'];
         $users = User::all();
         $data = [
             'customer' => $customer,
@@ -172,8 +207,8 @@ class CustomersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Customer $customer)
@@ -194,13 +229,13 @@ class CustomersController extends Controller
             'area' => 'required',
         ]);
 
-        if($request->has('user_id')){
+        if ($request->has('user_id')) {
             $user_id = $request->input('user_id');
         }
 
         $to_be_update_data = $request->all();
 //        user choose the user
-        if($user_id>1){
+        if ($user_id > 1) {
             $to_be_update_data['user_id'] = $user_id;
             $to_be_update_data['already_set_sales'] = 1;
         }
@@ -218,12 +253,10 @@ class CustomersController extends Controller
     }
 
 
-
-
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Customer $customer)
@@ -245,17 +278,24 @@ class CustomersController extends Controller
     }
 
 
+    public static $welfare_types = ['提貨卷', '禮卷', '泡湯卷', '電影票', '點卷', '點數', '其他'];
+
     public function record(Customer $customer)
     {
-        $business_concat_persons = $customer->business_concat_persons;
+
+        $business_concat_persons = $customer->business_concat_persons()->orderBy('create_date', 'DESC')->get();
         $welfarestatus = $customer->welfarestatus->sortBy('welfare_id');
 //        dd($welfarestatus);
 
-        $concat_records = $customer->concat_records()->orderBy('update_date','DESC')->paginate(5);
-        $welfares = Welfare::all();
+        $concat_records = $customer->concat_records()->orderBy('update_date', 'DESC')->paginate(5);
+        $welfare_companies = WelfareCompany::all();
+        $welfare_details = WelfareDetail::all();
 
 
+        $welfare_type_names = self::$welfare_types;
+        $welfare_type_codes = range(0, count($welfare_type_names) - 1);
 
+        $status_text = ['---', '尚未開發', '成交', '培養', '淺在'];
 
 
         $data = [
@@ -263,20 +303,42 @@ class CustomersController extends Controller
             'business_concat_persons' => $business_concat_persons,
             'welfarestatus' => $welfarestatus,
             'concat_records' => $concat_records,
-            'welfares'=>$welfares,
+            'welfare_companies' => $welfare_companies,
+            'welfare_details' => $welfare_details,
+            'welfare_type_names' => $welfare_type_names,
+            'welfare_type_codes' => $welfare_type_codes,
+            'status_text' => $status_text,
+//            'welfares'=>$welfares,
         ];
 
-        return view('customers.record',$data);
+        return view('customers.record', $data);
     }
 
-
-    public function insert_concat_person(Request $request)
+    public function delete_welfare_type(Request $request)
     {
-        return view('customers.index');
+        $welfare_type = WelfareType::find($request['type_id']);
+        $welfare_type->delete();
+        return response()->json([
+            'success' => 'delete success!',
+        ]);
+
     }
 
 
-    public function add_concat_preson(Request $request)
+    public function update_status(Request $request)
+    {
+        $customer = Customer::find($request['customer_id']);
+        $customer->status = $request['customer_status'];
+        $customer->active_status = $request['active_status'];
+        $customer->update();
+
+        return response()->json([
+            'success' => 'update status success!',
+        ]);
+    }
+
+
+    public function add_concat_person(Request $request)
     {
 
         $this->validate($request, [
@@ -288,19 +350,19 @@ class CustomersController extends Controller
 
         $is_left = false;
         $data = array(
-            'customer_id'=>$request['customer_id'],
-            'name'=>$request['name'],
-            'phone_number'=>$request['phone_number'],
-            'extension_number'=>$request['extension_number'],
-            'email'=>$request['email'],
-            'create_date'=>now(),
-            'update_date'=>now(),
-            'is_left'=>$is_left,
+            'customer_id' => $request['customer_id'],
+            'name' => $request['name'],
+            'phone_number' => $request['phone_number'],
+            'extension_number' => $request['extension_number'],
+            'email' => $request['email'],
+            'create_date' => now(),
+            'update_date' => now(),
+            'is_left' => $is_left,
         );
 
         BusinessConcatPerson::insert($data);
         return response()->json([
-            'success'=>'success',
+            'success' => 'success',
         ]);
 
     }
@@ -309,8 +371,8 @@ class CustomersController extends Controller
     {
         $this->validate($request, [
             'status' => 'required|max:2|min:0',
-            'track_date'=> 'date|nullable',
-            'development_content'=>'required',
+            'track_date' => 'date|nullable',
+            'development_content' => 'required',
         ]);
         Log::info($request['track_date']);
 
@@ -318,20 +380,20 @@ class CustomersController extends Controller
 
         $user_id = Auth::user()->id;
         $data = array(
-            'customer_id'=>$request['customer_id'],
-            'user_id'=>$user_id,
-            'status'=>$request['status'],
-            'development_content'=>$request['development_content'],
-            'track_content'=>$request['track_content'],
-            'track_date'=>$track_date,
-            'create_date'=>now(),
-            'update_date'=>now(),
+            'customer_id' => $request['customer_id'],
+            'user_id' => $user_id,
+            'status' => $request['status'],
+            'development_content' => $request['development_content'],
+            'track_content' => $request['track_content'],
+            'track_date' => $track_date,
+            'create_date' => now(),
+            'update_date' => now(),
         );
 
 
         ConcatRecord::insert($data);
         return response()->json([
-            'success'=>'success',
+            'success' => 'success',
         ]);
     }
 
@@ -342,22 +404,70 @@ class CustomersController extends Controller
             'phone_number' => 'required|max:20',
             'extension_number' => 'required|max:20',
             'email' => 'required|email|max:50',
-            'is_left'=>'required|min:0|max:1',
+            'is_left' => 'required|min:0|max:1',
         ]);
         $concat_person_id = $request['concat_person_id'];
         $concat_person = BusinessConcatPerson::find($concat_person_id);
-
+        $concat_person->want_receive_mail = $request['want_receive_mail'];
         $concat_person->name = $request['name'];
         $concat_person->phone_number = $request['phone_number'];
         $concat_person->extension_number = $request['extension_number'];
-        $concat_person->email  = $request['email'];
+        $concat_person->email = $request['email'];
         $concat_person->is_left = $request['is_left'];
+        $concat_person->update_date = now();
         $concat_person->update();
         return response()->json([
-            'success'=>'success',
+            'success' => 'update concat person info success',
+        ]);
+
+    }
+
+    public function update_concat_record(Request $request)
+    {
+        $concat_record = ConcatRecord::find($request['concat_record_id']);
+        $concat_record->status = $request['record_status'];
+        $concat_record->development_content = $request['development_content'];
+        $concat_record->track_content = $request['track_content'];
+        $concat_record->track_date = $request['track_date'];
+        $concat_record->user_id = Auth::user()->id;
+        $concat_record->update();
+        return response()->json([
+            'success' => 'update concat record success',
+        ]);
+
+    }
+
+    public function add_welfare_types(Request $request)
+    {
+        $this->validate($request, [
+            'welfare_status_id' => 'required',
+            'welfare_code' => 'required',
+            'budget' => 'numeric|nullable'
+
+        ]);
+        if ($request['welfare_code'] > 0) {
+//        這邊再新增一種新的福利資訊～
+            $data = array(
+                'code' => $request['welfare_code'],
+                'welfare_status_id' => $request['welfare_status_id'],
+                'name' => self::$welfare_types[$request['welfare_code']],
+                'welfare_type_company_relation_id' => 1,
+
+            );
+            WelfareType::insert($data);
+
+        }
+//        新增note
+        $welfare_status = WelfareStatus::find($request['welfare_status_id']);
+        $welfare_status->note = $request['note'];
+        $welfare_status->budget = $request['budget'];
+        $welfare_status->update();
+        return response()->json([
+            'success' => 'success',
         ]);
 
 
     }
+
 
 }

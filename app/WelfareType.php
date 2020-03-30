@@ -19,9 +19,9 @@ class WelfareType extends Model
     }
 
 
-    public function welfare_statuses()
+    public function welfare_status()
     {
-        return $this->hasMany(WelfareStatus::class);
+        return $this->belongsTo(WelfareStatus::class);
     }
 
 

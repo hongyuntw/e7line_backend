@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
 //        $this->call(StatusTableSeeder::class);
         $this->call(CustomersTableSeeder::class);
         $this->call(ConcatRecordsTableSeeder::class);
-        $this->call(WelfareTableSeeder::class);
         $this->call(WelfareStatusTableSeeder::class);
         $this->call(BusinessConcatPersonsTableSeeder::class);
 

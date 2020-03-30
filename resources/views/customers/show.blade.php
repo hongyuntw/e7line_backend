@@ -109,7 +109,7 @@
                             <div class="form-group">
                                 <label for="status">狀態</label>
                                 <select id="status" name="status" class="form-control" disabled="disabled">
-                                    @foreach([1,2,3,4,5] as $st_id)
+                                    @foreach([1,2,3,4] as $st_id)
                                         <option
                                             value="{{ $st_id }}"{{ (old('$st_id', $customer->status) == $st_id)? ' selected' : '' }}>{{ $status_text[$st_id] }}</option>
                                     @endforeach

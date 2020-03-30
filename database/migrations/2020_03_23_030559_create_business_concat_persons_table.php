@@ -21,6 +21,7 @@ class CreateBusinessConcatPersonsTable extends Migration
             $table->string('extension_number',10)->nullable();
             $table->string('email',50)->nullable();
             $table->boolean('is_left')->default(false);
+            $table->boolean('want_receive_mail')->default(true);
             $table->timestamp('create_date',0)->nullable();
             $table->timestamp('update_date',0)->nullable();
         });

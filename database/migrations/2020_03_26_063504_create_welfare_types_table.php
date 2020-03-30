@@ -16,6 +16,8 @@ class CreateWelfareTypesTable extends Migration
         Schema::create('welfare_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',20);
+            $table->unsignedInteger('code');
+            $table->unsignedInteger('welfare_status_id');
             $table->unsignedInteger('welfare_type_company_relation_id');
         });
     }

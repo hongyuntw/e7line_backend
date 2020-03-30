@@ -93,30 +93,34 @@
                                         @endif
                                     </div>
                                 @endif
+                                <br>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label for="tax_id">統編</label>
+                                        <input type="text" class="form-control" id="tax_id" name="tax_id"
+                                               placeholder="請輸入統編" value="{{ old('tax_id', $customer->tax_id) }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="capital">資本額</label>
+                                        <input type="number" class="form-control" id="capital" name="capital"
+                                               placeholder="請輸入資本額" value="{{ old('capital', $customer->capital) }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="scales">規模</label>
+                                        <input type="number" class="form-control" id="scales" name="scales"
+                                               placeholder="請輸入規模"
+                                               value="{{ old('scales', $customer->scales) }}">
+                                    </div>
+                                </div>
+                                <br>
 
-                                <div class="form-group">
-                                    <label for="tax_id">統編</label>
-                                    <input type="text" class="form-control" id="tax_id" name="tax_id"
-                                           placeholder="請輸入統編" value="{{ old('tax_id', $customer->tax_id) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="capital">capital</label>
-                                    <input type="number" class="form-control" id="capital" name="capital"
-                                           placeholder="請輸入資本額" value="{{ old('capital', $customer->capital) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="scales">規模</label>
-                                    <input type="number" class="form-control" id="scales" name="scales"
-                                           placeholder="請輸入規模"
-                                           value="{{ old('scales', $customer->scales) }}">
-                                </div>
                                 <div class="form-group">
                                     <label>縣市及地區</label>
 
                                     <div id="twzipcode"></div>
                                     <script>
                                         $("#twzipcode").twzipcode({
-                                            countySel:  '{!! $customer->city!!}', // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+                                            countySel: '{!! $customer->city!!}', // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
                                             districtSel: '{!! $customer->area!!}', // 地區預設值
                                             zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
                                             css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
@@ -124,18 +128,7 @@
                                             districtName: "area" // 自訂地區 select 標籤的 name 值
                                         });
                                     </script>
-
-{{--                                </div>--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="city">縣市</label>--}}
-{{--                                    <input type="text" class="form-control" id="city" name="city" placeholder="請輸入縣市"--}}
-{{--                                           value="{{ old('city', $customer->city) }}">--}}
-{{--                                </div>--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="area">地區</label>--}}
-{{--                                    <input type="text" class="form-control" id="area" name="area" placeholder="請輸入地區"--}}
-{{--                                           value="{{ old('area', $customer->area) }}">--}}
-{{--                                </div>--}}
+                                </div>
 
                                 <div class="form-group">
                                     <label for="address">地址</label>
@@ -143,42 +136,48 @@
                                            placeholder="請輸入地址"
                                            value="{{ old('address', $customer->address) }}">
                                 </div>
-                                <div class="form-group">
-                                    <label for="phone_number">電話</label>
-                                    <input type="text" class="form-control" id="phone_number" name="phone_number"
-                                           placeholder="請輸入電話"
-                                           value="{{ old('phone_number', $customer->phone_number) }}">
+                                <br>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label for="phone_number">電話</label>
+                                        <input type="text" class="form-control" id="phone_number" name="phone_number"
+                                               placeholder="請輸入電話"
+                                               value="{{ old('phone_number', $customer->phone_number) }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fax_number">傳真</label>
+                                        <input type="text" class="form-control" id="fax_number" name="fax_number"
+                                               placeholder="請輸入傳真"
+                                               value="{{ old('fax_number', $customer->fax_number) }}">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="fax_number">傳真</label>
-                                    <input type="text" class="form-control" id="fax_number" name="fax_number"
-                                           placeholder="請輸入傳真"
-                                           value="{{ old('fax_number', $customer->fax_number) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="status">狀態</label>
-                                    <select id="status" name="status" class="form-control">
-                                        @foreach([1,2,3,4,5] as $st_id)
+                                <br>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label for="status">狀態</label>
+                                        <select id="status" name="status" class="form-control">
+                                            @foreach([1,2,3,4] as $st_id)
+                                                <option
+                                                    value="{{ $st_id }}"{{ (old('$st_id', $customer->status) == $st_id)? ' selected' : '' }}>{{ $status_text[$st_id]  }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="active_status">是否開通</label>
+                                        <select id="active_status" name="active_status" class="form-control">
                                             <option
-                                                value="{{ $st_id }}"{{ (old('$st_id', $customer->status) == $st_id)? ' selected' : '' }}>{{ $status_text[$st_id]  }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                                value="0" {{ old('active_status',$customer->active_status) == 0 ? 'selected' : '' }}>
+                                                否
+                                            </option>
+                                            <option
+                                                value="1" {{ old('active_status',$customer->active_status) == 1 ? 'selected' : '' }}>
+                                                是
+                                            </option>
 
-
-                                <div class="form-group">
-                                    <label for="active_status">是否開通</label>
-                                    <select id="active_status" name="active_status" class="form-control">
-                                        <option
-                                            value="0" {{ old('active_status',$customer->active_status) == 0 ? 'selected' : '' }}>
-                                            否
-                                        </option>
-                                        <option
-                                            value="1" {{ old('active_status',$customer->active_status) == 1 ? 'selected' : '' }}>
-                                            是
-                                        </option>
-
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
 
 
@@ -186,7 +185,7 @@
                             <!-- /.box-body -->
 
                             <div class="box-footer text-right">
-                                <a class="btn btn-danger" href="{{route('customers.index')}}">取消</a>
+                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
                                 <button type="submit" class="btn btn-primary">更新</button>
                             </div>
                         </form>

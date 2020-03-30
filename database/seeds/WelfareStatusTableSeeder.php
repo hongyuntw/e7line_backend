@@ -13,19 +13,31 @@ class WelfareStatusTableSeeder extends Seeder
     {
         //
 
+
         \App\WelfareStatus::truncate();
+
+        $welfare_code = ['W001','W002','W003','W004','W005','W006','W007','W008','W009'];
+        $welfare_name = ['春節','尾牙','端午','51勞動','中秋','生日','電影','旅遊','其他'];
+
+
         $faker = \Faker\Factory::create('zh_TW');
-        foreach (range(1,200)as $id){
-            \App\WelfareStatus::create([
-                'customer_id' => rand(1,20),
-                'welfare_id' => rand(1,9),
-                'welfare_type_id' =>rand(1,7),
-                'welfare_company_id'=>rand(1,6),
-                'welfare_detail_id'=>rand(1,5),
-                'budget' => rand(1000, 10000),
-                'create_date' => now()->subDays(20 - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
-                'update_date' => now()->subDays(20 - $id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
+        foreach (range(1,20)as $cusid){
+            foreach (range(0,count($welfare_name)-1)as $id){
+                \App\WelfareStatus::create([
+                    'customer_id' => $cusid,
+                    'budget' => rand(1000, 10000),
+                    'welfare_code' => $welfare_code[$id],
+                    'welfare_name' => $welfare_name[$id],
+                    'welfare_id'=> $id,
+                    'note'=>$faker->realText(rand(10,20)),
+                    'create_date' => now()->subDays(20 - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
+                    'update_date' => now()->subDays(20 - $id)->addHours(rand(6, 10))->addMinutes(rand(10, 30)),
                 ]);
+            }
         }
+
+
+
+
     }
 }

@@ -16,10 +16,14 @@ class CreateWelfareStatusLists extends Migration
         Schema::create('welfare_status', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('customer_id');
+//            下面這邊紀錄福利目的
             $table->unsignedInteger('welfare_id');
-            $table->unsignedInteger('welfare_type_id');
-            $table->unsignedInteger('welfare_company_id');
-            $table->unsignedInteger('welfare_detail_id');
+            $table->string('welfare_code',10);
+            $table->string('welfare_name',10);
+
+//            $table->unsignedInteger('welfare_type_id');
+//            $table->unsignedInteger('welfare_company_id');
+//            $table->unsignedInteger('welfare_detail_id');
             $table->decimal('budget')->default(0);
             $table->string('note')->nullable();
             $table->timestamp('create_date',0)->nullable();
