@@ -44,13 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::post('add_welfare_types', 'CustomersController@add_welfare_types')->name('customers.add_welfare_types');
     Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');
 
-
-
     Route::post('add_concat_person/{request?}','CustomersController@add_concat_person')->name('customers.add_concat_person');
     Route::post('add_concat_record/{request?}','CustomersController@add_concat_record')->name('customers.add_concat_record');
-
-
-
     Route::get('customers/{request?}','CustomersController@index')->name('customers.index');
 
 
@@ -59,7 +54,14 @@ Route::middleware('auth')->group(function () {
 
 
 //    for welfare
-    Route::get('welfarestatus','WelfareStatusController@index')->name('welfarestatus.index');
+    Route::patch('welfare_status/{welfare_status}', 'WelfareStatusController@update')->name('welfare_status.update');
+
+    Route::get('welfare_status/{welfare_status}/edit', 'WelfareStatusController@edit')->name('welfare_status.edit');
+    Route::get('welfare_status/add_welfare_type', 'WelfareStatusController@add_welfare_type')->name('welfare_status.add_welfare_type');
+    Route::post('welfare_status', 'WelfareStatusController@store_welfare_type')->name('welfare_status.store_welfare_type');
+
+    Route::get('welfare_status/{request?}','WelfareStatusController@index')->name('welfare_status.index');
+
 
 
 

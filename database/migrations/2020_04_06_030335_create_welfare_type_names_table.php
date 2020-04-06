@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWelfareTypesTable extends Migration
+class CreateWelfareTypeNamesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateWelfareTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('welfare_types', function (Blueprint $table) {
+        Schema::create('welfare_type_names', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('welfare_type_name_id');
-            $table->unsignedInteger('welfare_status_id');
-            $table->unsignedInteger('welfare_type_company_relation_id');
+            $table->string('name',20);
         });
     }
 
@@ -28,6 +26,6 @@ class CreateWelfareTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('welfare_types');
+        Schema::dropIfExists('welfare_type_names');
     }
 }

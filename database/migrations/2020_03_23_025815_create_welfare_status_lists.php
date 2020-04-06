@@ -20,11 +20,11 @@ class CreateWelfareStatusLists extends Migration
             $table->unsignedInteger('welfare_id');
             $table->string('welfare_code',10);
             $table->string('welfare_name',10);
-
+            $table->tinyInteger('track_status')->default(0)->nullable();
 //            $table->unsignedInteger('welfare_type_id');
 //            $table->unsignedInteger('welfare_company_id');
 //            $table->unsignedInteger('welfare_detail_id');
-            $table->decimal('budget')->default(0);
+            $table->string('budget')->default('0');
             $table->string('note')->nullable();
             $table->timestamp('create_date',0)->nullable();
             $table->timestamp('update_date',0)->nullable();

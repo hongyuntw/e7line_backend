@@ -24,5 +24,10 @@ class WelfareType extends Model
         return $this->belongsTo(WelfareStatus::class);
     }
 
+    public function welfare_type_name()
+    {
+        return $this->belongsTo(WelfareTypeName::class);
+    }
+
 
 }

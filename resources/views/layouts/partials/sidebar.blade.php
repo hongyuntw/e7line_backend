@@ -60,7 +60,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('customers.index') }}">客戶列表</a></li>
-                    <li><a href="">客戶--</a></li>
+                    <li><a href="{{route('customers.create')}}">新增客戶</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>
@@ -70,7 +70,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{route('welfarestatus.index')}}">福利列表</a></li>
+                    <li><a href="{{route('welfare_status.index')}}">福利列表</a></li>
                     <li><a href="">福利--</a></li>
                 </ul>
 

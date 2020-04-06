@@ -12,6 +12,7 @@ use App\WelfareCompany;
 use App\WelfareDetail;
 use App\WelfareStatus;
 use App\WelfareType;
+use App\WelfareTypeName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -23,12 +24,15 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function index(Request $request, User $user)
     {
         //
 //        dd($request);
         $sortBy_text = ['創建日期', '縣市', '地區', '業務名稱', '狀態'];
-        $status_text = ['---', '尚未開發', '成交', '培養', '淺在'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
         $status_filter = 0;
         $sortBy = 'create_date';
         $query = Customer::query();
@@ -117,7 +121,7 @@ class CustomersController extends Controller
     public function create()
     {
         //
-        $status_text = ['', '尚未開發', '成交', '培養', '淺在'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
         $users = User::all();
         $data = [
             'status_text' => $status_text,
@@ -173,7 +177,7 @@ class CustomersController extends Controller
     {
         //
         $users = User::all();
-        $status_text = ['', '尚未開發', '成交', '培養', '淺在'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
 
         $data = [
             'users' => $users,
@@ -192,7 +196,7 @@ class CustomersController extends Controller
     public function edit(Customer $customer)
     {
         //
-        $status_text = ['', '尚未開發', '成交', '培養', '淺在'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
         $users = User::all();
         $data = [
             'customer' => $customer,
@@ -278,7 +282,6 @@ class CustomersController extends Controller
     }
 
 
-    public static $welfare_types = ['提貨卷', '禮卷', '泡湯卷', '電影票', '點卷', '點數', '其他'];
 
     public function record(Customer $customer)
     {
@@ -292,10 +295,9 @@ class CustomersController extends Controller
         $welfare_details = WelfareDetail::all();
 
 
-        $welfare_type_names = self::$welfare_types;
-        $welfare_type_codes = range(0, count($welfare_type_names) - 1);
+        $welfare_type_names = WelfareTypeName::all();
 
-        $status_text = ['---', '尚未開發', '成交', '培養', '淺在'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
 
 
         $data = [
@@ -306,9 +308,7 @@ class CustomersController extends Controller
             'welfare_companies' => $welfare_companies,
             'welfare_details' => $welfare_details,
             'welfare_type_names' => $welfare_type_names,
-            'welfare_type_codes' => $welfare_type_codes,
             'status_text' => $status_text,
-//            'welfares'=>$welfares,
         ];
 
         return view('customers.record', $data);
@@ -442,17 +442,15 @@ class CustomersController extends Controller
         $this->validate($request, [
             'welfare_status_id' => 'required',
             'welfare_code' => 'required',
-            'budget' => 'numeric|nullable'
+            'budget' => 'nullable'
 
         ]);
         if ($request['welfare_code'] > 0) {
-//        這邊再新增一種新的福利資訊～
+//        這邊再新增一種新的福利類別～
             $data = array(
-                'code' => $request['welfare_code'],
+                'welfare_type_name_id' => $request['welfare_code'],
                 'welfare_status_id' => $request['welfare_status_id'],
-                'name' => self::$welfare_types[$request['welfare_code']],
                 'welfare_type_company_relation_id' => 1,
-
             );
             WelfareType::insert($data);
 

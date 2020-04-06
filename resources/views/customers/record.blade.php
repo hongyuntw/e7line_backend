@@ -38,24 +38,24 @@
                                     </h4>
                                 </div>
 
-                                <div style="; right: 3px  ;float:right; position:fixed ">
-                                    <ul class="nav   navbar-custom-menu " style="background-color: transparent">
-                                        <li>
-                                            <a style="color: black;background-color: transparent;writing-mode: vertical-lr"
-                                               href="#Customer">Customer</a></li>
-                                        <li>
-                                            <a style="color: black;background-color: transparent;writing-mode: vertical-lr"
-                                               href="#ConcatWindow">Concat Window</a></li>
-                                        <li>
-                                            <a style="color: black;background-color: transparent;writing-mode: vertical-lr"
-                                               href="#Development_Record">Development Record</a></li>
-                                        <li>
-                                            <a style="color: black;background-color: transparent;writing-mode: vertical-lr"
-                                               href="#Welfare">Welfare</a></li>
+
+{{--                                tabs bar--}}
+                                <div style="right: 3px  ;float:right; position:fixed; background-color: #e7eeff;opacity: 0.7" >
+                                    <ul class="nav navbar-default"  style="background-color: transparent">
+                                        <li class="nav-item">
+                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr;z-index: 0"
+                                               href="#Customer">客戶資訊</a></li>
+                                        <li class="nav-item">
+                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
+                                               href="#ConcatWindow">聯繫窗口</a></li>
+                                        <li class="nav-item">
+                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
+                                               href="#Development_Record">開發紀錄</a></li>
+                                        <li class="nav-item">
+                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
+                                               href="#Welfare">福利資訊</a></li>
                                     </ul>
                                 </div>
-
-
                                 <br>
                                 <br>
                                 <br>
@@ -70,8 +70,6 @@
                                         <th class="text-center" style="width: 10px;">狀態</th>
                                         <th class="text-center" style="width: 10px;">是否開通</th>
                                         <th class="text-center" style="width: 10px;">其他功能</th>
-
-
                                     </tr>
                                     </thead>
                                     <tr>
@@ -79,21 +77,9 @@
                                         <td class="text-center">{{$customer->phone_number}}</td>
                                         <td class="text-center">{{$customer->scales}} 人</td>
                                         <td class="text-center">{{$customer->city}}{{$customer->area}}</td>
-                                        {{--                                        @if ($customer->status==1)--}}
-                                        {{--                                            <td class="text-center"><label class="label label-warning">{{ $status_text[$customer->status] }}</label></td>--}}
-                                        {{--                                        @elseif($customer->status==2)--}}
-                                        {{--                                            <td class="text-center"><label class="label label-success">{{ $status_text[$customer->status] }}</label></td>--}}
-
-                                        {{--                                        @elseif($customer->status==3)--}}
-                                        {{--                                            <td class="text-center"><label class="label label-info">{{ $status_text[$customer->status] }}</label></td>--}}
-
-                                        {{--                                        @elseif($customer->status==4)--}}
-                                        {{--                                            <td class="text-center"><label class="label label-primary">{{ $status_text[$customer->status] }}</label></td>--}}
-
-                                        {{--                                        @endif--}}
                                         <td class="text-center">
                                             <select id="customer_status" name="customer_status">
-                                                @foreach([1,2,3,4] as $st_id)
+                                                @foreach([1,2,3,4,5] as $st_id)
                                                     <option
                                                         value="{{ $st_id }}"{{ (old('$st_id', $customer->status) == $st_id)? ' selected' : '' }}>{{ $status_text[$st_id]  }}</option>
                                                 @endforeach
@@ -139,7 +125,7 @@
                                                         'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                                     },
                                                     success: function (data) {
-                                                        alert(data.success);
+                                                        // alert(data.success);
                                                         location.reload()
                                                     },
                                                     error: function (request) {
@@ -156,21 +142,18 @@
                                             }
 
                                         </script>
-
                                     </tr>
-
-
                                 </table>
 
                             </div>
 
+{{--                            聯繫窗口--}}
+
                             <div class="box-body">
                                 <div id="ConcatWindow"></div>
                                 <h4 class="text-center">
-                                    <label style="font-size: medium">Concat Window</label>
+                                    <label style="font-size: medium">聯繫窗口</label>
                                 </h4>
-
-
                                 <br>
                                 <br>
                                 <br>
@@ -317,7 +300,14 @@
                                         // console.log(edit_inputs)
                                         for (var i = 0; i < edit_inputs.length - 1; i++) {
                                             // edit_inputs[i].setAttribute("class", "democlass");
+                                            // if(i>=edit_inputs.length-3){
+                                            //     edit_inputs[i].style.visibility= 'hidden'
+                                            // }
+                                            // else{
                                             edit_inputs[i].style.display = 'none';
+
+                                            // }
+
                                         }
                                         // console.log(edit_inputs)
                                     };
@@ -329,7 +319,12 @@
 
                                         for (var i = 0; i < edit_inputs.length; i++) {
                                             // edit_inputs[i].setAttribute("class", "democlass");
-                                            edit_inputs[i].style.display = 'block';
+                                            // if(i>=edit_inputs.length-3){
+                                            //     edit_inputs[i].style.visibility= 'visible'
+                                            // }
+                                            // else{
+                                            edit_inputs[i].style.display = '';
+                                            // }
                                         }
                                         // console.log(edit_inputs)
                                     };
@@ -427,21 +422,21 @@
                                             <td class="text-center">{{$concat_person->create_date}}</td>
                                             <td class="text-center">
                                                 <button onClick="edit_confirm_btn_reply_click(this.name)"
-                                                        class="label label-success"
+                                                        class="label label-success text-center"
                                                         name="edit_concat_{{$concat_person->id}}"
-                                                        style="display:none">
-                                                    confirm
+                                                        style="display: none;">
+                                                    確認
                                                 </button>
                                                 <button onClick="edit_cancel_btn_reply_click(this.name)"
-                                                        class="label label-danger"
+                                                        class="label label-danger text-center"
                                                         name="edit_concat_{{$concat_person->id}}"
-                                                        style="display:none">
-                                                    cancel
+                                                        style="display: none;">
+                                                    取消
                                                 </button>
                                                 <button onClick="edit_btn_reply_click(this.name)"
-                                                        class="label label-info"
+                                                        class="label label-info text-center"
                                                         name="edit_concat_{{$concat_person->id}}">
-                                                    edit
+                                                    編輯
                                                 </button>
                                             </td>
 
@@ -452,10 +447,13 @@
 
                             </div>
 
+
+
+{{--                            開發紀錄--}}
                             <div class="box-body">
                                 <div id="Development_Record">
                                     <h4 class="text-center">
-                                        <label style="font-size: medium">Development Record</label>
+                                        <label style="font-size: medium">開發紀錄</label>
                                     </h4>
                                 </div>
 
@@ -517,7 +515,7 @@
                                                 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                             },
                                             success: function (data) {
-                                                alert(data.success);
+                                                // alert(data.success);
                                                 location.reload()
                                             },
                                             error: function (request) {
@@ -542,12 +540,12 @@
                                 <table class="table table-striped" width="100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 10%;">status</th>
-                                        <th class="text-center" style="width: 30%;">開發note</th>
-                                        <th class="text-center" style="width: 30%;">追蹤note</th>
+                                        <th class="text-center" style="width: 8%;">status</th>
+                                        <th class="text-center" style="width: 25%;">開發note</th>
+                                        <th class="text-center" style="width: 25%;">追蹤note</th>
                                         <th class="text-center" style="width: 10%;">待追蹤日期</th>
                                         <th class="text-center" style="width: 10%;">創建日期</th>
-                                        <th class="text-center" style="width: 10%;">其他功能</th>
+                                        <th class="text-center" style="width: 15%;">其他功能</th>
 
                                         {{--                                <th class="text-center" style="width: 10px;">功能</th>--}}
 
@@ -572,10 +570,10 @@
 
 
                                         <tr class="text-center">
-                                            <td>
-                                                <label class="{{$status_css}}">{{$status_name}}</label>
-                                                {{--                                                hidden--}}
-                                                <select style="display:none;" class="form-control"
+                                            <td class="align-middle" style="vertical-align: middle">
+                                                <label style="min-width: 60px;display: inline-block;" class="{{$status_css}}">{{$status_name}}</label>
+                                                {{--                                                 hidden--}}
+                                                <select style="display:none;height: 25px" class="form-control"
                                                         name="edit_concat_record_info{{$concat_record->id}}">
                                                     <option value="0" @if($concat_record->status==0)selected @endif>
                                                         已完成
@@ -589,42 +587,47 @@
 
 
                                             </td>
-                                            <td>
+                                            <style>
+                                                textarea:hover{
+                                                    height: 6em;
+                                                }
+                                            </style>
+                                            <td class="align-middle" style="vertical-align: middle">
                                                 <textarea disabled="true"
                                                           name="edit_concat_record_info{{$concat_record->id}}"
                                                           class="form-control" rows="2"
                                                           value="{{$concat_record->development_content}}"
                                                           style="text-align: left;vertical-align: top;">{{$concat_record->development_content}}</textarea>
                                             </td>
-                                            <td>
-                                                <textarea disabled="true"
+                                            <td class="align-middle" style="vertical-align: middle">
+                                                <textarea disabled="true" onfocus="this.rows=4;"
                                                           name="edit_concat_record_info{{$concat_record->id}}"
                                                           class="form-control" rows="2"
                                                           value="{{$concat_record->track_content}}">{{$concat_record->track_content}}</textarea>
                                             </td>
-                                            <td>
+                                            <td class="align-middle" style="vertical-align: middle">
                                                 {{date("Y-m-d", strtotime($concat_record->track_date))}}
                                                 {{--                                                hidden--}}
                                                 <input value="{{date("Y-m-d", strtotime($concat_record->track_date))}}"
-                                                       type="date" style="display: none" class="form-control"
+                                                       type="date" style="display: none" class="form-control text-center"
                                                        name="edit_concat_record_info{{$concat_record->id}}">
                                             </td>
-                                            <td>{{date("Y-m-d", strtotime($concat_record->create_date))}}</td>
-                                            <td>
+                                            <td class="align-middle" style="vertical-align: middle">{{date("Y-m-d", strtotime($concat_record->create_date))}}</td>
+                                            <td class="align-middle" style="vertical-align: middle">
                                                 <button onClick="confirm_concat_record_btn_reply_click(this.name)"
                                                         class="label label-success" style="display: none"
                                                         name="edit_concat_record_info{{$concat_record->id}}">
-                                                    confirm
+                                                    確認
                                                 </button>
                                                 <button onClick="cancel_concat_record_btn_reply_click(this.name)"
                                                         class="label label-danger" style="display: none"
                                                         name="edit_concat_record_info{{$concat_record->id}}">
-                                                    cancel
+                                                    取消
                                                 </button>
                                                 <button onClick="edit_concat_record_btn_reply_click(this.name)"
                                                         class="label label-info"
                                                         name="edit_concat_record_info{{$concat_record->id}}">
-                                                    edit
+                                                    編輯
                                                 </button>
                                             </td>
                                             {{--                        edit concat record--}}
@@ -671,7 +674,7 @@
                                                             'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                                         },
                                                         success: function (data) {
-                                                            alert(data.success);
+                                                            // alert(data.success);
                                                             location.reload()
                                                         },
                                                         error: function (request) {
@@ -710,7 +713,7 @@
                                                         if (i == 1 || i == 2) {
                                                             inputs[i].disabled = false;
                                                         } else {
-                                                            inputs[i].style.display = 'block';
+                                                            inputs[i].style.display = '';
 
                                                         }
                                                     }
@@ -725,11 +728,11 @@
                                 </tfoot>
                             </div>
 
-
+{{--                            福利資訊--}}
                             <div class="box-body">
                                 <div id="Welfare">
                                     <h4 class="text-center">
-                                        <label style="font-size: medium">Welfare</label>
+                                        <label style="font-size: medium">福利資訊</label>
                                     </h4>
                                 </div>
 
@@ -756,14 +759,14 @@
                                         console.log('all_welfare_type' + name.substring(12))
                                         var welfare_types_delete_btn = document.getElementsByName('all_welfare_type_' + name.substring(12))
                                         for (var i = 0; i < welfare_types_delete_btn.length; ++i) {
-                                            welfare_types_delete_btn[i].style.display = 'block';
+                                            welfare_types_delete_btn[i].style.display = '';
                                         }
                                         for (var i = 0; i < add_inputs.length; i++) {
                                             // edit_inputs[i].setAttribute("class", "democlass");
                                             if (i == 1 || i == 2) {
                                                 add_inputs[i].disabled = false;
                                             } else {
-                                                add_inputs[i].style.display = 'block';
+                                                add_inputs[i].style.display = '';
 
                                             }
                                         }
@@ -833,7 +836,7 @@
                                                 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                             },
                                             success: function (data) {
-                                                alert(data.success);
+                                                // alert(data.success);
                                                 location.reload()
                                             },
                                             error: function (request) {
@@ -878,7 +881,7 @@
                                                     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                                 },
                                                 success: function (data) {
-                                                    alert(data.success);
+                                                    // alert(data.success);
                                                     location.reload()
                                                 },
                                                 error: function (request) {
@@ -897,14 +900,15 @@
                                     </thead>
                                     @foreach ($welfarestatus as $welfare_status)
                                         <tr class="text-center">
-                                            <td>{{ $welfare_status->welfare_name}}</td>
-                                            <td class="text-left">
+                                            <td style="vertical-align: middle">{{ $welfare_status->welfare_name}}</td>
+                                            <td class="text-left" style="vertical-align: middle">
 
                                                 @foreach($welfare_status->welfare_types as $wtype)
 
-                                                        <li>{{$wtype->name}}<a id="{{$wtype->id}}"
+                                                        <li>{{$wtype->welfare_type_name->name}}<a id="{{$wtype->id}}"
                                                                                name="all_welfare_type_{{$welfare_status->id}}"
-                                                                               style="color:darkred;display: none" class="close text-right"
+                                                                                style="color:darkred;display: none;text-shadow:0 1px 0 #fff;
+                                                                                font-size: 21px;font-weight: 700;line-height: 1;opacity: 2;cursor: pointer"
                                                                                onclick="delete_welfare_type_btn_click(this.id)">x</a></li>
 
 
@@ -912,42 +916,42 @@
                                                 @endforeach
                                                 <select style="display: none" name="add_welfare_{{$welfare_status->id}}"
                                                         class="custom-select">
-                                                    <option value="-1"></option>
-                                                    @foreach($welfare_type_codes as $code)
+                                                    <option value="-1">無</option>
+                                                    @foreach($welfare_type_names as $welfare_type_name)
                                                         <option
-                                                            value="{{$code}}">{{$welfare_type_names[$code]}}</option>
+                                                            value="{{$welfare_type_name->id}}">{{$welfare_type_name->name}}</option>
                                                     @endforeach
                                                 </select>
 
                                             </td>
-                                            <td>
+                                            <td class="align-middle" style="vertical-align: middle">
                                                 <textarea disabled="true" name="add_welfare_{{$welfare_status->id}}"
                                                           class="form-control" rows="2"
                                                           id="comment">{{$welfare_status->note}}</textarea>
                                                 <br>
                                             </td>
-                                            <td>
-                                                <input type="number" name="add_welfare_{{$welfare_status->id}}"
+                                            <td class="align-middle" style="vertical-align: middle">
+                                                <input  disabled="true" style="text-align: center;top: 50%"  name="add_welfare_{{$welfare_status->id}}"
                                                        value="{{$welfare_status->budget}}">
 
                                             </td>
-                                            <td>
+                                            <td style="vertical-align: middle">
                                                 <button onClick="confirm_welfare_btn_reply_click(this.name)"
                                                         class="label label-success"
                                                         name="add_welfare_{{$welfare_status->id}}"
                                                         style="display:none">
-                                                    confirm
+                                                    確認
                                                 </button>
                                                 <button onClick="cancel_welfare_btn_reply_click(this.name)"
                                                         class="label label-danger"
                                                         name="add_welfare_{{$welfare_status->id}}"
                                                         style="display:none">
-                                                    cancel
+                                                    取消
                                                 </button>
                                                 <button onClick="add_welfare_btn_reply_click(this.name)"
                                                         class="label label-info"
                                                         name="add_welfare_{{$welfare_status->id}}">
-                                                    edit
+                                                    編輯
                                                 </button>
                                             </td>
                                         </tr>

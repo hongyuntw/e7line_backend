@@ -18,12 +18,11 @@ class WelfareTypesTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create('zh_TW');
         foreach (range(0,300)as $id){
-            $i =  rand(0,6);
+            $i =  rand(1,7);
             \App\WelfareType::create([
-                'name' => $welfare_name[$i],
                 'welfare_type_company_relation_id'=>rand(1,50),
                 'welfare_status_id' =>rand(1,100),
-                'code'=>$i,
+                'welfare_type_name_id'=>$i,
 
 
             ]);
