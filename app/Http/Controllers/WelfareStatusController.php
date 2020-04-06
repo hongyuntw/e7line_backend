@@ -8,6 +8,7 @@ use Config;
 use App\WelfareStatus;
 use App\WelfareType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WelfareStatusController extends Controller
 {
@@ -17,12 +18,16 @@ class WelfareStatusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public static  $status_names  = ['Block','Pending','Success'];
-
     public function index(Request $request)
     {
-        //
         $sortBy = 'customer_id';
+        $sortBy_text = ['客戶名稱', '目的', '追蹤狀況','預算', '更新日期'];
+        $status_filter = -1;
 
+
+//        0 means show all customers
+//        1 means show my customers
+        $user_filter = 0;
         $query = WelfareStatus::query();
         $search_type = 0;
         $search_info = '';
@@ -44,19 +49,61 @@ class WelfareStatusController extends Controller
                         $query->orWhere('welfare_name','like',"%{$search_info}%");
                     }
                     break;
+//                case 3:
+//                    if($search_info!=''){
+//                        $query->join('welfare_types','welfare_status.id','=','welfare_types.welfare_status_id');
+//                        $query->join('welfare_type_names','welfare_type_names.id','=','welfare_types.welfare_type_name_id');
+//                        $query->orWhere('welfare_type_names.name','like',"%{$search_info}%");
+////                        dd($query);
+//                    }
+//                    break;
+
                 default:
                     break;
             }
         }
 
-        $query->orderBy($sortBy);
+
+
+
+        if ($request->has('user_filter')) {
+            $user_filter = $request->query('user_filter');
+        }
+        if ($user_filter > 0) {
+            $query->join('customers','welfare_status.customer_id','=','customers.id');
+            $query->orWhere('customers.user_id', '=', Auth::user()->id);
+        }
+
+        if ($request->has('status_filter')) {
+            $status_filter = $request->query('status_filter');
+            foreach ($status_filter as $s) {
+                if ($s > -1) {
+                    $query->orWhere('track_status', '=', $s);
+                }
+            }
+        }
+
+        if ($request->has('sortBy')) {
+            $sortBy = $request->query('sortBy');
+            foreach ($sortBy as $q) {
+                $query->orderBy($q,'DESC');
+
+            }
+        }
+        else{
+            $query->orderBy($sortBy);
+        }
+
 
         $welfare_statuses = $query->paginate(15);
-//        dd($welfare_statuses);
 
         $data = [
             'status_names'=>self::$status_names,
             'welfare_statuses' => $welfare_statuses,
+            'sortBy' => $sortBy,
+            'user_filter' => $user_filter,
+            'sortBy_text' => $sortBy_text,
+            'status_filter' => $status_filter,
         ];
         return view('welfare.index', $data);
     }
@@ -119,7 +166,6 @@ class WelfareStatusController extends Controller
 
     public function add_welfare_type()
     {
-
         $welfare_type_names = WelfareTypeName::all();
         $data = [
             'welfare_type_names'=> $welfare_type_names,
@@ -153,7 +199,10 @@ class WelfareStatusController extends Controller
     public function update(Request $request, WelfareStatus $welfare_status)
     {
 
-//        validate
+//        validation to be added
+
+
+
         $welfare_types_from_request = $request->input('welfare_types');
         $welfare_status_mapping_types = $welfare_status->welfare_types;
 

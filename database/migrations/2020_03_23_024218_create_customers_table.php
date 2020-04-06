@@ -25,8 +25,8 @@ class CreateCustomersTable extends Migration
             $table->string('phone_number',20)->nullable();
             $table->string('fax_number',20)->nullable();
             $table->string('address',50)->nullable();
-            $table->string('city',10)->nullable();
-            $table->string('area',10)->nullable();
+            $table->string('city',10);
+            $table->string('area',10);
 
 
             $table->tinyInteger('active_status')->default(0);

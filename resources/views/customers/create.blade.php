@@ -64,7 +64,7 @@
                                     <select id="user_id" name="user_id" class="form-control">
                                         @foreach($users as $user)
                                             <option
-                                                value="{{ $user->id }}"{{ (old('$user_id',$user->id) == Auth::user()->id)? ' selected' : '' }}>{{ $user->name }}</option>
+                                                value="{{ $user->id }}"{{ (old('$user_id',$user->id) == 1)? ' selected' : '' }}>{{ $user->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

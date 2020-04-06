@@ -26,7 +26,6 @@
             <div class="container">
 
                 <form class="well form-horizontal" action="{{ route('welfare_status.store_welfare_type') }}" method="post" id="contact_form">
-
                     @csrf
 
                     @if ($errors->any())
@@ -46,12 +45,12 @@
                     <fieldset>
                         <!-- radio checks -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label">請勾選想刪除之福利類別</label>
+                            <label class="col-md-4 control-label">請勾選想刪除之福利類別<br>(僅限管理員使用)</label>
                             <div class="col-md-4">
                                 @foreach($welfare_type_names as $welfare_type_name)
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="to_be_delete[]" value="{{$welfare_type_name->id}}" /> {{$welfare_type_name->name}}
+                                            <input @if(Auth::user()->level!=2) disable @endif type="checkbox" name="to_be_delete[]" value="{{$welfare_type_name->id}}"/> {{$welfare_type_name->name}}
                                         </label>
                                     </div>
                                 @endforeach
@@ -77,7 +76,10 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label"></label>
                             <div class="col-md-4">
-                                <a onclick="add_input_field()" class="btn btn-success">新增福利類別</a>
+                                <a onclick="add_input_field()" class="btn btn-sm btn-success">新增類別</a>
+                                <br>
+                                <br>
+{{--                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;--}}
                                 <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
                                 <button type="submit" class="btn btn-primary">確認送出</button>
                             </div>

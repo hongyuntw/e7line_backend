@@ -69,7 +69,7 @@
                                     <form roe="form" action="{{route('customers.index')}}" method="get">
                                         <div class="form-inline">
                                             <select name="search_type" class="form-group">
-                                                <option value="1">公司名稱</option>
+                                                <option value="1">客戶名稱</option>
                                                 <option value="2">地區</option>
 
                                             </select>

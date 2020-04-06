@@ -30,8 +30,8 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">業務一覽表</h3>
                             <div class="box-tools">
-                                @if(Auth::user()->level==0||Auth::user()->level==2)
-                                    <td><a class="btn btn-success btn-sm" href="">新增業務</a>
+                                @if(Auth::user()->level==2)
+                                    <td><a class="btn btn-success btn-sm" href="{{route('users.create')}}">新增業務</a>
                                     </td>
                                 @endif
                                 {{--<td><a hidden class="btn btn-success btn-sm" href="{{ route('users.create') }}">新增業務者</a></td>--}}
@@ -50,9 +50,9 @@
                                     <th class="text-center" style="width: 70px">業務帳號</th>
                                     <th class="text-center" style="width: 70px">註冊日期</th>
                                     <th class="text-center" style="width: 120px">業務權限</th>
-                                    @if(Auth::user()->level==0||Auth::user()->level==2)
+                                    @if(Auth::user()->level==2)
 
-                                        <th class="text-center" style="width: 120px">權限</th>
+                                        <th class="text-center" style="width: 120px">功能</th>
 
                                     @endif
                                 </tr>
@@ -64,9 +64,9 @@
                                         <td>{{ $user->created_at }}</td>
 
                                         @if($user->level==0)
-                                            <td>有權限</td>
+                                            <td>Normal</td>
                                         @elseif($user->level==1)
-                                            <td>無權限</td>
+                                            <td>Normal</td>
                                         @elseif($user->level==2)
                                             <td>root</td>
                                         @endif

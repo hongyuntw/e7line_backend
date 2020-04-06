@@ -26,13 +26,11 @@ class CustomersController extends Controller
      */
 
 
-
     public function index(Request $request, User $user)
     {
         //
-//        dd($request);
         $sortBy_text = ['創建日期', '縣市', '地區', '業務名稱', '狀態'];
-        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
         $status_filter = 0;
         $sortBy = 'create_date';
         $query = Customer::query();
@@ -50,19 +48,15 @@ class CustomersController extends Controller
             $search_info = $request->query('search_info');
             switch ($search_type) {
                 case 1:
-                    $query->orWhere('name','like',"%{$search_info}%");
+                    $query->orWhere('name', 'like', "%{$search_info}%");
                     break;
                 case 2:
-                    $query->orWhere('city','like',"%{$search_info}%");
-                    $query->orWhere('area','like',"%{$search_info}%");
+                    $query->orWhere('city', 'like', "%{$search_info}%");
+                    $query->orWhere('area', 'like', "%{$search_info}%");
                     break;
-//                case 3:
-//                    $query->orWhere('city','like',"%{$search_info}%");
-
                 default:
                     break;
             }
-//            where('name', 'like', "%{$name}%")
 
         }
 
@@ -121,7 +115,7 @@ class CustomersController extends Controller
     public function create()
     {
         //
-        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
         $users = User::all();
         $data = [
             'status_text' => $status_text,
@@ -144,12 +138,6 @@ class CustomersController extends Controller
         $this->validate($request, [
             'user_id' => 'required',
             'name' => 'required',
-            'tax_id' => 'required',
-            'capital' => 'required',
-            'scales' => 'required',
-            'phone_number' => 'required',
-            'fax_number' => 'required',
-            'address' => 'required',
             'status' => 'required',
             'city' => 'required',
             'area' => 'required',
@@ -158,12 +146,26 @@ class CustomersController extends Controller
 //        twzipcode 會包含zipcode 要移除掉
         $request_data = $request->all();
         unset($request_data['zipcode']);
-
-
         $customer = Customer::create($request_data);
         $customer->create_date = now();
         $customer->update();
-        // $path = $request->file->storeAs('路路徑', '');
+
+        $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
+        $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
+
+        foreach (range(0, count($welfare_names) - 1) as $id) {
+            \App\WelfareStatus::create([
+                'customer_id' => $customer->id,
+                'welfare_code' => $welfare_codes[$id],
+                'welfare_name' => $welfare_names[$id],
+                'track_status' => 0,
+                'welfare_id' => $id,
+                'create_date' => now(),
+                'update_date' => now(),
+            ]);
+        }
+
+
         return redirect()->route('customers.index');
     }
 
@@ -177,7 +179,7 @@ class CustomersController extends Controller
     {
         //
         $users = User::all();
-        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
 
         $data = [
             'users' => $users,
@@ -196,7 +198,7 @@ class CustomersController extends Controller
     public function edit(Customer $customer)
     {
         //
-        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
         $users = User::all();
         $data = [
             'customer' => $customer,
@@ -282,7 +284,6 @@ class CustomersController extends Controller
     }
 
 
-
     public function record(Customer $customer)
     {
 
@@ -297,7 +298,7 @@ class CustomersController extends Controller
 
         $welfare_type_names = WelfareTypeName::all();
 
-        $status_text = ['---', '陌生', '重要', '普通', '潛在','無效'];
+        $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
 
 
         $data = [
@@ -343,9 +344,6 @@ class CustomersController extends Controller
 
         $this->validate($request, [
             'name' => 'required|max:10',
-            'phone_number' => 'required|max:20',
-            'extension_number' => 'required|max:20',
-            'email' => 'required|email|max:50',
         ]);
 
         $is_left = false;
@@ -401,9 +399,6 @@ class CustomersController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:10',
-            'phone_number' => 'required|max:20',
-            'extension_number' => 'required|max:20',
-            'email' => 'required|email|max:50',
             'is_left' => 'required|min:0|max:1',
         ]);
         $concat_person_id = $request['concat_person_id'];

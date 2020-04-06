@@ -34,7 +34,7 @@
                                 {{--                            <h3 class="text-left">客戶資訊</h3>--}}
                                 <div id="Customer">
                                     <h4 class="text-center">
-                                        <label style="font-size: medium">客戶資訊</label>
+                                        <label style="font-size: medium">客戶名稱</label>
                                     </h4>
                                 </div>
 
@@ -44,7 +44,7 @@
                                     <ul class="nav navbar-default"  style="background-color: transparent">
                                         <li class="nav-item">
                                             <a style="color: black;font-weight:bold;writing-mode: vertical-lr;z-index: 0"
-                                               href="#Customer">客戶資訊</a></li>
+                                               href="#Customer">客戶名稱</a></li>
                                         <li class="nav-item">
                                             <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
                                                href="#ConcatWindow">聯繫窗口</a></li>
@@ -66,7 +66,7 @@
                                         <th class="text-center" style="width: 10px;">客戶名稱</th>
                                         <th class="text-center" style="width: 10px;">聯絡電話</th>
                                         <th class="text-center" style="width: 10px;">規模</th>
-                                        <th class="text-center" style="width: 10px;">地區</th>
+                                        <th class="text-center" style="width: 15px;">地區</th>
                                         <th class="text-center" style="width: 10px;">狀態</th>
                                         <th class="text-center" style="width: 10px;">是否開通</th>
                                         <th class="text-center" style="width: 10px;">其他功能</th>
@@ -208,7 +208,7 @@
                                                 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                             },
                                             success: function (data) {
-                                                alert(data.success);
+                                                // alert(data.success);
                                                 location.reload()
                                             },
                                             error: function (request) {
@@ -273,7 +273,7 @@
                                                 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                             },
                                             success: function (data) {
-                                                alert(data.success);
+                                                // alert(data.success);
                                                 location.reload()
                                             },
                                             error: function (request) {

@@ -12,11 +12,9 @@
                 <small></small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> 首頁</a></li>
-                <li class="active">主控台</li>
+                <li><a href="{{route('dashboard.index')}}"><i class="fa fa-shopping-bag"></i> 首頁</a></li>
             </ol>
         </section>
-
         <!-- Main content -->
         <section class="content container-fluid">
 
@@ -33,22 +31,22 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered table-hover">
+                                <thead style="background-color: lightgray">
                                 <tr>
                                     <th class="text-center" style="width: 150px">客戶名稱</th>
                                     <th class="text-center" style="width: 150px">Email</th>
                                     <th class="text-center" style="width: 150px">Concat Info</th>
                                     <th class="text-center" style="width: 120px">Status</th>
-                                    {{--                            <th class="text-center" style="width: 120px">Notice</th>--}}
+                                    <th class="text-center" style="width: 120px">Note</th>
                                 </tr>
+                                </thead>
                                 @foreach ($customers as $customer)
                                     <tr class="text-center">
                                         <td>{{ $customer->name }}</td>
                                         <td>{{ $customer->tax_id }}</td>
                                         <td>{{ $customer->phone_number }}</td>
                                         <td>{{ $customer->status_id }} </td>
-
-
                                     </tr>
                                 @endforeach
                             </table>

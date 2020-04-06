@@ -29,6 +29,40 @@
                     <div class="box box-primary">
                         <div class="box-header">
                             <div class="row">
+                                <form name="filter_form" action="{{route('welfare_status.index')}}" method="get">
+                                    <div class="col-md-2 col-3">
+                                        <label>客戶篩選</label>
+                                        <select name="user_filter" class="form-control form-control-sm"
+                                                value="{{$user_filter}}">
+                                            <option value="0" @if($user_filter==0) selected @endif>全部客戶</option>
+                                            <option value="1" @if($user_filter==1) selected @endif>我的客戶</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-3">
+                                        <label>狀態篩選</label>
+                                        <select multiple name="status_filter[]"
+                                                class="form-control form-control-sm">
+                                            <option value="-1">All</option>
+                                            @foreach(['0','1','2'] as $col)
+                                                <option @if($col==$status_filter) selected
+                                                        @endif value="{{$col}}">{{$status_names[$loop->index]}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-3">
+                                        <label>排序方式</label>
+                                        <select multiple name="sortBy[]" class="form-control form-control-sm">
+                                            @foreach(['customer_id','welfare_id','track_status','budget','update_date'] as $col)
+                                                <option @if($col==$sortBy) selected
+                                                        @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-3">
+                                        <label>篩選按鈕</label><br>
+                                        <button type="submit" class="w-100 btn btn-sm bg-blue">Filter</button>
+                                    </div>
+                                </form>
                                 <div class="col-md-3 col-3">
                                     <label>搜尋</label><br>
                                     <!-- search form (Optional) -->
@@ -37,6 +71,7 @@
                                             <select name="search_type" class="form-group">
                                                 <option value="1">公司名稱</option>
                                                 <option value="2">目的</option>
+{{--                                                <option value="3">福利類別</option>--}}
                                             </select>
                                             <br>
                                             <div class="inline">
@@ -93,10 +128,10 @@
                                         </td>
                                         @if ($welfare_status->track_status==0)
                                             @php($css='label label-danger')
-                                        @elseif($welfare_status->track_status==2)
-                                            @php($css='label label-success')
                                         @elseif($welfare_status->track_status==1)
                                             @php($css='label label-info')
+                                        @elseif($welfare_status->track_status==2)
+                                            @php($css='label label-success')
                                         @endif
                                         <td><label class="label{{$css}}"
                                                    style="min-width:60px;display: inline-block">{{ $status_names[$welfare_status->track_status] }}</label>
@@ -116,7 +151,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
-                            {{ $welfare_statuses->links()}}
+                            {{ $welfare_statuses->appends(request()->input())->links()}}
                         </div>
                     </div>
                     <!-- /.box -->

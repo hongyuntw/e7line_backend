@@ -34,14 +34,14 @@
             <!-- Optionally, you can add icons to the links -->
             <li class="{{ (request()->is('/'))? 'active' : '' }}">
                 <a href="{{ route('dashboard.index') }}">
-                    <i class="fa fa-dashboard"></i> <span>主控台</span>
+                    <i class="fa fa-dashboard"></i> <span>首頁</span>
                 </a>
             </li>
 
 
             <li class="treeview{{ (request()->is('products*'))? ' active' : '' }}">
                 <a href="#">
-                    <i class="fa fa-shopping-bag"></i>
+                    <i class="fa fa-address-book"></i>
                     <span>業務資料</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -52,7 +52,7 @@
                     <li><a href="">客戶--</a></li>
                 </ul>
                 <a href="#">
-                    <i class="fa fa-shopping-bag"></i>
+                    <i class="fa fa-address-book"></i>
                     <span>客戶資料</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>

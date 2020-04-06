@@ -68,6 +68,9 @@ Route::middleware('auth')->group(function () {
 
 //  for user
     Route::get('users','UserController@index')->name('users.index');
+    Route::get('users/create', 'UserController@create')->name('users.create');
+    Route::post('users', 'UserController@store')->name('users.store');
+
 
 });
 

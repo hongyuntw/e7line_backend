@@ -23,85 +23,76 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-            <div class="row">
-                <!-- .col -->
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">新增管理者</h3>
+            <div class="container">
+
+                <form class="well form-horizontal" action="{{ route('users.store') }}" method="post">
+                    @csrf
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
+                            請修正以下表單錯誤：
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                        <!-- /.box-header -->
-                        <!-- form start -->
-                        <form role="form" action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
-
-                            @csrf
-
-                            <div class="box-body">
-
-                                @if ($errors->any())
-                                    <div class="alert alert-danger alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button>
-                                        <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
-                                        請修正以下表單錯誤：
-                                        <ul>
-                                            @foreach($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-
-                                <div class="form-group">
-                                    <label for="title">名稱</label>
-                                    <input type="text" class="form-control" id="title" name="name" placeholder="請輸入名稱"
-                                           value="{{ old('name') }}">
+                    @endif
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">業務名稱</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="請輸入名稱"
+                                           value="{{ old('name') }}" >
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" id="email" name="email"
-                                           placeholder="請輸入email" value="{{ old('email') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                           placeholder="請輸入密碼" value="">
-                                </div>
-                                    <div class="form-group">
-                                        <label for="password_confirmation">Password confirmation</label>
-                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                                               placeholder="請輸入密碼" value="">
-                                    </div>
-                                {{--<div class="form-group">--}}
-                                    {{--<label for="unit">Password</label>--}}
-                                    {{--<input type="text" class="form-control" id="unit" name="unit" placeholder="請輸入單位"--}}
-                                           {{--value="{{ old('unit') }}">--}}
-                                {{--</div>--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<label for="description">描述</label>--}}
-                                    {{--<textarea class="form-control" id="description" name="description" rows="5"--}}
-                                              {{--placeholder="請輸入描述">{{ old('description') }}</textarea>--}}
-                                {{--</div>--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<label for="cover">產品圖</label>--}}
-                                    {{--<input type="file" id="image" name="image">--}}
-                                {{--</div>--}}
                             </div>
-                            <!-- /.box-body -->
-
-                            <div class="box-footer text-right">
-                                <a class="btn btn-link" href="{{route('users.index')}}">取消</a>
-                                <button type="submit" class="btn btn-primary">新增</button>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">信箱</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input type="text" class="form-control"name="email" placeholder="請輸入信箱"
+                                           value="{{ old('email') }}" >
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <!-- /.box -->
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">密碼</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input type="password" class="form-control"name="password" placeholder="請輸入密碼">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">再次輸入密碼</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input type="password" class="form-control"name="password_confirmation" placeholder="請再次輸入密碼">
+                                </div>
+                            </div>
+                        </div>
 
-                </div>
-                <!-- /.col -->
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
+                            <div class="col-md-4">
+                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
+                                <button type="submit" class="btn btn-primary">確認送出</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
             </div>
             <!-- /.row -->
 

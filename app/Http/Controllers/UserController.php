@@ -66,14 +66,13 @@ class UserController extends Controller
 //        $file = $request->file('image');
         $user = User::create($request->all());
         $user->password = Hash::make($user->password);
-        $user->level = 1;
+        $user->level = 0;
         $user->update();
 //        $unique_name = $product->id.'.'.$file->extension();
 //        $product->imagename = $unique_name;
 //        $product->update();
 //        $request->file('image')->move(public_path().'/storage',$unique_name);
         // $path = $request->file->storeAs('路路徑', '');
-
         return redirect()->route('users.index');
     }
 
