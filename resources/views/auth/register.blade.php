@@ -29,7 +29,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
     <div class="register-logo">
-        <a href="{{ route('dashboard.index') }}"><b>Admin</b>LTE</a>
+        <a href="{{ route('dashboard.index') }}">e7line業務系統</a>
     </div>
 
     <div class="register-box-body">

@@ -57,7 +57,6 @@ class WelfareStatusController extends Controller
 ////                        dd($query);
 //                    }
 //                    break;
-
                 default:
                     break;
             }
@@ -70,9 +69,19 @@ class WelfareStatusController extends Controller
             $user_filter = $request->query('user_filter');
         }
         if ($user_filter > 0) {
-            $query->join('customers','welfare_status.customer_id','=','customers.id');
-            $query->orWhere('customers.user_id', '=', Auth::user()->id);
+            switch ($user_filter){
+                case 1:
+                    $query->join('customers','welfare_status.customer_id','=','customers.id');
+                    $query->orWhere('customers.user_id', '=', Auth::user()->id);
+                    break;
+                case 2:
+                    $query->join('customers','welfare_status.customer_id','=','customers.id');
+                    $query->orWhere('customers.user_id', '=', 1);
+                default:
+                    break;
+            }
         }
+
 
         if ($request->has('status_filter')) {
             $status_filter = $request->query('status_filter');
@@ -151,15 +160,45 @@ class WelfareStatusController extends Controller
     public function store_welfare_type(Request $request)
     {
 
-        if($request->input('to_be_delete')){
-//            delete some
-            $buf = 1;
+//        dd($request);
+        $this->validate($request, [
+            'to_be_update.*' => 'required',
+        ],[
+            'to_be_update.*.required' => 'edit field should not be null'
+        ]);
+
+//        edit
+
+        if($request->input('to_be_update')){
+            foreach ($request->input('to_be_update') as $id => $name){
+                $welfare_type_name = WelfareTypeName::find($id);
+                $welfare_type_name->name = $name;
+                $welfare_type_name->update();
+            }
         }
 
-        foreach ($request->input('add_welfare_type_names') as $name){
-            WelfareTypeName::create([
-                'name' => $name,
-            ]);
+
+//        先刪除
+//        only admin can delete but may have some problem
+        if(Auth::user()->level==2){
+            if($request->input('to_be_delete')){
+//            delete some
+                $buf = 1;
+            }
+
+        }
+//        再編輯
+
+
+        if($request->input('add_welfare_type_names')){
+            foreach ($request->input('add_welfare_type_names') as $name){
+                if($name){
+                    WelfareTypeName::create([
+                        'name' => $name,
+                    ]);
+
+                }
+            }
         }
         return redirect()->route('welfare_status.index');
     }

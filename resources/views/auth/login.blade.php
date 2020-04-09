@@ -31,7 +31,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ route('dashboard.index') }}"><b>e7</b></a>
+        <a href="{{ route('dashboard.index') }}"><b>e7line業務系統</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">

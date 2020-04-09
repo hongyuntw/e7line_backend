@@ -37,6 +37,8 @@
                                                 value="{{$user_filter}}">
                                             <option value="0" @if($user_filter==0) selected @endif>全部客戶</option>
                                             <option value="1" @if($user_filter==1) selected @endif>我的客戶</option>
+                                            <option value="2" @if($user_filter==2) selected @endif>未指定業務</option>
+
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-3">
@@ -103,11 +105,11 @@
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th class="text-center" style="width:15%">客戶名稱</th>
-                                    <th class="text-center" style="width:15%">電話</th>
+                                    <th class="text-center" style="width:25%">客戶名稱</th>
+                                    <th class="text-center" style="width:10%">電話</th>
                                     <th class="text-center" style="width:10%">規模</th>
-                                    <th class="text-center" style="width:15%">縣市地區</th>
-                                    <th class="text-center" style="width:15%">狀態
+                                    <th class="text-center" style="width:10%">縣市地區</th>
+                                    <th class="text-center" style="width:10%">狀態
                                         <a href="#" id="question_mark_icon">
                                             <span class="glyphicon glyphicon-question-sign"></span>
                                             <img id="customer_status_img" src="/img/customer_status_description.png" style="position: absolute">
@@ -130,7 +132,7 @@
 
                                     </th>
                                     <th class="text-center" style="width: 10%">Sales</th>
-                                    <th class="text-center" style="width: 20%">其他功能</th>
+                                    <th class="text-center" style="width: 15%">其他功能</th>
 
                                 </tr>
                                 </thead>

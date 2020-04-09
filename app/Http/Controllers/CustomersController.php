@@ -64,9 +64,13 @@ class CustomersController extends Controller
         if ($request->has('sortBy')) {
             $sortBy = $request->query('sortBy');
             foreach ($sortBy as $q) {
-                $query->orderBy($q, 'DESC');
+                $query->orderBy($q);
 
             }
+        }
+        else{
+            $query->orderBy($sortBy, 'DESC');
+
         }
 //        dd($query);
 //        $customers = Customer::orderBy($sortBy, 'DESC')->paginate(15);
@@ -75,7 +79,15 @@ class CustomersController extends Controller
             $user_filter = $request->query('user_filter');
         }
         if ($user_filter > 0) {
-            $query->where('user_id', '=', Auth::user()->id);
+            switch ($user_filter){
+                case 1:
+                    $query->where('user_id', '=', Auth::user()->id);
+                    break;
+                case 2:
+                    $query->where('user_id', '=', 1);
+                default:
+                    break;
+            }
         }
 
 
@@ -137,7 +149,15 @@ class CustomersController extends Controller
 
         $this->validate($request, [
             'user_id' => 'required',
-            'name' => 'required',
+            'name' => 'required|unique:customers',
+
+
+            'tax_id' => 'numeric|max:8|nullable',
+            'phone_number'=>'max:20|nullable',
+            'fax_number'=>'max:20|nullable',
+            'address'=>'max:50|nullable',
+            'capital'=>'max:25|nullable',
+
             'status' => 'required',
             'city' => 'required',
             'area' => 'required',
@@ -158,7 +178,7 @@ class CustomersController extends Controller
                 'customer_id' => $customer->id,
                 'welfare_code' => $welfare_codes[$id],
                 'welfare_name' => $welfare_names[$id],
-                'track_status' => 0,
+                'track_status' => 1,
                 'welfare_id' => $id,
                 'create_date' => now(),
                 'update_date' => now(),
@@ -223,16 +243,17 @@ class CustomersController extends Controller
         $user_id = $customer->user->id;
 
         $this->validate($request, [
-            'name' => 'required',
-            'tax_id' => 'required',
-            'capital' => 'required',
-            'scales' => 'required',
-            'phone_number' => 'required',
-            'fax_number' => 'required',
-            'address' => 'required',
+            'name' => 'required|unique:customers,name,'.$customer->id,
+            'active_status' => 'required',
             'status' => 'required',
             'city' => 'required',
             'area' => 'required',
+
+            'capital'=>'max:25|nullable',
+            'tax_id' => 'numeric|digits_between:8,8|nullable',
+            'phone_number'=>'max:20|nullable',
+            'fax_number'=>'max:20|nullable',
+            'address'=>'max:50|nullable',
         ]);
 
         if ($request->has('user_id')) {
@@ -287,11 +308,12 @@ class CustomersController extends Controller
     public function record(Customer $customer)
     {
 
+
         $business_concat_persons = $customer->business_concat_persons()->orderBy('create_date', 'DESC')->get();
         $welfarestatus = $customer->welfarestatus->sortBy('welfare_id');
 //        dd($welfarestatus);
 
-        $concat_records = $customer->concat_records()->orderBy('update_date', 'DESC')->paginate(5);
+        $concat_records = $customer->concat_records()->orderBy('update_date', 'DESC')->paginate(10);
         $welfare_companies = WelfareCompany::all();
         $welfare_details = WelfareDetail::all();
 
@@ -344,6 +366,7 @@ class CustomersController extends Controller
 
         $this->validate($request, [
             'name' => 'required|max:10',
+            'email'=>'email|nullable',
         ]);
 
         $is_left = false;
@@ -369,12 +392,17 @@ class CustomersController extends Controller
     {
         $this->validate($request, [
             'status' => 'required|max:2|min:0',
-            'track_date' => 'date|nullable',
+            'track_date' => 'nullable|date|after:'.now(),
             'development_content' => 'required',
         ]);
-        Log::info($request['track_date']);
 
-        $track_date = $request['track_date'];
+
+        if($request['track_date']!=''){
+            $track_date = $request['track_date'];
+        }
+        else{
+            $track_date = null;
+        }
 
         $user_id = Auth::user()->id;
         $data = array(
@@ -400,6 +428,7 @@ class CustomersController extends Controller
         $this->validate($request, [
             'name' => 'required|max:10',
             'is_left' => 'required|min:0|max:1',
+            'email'=> 'email|nullable',
         ]);
         $concat_person_id = $request['concat_person_id'];
         $concat_person = BusinessConcatPerson::find($concat_person_id);
@@ -419,6 +448,9 @@ class CustomersController extends Controller
 
     public function update_concat_record(Request $request)
     {
+        $this->validate($request, [
+            'track_date' => 'nullable|date|after:'.now(),
+        ]);
         $concat_record = ConcatRecord::find($request['concat_record_id']);
         $concat_record->status = $request['record_status'];
         $concat_record->development_content = $request['development_content'];
@@ -441,7 +473,7 @@ class CustomersController extends Controller
 
         ]);
         if ($request['welfare_code'] > 0) {
-//        這邊再新增一種新的福利類別～
+//        這邊再新增一種新的福利類別 for 此客戶的此status
             $data = array(
                 'welfare_type_name_id' => $request['welfare_code'],
                 'welfare_status_id' => $request['welfare_status_id'],

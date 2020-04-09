@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{route('dashboard.index')}}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>e</b>7</span>
+        <span class="logo-mini"><b>e</b>7line業務系統</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>e</b>7</span>
+        <span class="logo-lg"><b>e</b>7line業務系統</span>
     </a>
 
     <!-- Header Navbar -->
@@ -167,9 +167,9 @@
                     </ul>
                 </li>
                 <!-- Control Sidebar Toggle Button -->
-                <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li>
+{{--                <li>--}}
+{{--                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>--}}
+{{--                </li>--}}
             </ul>
         </div>
     </nav>

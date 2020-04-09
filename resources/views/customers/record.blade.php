@@ -25,6 +25,26 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
+
+            {{--                                tabs bar--}}
+            <div style="right: 3px  ;float:right; position:fixed; background-color: #e7eeff;opacity: 0.7;z-index: 3">
+                <ul class="nav navbar-default" style="background-color: transparent">
+                    <li class="nav-item">
+                        <a style="color: black;font-weight:bold;writing-mode: vertical-lr;z-index: 0"
+                           href="#Customer">客戶名稱</a></li>
+                    <li class="nav-item">
+                        <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
+                           href="#ConcatWindow">聯繫窗口</a></li>
+                    <li class="nav-item">
+                        <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
+                           href="#Development_Record">開發紀錄</a></li>
+                    <li class="nav-item">
+                        <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
+                           href="#Welfare">福利資訊</a></li>
+                </ul>
+            </div>
+            {{--                            客戶資訊--}}
+
             <div class="tabs">
                 <div class="row">
                     <div class="col-md-12">
@@ -34,37 +54,22 @@
                                 {{--                            <h3 class="text-left">客戶資訊</h3>--}}
                                 <div id="Customer">
                                     <h4 class="text-center">
-                                        <label style="font-size: medium">客戶名稱</label>
+                                        <label style="font-size: medium">{{$customer->name}}</label>
                                     </h4>
                                 </div>
 
 
-{{--                                tabs bar--}}
-                                <div style="right: 3px  ;float:right; position:fixed; background-color: #e7eeff;opacity: 0.7" >
-                                    <ul class="nav navbar-default"  style="background-color: transparent">
-                                        <li class="nav-item">
-                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr;z-index: 0"
-                                               href="#Customer">客戶名稱</a></li>
-                                        <li class="nav-item">
-                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
-                                               href="#ConcatWindow">聯繫窗口</a></li>
-                                        <li class="nav-item">
-                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
-                                               href="#Development_Record">開發紀錄</a></li>
-                                        <li class="nav-item">
-                                            <a style="color: black;font-weight:bold;writing-mode: vertical-lr"
-                                               href="#Welfare">福利資訊</a></li>
-                                    </ul>
-                                </div>
+
                                 <br>
                                 <br>
                                 <br>
 
-                                <table class="table table-striped">
+                                <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 10px;">客戶名稱</th>
                                         <th class="text-center" style="width: 10px;">聯絡電話</th>
+                                        <th class="text-center" style="width: 10px;">資本額</th>
+
                                         <th class="text-center" style="width: 10px;">規模</th>
                                         <th class="text-center" style="width: 15px;">地區</th>
                                         <th class="text-center" style="width: 10px;">狀態</th>
@@ -73,8 +78,9 @@
                                     </tr>
                                     </thead>
                                     <tr>
-                                        <td class="text-center">{{$customer->name}}</td>
                                         <td class="text-center">{{$customer->phone_number}}</td>
+                                        <td class="text-center">{{$customer->capital}} </td>
+
                                         <td class="text-center">{{$customer->scales}} 人</td>
                                         <td class="text-center">{{$customer->city}}{{$customer->area}}</td>
                                         <td class="text-center">
@@ -146,8 +152,17 @@
                                 </table>
 
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-{{--                            聯繫窗口--}}
+            {{--                            聯繫窗口--}}
+            <div class="tabs">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box">
+
 
                             <div class="box-body">
                                 <div id="ConcatWindow"></div>
@@ -331,18 +346,18 @@
                                 </script>
 
 
-                                <table class="table table-striped">
+                                <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center col-1">聯絡人姓名</th>
-                                        <th class="text-center col-1">聯絡電話</th>
-                                        <th class="text-center col-1">分機</th>
-                                        <th class="text-center col-3">聯絡信箱</th>
-                                        <th class="text-center col-3">收信意願</th>
-                                        <th class="text-center col-1">是否離職</th>
-                                        <th class="text-center col-1">創建日期</th>
+                                        <th class="text-center col-1" style="width: 10%">聯絡人姓名</th>
+                                        <th class="text-center col-1" style="width: 15%">聯絡電話</th>
+                                        <th class="text-center col-1" style="width: 6%">分機</th>
+                                        <th class="text-center col-3" style="width: 12%">聯絡信箱</th>
+                                        <th class="text-center col-3" style="width: 8%">收信意願</th>
+                                        <th class="text-center col-1" style="width: 8%">是否離職</th>
+                                        <th class="text-center col-1" style="width: 10%">創建日期</th>
 
-                                        <th class="text-center col-1">其他功能</th>
+                                        <th class="text-center col-1" style="width: 18%">其他功能</th>
 
                                     </tr>
                                     </thead>
@@ -419,7 +434,7 @@
                                                 </select>
 
                                             </td>
-                                            <td class="text-center">{{$concat_person->create_date}}</td>
+                                            <td class="text-center">{{date("Y-m-d", strtotime($concat_person->create_date))}}</td>
                                             <td class="text-center">
                                                 <button onClick="edit_confirm_btn_reply_click(this.name)"
                                                         class="label label-success text-center"
@@ -446,10 +461,19 @@
 
 
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{--                            開發紀錄--}}
+
+            <div class="tabs">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box">
 
 
-
-{{--                            開發紀錄--}}
                             <div class="box-body">
                                 <div id="Development_Record">
                                     <h4 class="text-center">
@@ -474,7 +498,7 @@
                                         html = '<form method="post" id="dynamic_form">';
                                         {{--html += '@csrf';--}}
                                             html += '<label>狀態</label> <br>';
-                                        html += '<select name="status">';
+                                        html += '<select id="status" name="status" onchange="status_select_changed()">';
                                         html += '<option value=0>已完成</option>';
                                         html += '<option value=1>待追蹤</option>'
                                         html += '<option value=2>其他</option>'
@@ -483,9 +507,9 @@
 
                                         html += '<input type="text" name="development_content" placeholder="開發內容" class="form-control"/>';
                                         html += '<input type="text" name="track_content" placeholder="追蹤內容" class="form-control"/>';
-                                        html += '<label>追蹤日期</label> <br>';
-
-                                        html += '<input type="date" name="track_date" /> <br>';
+                                        html += '<div id="track_date_div"></div>';
+                                        // html += '<label>追蹤日期</label> <br>';
+                                        // html += '<input type="date" name="track_date" /> <br>';
 
 
                                         html += '<button onclick="insert_record()" type="button" name="add_record" id="add_record" class="btn btn-primary">Add</button>';
@@ -494,11 +518,31 @@
                                         $('#add_record_form').append(html);
                                     }
 
+                                    function status_select_changed() {
+                                        var selectObj = document.getElementById("status");
+                                        if (selectObj.selectedIndex == 1) {
+                                            html = '<label>追蹤日期</label> <br>';
+                                            html += '<input type="date" name="track_date" /> <br>';
+                                            $('#track_date_div').append(html);
+                                        } else {
+                                            document.getElementById("track_date_div").innerHTML = '';
+
+
+                                        }
+
+
+                                    }
+
+
                                     function insert_record() {
                                         var status = document.getElementsByName('status')[0].value;
                                         var development_content = document.getElementsByName('development_content')[0].value;
                                         var track_content = document.getElementsByName('track_content')[0].value;
-                                        var track_date = document.getElementsByName('track_date')[0].value;
+                                        var track_date = '';
+                                        console.log(document.getElementsByName('track_date'));
+                                        if (document.getElementsByName('track_date').length > 0) {
+                                            track_date = document.getElementsByName('track_date')[0].value;
+                                        }
                                         var customer_id = '{{$customer->id}}';
                                         $.ajax({
                                             method: 'POST',
@@ -571,7 +615,8 @@
 
                                         <tr class="text-center">
                                             <td class="align-middle" style="vertical-align: middle">
-                                                <label style="min-width: 60px;display: inline-block;" class="{{$status_css}}">{{$status_name}}</label>
+                                                <label style="min-width: 60px;display: inline-block;"
+                                                       class="{{$status_css}}">{{$status_name}}</label>
                                                 {{--                                                 hidden--}}
                                                 <select style="display:none;height: 25px" class="form-control"
                                                         name="edit_concat_record_info{{$concat_record->id}}">
@@ -588,7 +633,7 @@
 
                                             </td>
                                             <style>
-                                                textarea:hover{
+                                                textarea:hover {
                                                     height: 6em;
                                                 }
                                             </style>
@@ -606,13 +651,18 @@
                                                           value="{{$concat_record->track_content}}">{{$concat_record->track_content}}</textarea>
                                             </td>
                                             <td class="align-middle" style="vertical-align: middle">
-                                                {{date("Y-m-d", strtotime($concat_record->track_date))}}
-                                                {{--                                                hidden--}}
-                                                <input value="{{date("Y-m-d", strtotime($concat_record->track_date))}}"
-                                                       type="date" style="display: none" class="form-control text-center"
-                                                       name="edit_concat_record_info{{$concat_record->id}}">
+                                                @if($concat_record->track_date)
+                                                    {{date("Y-m-d", strtotime($concat_record->track_date))}}
+                                                @else
+                                                    -
+                                                @endif
+                                                <input
+                                                    value="@if($concat_record->track_date){{date("Y-m-d", strtotime($concat_record->track_date))}}@endif"
+                                                    type="date" style="display: none" class="form-control text-center"
+                                                    name="edit_concat_record_info{{$concat_record->id}}">
                                             </td>
-                                            <td class="align-middle" style="vertical-align: middle">{{date("Y-m-d", strtotime($concat_record->create_date))}}</td>
+                                            <td class="align-middle"
+                                                style="vertical-align: middle">{{date("Y-m-d", strtotime($concat_record->create_date))}}</td>
                                             <td class="align-middle" style="vertical-align: middle">
                                                 <button onClick="confirm_concat_record_btn_reply_click(this.name)"
                                                         class="label label-success" style="display: none"
@@ -727,8 +777,19 @@
                                 {{$concat_records->links()}}
                                 </tfoot>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-{{--                            福利資訊--}}
+            {{--                            福利資訊--}}
+
+
+            <div class="tabs">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box">
+
                             <div class="box-body">
                                 <div id="Welfare">
                                     <h4 class="text-center">
@@ -740,7 +801,8 @@
                                 <br>
                                 <br>
                                 <br>
-                                <a id="add_welfare_btn" name="add_welfare_btn" class="btn btn-link">
+                                <a href="{{route('welfare_status.add_welfare_type')}}" id="add_welfare_btn"
+                                   name="add_welfare_btn" class="btn btn-link">
                                     <i class="glyphicon glyphicon-pencil"></i> Update Detail
                                 </a><br>
 
@@ -762,7 +824,6 @@
                                             welfare_types_delete_btn[i].style.display = '';
                                         }
                                         for (var i = 0; i < add_inputs.length; i++) {
-                                            // edit_inputs[i].setAttribute("class", "democlass");
                                             if (i == 1 || i == 2) {
                                                 add_inputs[i].disabled = false;
                                             } else {
@@ -905,11 +966,12 @@
 
                                                 @foreach($welfare_status->welfare_types as $wtype)
 
-                                                        <li>{{$wtype->welfare_type_name->name}}<a id="{{$wtype->id}}"
-                                                                               name="all_welfare_type_{{$welfare_status->id}}"
-                                                                                style="color:darkred;display: none;text-shadow:0 1px 0 #fff;
+                                                    <li>{{$wtype->welfare_type_name->name}}<a id="{{$wtype->id}}"
+                                                                                              name="all_welfare_type_{{$welfare_status->id}}"
+                                                                                              style="color:darkred;display: none;text-shadow:0 1px 0 #fff;
                                                                                 font-size: 21px;font-weight: 700;line-height: 1;opacity: 2;cursor: pointer"
-                                                                               onclick="delete_welfare_type_btn_click(this.id)">x</a></li>
+                                                                                              onclick="delete_welfare_type_btn_click(this.id)">x</a>
+                                                    </li>
 
 
 
@@ -917,9 +979,12 @@
                                                 <select style="display: none" name="add_welfare_{{$welfare_status->id}}"
                                                         class="custom-select">
                                                     <option value="-1">無</option>
+
                                                     @foreach($welfare_type_names as $welfare_type_name)
-                                                        <option
-                                                            value="{{$welfare_type_name->id}}">{{$welfare_type_name->name}}</option>
+                                                        @if(!(in_array($welfare_type_name->id, $welfare_status->welfare_types->pluck('welfare_type_name_id')->toArray())))
+                                                            <option
+                                                                value="{{$welfare_type_name->id}}">{{$welfare_type_name->name}}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
 
@@ -931,7 +996,8 @@
                                                 <br>
                                             </td>
                                             <td class="align-middle" style="vertical-align: middle">
-                                                <input  disabled="true" style="text-align: center;top: 50%"  name="add_welfare_{{$welfare_status->id}}"
+                                                <input disabled="true" style="text-align: center;top: 50%"
+                                                       name="add_welfare_{{$welfare_status->id}}"
                                                        value="{{$welfare_status->budget}}">
 
                                             </td>

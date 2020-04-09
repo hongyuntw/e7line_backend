@@ -78,15 +78,18 @@
                                             array_push($welfare_type_array, $welfare_type->welfare_type_name_id)
                                         ?>
                                     @endforeach
-                                    <select name="welfare_types[]" class="form-control" multiple>
+                                    <select id="welfare_type_select" name="welfare_types[]" class="form-control" multiple>
                                         @foreach($welfare_type_names as $welfare_type_name)
                                             <option value="{{ $welfare_type_name->id}}" @if( in_array($welfare_type_name->id,$welfare_type_array)) selected @endif> {{ $welfare_type_name->name }}</option>
                                         @endforeach
                                     </select>
+                                    <script>
+                                        $(function () {
+                                            $("#welfare_type_select").attr("size",$("#welfare_type_select option").length);
+                                        });
+                                    </script>
                                 </div>
                             </div>
-
-
                         </div>
 
 
@@ -103,7 +106,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">追蹤狀況</label>
+                            <label class="col-md-4 control-label">交易狀況</label>
                             <div class="col-md-4 selectContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>

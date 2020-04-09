@@ -18,6 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        body{font-family: arial,"Microsoft JhengHei","微軟正黑體",sans-serif !important;}
+    </style>
 </head>
 <body>
     <div id="app">

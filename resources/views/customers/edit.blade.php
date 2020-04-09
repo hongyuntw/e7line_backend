@@ -128,7 +128,7 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                                    <input type="number" class="form-control" id="capital" name="capital"
+                                    <input type="text" class="form-control" id="capital" name="capital"
                                            placeholder="請輸入資本額" value="{{ old('capital', $customer->capital) }}">
                                 </div>
                             </div>

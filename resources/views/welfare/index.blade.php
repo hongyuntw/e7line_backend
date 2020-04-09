@@ -36,6 +36,8 @@
                                                 value="{{$user_filter}}">
                                             <option value="0" @if($user_filter==0) selected @endif>全部客戶</option>
                                             <option value="1" @if($user_filter==1) selected @endif>我的客戶</option>
+                                            <option value="2" @if($user_filter==2) selected @endif>未指定業務</option>
+
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-3">
@@ -66,18 +68,18 @@
                                 <div class="col-md-3 col-3">
                                     <label>搜尋</label><br>
                                     <!-- search form (Optional) -->
-                                    <form  action="{{route('welfare_status.index')}}" method="get">
+                                    <form action="{{route('welfare_status.index')}}" method="get">
                                         <div class="form-inline">
                                             <select name="search_type" class="form-group">
                                                 <option value="1">公司名稱</option>
                                                 <option value="2">目的</option>
-{{--                                                <option value="3">福利類別</option>--}}
+                                                {{--                                                <option value="3">福利類別</option>--}}
                                             </select>
                                             <br>
                                             <div class="inline">
                                                 <input type="text" name="search_info" class="form-control"
                                                        placeholder="Search...">
-                                                <button type="submit" id="search-btn"  style="cursor: pointer"
+                                                <button type="submit" id="search-btn" style="cursor: pointer"
                                                         class="btn btn-flat"><i class="fa fa-search"></i>
                                                 </button>
                                             </div>
@@ -87,9 +89,14 @@
 
                                 </div>
 
-                                <div class="box-tools col-md-1 col-3 right">
+                                <div class="box-tools col-md-1 col-3 right ">
                                     <label>特殊功能</label><br>
-                                    <a class="btn btn-success btn-sm" href="{{route('welfare_status.add_welfare_type')}}">新增福利類別</a>
+                                    <a class="btn btn-success btn-sm"
+                                       href="{{route('welfare_status.add_welfare_type')}}">新增福利類別</a>
+                                    <br><br>
+
+                                    <a class="btn btn-success btn-sm"
+                                       href="">新增客戶福利</a>
                                 </div>
                             </div>
                             {{--<div class="box-tools">--}}
@@ -106,46 +113,58 @@
                                     <th class="text-center" style="width: 20%">客戶名稱</th>
                                     <th class="text-center" style="width: 10%">目的</th>
                                     <th class="text-center" style="width: 10%">福利類別</th>
-                                    <th class="text-center" style="width: 10%">追蹤狀況</th>
+                                    <th class="text-center" style="width: 10%">交易狀況</th>
                                     <th class="text-center" style="width: 10%">預算</th>
                                     <th class="text-center" style="width: 10%">更新日期</th>
-                                    <th class="text-center" style="width: 20%">其他功能</th>
+                                    <th class="text-center" style="width: 10%">負責業務</th>
+
+                                    <th class="text-center" style="width: 10%">其他功能</th>
 
 
                                 </tr>
                                 </thead>
                                 @foreach ($welfare_statuses as $welfare_status)
-                                    <tr class="text-center">
-                                        <td class="text-left"><svg class="bi bi-briefcase-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M0 12.5A1.5 1.5 0 001.5 14h13a1.5 1.5 0 001.5-1.5V6.85L8.129 8.947a.5.5 0 01-.258 0L0 6.85v5.65z" clip-rule="evenodd"/>
-                                                <path fill-rule="evenodd" d="M0 4.5A1.5 1.5 0 011.5 3h13A1.5 1.5 0 0116 4.5v1.384l-7.614 2.03a1.5 1.5 0 01-.772 0L0 5.884V4.5zm5-2A1.5 1.5 0 016.5 1h3A1.5 1.5 0 0111 2.5V3h-1v-.5a.5.5 0 00-.5-.5h-3a.5.5 0 00-.5.5V3H5v-.5z" clip-rule="evenodd"/>
-                                            </svg>&nbsp; {{$welfare_status->customer->name }}</td>
-                                        <td>{{ $welfare_status->welfare_name }}</td>
-                                        <td class="text-left">
-                                            @foreach($welfare_status->welfare_types as $welfare_type)
-                                                <li>{{$welfare_type->welfare_type_name->name}}</li>
-                                            @endforeach
-                                        </td>
-                                        @if ($welfare_status->track_status==0)
-                                            @php($css='label label-danger')
-                                        @elseif($welfare_status->track_status==1)
-                                            @php($css='label label-info')
-                                        @elseif($welfare_status->track_status==2)
-                                            @php($css='label label-success')
-                                        @endif
-                                        <td><label class="label{{$css}}"
-                                                   style="min-width:60px;display: inline-block">{{ $status_names[$welfare_status->track_status] }}</label>
-                                        </td>
-                                        <td>{{ $welfare_status->budget}}</td>
-                                        <td>{{date("Y-m-d", strtotime($welfare_status->update_date))}}</td>
-                                        <td class="text-center">
-{{--                                            <a href=""--}}
-{{--                                               class="btn btn-xs btn-success">新增類別</a>--}}
-                                            <a href="{{route('welfare_status.edit',$welfare_status->id)}}"
-                                               class="btn btn-xs btn-primary">編輯</a>
+                                    @if(count($welfare_status->welfare_types)>0 || ($welfare_status->budget !='0' && $welfare_status->budget !=''))
+                                        <tr class="text-center">
+                                            <td class="text-left">
+                                                <svg class="bi bi-briefcase-fill" width="1em" height="1em"
+                                                     viewBox="0 0 16 16" fill="currentColor"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                          d="M0 12.5A1.5 1.5 0 001.5 14h13a1.5 1.5 0 001.5-1.5V6.85L8.129 8.947a.5.5 0 01-.258 0L0 6.85v5.65z"
+                                                          clip-rule="evenodd"/>
+                                                    <path fill-rule="evenodd"
+                                                          d="M0 4.5A1.5 1.5 0 011.5 3h13A1.5 1.5 0 0116 4.5v1.384l-7.614 2.03a1.5 1.5 0 01-.772 0L0 5.884V4.5zm5-2A1.5 1.5 0 016.5 1h3A1.5 1.5 0 0111 2.5V3h-1v-.5a.5.5 0 00-.5-.5h-3a.5.5 0 00-.5.5V3H5v-.5z"
+                                                          clip-rule="evenodd"/>
+                                                </svg>&nbsp; {{$welfare_status->customer->name }}</td>
+                                            <td>{{ $welfare_status->welfare_name }}</td>
+                                            <td class="text-left">
+                                                @foreach($welfare_status->welfare_types as $welfare_type)
+                                                    <li>{{$welfare_type->welfare_type_name->name}}</li>
+                                                @endforeach
+                                            </td>
+                                            @if ($welfare_status->track_status==0)
+                                                @php($css='label label-danger')
+                                            @elseif($welfare_status->track_status==1)
+                                                @php($css='label label-info')
+                                            @elseif($welfare_status->track_status==2)
+                                                @php($css='label label-success')
+                                            @endif
+                                            <td><label class="label{{$css}}"
+                                                       style="min-width:60px;display: inline-block">{{ $status_names[$welfare_status->track_status] }}</label>
+                                            </td>
+                                            <td>{{ $welfare_status->budget}}</td>
+                                            <td>{{date("Y-m-d", strtotime($welfare_status->update_date))}}</td>
+                                            <td class="text-left">{{\App\Customer::find($welfare_status->customer_id)->user->name}}</td>
+                                            <td class="text-center">
+                                                {{--                                            <a href=""--}}
+                                                {{--                                               class="btn btn-xs btn-success">新增類別</a>--}}
+                                                <a href="{{route('welfare_status.edit',$welfare_status->id)}}"
+                                                   class="btn btn-xs btn-primary">編輯</a>
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </table>
                         </div>

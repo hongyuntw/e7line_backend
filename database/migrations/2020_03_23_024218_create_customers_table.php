@@ -20,7 +20,8 @@ class CreateCustomersTable extends Migration
             $table->string('name',50);
 
             $table->string('tax_id',8)->nullable();
-            $table->unsignedInteger('capital')->nullable();
+//            $table->unsignedInteger('capital')->nullable();
+            $table->string('capital',25)->nullable();
             $table->unsignedInteger('scales')->nullable();
             $table->string('phone_number',20)->nullable();
             $table->string('fax_number',20)->nullable();

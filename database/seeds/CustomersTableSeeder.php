@@ -18,8 +18,8 @@ class CustomersTableSeeder extends Seeder
         foreach (range(1,50)as $id){
             \App\Customer::create([
                 'name' => $faker->name,
-                'tax_id' => '1234567',
-                'capital' => rand(1000, 10000),
+                'tax_id' => '12345678',
+                'capital' => (string)rand(1000, 10000),
                 'scales' => rand(10,500),
                 'phone_number' => $faker->phoneNumber,
                 'fax_number'=> $faker->phoneNumber,
