@@ -290,7 +290,6 @@ class WelfareStatusController extends Controller
         $welfare_status->update_date = now();
         $welfare_status->update();
         return redirect()->route('welfare_status.index');
-//        return redirect()->back();
 
 
     }
@@ -304,5 +303,16 @@ class WelfareStatusController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function add_customer_welfare()
+    {
+
+        $customers = Customer::all();
+        $data=[
+            'customers'=>$customers,
+        ];
+        return view('welfare.add_customer_welfare',$data);
     }
 }

@@ -96,7 +96,7 @@
                                     <br><br>
 
                                     <a class="btn btn-success btn-sm"
-                                       href="">新增客戶福利</a>
+                                       href="{{route('welfare_status.add_customer_welfare')}}">新增客戶福利</a>
                                 </div>
                             </div>
                             {{--<div class="box-tools">--}}

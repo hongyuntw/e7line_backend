@@ -23,6 +23,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect. -->
     <link rel="stylesheet" href="{{ asset('css/skins/skin-blue.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/selectize.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/selectize.bootstrap3.css') }}">
+
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,6 +39,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+{{--    <link rel="stylesheet" href="public/css/normalize.css">--}}
+{{--    <link rel="stylesheet" href="css/stylesheet.css">--}}
+    <!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+    <script src="public/js/jquery.min.js"></script>
+    <script src="public/js/standalone/selectize.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/standalone/selectize.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/selectize.js') }}"></script>
+
+
+{{--    <script src="js/index.js"></script>--}}
+{{--    <script--}}
+{{--        src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"--}}
+{{--        integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk="--}}
+{{--        crossorigin="anonymous"></script>--}}
+{{--    <link rel="stylesheet"--}}
+{{--          href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"--}}
+{{--          integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous"/>--}}
+
+{{--    <link href="https://cdn.bootcss.com/selectize.js/0.12.4/css/selectize.min.css" rel="stylesheet">--}}
+{{--    <link href="https://cdn.bootcss.com/selectize.js/0.12.4/css/selectize.bootstrap3.min.css" rel="stylesheet">--}}
+
+{{--    <script src="https://cdn.bootcss.com/selectize.js/0.12.4/js/standalone/selectize.min.js"></script>--}}
+
+{{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>--}}
+{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />--}}
+
+
 
     <!-- Google Font -->
     <link rel="stylesheet"

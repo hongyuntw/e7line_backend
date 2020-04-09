@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
 
 //    for welfare
     Route::patch('welfare_status/{welfare_status}', 'WelfareStatusController@update')->name('welfare_status.update');
+    Route::get('welfare_status/add_customer_welfare/{request?}', 'WelfareStatusController@add_customer_welfare')->name('welfare_status.add_customer_welfare');
 
     Route::get('welfare_status/{welfare_status}/edit', 'WelfareStatusController@edit')->name('welfare_status.edit');
     Route::get('welfare_status/add_welfare_type', 'WelfareStatusController@add_welfare_type')->name('welfare_status.add_welfare_type');
