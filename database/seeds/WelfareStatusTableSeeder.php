@@ -21,7 +21,7 @@ class WelfareStatusTableSeeder extends Seeder
 
 
         $faker = \Faker\Factory::create('zh_TW');
-        foreach (range(1,20)as $cusid){
+        foreach (range(1,50)as $cusid){
             foreach (range(0,count($welfare_name)-1)as $id){
                 \App\WelfareStatus::create([
                     'customer_id' => $cusid,

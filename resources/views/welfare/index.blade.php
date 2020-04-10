@@ -124,7 +124,7 @@
                                 </tr>
                                 </thead>
                                 @foreach ($welfare_statuses as $welfare_status)
-                                    @if(count($welfare_status->welfare_types)>0 || ($welfare_status->budget !='0' && $welfare_status->budget !=''))
+                                    @if(count($welfare_status->welfare_types)>0)
                                         <tr class="text-center">
                                             <td class="text-left">
                                                 <svg class="bi bi-briefcase-fill" width="1em" height="1em"

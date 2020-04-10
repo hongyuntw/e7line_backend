@@ -16,6 +16,7 @@ class CreateWelfareTypeNamesTable extends Migration
         Schema::create('welfare_type_names', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',20);
+            $table->boolean('is_deleted')->default('0');
         });
     }
 

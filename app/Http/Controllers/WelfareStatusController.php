@@ -104,6 +104,27 @@ class WelfareStatusController extends Controller
         }
 
 
+//        $welfare_statuses = $query->paginate(15);
+        $welfare_statuses = $query->get();
+
+        $query = WelfareStatus::query();
+
+        foreach ($welfare_statuses as $key => $value) {
+            if(count($value->welfare_types)<=0){
+                unset($welfare_statuses[$key]);
+            }
+            else{
+                $query->orWhere('id','=',$value->id);
+            }
+
+        }
+//        $page = (isset($_GET['page'])) ? $_GET['page'] : 0;
+
+//        $items = $welfare_statuses->forPage($page, 15); //Filter the page var
+
+//        $welfare_statuses = $query->get();
+//        dd(count($welfare_statuses));
+
         $welfare_statuses = $query->paginate(15);
 
         $data = [
@@ -182,8 +203,13 @@ class WelfareStatusController extends Controller
 //        only admin can delete but may have some problem
         if(Auth::user()->level==2){
             if($request->input('to_be_delete')){
-//            delete some
-                $buf = 1;
+                foreach ($request->input('to_be_delete') as $id ){
+                    $welfare_type_name = WelfareTypeName::find($id);
+                    $welfare_type_name->is_deleted = 1;
+                    $welfare_type_name->update();
+
+                }
+
             }
 
         }
@@ -308,11 +334,102 @@ class WelfareStatusController extends Controller
 
     public function add_customer_welfare()
     {
-
+        $welfare_type_names = WelfareTypeName::all();
         $customers = Customer::all();
+
+//        $selected_customer = [];
+//
+//        foreach ($customers as $customer){
+//            foreach ($customer->welfarestatus as $customer_welfare_status){
+//                if(count($customer_welfare_status->welfare_types)>0){
+//                    array_push($selected_customer,$customer);
+//                    break;
+//
+//                }
+//
+//            }
+//        }
+
+//        dd($selected_customer);
+
+
+
+
+
         $data=[
+            'status_names'=>self::$status_names,
+            'welfare_type_names'=>$welfare_type_names,
             'customers'=>$customers,
         ];
         return view('welfare.add_customer_welfare',$data);
     }
+
+
+    public function get_customer_welfare_status(Request $request)
+    {
+        $customer_id = $request['customer_select_id'];
+//        $welfare_status = WelfareStatus::where('customer_id','=',$customer_id)->get()->pluck('welfare_name','id');
+        $welfare_status = WelfareStatus::where('customer_id','=',$customer_id)->get();
+
+        $arr = [];
+        foreach ($welfare_status as $wt){
+            if(count($wt->welfare_types)<=0){
+                $arr[$wt->id]=$wt->welfare_name;
+            }
+        }
+//        return $welfare_status;
+        return $arr;
+    }
+
+    public function get_welfare_purpose_budget_status(Request $request)
+    {
+        $id = $request['welfare_status_id'];
+        $welfare_status = WelfareStatus::find($id);
+        $arr=[
+          'budget'=>$welfare_status->budget,
+          'track_status'=>$welfare_status->track_status,
+        ];
+        return $arr;
+    }
+
+
+
+
+    public function update_customer_welfare(Request $request)
+    {
+//        dd($request);
+        $this->validate($request, [
+            'customer_id' => 'required',
+            'welfare_status_id'=>'numeric|required|min:1',
+            'welfare_types'=>'required',
+            'status'=>'required',
+        ],[
+            'welfare_types.required'=>'請選擇要新增之福利類別',
+            'customer_id.required'=>'請選擇客戶',
+            'welfare_status_id.min'=>'請選擇一個福利目的',
+            'welfare_status_id.required'=>'請選擇一個福利目的',
+        ]);
+
+
+        $welfare_status = WelfareStatus::find($request->input('welfare_status_id'));
+        if($request->input('budget')){
+            $welfare_status->budget = $request->input('budget');
+        }
+        $welfare_status->track_status = $request->input('status');
+
+        foreach ($request->input('welfare_types') as $welfare_type_name_id){
+            WelfareType::Create([
+                'welfare_type_name_id'=>$welfare_type_name_id,
+                'welfare_status_id'=>$welfare_status->id,
+//                to be deleted
+                'welfare_type_company_relation_id'=>1,
+            ]);
+        }
+
+        $welfare_status->update();
+        return redirect()->route('welfare_status.index');
+
+
+    }
+
 }

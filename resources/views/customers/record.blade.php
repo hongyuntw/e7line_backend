@@ -584,7 +584,7 @@
                                 <table class="table table-striped" width="100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 8%;">status</th>
+                                        <th class="text-center" style="width: 15%;">status</th>
                                         <th class="text-center" style="width: 25%;">開發note</th>
                                         <th class="text-center" style="width: 25%;">追蹤note</th>
                                         <th class="text-center" style="width: 10%;">待追蹤日期</th>
@@ -982,7 +982,7 @@
 
                                                     @foreach($welfare_type_names as $welfare_type_name)
                                                         @if(!(in_array($welfare_type_name->id, $welfare_status->welfare_types->pluck('welfare_type_name_id')->toArray())))
-                                                            <option
+                                                            <option @if($welfare_type_name->is_deleted) disabled @endif
                                                                 value="{{$welfare_type_name->id}}">{{$welfare_type_name->name}}</option>
                                                         @endif
                                                     @endforeach

@@ -24,8 +24,21 @@
               | Your Page Content Here |
               -------------------------->
             <div class="container">
+                <script>
+                    function check_select(){
+                        var option_arr = document.getElementsByName("welfare_type_option");
+                        // console.log(option_arr);
+                        for (var i=0;i<option_arr.length;++i) {
+                            // console.log(option);
+                            option_arr[i].disabled=false;
+                        }
+                        // console.log(option_arr);
+                        return true;
 
-                <form class="well form-horizontal" action="{{route('welfare_status.update',$welfare_status->id)}}" method="post" id="contact_form">
+                    }
+                </script>
+
+                <form class="well form-horizontal" action="{{route('welfare_status.update',$welfare_status->id)}}" method="post" id="contact_form" onsubmit="return check_select()">
 
                     @csrf
                     @method('PATCH')
@@ -80,7 +93,7 @@
                                     @endforeach
                                     <select id="welfare_type_select" name="welfare_types[]" class="form-control" multiple>
                                         @foreach($welfare_type_names as $welfare_type_name)
-                                            <option value="{{ $welfare_type_name->id}}" @if( in_array($welfare_type_name->id,$welfare_type_array)) selected @endif> {{ $welfare_type_name->name }}</option>
+                                            <option name="welfare_type_option" @if($welfare_type_name->is_deleted) disabled @endif value="{{ $welfare_type_name->id}}" @if( in_array($welfare_type_name->id,$welfare_type_array)) selected @endif> {{ $welfare_type_name->name }}</option>
                                         @endforeach
                                     </select>
                                     <script>

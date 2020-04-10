@@ -25,7 +25,8 @@
               -------------------------->
             <div class="container">
 
-                <form class="well form-horizontal" action="" method="post" id="contact_form">
+                <form class="well form-horizontal" action="{{route('welfare_status.update_customer_welfare')}}"
+                      method="post">
                     @csrf
 
                     @if ($errors->any())
@@ -50,24 +51,59 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-
-
-                                    {{--                                    <input type="select-one" autocomplete="off" tabindex="" id="select_customer" style="width: 4px; opacity: 0;">--}}
-
-                                    <select id="select_customer" placeholder="Select a customer" name="customer_id" class="form-control" >
-{{--                                        <option value="">Select a customer...</option>--}}
+                                    <select id="select_customer" placeholder="Select a customer" name="customer_id">
+                                        <option value="">Select a customer...</option>
                                         @foreach($customers as $customer)
+
                                             <option value="{{$customer->id}}">{{$customer->name}}</option>
                                         @endforeach
                                     </select>
                                     <script>
+                                        var customer_select_id;
                                         $('#select_customer').selectize({
-                                            onChange: function(value) {
-                                                document.cookie="customer_id="+value;
+                                            onChange: function (value) {
+                                                customer_select_id = value;
+                                                console.log(customer_select_id);
+                                                $.ajax({
+                                                    url: '/ajax/get_customer_welfare_status',
+                                                    data: {customer_select_id: customer_select_id}
+                                                })
+                                                    .done(function (res) {
+                                                        console.log(res);
+                                                        const myNode = document.getElementById("dynamic_welfare_status");
+                                                        myNode.innerHTML = '';
+                                                        html = '<select id="welfare_status_id" name="welfare_status_id" class="form-control" onchange="welfare_purpose_onchange(this)">';
+                                                        html += '<option value=-1>請選擇福利目的</option>'
+                                                        for (let [key, value] of Object.entries(res)) {
+                                                            html += '<option value=\"' + key + '\">' + value + '</option>'
+
+                                                        }
+                                                        html += '</select>'
+                                                        $('#dynamic_welfare_status').append(html);
+                                                    })
                                             }
                                         });
+                                        function welfare_purpose_onchange(selectObj){
+                                            console.log(selectObj.options[selectObj.selectedIndex].value);
+                                            var selected_value = selectObj.options[selectObj.selectedIndex].value;
+                                            document.getElementById('welfare_status_id').value = selected_value;
+
+                                            $.ajax({
+                                                url: '/ajax/get_welfare_purpose_budget_status',
+                                                data: {welfare_status_id: selected_value}
+                                            })
+                                                .done(function (res) {
+                                                    console.log(res);
+                                                    console.log(res.budget);
+                                                    document.getElementById('budget').value = res.budget;
+                                                    var selectObj = document.getElementById("status");
+                                                    selectObj.options[res.track_status].selected = true;
+
+                                                })
+                                        }
+
                                     </script>
-                                    testing
+{{--                                    <input id="welfare_status_id" name="welfare_status_id" hidden="true" type="text" value="-1">--}}
                                 </div>
                             </div>
                         </div>
@@ -77,36 +113,36 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <select name="welfare" class="form-control">
-                                    </select>
+                                    <div id="dynamic_welfare_status">
+                                        <select disabled name="welfare_status_id" id="welfare_status_id" class="form-control">
+                                            <option value="-1">請選擇福利目的</option>
+                                        </select>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-
-                        {{--                        <div class="form-group">--}}
-                        {{--                            <label class="col-md-4 control-label">福利類別</label>--}}
-                        {{--                            <div class="col-md-4 selectContainer">--}}
-                        {{--                                <div class="input-group">--}}
-                        {{--                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>--}}
-                        {{--                                    @php($welfare_type_array = [])--}}
-                        {{--                                    @foreach($welfare_status->welfare_types as $welfare_type)--}}
-                        {{--                                        <?php--}}
-                        {{--                                        array_push($welfare_type_array, $welfare_type->welfare_type_name_id)--}}
-                        {{--                                        ?>--}}
-                        {{--                                    @endforeach--}}
-                        {{--                                    <select id="welfare_type_select" name="welfare_types[]" class="form-control" multiple>--}}
-                        {{--                                        @foreach($welfare_type_names as $welfare_type_name)--}}
-                        {{--                                            <option value="{{ $welfare_type_name->id}}" @if( in_array($welfare_type_name->id,$welfare_type_array)) selected @endif> {{ $welfare_type_name->name }}</option>--}}
-                        {{--                                        @endforeach--}}
-                        {{--                                    </select>--}}
-                        {{--                                    <script>--}}
-                        {{--                                        $(function () {--}}
-                        {{--                                            $("#welfare_type_select").attr("size",$("#welfare_type_select option").length);--}}
-                        {{--                                        });--}}
-                        {{--                                    </script>--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">福利類別</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                    <select id="welfare_type_select" name="welfare_types[]" class="form-control"
+                                            multiple>
+                                        @foreach($welfare_type_names as $welfare_type_name)
+                                            <option @if($welfare_type_name->is_deleted) disabled
+                                                    @endif value="{{ $welfare_type_name->id}}"> {{ $welfare_type_name->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <script>
+                                        $(function () {
+                                            $("#welfare_type_select").attr("size", $("#welfare_type_select option").length);
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div class="form-group">
@@ -114,30 +150,31 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                                    <input type="text" class="form-control" name="budget"
+                                    <input type="text" class="form-control" name="budget" id="budget"
                                            placeholder="請輸入預算" value="{{ old('budget') }}">
                                 </div>
                             </div>
                         </div>
 
 
-                    {{--                        <div class="form-group">--}}
-                    {{--                            <label class="col-md-4 control-label">交易狀況</label>--}}
-                    {{--                            <div class="col-md-4 selectContainer">--}}
-                    {{--                                <div class="input-group">--}}
-                    {{--                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>--}}
-                    {{--                                    <select id="status" name="status" class="form-control selectpicker">--}}
-                    {{--                                        @foreach(range(0,count($status_names)-1) as $st_id)--}}
-                    {{--                                            <option--}}
-                    {{--                                                value="{{ $st_id }}"{{ (old('$st_id', $welfare_status->track_status) == $st_id)? ' selected' : '' }}>{{ $status_names[$st_id] }}</option>--}}
-                    {{--                                        @endforeach--}}
-                    {{--                                    </select>--}}
-                    {{--                                </div>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">交易狀況</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                    <select id="status" name="status" class="form-control selectpicker">
+
+                                        @foreach(range(0,count($status_names)-1) as $st_id)
+                                            <option
+                                                value="{{ $st_id }}"{{ (old('st_id') == $st_id)? ' selected' : '' }}>{{ $status_names[$st_id] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
 
-                    <!-- Button -->
+                        <!-- Button -->
                         <div class="form-group">
                             <label class="col-md-4 control-label"></label>
                             <div class="col-md-4">

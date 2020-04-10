@@ -152,7 +152,7 @@ class CustomersController extends Controller
             'name' => 'required|unique:customers',
 
 
-            'tax_id' => 'numeric|max:8|nullable',
+            'tax_id' => 'numeric|digits_between:8,8|nullable',
             'phone_number'=>'max:20|nullable',
             'fax_number'=>'max:20|nullable',
             'address'=>'max:50|nullable',
