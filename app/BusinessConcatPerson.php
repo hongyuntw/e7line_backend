@@ -11,7 +11,7 @@ class BusinessConcatPerson extends Model
     const UPDATED_AT = null;
     protected $table = 'business_concat_persons';
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'create_date', 'update_date'];
 
 
     public function customer()

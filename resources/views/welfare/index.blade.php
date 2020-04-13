@@ -45,7 +45,7 @@
                                         <select multiple name="status_filter[]"
                                                 class="form-control form-control-sm">
                                             <option value="-1">All</option>
-                                            @foreach(['0','1','2'] as $col)
+                                            @foreach(['0','1','2','3'] as $col)
                                                 <option @if($col==$status_filter) selected
                                                         @endif value="{{$col}}">{{$status_names[$loop->index]}}</option>
                                             @endforeach
@@ -124,7 +124,7 @@
                                 </tr>
                                 </thead>
                                 @foreach ($welfare_statuses as $welfare_status)
-                                        <tr class="text-center">
+                                        <tr class="text-center" ondblclick="window.location.href = '/welfare_status/' + {{$welfare_status->id}} + '/edit';">
                                             <td class="text-left">
                                                 <svg class="bi bi-briefcase-fill" width="1em" height="1em"
                                                      viewBox="0 0 16 16" fill="currentColor"
@@ -148,7 +148,8 @@
                                                 @php($css='label label-info')
                                             @elseif($welfare_status->track_status==2)
                                                 @php($css='label label-success')
-                                            @endif
+                                            @elseif($welfare_status->track_status==3)
+                                                @php($css='label label-warning')                                            @endif
                                             <td><label class="label{{$css}}"
                                                        style="min-width:60px;display: inline-block">{{ $status_names[$welfare_status->track_status] }}</label>
                                             </td>

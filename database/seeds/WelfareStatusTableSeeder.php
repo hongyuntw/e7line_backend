@@ -28,7 +28,7 @@ class WelfareStatusTableSeeder extends Seeder
                     'budget' => (string)rand(1000, 10000),
                     'welfare_code' => $welfare_code[$id],
                     'welfare_name' => $welfare_name[$id],
-                    'track_status'=>rand(0,2),
+                    'track_status'=>rand(0,3),
                     'welfare_id'=> $id,
                     'note'=>$faker->realText(rand(10,20)),
                     'create_date' => now()->subDays(20 - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),

@@ -365,7 +365,7 @@ class CustomersController extends Controller
     {
 
         $this->validate($request, [
-            'name' => 'required|max:10',
+            'name' => 'required|max:30',
             'email'=>'email|nullable',
         ]);
 
@@ -426,7 +426,7 @@ class CustomersController extends Controller
     public function update_concat_person(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:10',
+            'name' => 'required|max:30',
             'is_left' => 'required|min:0|max:1',
             'email'=> 'email|nullable',
         ]);

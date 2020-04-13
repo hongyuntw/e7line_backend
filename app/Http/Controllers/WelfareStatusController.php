@@ -17,7 +17,7 @@ class WelfareStatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public static  $status_names  = ['Block','Pending','Success'];
+    public static  $status_names  = ['Block','Pending','Success','Tracking'];
     public function index(Request $request)
     {
         $sortBy = 'customer_id';

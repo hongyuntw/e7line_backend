@@ -16,9 +16,9 @@ class CreateBusinessConcatPersonsTable extends Migration
         Schema::create('business_concat_persons', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('customer_id');
-            $table->string('name',10);
-            $table->string('phone_number',20)->nullable();
-            $table->string('extension_number',10)->nullable();
+            $table->string('name',30);
+            $table->string('phone_number',30)->nullable();
+            $table->string('extension_number',30)->nullable();
             $table->string('email',50)->nullable();
             $table->boolean('is_left')->default(false);
             $table->boolean('want_receive_mail')->default(true);
