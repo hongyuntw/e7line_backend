@@ -52,7 +52,7 @@
                                         <label>
                                             <input @if(Auth::user()->level!=2 || $welfare_type_name->is_deleted) disabled @endif type="checkbox" name="to_be_delete[]" value="{{$welfare_type_name->id}}"/>
 
-                                            <input @if(Auth::user()->level!=2 || $welfare_type_name->is_deleted) disabled @endif ondblclick="edit_field_control(this.name)"  type="text" name="to_be_update[{{$welfare_type_name->id}}]" size="10" value="{{$welfare_type_name->name}}">
+                                            <input @if(Auth::user()->level!=2 || $welfare_type_name->is_deleted) disabled @endif ondblclick="edit_field_control(this.name)"   class="form-control"  type="text" name="to_be_update[{{$welfare_type_name->id}}]" size="10" value="{{$welfare_type_name->name}}">
                                         </label>
                                         <br>
 {{--                                        <input type="text" value="{{$welfare_type_name->name}}" name="to_be_update[]" placeholder="請新增福利名稱">--}}
