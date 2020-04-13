@@ -42,6 +42,9 @@ class WelfareStatusController extends Controller
                     if($search_info!=''){
                         $query->join('customers','welfare_status.customer_id','=','customers.id');
                         $query->orWhere('customers.name','like',"%{$search_info}%");
+                        $query->select('welfare_status.*');
+//                        $welfare_statuses = $query->get();
+//                        dd($welfare_statuses);
                     }
                     break;
                 case 2:
@@ -104,7 +107,6 @@ class WelfareStatusController extends Controller
         }
 
 
-//        $welfare_statuses = $query->paginate(15);
         $welfare_statuses = $query->get();
 
         $query = WelfareStatus::query();
@@ -118,14 +120,9 @@ class WelfareStatusController extends Controller
             }
 
         }
-//        $page = (isset($_GET['page'])) ? $_GET['page'] : 0;
-
-//        $items = $welfare_statuses->forPage($page, 15); //Filter the page var
-
-//        $welfare_statuses = $query->get();
-//        dd(count($welfare_statuses));
 
         $welfare_statuses = $query->paginate(15);
+//        dd($welfare_statuses);
 
         $data = [
             'status_names'=>self::$status_names,

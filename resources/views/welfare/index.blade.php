@@ -71,7 +71,7 @@
                                     <form action="{{route('welfare_status.index')}}" method="get">
                                         <div class="form-inline">
                                             <select name="search_type" class="form-group">
-                                                <option value="1">公司名稱</option>
+                                                <option value="1">客戶名稱</option>
                                                 <option value="2">目的</option>
                                                 {{--                                                <option value="3">福利類別</option>--}}
                                             </select>
@@ -124,7 +124,6 @@
                                 </tr>
                                 </thead>
                                 @foreach ($welfare_statuses as $welfare_status)
-                                    @if(count($welfare_status->welfare_types)>0)
                                         <tr class="text-center">
                                             <td class="text-left">
                                                 <svg class="bi bi-briefcase-fill" width="1em" height="1em"
@@ -164,7 +163,6 @@
 
                                             </td>
                                         </tr>
-                                    @endif
                                 @endforeach
                             </table>
                         </div>
