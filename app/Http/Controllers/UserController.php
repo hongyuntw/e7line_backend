@@ -93,9 +93,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         //
+        $data = [
+            'user'=>$user,
+        ];
+
+        return view('users.edit',$data);
+
     }
 
     /**
@@ -105,9 +111,33 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,User $user)
     {
         //
+        $this->validate($request, [
+            'name' => 'required',
+            'password' => 'nullable|min:6|confirmed',
+            'password_confirmation' => 'nullable|string|same:password',
+        ]);
+
+        $user->name = $request->input('name');
+        if($request->input('password')){
+            $newpwd = Hash::make($request->input('password'));
+            $user->password = $newpwd;
+        }
+
+        if($request->input('level')){
+            $user->level = $request->input('level');
+        }
+
+        $user->updated_at = now();
+
+        $user->update();
+
+        return redirect()->route('users.index');
+
+
+
     }
 
     /**

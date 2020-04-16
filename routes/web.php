@@ -21,7 +21,7 @@
 
 Route::middleware('auth')->group(function () {
 
-//    index
+//    dashboard
     Route::get('/','DashboardController@index')->name('dashboard.index');
     Route::get('/ajax/getPage','DashboardController@getPage')->name('dashboard.getPage');
     Route::get('/ajax/getwPage','DashboardController@getwPage')->name('dashboard.getwPage');
@@ -82,6 +82,16 @@ Route::middleware('auth')->group(function () {
     Route::get('users','UserController@index')->name('users.index');
     Route::get('users/create', 'UserController@create')->name('users.create');
     Route::post('users', 'UserController@store')->name('users.store');
+    Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
+    Route::patch('users/{user}', 'UserController@update')->name('users.update');
+
+
+
+
+
+//    for mails
+    Route::get('mails','MailsController@index')->name('mails.index');
+
 
 
 });

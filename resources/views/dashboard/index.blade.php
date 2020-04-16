@@ -83,6 +83,8 @@
                                         ids.push(inputs[i].id);
                                     }
                                 }
+                                var currpage = document.getElementById("current_customer_page").value;
+                                console.log(currpage);
                                 // console.log(data);
                                 $.ajax({
                                     type: "POST",
@@ -92,11 +94,10 @@
                                     },
                                     data: {
                                         ids : ids,
-                                        page: '{{$page}}',
+                                        page: currpage,
                                     },
                                     success: function(msg)
                                     {
-                                        console.log(msg);
                                         page(msg);
                                     }
                                 });
@@ -110,6 +111,8 @@
                             <form method="post" id="change_record_status_form">
 
                                 <div id="dynamic_page">
+                                    <input hidden type="text" id="current_customer_page" value="{{$page}}">
+
 
                                     <table class="table table-bordered table-hover" style="width: 100%">
                                         <thead style="background-color: lightgray">

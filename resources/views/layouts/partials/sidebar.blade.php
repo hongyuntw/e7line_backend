@@ -49,7 +49,8 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{route('users.index')}}">業務列表</a></li>
-                    <li><a href="">客戶--</a></li>
+                    <li><a href="{{route('users.create')}}">新增業務</a></li>
+
                 </ul>
                 <a href="#">
                     <i class="fa fa-address-book"></i>
@@ -95,8 +96,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="">郵件列表</a></li>
-                    <li><a href="">郵件--</a></li>
+                    <li><a href="{{route('mails.index')}}">郵件列表</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>

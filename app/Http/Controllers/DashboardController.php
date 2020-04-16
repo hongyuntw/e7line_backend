@@ -181,7 +181,9 @@ class DashboardController extends Controller
         for($i=1;$i<=$sums;$i++){
             $pp[$i]=$i;
         }
-        $res = ' <table class="table table-bordered table-hover">
+        $res =  '<input hidden type="text" id="current_customer_page" value="'. $page . '">';
+
+            $res .= ' <table class="table table-bordered table-hover">
                                     <thead style="background-color: lightgray" style="width: 100%">
                                     <tr>
                                         <th class="text-center" style="width: 5%">狀態</th>
