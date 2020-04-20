@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 class CustomersController extends Controller
 {
     private static $already_init = false;
-    public function __construct()
+    public static function init()
     {
         if(self::$already_init==false){
             $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
@@ -45,9 +45,6 @@ class CustomersController extends Controller
         }
     }
 
-
-
-
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +54,10 @@ class CustomersController extends Controller
 
     public function index(Request $request, User $user)
     {
-        //
+        if(self::$already_init==false){
+            self::init();
+        }
+
 //        dd($request);
         $sortBy_text = ['創建日期', '縣市', '地區', '業務名稱', '狀態'];
         $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
