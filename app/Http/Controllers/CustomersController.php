@@ -19,28 +19,29 @@ use Illuminate\Support\Facades\Log;
 
 class CustomersController extends Controller
 {
+    private static $already_init = false;
     public function __construct()
     {
-
-        $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
-        $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
-
-        $customers = Customer::all();
-
-        foreach($customers as $customer){
-            if(count($customer->welfarestatus)==0){
-                foreach (range(0, count($welfare_names) - 1) as $id) {
-                    \App\WelfareStatus::create([
-                        'customer_id' => $customer->id,
-                        'welfare_code' => $welfare_codes[$id],
-                        'welfare_name' => $welfare_names[$id],
-                        'track_status' => 1,
-                        'welfare_id' => $id,
-                        'create_date' => $customer->create_date,
-                        'update_date' => $customer->create_date,
-                    ]);
+        if(self::$already_init==false){
+            $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
+            $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
+            $customers = Customer::all();
+            foreach($customers as $customer){
+                if(count($customer->welfarestatus)==0){
+                    foreach (range(0, count($welfare_names) - 1) as $id) {
+                        \App\WelfareStatus::create([
+                            'customer_id' => $customer->id,
+                            'welfare_code' => $welfare_codes[$id],
+                            'welfare_name' => $welfare_names[$id],
+                            'track_status' => 1,
+                            'welfare_id' => $id,
+                            'create_date' => $customer->create_date,
+                            'update_date' => $customer->create_date,
+                        ]);
+                    }
                 }
             }
+            self::$already_init = true;
         }
     }
 
