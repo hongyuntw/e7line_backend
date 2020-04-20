@@ -31,7 +31,22 @@ class WelfareStatusController extends Controller
 //        0 means show all customers
 //        1 means show my customers
         $user_filter = 0;
+
+//        select more than one welfare types welfare
+        $query_all = WelfareStatus::query();
+        $welfare_statuses = $query_all->get();
         $query = WelfareStatus::query();
+        $query->where(function ($query) use ($welfare_statuses) {
+            foreach ($welfare_statuses as $key => $value) {
+                if (count($value->welfare_types) <= 0) {
+                    unset($welfare_statuses[$key]);
+                } else {
+                    $query->orWhere('welfare_status.id', '=', $value->id);
+                }
+            }
+            return $query;
+        });
+
         $search_type = 0;
         $search_info = '';
 
@@ -103,34 +118,7 @@ class WelfareStatusController extends Controller
         }
 
 
-//        $welfare_statuses = $query->get();
-//        $query = WelfareStatus::query();
-//
-//        if ($request->has('sortBy')) {
-//            $sortBy = $request->query('sortBy');
-//        }
-//
-//        $query->where(function ($query) use ($welfare_statuses, $request, $sortBy) {
-//            dump($sortBy);
-//            foreach ($welfare_statuses as $key => $value) {
-//                if (count($value->welfare_types) <= 0) {
-//                    unset($welfare_statuses[$key]);
-//                } else {
-//                    $query->orWhere('id', '=', $value->id);
-//                }
-//            }
-//
-//            if ($request->has('sortBy')) {
-//                $sortBy = $request->query('sortBy');
-//                foreach ($sortBy as $q) {
-//                    $query->orderBy($q);
-//                }
-//            } else {
-//                $query->orderBy($sortBy, 'DESC');
-//            }
-//            return $query;
-//
-//        });
+
 
         $welfare_statuses = $query->paginate(15);
 
