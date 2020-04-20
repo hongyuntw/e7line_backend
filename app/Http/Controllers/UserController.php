@@ -121,24 +121,23 @@ class UserController extends Controller
         ]);
 
         $user->name = $request->input('name');
-        if($request->input('password')){
+        if($request->has('password')){
             $newpwd = Hash::make($request->input('password'));
             $user->password = $newpwd;
         }
 
-        if($request->input('level')){
+        if($request->has('level')){
             $user->level = $request->input('level');
         }
-
-        if($request->input('is_left')){
+//        dump($request->input('is_left'));
+        if($request->has('is_left')){
+//            $user->is_left = $request->input('is_left');
             $user->is_left = $request->input('is_left');
         }
         $user->updated_at = now();
         $user->update();
-
+//        dd($user);
         return redirect()->route('users.index');
-
-
 
     }
 

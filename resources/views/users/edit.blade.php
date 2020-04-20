@@ -90,7 +90,7 @@
                                             </option>
                                             <option
                                                 value="1" {{ old('level',$user->level) == 1 ? 'selected' : '' }}>
-                                                Normal
+                                                採購
                                             </option>
                                             <option
                                                 value="2" {{ old('level',$user->level) == 2 ? 'selected' : '' }}>

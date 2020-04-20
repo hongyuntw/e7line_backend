@@ -19,31 +19,32 @@ use Illuminate\Support\Facades\Log;
 
 class CustomersController extends Controller
 {
-    private static $already_init = false;
-    public static function init()
-    {
-        if(self::$already_init==false){
-            $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
-            $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
-            $customers = Customer::all();
-            foreach($customers as $customer){
-                if(count($customer->welfarestatus)==0){
-                    foreach (range(0, count($welfare_names) - 1) as $id) {
-                        \App\WelfareStatus::create([
-                            'customer_id' => $customer->id,
-                            'welfare_code' => $welfare_codes[$id],
-                            'welfare_name' => $welfare_names[$id],
-                            'track_status' => 1,
-                            'welfare_id' => $id,
-                            'create_date' => $customer->create_date,
-                            'update_date' => $customer->create_date,
-                        ]);
-                    }
-                }
-            }
-            self::$already_init = true;
-        }
-    }
+//    private static $already_init = false;
+//
+//    public function init()
+//    {
+//        if(self::$already_init==false){
+//            $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
+//            $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
+//            $customers = Customer::all();
+//            foreach($customers as $customer){
+//                if(count($customer->welfarestatus)==0){
+//                    foreach (range(0, count($welfare_names) - 1) as $id) {
+//                        \App\WelfareStatus::create([
+//                            'customer_id' => $customer->id,
+//                            'welfare_code' => $welfare_codes[$id],
+//                            'welfare_name' => $welfare_names[$id],
+//                            'track_status' => 1,
+//                            'welfare_id' => $id,
+//                            'create_date' => $customer->create_date,
+//                            'update_date' => $customer->create_date,
+//                        ]);
+//                    }
+//                }
+//            }
+//            self::$already_init = true;
+//        }
+//    }
 
     /**
      * Display a listing of the resource.
@@ -54,9 +55,9 @@ class CustomersController extends Controller
 
     public function index(Request $request, User $user)
     {
-        if(self::$already_init==false){
-            self::init();
-        }
+//        if(self::$already_init==false){
+//            self::init();
+//        }
 
 //        dd($request);
         $sortBy_text = ['創建日期', '縣市', '地區', '業務名稱', '狀態'];
@@ -119,13 +120,10 @@ class CustomersController extends Controller
                         return $query;
 
                     });
-//                    $query->where('city', 'like', "%{$search_info}%");
-//                    $query->orWhere('area', 'like', "%{$search_info}%");
                     break;
                 default:
                     break;
             }
-
         }
         if ($request->has('sortBy')) {
             $sortBy = $request->query('sortBy');
@@ -134,7 +132,6 @@ class CustomersController extends Controller
             }
         } else {
             $query->orderBy($sortBy, 'DESC');
-
         }
 
 
@@ -250,8 +247,8 @@ class CustomersController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
-//        dump($customer);
+
+//        dump($page);
 //        dd($request);
 //        $customer = Customer::find($request->input('customer_id'));
         $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];

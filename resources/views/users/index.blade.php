@@ -57,9 +57,6 @@
                                     {{--                                    @endif--}}
                                 </tr>
                                 @foreach ($users as $user)
-                                    @if($user->is_left)
-                                        @continue
-                                    @endif
                                     <tr class="text-center">
                                         @if($user->id==1)
                                             @continue
@@ -68,19 +65,21 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email}}</td>
                                         <td>{{ $user->created_at }}</td>
+                                        <td>
+                                            @if($user->level==0)
+                                                Normal
+                                            @elseif($user->level==1)
+                                                採購
+                                            @elseif($user->level==2)
+                                                root
+                                            @endif
 
-                                        @if($user->level==0)
-                                            <td>Normal</td>
-                                        @elseif($user->level==1)
-                                            <td>Normal</td>
-                                        @elseif($user->level==2)
-                                            <td>root</td>
-                                        @endif
+                                            @if($user->is_left==1)
+                                                (失效)
+                                            @endif
+                                        </td>
 
-                                        @if(Auth::user()->level==2)
-                                            <td><a class="btn btn-primary"
-                                                   href="{{route('users.edit',$user->id)}}">編輯 </a></td>
-                                        @elseif(Auth::user()->id==$user->id)
+                                        @if(Auth::user()->level==2 || Auth::user()->id==$user->id)
                                             <td><a class="btn btn-primary"
                                                    href="{{route('users.edit',$user->id)}}">編輯 </a></td>
                                         @endif

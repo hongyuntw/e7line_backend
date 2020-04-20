@@ -227,7 +227,7 @@
                                             @endif
                                             <a href="{{ route('customers.show', $customer->id) }}"
                                                class="btn btn-xs btn-primary">詳細</a>
-                                            <a href="{{ route('customers.edit', $customer->id,['page'=>$page])}}"
+                                            <a href="{{ route('customers.edit',$customer->id)}}"
                                                class="btn btn-xs btn-primary">編輯</a>
 
                                             <a href="{{ route('customers.record', $customer->id) }}"

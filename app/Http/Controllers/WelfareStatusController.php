@@ -185,7 +185,7 @@ class WelfareStatusController extends Controller
 
 //        edit
 
-        if ($request->input('to_be_update')) {
+        if ($request->has('to_be_update')) {
             foreach ($request->input('to_be_update') as $id => $name) {
                 $welfare_type_name = WelfareTypeName::find($id);
                 $welfare_type_name->name = $name;
@@ -197,7 +197,7 @@ class WelfareStatusController extends Controller
 //        先刪除
 //        only admin can delete but may have some problem
         if (Auth::user()->level == 2) {
-            if ($request->input('to_be_delete')) {
+            if ($request->has('to_be_delete')) {
                 foreach ($request->input('to_be_delete') as $id) {
                     $welfare_type_name = WelfareTypeName::find($id);
                     $welfare_type_name->is_deleted = 1;
@@ -211,7 +211,7 @@ class WelfareStatusController extends Controller
 //        再編輯
 
 
-        if ($request->input('add_welfare_type_names')) {
+        if ($request->has('add_welfare_type_names')) {
             foreach ($request->input('add_welfare_type_names') as $name) {
                 if ($name) {
                     WelfareTypeName::create([
@@ -405,7 +405,7 @@ class WelfareStatusController extends Controller
 
 
         $welfare_status = WelfareStatus::find($request->input('welfare_status_id'));
-        if ($request->input('budget')) {
+        if ($request->has('budget')) {
             $welfare_status->budget = $request->input('budget');
         }
         $welfare_status->track_status = $request->input('status');

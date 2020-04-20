@@ -15,22 +15,19 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-//            客戶名字
-            $table->unsignedInteger('customer_id');
-            $table->string('tax_id');
-//            業務名字
             $table->unsignedInteger('user_id');
-//            訂單編號
-            $table->string('code');
-//            這筆訂單總共價錢，折價等
-            $table->decimal('price');
-            $table->decimal('discount');
-            $table->decimal('total_price');
-//            採購目的
-            $table->unsignedInteger('welfare_id');
-            $table->unsignedInteger('is_deleted')->default(0);
-            $table->timestamp('create_date',0)->nullable();
-            $table->timestamp('update_date',0)->nullable();
+            $table->unsignedInteger('customer_id');
+            $table->unsignedInteger('concat_person_id');
+            $table->string('note',100)->nullable();
+//            狀態待訂
+//            0是預設
+            $table->tinyInteger('status')->default(0);
+//            可能會有多個，所以不用做validate
+            $table->string('tax_id')->nullable();
+            $table->string('ship_to');
+            $table->timestamp('latest_arrival_date')->nullable();
+//            這邊代表下訂單的人，不一定是福委
+            $table->string('email');
         });
     }
 
