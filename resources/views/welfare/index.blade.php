@@ -84,15 +84,21 @@
                                     <!-- search form (Optional) -->
                                     <form action="{{route('welfare_status.index')}}" method="get">
                                         <div class="form-inline">
-                                            <select name="search_type" class="form-group">
-                                                <option value="1">客戶名稱</option>
-                                                <option value="2">目的</option>
+                                            <select name="search_type" class="form-group form-control">
+
+                                                <option value="1" @if(request()->get('search_type')==1) selected @endif>
+                                                    客戶名稱
+                                                </option>
+                                                <option value="2" @if(request()->get('search_type')==2) selected @endif>
+                                                    目的
+                                                </option>
                                                 {{--                                                <option value="3">福利類別</option>--}}
                                             </select>
                                             <br>
                                             <div class="inline">
                                                 <input type="text" name="search_info" class="form-control"
-                                                       placeholder="Search...">
+                                                       placeholder="Search..."  value="@if(request()->get('search_info')) {{request()->get('search_info')}} @endif">
+
                                                 <button type="submit" id="search-btn" style="cursor: pointer"
                                                         class="btn btn-flat"><i class="fa fa-search"></i>
                                                 </button>
