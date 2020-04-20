@@ -19,7 +19,7 @@ class OrderTableSeeder extends Seeder
             \App\Order::Create([
                 'user_id' => rand(1,3),
                 'customer_id'=>rand(1,10),
-                'concat_person_id'=>rand(1,10),
+                'business_concat_person_id'=>rand(1,10),
                 'note'=>$faker->realText(10),
                 'status'=>rand(0,4),
                 'tax_id'=>'12345678',

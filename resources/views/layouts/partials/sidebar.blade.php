@@ -84,7 +84,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="">交易列表</a></li>
+                    <li><a href="{{route('orders.index')}}">交易列表</a></li>
                     <li><a href="">交易--</a></li>
                 </ul>
                 <a href="#">

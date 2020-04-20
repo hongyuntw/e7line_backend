@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('customer_id');
-            $table->unsignedInteger('concat_person_id');
+            $table->unsignedInteger('business_concat_person_id');
             $table->string('note',100)->nullable();
 //            狀態待訂
 //            0是預設

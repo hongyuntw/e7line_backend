@@ -93,6 +93,13 @@ Route::middleware('auth')->group(function () {
     Route::get('mails','MailsController@index')->name('mails.index');
     Route::get('mails/export','MailsController@export')->name('mails.export');
 
+//    orders
+    Route::get('orders','OrderController@index')->name('orders.index');
+    Route::get('orders/{order}/detail','OrderController@detail')->name('orders.detail');
+
+
+
+
 
 
 
