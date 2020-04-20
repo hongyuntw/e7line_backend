@@ -35,40 +35,17 @@ class MailsController extends Controller
         $search_type = 0;
         $search_info = '';
 
-        if ($request->has('search_type')) {
-            $search_type = $request->input('search_type');
-        }
-        if ($search_type > 0) {
-            $search_info = $request->input('search_info');
-            switch ($search_type) {
-                case 1:
-                    $query->where('business_concat_persons.name', 'like', "%{$search_info}%");
-                    $query->orderBy('business_concat_persons.name', 'DESC');
-                    break;
-                case 2:
-                    $query->where('customers.name', 'like', "%{$search_info}%");
-                    $query->orderBy('customers.name', 'DESC');
-                    break;
-                case 3:
-                    $query->orWhere('city', 'like', "%{$search_info}%");
-                    $query->orWhere('area', 'like', "%{$search_info}%");
-                    $query->orderBy('area', 'DESC');
-                    break;
-                default:
-                    break;
-            }
-        }
+
 //        user is not root
         if (Auth::user()->level != 2) {
             $query->where('user_id', '=', Auth::user()->id);
         }
 
-
         if ($request->has('is_left')) {
             $is_left = $request->input('is_left');
             if ($is_left >= 0) {
                 $query->where('is_left', '=', $is_left);
-                $query->orderBy('is_left', 'DESC');
+//                $query->orderBy('is_left', 'DESC');
             }
         }
 
@@ -77,7 +54,32 @@ class MailsController extends Controller
             $want_receive_mail = $request->input('want_receive_mail');
             if ($want_receive_mail >= 0) {
                 $query->where('want_receive_mail', '=', $want_receive_mail);
-                $query->orderBy('want_receive_mail', 'DESC');
+            }
+        }
+        if ($request->has('search_type')) {
+            $search_type = $request->input('search_type');
+        }
+        if ($search_type > 0) {
+            $search_info = $request->input('search_info');
+            switch ($search_type) {
+                case 1:
+                    $query->where('business_concat_persons.name', 'like', "%{$search_info}%");
+//                    $query->orderBy('business_concat_persons.name', 'DESC');
+                    break;
+                case 2:
+                    $query->where('customers.name', 'like', "%{$search_info}%");
+//                    $query->orderBy('customers.name', 'DESC');
+                    break;
+                case 3:
+                    $query->where(function($query) use($search_info){
+                        $query->where('city', 'like', "%{$search_info}%")
+                            ->orWhere('area', 'like', "%{$search_info}%");
+                        return $query;
+                    });
+//                    $query->orderBy('area', 'DESC');
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -190,29 +192,7 @@ class MailsController extends Controller
         $search_type = 0;
         $search_info = '';
 
-        if ($request->has('search_type')) {
-            $search_type = $request->input('search_type');
-        }
-        if ($search_type > 0) {
-            $search_info = $request->input('search_info');
-            switch ($search_type) {
-                case 1:
-                    $query->where('business_concat_persons.name', 'like', "%{$search_info}%");
-                    $query->orderBy('business_concat_persons.name', 'DESC');
-                    break;
-                case 2:
-                    $query->where('customers.name', 'like', "%{$search_info}%");
-                    $query->orderBy('customers.name', 'DESC');
-                    break;
-                case 3:
-                    $query->orWhere('city', 'like', "%{$search_info}%");
-                    $query->orWhere('area', 'like', "%{$search_info}%");
-                    $query->orderBy('area', 'DESC');
-                    break;
-                default:
-                    break;
-            }
-        }
+
 //        user is not root
         if (Auth::user()->level != 2) {
             $query->where('user_id', '=', Auth::user()->id);
@@ -244,6 +224,33 @@ class MailsController extends Controller
             }
         } else {
             $query->orderBy($sortBy, 'DESC');
+        }
+
+        if ($request->has('search_type')) {
+            $search_type = $request->input('search_type');
+        }
+        if ($search_type > 0) {
+            $search_info = $request->input('search_info');
+            switch ($search_type) {
+                case 1:
+                    $query->where('business_concat_persons.name', 'like', "%{$search_info}%");
+                    $query->orderBy('business_concat_persons.name', 'DESC');
+                    break;
+                case 2:
+                    $query->where('customers.name', 'like', "%{$search_info}%");
+                    $query->orderBy('customers.name', 'DESC');
+                    break;
+                case 3:
+                    $query->where(function($query) use($search_info){
+                        $query->where('city', 'like', "%{$search_info}%")
+                            ->orWhere('area', 'like', "%{$search_info}%");
+                        return $query;
+                    });
+                    $query->orderBy('area', 'DESC');
+                    break;
+                default:
+                    break;
+            }
         }
 
 

@@ -17,11 +17,14 @@ class WelfareStatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public static  $status_names  = ['Block','Pending','Success','Tracking'];
+    public static $status_names = ['Block', 'Pending', 'Success', 'Tracking'];
+
     public function index(Request $request)
     {
+
+//        dump($request);
         $sortBy = 'customer_id';
-        $sortBy_text = ['客戶名稱', '目的', '交易狀況','預算', '更新日期'];
+        $sortBy_text = ['客戶名稱', '目的', '交易狀況', '預算', '更新日期'];
         $status_filter = -1;
 
 
@@ -37,13 +40,13 @@ class WelfareStatusController extends Controller
             $user_filter = $request->query('user_filter');
         }
         if ($user_filter > 0) {
-            switch ($user_filter){
+            switch ($user_filter) {
                 case 1:
-                    $query->join('customers','welfare_status.customer_id','=','customers.id');
+                    $query->join('customers', 'welfare_status.customer_id', '=', 'customers.id');
                     $query->where('customers.user_id', '=', Auth::user()->id);
                     break;
                 case 2:
-                    $query->join('customers','welfare_status.customer_id','=','customers.id');
+                    $query->join('customers', 'welfare_status.customer_id', '=', 'customers.id');
                     $query->where('customers.user_id', '=', 1);
                     break;
                 default:
@@ -63,15 +66,6 @@ class WelfareStatusController extends Controller
             });
         }
 
-        if ($request->has('sortBy')) {
-            $sortBy = $request->query('sortBy');
-            foreach ($sortBy as $q) {
-                $query->orderBy($q,'DESC');
-            }
-        }
-        else{
-            $query->orderBy($sortBy,'DESC');
-        }
 
         if ($request->has('search_type')) {
             $search_type = $request->query('search_type');
@@ -80,15 +74,18 @@ class WelfareStatusController extends Controller
             $search_info = $request->query('search_info');
             switch ($search_type) {
                 case 1:
-                    if($search_info!=''){
-                        $query->join('customers','welfare_status.customer_id','=','customers.id');
-                        $query->where('customers.name','like',"%{$search_info}%");
-                        $query->select('welfare_status.*');
+                    if ($search_info != '') {
+                        $joins = $query->getQuery()->joins;
+                        if ($joins == null) {
+                            $query->join('customers', 'welfare_status.customer_id', '=', 'customers.id');
+
+                        }
+                        $query->where('customers.name', 'like', "%{$search_info}%");
                     }
                     break;
                 case 2:
-                    if($search_info!=''){
-                        $query->where('welfare_name','like',"%{$search_info}%");
+                    if ($search_info != '') {
+                        $query->where('welfare_name', 'like', "%{$search_info}%");
                     }
                     break;
                 default:
@@ -96,43 +93,49 @@ class WelfareStatusController extends Controller
             }
         }
 
-
-        $welfare_statuses = $query->get();
-        $query = WelfareStatus::query();
-
-        $query->where(function ($query) use($welfare_statuses){
-            foreach ($welfare_statuses as $key => $value) {
-                if(count($value->welfare_types)<=0){
-                    unset($welfare_statuses[$key]);
-                }
-                else{
-                    $query->orWhere('id','=',$value->id);
-                }
+        if ($request->has('sortBy')) {
+            $sortBy = $request->query('sortBy');
+            foreach ($sortBy as $q) {
+                $query->orderBy($q,'DESC');
             }
-            return $query;
+        } else {
+            $query->orderBy($sortBy, 'DESC');
+        }
 
-        });
 
-//        foreach ($welfare_statuses as $key => $value) {
-//            if(count($value->welfare_types)<=0){
-//                unset($welfare_statuses[$key]);
-//            }
-//            else{
-//                $query->where(function ($query) use ($value) {
-//                    $query->orWhere('id','=',$value->id);
-//                    return $query;
-//                });
+//        $welfare_statuses = $query->get();
+//        $query = WelfareStatus::query();
 //
-//            }
+//        if ($request->has('sortBy')) {
+//            $sortBy = $request->query('sortBy');
 //        }
-
-
-
+//
+//        $query->where(function ($query) use ($welfare_statuses, $request, $sortBy) {
+//            dump($sortBy);
+//            foreach ($welfare_statuses as $key => $value) {
+//                if (count($value->welfare_types) <= 0) {
+//                    unset($welfare_statuses[$key]);
+//                } else {
+//                    $query->orWhere('id', '=', $value->id);
+//                }
+//            }
+//
+//            if ($request->has('sortBy')) {
+//                $sortBy = $request->query('sortBy');
+//                foreach ($sortBy as $q) {
+//                    $query->orderBy($q);
+//                }
+//            } else {
+//                $query->orderBy($sortBy, 'DESC');
+//            }
+//            return $query;
+//
+//        });
 
         $welfare_statuses = $query->paginate(15);
 
         $data = [
-            'status_names'=>self::$status_names,
+            'status_names' => self::$status_names,
             'welfare_statuses' => $welfare_statuses,
             'sortBy' => $sortBy,
             'user_filter' => $user_filter,
@@ -156,7 +159,7 @@ class WelfareStatusController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -167,7 +170,7 @@ class WelfareStatusController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -178,7 +181,7 @@ class WelfareStatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
 
@@ -188,14 +191,14 @@ class WelfareStatusController extends Controller
 //        dd($request);
         $this->validate($request, [
             'to_be_update.*' => 'required',
-        ],[
+        ], [
             'to_be_update.*.required' => 'edit field should not be null'
         ]);
 
 //        edit
 
-        if($request->input('to_be_update')){
-            foreach ($request->input('to_be_update') as $id => $name){
+        if ($request->input('to_be_update')) {
+            foreach ($request->input('to_be_update') as $id => $name) {
                 $welfare_type_name = WelfareTypeName::find($id);
                 $welfare_type_name->name = $name;
                 $welfare_type_name->update();
@@ -205,9 +208,9 @@ class WelfareStatusController extends Controller
 
 //        先刪除
 //        only admin can delete but may have some problem
-        if(Auth::user()->level==2){
-            if($request->input('to_be_delete')){
-                foreach ($request->input('to_be_delete') as $id ){
+        if (Auth::user()->level == 2) {
+            if ($request->input('to_be_delete')) {
+                foreach ($request->input('to_be_delete') as $id) {
                     $welfare_type_name = WelfareTypeName::find($id);
                     $welfare_type_name->is_deleted = 1;
                     $welfare_type_name->update();
@@ -220,9 +223,9 @@ class WelfareStatusController extends Controller
 //        再編輯
 
 
-        if($request->input('add_welfare_type_names')){
-            foreach ($request->input('add_welfare_type_names') as $name){
-                if($name){
+        if ($request->input('add_welfare_type_names')) {
+            foreach ($request->input('add_welfare_type_names') as $name) {
+                if ($name) {
                     WelfareTypeName::create([
                         'name' => $name,
                     ]);
@@ -237,12 +240,11 @@ class WelfareStatusController extends Controller
     {
         $welfare_type_names = WelfareTypeName::all();
         $data = [
-            'welfare_type_names'=> $welfare_type_names,
+            'welfare_type_names' => $welfare_type_names,
         ];
 
-        return view('welfare.add_welfare_type',$data);
+        return view('welfare.add_welfare_type', $data);
     }
-
 
 
     public function edit(WelfareStatus $welfare_status)
@@ -250,9 +252,9 @@ class WelfareStatusController extends Controller
 
         $welfare_type_names = WelfareTypeName::all();
         $data = [
-            'welfare_type_names'=> $welfare_type_names,
+            'welfare_type_names' => $welfare_type_names,
             'welfare_status' => $welfare_status,
-            'status_names'=>self::$status_names,
+            'status_names' => self::$status_names,
         ];
 
         return view('welfare.edit', $data);
@@ -261,8 +263,8 @@ class WelfareStatusController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, WelfareStatus $welfare_status)
@@ -271,52 +273,49 @@ class WelfareStatusController extends Controller
 //        validation to be added
 
 
-
         $welfare_types_from_request = $request->input('welfare_types');
         $welfare_status_mapping_types = $welfare_status->welfare_types;
         $request_types_count = 0;
-        $mapping_types_count=0;
+        $mapping_types_count = 0;
 
-        if($welfare_types_from_request){
+        if ($welfare_types_from_request) {
             $request_types_count = count($welfare_types_from_request);
         }
-        if($welfare_status_mapping_types){
+        if ($welfare_status_mapping_types) {
             $mapping_types_count = count($welfare_status_mapping_types);
 
         }
 
 
-        if($request_types_count == $mapping_types_count){
-            for($i=0;$i<$mapping_types_count;$i++){
+        if ($request_types_count == $mapping_types_count) {
+            for ($i = 0; $i < $mapping_types_count; $i++) {
                 $welfare_status_mapping_type = $welfare_status_mapping_types[$i];
                 $welfare_status_mapping_type->welfare_type_name_id = $welfare_types_from_request[$i];
                 $welfare_status_mapping_type->update();
             }
 
-        }
-        elseif ($request_types_count > $mapping_types_count ){
+        } elseif ($request_types_count > $mapping_types_count) {
 //            need to add
-            for($i=0;$i<$mapping_types_count;$i++){
+            for ($i = 0; $i < $mapping_types_count; $i++) {
                 $welfare_status_mapping_type = $welfare_status_mapping_types[$i];
                 $welfare_status_mapping_type->welfare_type_name_id = $welfare_types_from_request[$i];
                 $welfare_status_mapping_type->update();
             }
-            for($i=$mapping_types_count;$i<$request_types_count;$i++){
+            for ($i = $mapping_types_count; $i < $request_types_count; $i++) {
                 WelfareType::create([
-                    'welfare_type_company_relation_id'=>rand(1,2),
+                    'welfare_type_company_relation_id' => rand(1, 2),
                     'welfare_status_id' => $welfare_status->id,
-                    'welfare_type_name_id'=>$welfare_types_from_request[$i],
+                    'welfare_type_name_id' => $welfare_types_from_request[$i],
                 ]);
             }
-        }
-        else{
+        } else {
 //            need to delete
-            for($i=0;$i<$request_types_count;$i++){
+            for ($i = 0; $i < $request_types_count; $i++) {
                 $welfare_status_mapping_type = $welfare_status_mapping_types[$i];
                 $welfare_status_mapping_type->welfare_type_name_id = $welfare_types_from_request[$i];
                 $welfare_status_mapping_type->update();
             }
-            for($i=$request_types_count;$i<$mapping_types_count;$i++){
+            for ($i = $request_types_count; $i < $mapping_types_count; $i++) {
                 $welfare_status_mapping_type = $welfare_status_mapping_types[$i];
                 $welfare_status_mapping_type->delete();
             }
@@ -334,7 +333,7 @@ class WelfareStatusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -364,15 +363,12 @@ class WelfareStatusController extends Controller
 //        dd($selected_customer);
 
 
-
-
-
-        $data=[
-            'status_names'=>self::$status_names,
-            'welfare_type_names'=>$welfare_type_names,
-            'customers'=>$customers,
+        $data = [
+            'status_names' => self::$status_names,
+            'welfare_type_names' => $welfare_type_names,
+            'customers' => $customers,
         ];
-        return view('welfare.add_customer_welfare',$data);
+        return view('welfare.add_customer_welfare', $data);
     }
 
 
@@ -380,12 +376,12 @@ class WelfareStatusController extends Controller
     {
         $customer_id = $request['customer_select_id'];
 //        $welfare_status = WelfareStatus::where('customer_id','=',$customer_id)->get()->pluck('welfare_name','id');
-        $welfare_status = WelfareStatus::where('customer_id','=',$customer_id)->get();
+        $welfare_status = WelfareStatus::where('customer_id', '=', $customer_id)->get();
 
         $arr = [];
-        foreach ($welfare_status as $wt){
-            if(count($wt->welfare_types)<=0){
-                $arr[$wt->id]=$wt->welfare_name;
+        foreach ($welfare_status as $wt) {
+            if (count($wt->welfare_types) <= 0) {
+                $arr[$wt->id] = $wt->welfare_name;
             }
         }
 //        return $welfare_status;
@@ -396,14 +392,12 @@ class WelfareStatusController extends Controller
     {
         $id = $request['welfare_status_id'];
         $welfare_status = WelfareStatus::find($id);
-        $arr=[
-          'budget'=>$welfare_status->budget,
-          'track_status'=>$welfare_status->track_status,
+        $arr = [
+            'budget' => $welfare_status->budget,
+            'track_status' => $welfare_status->track_status,
         ];
         return $arr;
     }
-
-
 
 
     public function update_customer_welfare(Request $request)
@@ -411,29 +405,29 @@ class WelfareStatusController extends Controller
 //        dd($request);
         $this->validate($request, [
             'customer_id' => 'required',
-            'welfare_status_id'=>'numeric|required|min:1',
-            'welfare_types'=>'required',
-            'status'=>'required',
-        ],[
-            'welfare_types.required'=>'請選擇要新增之福利類別',
-            'customer_id.required'=>'請選擇客戶',
-            'welfare_status_id.min'=>'請選擇一個福利目的',
-            'welfare_status_id.required'=>'請選擇一個福利目的',
+            'welfare_status_id' => 'numeric|required|min:1',
+            'welfare_types' => 'required',
+            'status' => 'required',
+        ], [
+            'welfare_types.required' => '請選擇要新增之福利類別',
+            'customer_id.required' => '請選擇客戶',
+            'welfare_status_id.min' => '請選擇一個福利目的',
+            'welfare_status_id.required' => '請選擇一個福利目的',
         ]);
 
 
         $welfare_status = WelfareStatus::find($request->input('welfare_status_id'));
-        if($request->input('budget')){
+        if ($request->input('budget')) {
             $welfare_status->budget = $request->input('budget');
         }
         $welfare_status->track_status = $request->input('status');
 
-        foreach ($request->input('welfare_types') as $welfare_type_name_id){
+        foreach ($request->input('welfare_types') as $welfare_type_name_id) {
             WelfareType::Create([
-                'welfare_type_name_id'=>$welfare_type_name_id,
-                'welfare_status_id'=>$welfare_status->id,
+                'welfare_type_name_id' => $welfare_type_name_id,
+                'welfare_status_id' => $welfare_status->id,
 //                to be deleted
-                'welfare_type_company_relation_id'=>1,
+                'welfare_type_company_relation_id' => 1,
             ]);
         }
 

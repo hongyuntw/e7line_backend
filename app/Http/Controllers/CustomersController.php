@@ -131,7 +131,6 @@ class CustomersController extends Controller
             $sortBy = $request->query('sortBy');
             foreach ($sortBy as $q) {
                 $query->orderBy($q);
-
             }
         } else {
             $query->orderBy($sortBy, 'DESC');
@@ -141,8 +140,6 @@ class CustomersController extends Controller
 
         $customers = $query->paginate(15);
 
-
-        $customer_filter_value = 0;
         $data = [
             'customers' => $customers,
             'sortBy' => $sortBy,

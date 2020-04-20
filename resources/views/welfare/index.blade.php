@@ -104,6 +104,20 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        <select multiple name="status_filter[]" hidden>
+                                            @if(request()->get('status_filter'))
+                                                @foreach(request()->get('status_filter') as $col)
+                                                    <option selected value="{{$col}}"></option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <select multiple name="sortBy[]" hidden>
+                                            @if(request()->get('sortBy'))
+                                                @foreach(request()->get('sortBy') as $col)
+                                                    <option selected value="{{$col}}"></option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </form>
                                     <!-- /.search form -->
 
