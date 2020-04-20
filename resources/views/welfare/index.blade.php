@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <label>狀態篩選</label>
-                                        <select multiple name="status_filter[]"
+                                        <select id="welfare_status_select"multiple name="status_filter[]"
                                                 class="form-control form-control-sm">
                                             <option value="-1">All</option>
                                             @foreach(['0','1','2','3'] as $col)
@@ -50,6 +50,11 @@
                                                         @endif value="{{$col}}">{{$status_names[$loop->index]}}</option>
                                             @endforeach
                                         </select>
+                                        <script>
+                                            $(function () {
+                                                $("#welfare_status_select").attr("size",$("#welfare_status_select option").length);
+                                            });
+                                        </script>
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <label>排序方式</label>

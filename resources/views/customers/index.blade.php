@@ -46,8 +46,14 @@
                                         <select multiple name="status_filter[]"
                                                 class="form-control form-control-sm">
                                             @foreach(['0','1','2','3','4','5'] as $col)
-                                                <option @if($col==$status_filter) selected
-                                                        @endif value="{{$col}}">{{$status_text[$loop->index]}}</option>
+                                                <option
+                                                    @if(is_array($status_filter))
+                                                    @if(in_array($col, $status_filter))
+                                                    selected
+                                                    @endif
+                                                    @endif
+                                                    value="{{$col}}">{{$status_text[$loop->index]}}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -55,8 +61,13 @@
                                         <label>排序方式</label>
                                         <select multiple name="sortBy[]" class="form-control form-control-sm">
                                             @foreach(['create_date','city','area','user_id','status'] as $col)
-                                                <option @if($col==$sortBy) selected
-                                                        @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
+                                                <option
+                                                    @if(is_array($sortBy))
+                                                    @if(in_array($col, $sortBy))
+                                                    selected
+                                                    @endif
+                                                    @endif
+                                                    value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -68,22 +79,42 @@
                                 <div class="col-md-3 col-3">
                                     <label>搜尋</label><br>
                                     <!-- search form (Optional) -->
-                                    <form roe="form" action="{{route('customers.index')}}" method="get">
+                                    <form action="{{route('customers.index')}}" method="get">
                                         <div class="form-inline">
-                                            <select name="search_type" class="form-group">
-                                                <option value="1">客戶名稱</option>
-                                                <option value="2">地區</option>
+                                            <select name="search_type" class="form-group form-control">
+                                                <option value="1" @if(request()->get('search_type')==1) selected @endif>
+                                                    客戶名稱
+                                                </option>
+                                                <option value="2" @if(request()->get('search_type')==2) selected @endif>
+                                                    地區
+                                                </option>
 
                                             </select>
                                             <br>
                                             <div class="inline">
                                                 <input type="text" name="search_info" class="form-control"
-                                                       placeholder="Search...">
+                                                       placeholder="Search..."
+                                                       value="@if(request()->get('search_info')) {{request()->get('search_info')}} @endif">
                                                 <button type="submit" id="search-btn" style="cursor: pointer"
                                                         class="btn btn-flat"><i class="fa fa-search"></i>
                                                 </button>
                                             </div>
                                         </div>
+                                        <select multiple name="status_filter[]" hidden>
+                                            @if(request()->get('status_filter'))
+                                                @foreach(request()->get('status_filter') as $col)
+                                                    <option selected value="{{$col}}"></option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <select multiple name="sortBy[]" hidden>
+                                            @if(request()->get('sortBy'))
+                                                @foreach(request()->get('sortBy') as $col)
+                                                    <option selected value="{{$col}}"></option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+
                                     </form>
                                     <!-- /.search form -->
 
@@ -112,26 +143,29 @@
                                     <th class="text-center" style="width:10%">狀態
                                         <a href="#" id="question_mark_icon">
                                             <span class="glyphicon glyphicon-question-sign"></span>
-                                            <img id="customer_status_img" src="/img/customer_status_description.png" style="position: absolute">
+                                            <img id="customer_status_img" src="/img/customer_status_description.png"
+                                                 style="position: absolute">
                                         </a>
                                         <script type="text/javascript">
-                                            $(document).ready(function() {
+                                            $(document).ready(function () {
                                                 var $img = $("#customer_status_img");
                                                 $img.hide();
-                                                $("#question_mark_icon").mousemove(function(e) {
+                                                $("#question_mark_icon").mousemove(function (e) {
                                                     $img.stop(1, 1).fadeIn();
                                                     $img.offset({
                                                         top: e.pageY - $img.outerHeight(),
-                                                        left: e.pageX - ($img.outerWidth()/2)
+                                                        left: e.pageX - ($img.outerWidth() / 2)
                                                     });
-                                                }).mouseleave(function() {
+                                                }).mouseleave(function () {
                                                     $img.fadeOut();
                                                 });
                                             });
                                         </script>
 
                                     </th>
-                                    <th class="text-center" style="width: 10%">Sales</th>
+                                    <th class="text-center" style="width: 6%">業務</th>
+                                    <th class="text-center" style="width: 8%">窗口/開發數</th>
+
                                     <th class="text-center" style="width: 15%">其他功能</th>
 
                                 </tr>
@@ -148,9 +182,16 @@
                                     @endif
 
                                     <tr ondblclick="dbclick_on_customer({{$customer->id}})" class="text-center">
-                                        <td class="text-left"><svg class="bi bi-briefcase-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M0 12.5A1.5 1.5 0 001.5 14h13a1.5 1.5 0 001.5-1.5V6.85L8.129 8.947a.5.5 0 01-.258 0L0 6.85v5.65z" clip-rule="evenodd"/>
-                                                <path fill-rule="evenodd" d="M0 4.5A1.5 1.5 0 011.5 3h13A1.5 1.5 0 0116 4.5v1.384l-7.614 2.03a1.5 1.5 0 01-.772 0L0 5.884V4.5zm5-2A1.5 1.5 0 016.5 1h3A1.5 1.5 0 0111 2.5V3h-1v-.5a.5.5 0 00-.5-.5h-3a.5.5 0 00-.5.5V3H5v-.5z" clip-rule="evenodd"/>
+                                        <td class="text-left">
+                                            <svg class="bi bi-briefcase-fill" width="1em" height="1em"
+                                                 viewBox="0 0 16 16" fill="currentColor"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M0 12.5A1.5 1.5 0 001.5 14h13a1.5 1.5 0 001.5-1.5V6.85L8.129 8.947a.5.5 0 01-.258 0L0 6.85v5.65z"
+                                                      clip-rule="evenodd"/>
+                                                <path fill-rule="evenodd"
+                                                      d="M0 4.5A1.5 1.5 0 011.5 3h13A1.5 1.5 0 0116 4.5v1.384l-7.614 2.03a1.5 1.5 0 01-.772 0L0 5.884V4.5zm5-2A1.5 1.5 0 016.5 1h3A1.5 1.5 0 0111 2.5V3h-1v-.5a.5.5 0 00-.5-.5h-3a.5.5 0 00-.5.5V3H5v-.5z"
+                                                      clip-rule="evenodd"/>
                                             </svg>
                                             {{ $customer->name }}</td>
                                         <td>{{ $customer->phone_number  }}</td>
@@ -167,10 +208,17 @@
                                         @elseif($customer->status==5)
                                             @php($css='label label-warning')
                                         @endif
-                                        <td class="align-middle " style="vertical-align: middle"><label class="label{{$css}}"
-                                                   style="min-width:60px;display: inline-block">{{ $status_text[$customer->status] }}</label>
+                                        <td class="align-middle " style="vertical-align: middle"><label
+                                                class="label{{$css}}"
+                                                style="min-width:60px;display: inline-block">{{ $status_text[$customer->status] }}</label>
                                         </td>
                                         <td class="text-left">{{ $customer->user->name }} </td>
+                                        <td>
+                                            {{count($customer->business_concat_persons)}}
+                                            /
+                                            {{count($customer->concat_records)}}
+
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{ route('customers.show', $customer->id) }}"
                                                class="btn btn-xs btn-primary">詳細</a>

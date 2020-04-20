@@ -91,6 +91,8 @@ Route::middleware('auth')->group(function () {
 
 //    for mails
     Route::get('mails','MailsController@index')->name('mails.index');
+    Route::get('mails/export','MailsController@export')->name('mails.export');
+
 
 
 

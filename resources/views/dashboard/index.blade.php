@@ -78,8 +78,8 @@
                             function change_record_status_btn_onclick() {
                                 var inputs = document.getElementsByName("change_record_status");
                                 var ids = [];
-                                for(var i=0;i<inputs.length;i++){
-                                    if(inputs[i].checked ? 1 : 0){
+                                for (var i = 0; i < inputs.length; i++) {
+                                    if (inputs[i].checked ? 1 : 0) {
                                         ids.push(inputs[i].id);
                                     }
                                 }
@@ -93,11 +93,10 @@
                                         'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                     },
                                     data: {
-                                        ids : ids,
+                                        ids: ids,
                                         page: currpage,
                                     },
-                                    success: function(msg)
-                                    {
+                                    success: function (msg) {
                                         page(msg);
                                     }
                                 });
@@ -127,14 +126,23 @@
                                         @foreach ($customers as $customer)
                                             <tr class="text-center" ondblclick="">
                                                 <td><input type="checkbox" id="{{$customer->concat_record_id}}"
-                                                           name="change_record_status" >
+                                                           name="change_record_status">
                                                 </td>
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record'">
                                                     {{ $customer->customer_name }}</td>
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record#ConcatWindow'">
-                                                    {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email }}</td>
+                                                    @if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first())
+                                                        {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record#ConcatWindow'">
-                                                    {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number }}</td>
+                                                    @if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first())
+                                                        {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number }}</td>
+                                                @else
+                                                    -
+                                                @endif
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record#Development_Record'">
                                                     {{ $customer->track_content }} </td>
                                             </tr>
@@ -204,7 +212,8 @@
                                     </thead>
                                     @foreach ($welfare_statuses as $welfare_status)
 
-                                        <tr class="text-center" ondblclick="window.location.href='/welfare_status/'+ {{$welfare_status->id}} + '/edit' ">
+                                        <tr class="text-center"
+                                            ondblclick="window.location.href='/welfare_status/'+ {{$welfare_status->id}} + '/edit' ">
                                             <td>{{ $welfare_status->customer_name }}</td>
                                             <td>{{ $welfare_status->welfare_name }}</td>
                                             <td>

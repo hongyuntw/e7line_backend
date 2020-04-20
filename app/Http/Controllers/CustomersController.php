@@ -29,6 +29,7 @@ class CustomersController extends Controller
     public function index(Request $request, User $user)
     {
         //
+//        dd($request);
         $sortBy_text = ['創建日期', '縣市', '地區', '業務名稱', '狀態'];
         $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
         $status_filter = 0;
@@ -41,37 +42,6 @@ class CustomersController extends Controller
         $search_info = '';
 
 
-        if ($request->has('search_type')) {
-            $search_type = $request->query('search_type');
-        }
-        if ($search_type > 0) {
-            $search_info = $request->query('search_info');
-            switch ($search_type) {
-                case 1:
-                    $query->orWhere('name', 'like', "%{$search_info}%");
-                    break;
-                case 2:
-                    $query->orWhere('city', 'like', "%{$search_info}%");
-                    $query->orWhere('area', 'like', "%{$search_info}%");
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
-
-        if ($request->has('sortBy')) {
-            $sortBy = $request->query('sortBy');
-            foreach ($sortBy as $q) {
-                $query->orderBy($q);
-
-            }
-        }
-        else{
-            $query->orderBy($sortBy, 'DESC');
-
-        }
 //        dd($query);
 //        $customers = Customer::orderBy($sortBy, 'DESC')->paginate(15);
 
@@ -79,12 +49,13 @@ class CustomersController extends Controller
             $user_filter = $request->query('user_filter');
         }
         if ($user_filter > 0) {
-            switch ($user_filter){
+            switch ($user_filter) {
                 case 1:
                     $query->where('user_id', '=', Auth::user()->id);
                     break;
                 case 2:
                     $query->where('user_id', '=', 1);
+                    break;
                 default:
                     break;
             }
@@ -93,12 +64,48 @@ class CustomersController extends Controller
 
         if ($request->has('status_filter')) {
             $status_filter = $request->query('status_filter');
-            foreach ($status_filter as $s) {
-                if ($s > 0) {
-//                $customers = Customer::where('status','=',$status_filter)->orderBy($sortBy, 'DESC')->paginate(15);
-                    $query->orWhere('status', '=', $s);
+            $query->where(function ($query) use ($status_filter) {
+                foreach ($status_filter as $s) {
+                    if ($s > 0) {
+                        $query->orWhere('status', '=', $s);
+                    }
                 }
+                return $query;
+            });
+        }
+
+        if ($request->has('search_type')) {
+            $search_type = $request->query('search_type');
+        }
+        if ($search_type > 0) {
+            $search_info = $request->query('search_info');
+            switch ($search_type) {
+                case 1:
+                    $query->where('name', 'like', "%{$search_info}%");
+                    break;
+                case 2:
+                    $query->where(function ($query) use ($search_info) {
+                        $query->where('city', 'like', "%{$search_info}%")
+                            ->orWhere('area', 'like', "%{$search_info}%");
+                        return $query;
+
+                    });
+//                    $query->where('city', 'like', "%{$search_info}%");
+//                    $query->orWhere('area', 'like', "%{$search_info}%");
+                    break;
+                default:
+                    break;
             }
+
+        }
+        if ($request->has('sortBy')) {
+            $sortBy = $request->query('sortBy');
+            foreach ($sortBy as $q) {
+                $query->orderBy($q);
+
+            }
+        } else {
+            $query->orderBy($sortBy, 'DESC');
 
         }
 
@@ -153,10 +160,10 @@ class CustomersController extends Controller
 
 
             'tax_id' => 'numeric|digits_between:8,8|nullable',
-            'phone_number'=>'max:20|nullable',
-            'fax_number'=>'max:20|nullable',
-            'address'=>'max:50|nullable',
-            'capital'=>'max:25|nullable',
+            'phone_number' => 'max:20|nullable',
+            'fax_number' => 'max:20|nullable',
+            'address' => 'max:50|nullable',
+            'capital' => 'max:25|nullable',
 
             'status' => 'required',
             'city' => 'required',
@@ -243,17 +250,17 @@ class CustomersController extends Controller
         $user_id = $customer->user->id;
 
         $this->validate($request, [
-            'name' => 'required|unique:customers,name,'.$customer->id,
+            'name' => 'required|unique:customers,name,' . $customer->id,
             'active_status' => 'required',
             'status' => 'required',
             'city' => 'required',
             'area' => 'required',
 
-            'capital'=>'max:25|nullable',
+            'capital' => 'max:25|nullable',
             'tax_id' => 'numeric|digits_between:8,8|nullable',
-            'phone_number'=>'max:20|nullable',
-            'fax_number'=>'max:20|nullable',
-            'address'=>'max:50|nullable',
+            'phone_number' => 'max:20|nullable',
+            'fax_number' => 'max:20|nullable',
+            'address' => 'max:50|nullable',
         ]);
 
         if ($request->has('user_id')) {
@@ -366,7 +373,7 @@ class CustomersController extends Controller
 
         $this->validate($request, [
             'name' => 'required|max:30',
-            'email'=>'email|nullable',
+            'email' => 'email|nullable',
         ]);
 
         $is_left = false;
@@ -392,15 +399,14 @@ class CustomersController extends Controller
     {
         $this->validate($request, [
             'status' => 'required|max:2|min:0',
-            'track_date' => 'nullable|date|after:'.now(),
+            'track_date' => 'nullable|date|after:' . now(),
             'development_content' => 'required',
         ]);
 
 
-        if($request['track_date']!=''){
+        if ($request['track_date'] != '') {
             $track_date = $request['track_date'];
-        }
-        else{
+        } else {
             $track_date = null;
         }
 
@@ -428,7 +434,7 @@ class CustomersController extends Controller
         $this->validate($request, [
             'name' => 'required|max:30',
             'is_left' => 'required|min:0|max:1',
-            'email'=> 'email|nullable',
+            'email' => 'email|nullable',
         ]);
         $concat_person_id = $request['concat_person_id'];
         $concat_person = BusinessConcatPerson::find($concat_person_id);
@@ -449,7 +455,7 @@ class CustomersController extends Controller
     public function update_concat_record(Request $request)
     {
         $this->validate($request, [
-            'track_date' => 'nullable|date|after:'.now(),
+            'track_date' => 'nullable|date|after:' . now(),
         ]);
         $concat_record = ConcatRecord::find($request['concat_record_id']);
         $concat_record->status = $request['record_status'];

@@ -58,12 +58,6 @@
                                     </h4>
                                 </div>
 
-
-
-                                <br>
-                                <br>
-                                <br>
-
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
@@ -169,9 +163,7 @@
                                 <h4 class="text-center">
                                     <label style="font-size: medium">聯繫窗口</label>
                                 </h4>
-                                <br>
-                                <br>
-                                <br>
+
                                 <a id="add_concat_btn" class="btn btn-link" onclick="add_concat_person_dynamic_field()">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                     add concat window
@@ -481,9 +473,6 @@
                                     </h4>
                                 </div>
 
-                                <br>
-                                <br>
-                                <br>
                                 <a id="add_record_btn" name="add_record_btn" class="btn btn-link"
                                    onclick="add_record_dynamic_field()">
                                     <i class="glyphicon glyphicon-pencil"></i>
@@ -797,10 +786,6 @@
                                     </h4>
                                 </div>
 
-
-                                <br>
-                                <br>
-                                <br>
                                 <a href="{{route('welfare_status.add_welfare_type')}}" id="add_welfare_btn"
                                    name="add_welfare_btn" class="btn btn-link">
                                     <i class="glyphicon glyphicon-pencil"></i> Update Detail

@@ -73,7 +73,6 @@
                 <ul class="treeview-menu">
                     <li><a href="{{route('welfare_status.index')}}">福利列表</a></li>
                     <li><a href="{{route('welfare_status.add_welfare_type')}}">新增福利類別</a></li>
-
                     <li><a href="{{route('welfare_status.add_customer_welfare')}}">新增客戶福利</a></li>
                 </ul>
 
