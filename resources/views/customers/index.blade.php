@@ -220,9 +220,14 @@
 
                                         </td>
                                         <td class="text-center">
+                                            @if(request()->get('page'))
+                                                @php($page=request()->get('page'))
+                                            @else
+                                                @php($page=1)
+                                            @endif
                                             <a href="{{ route('customers.show', $customer->id) }}"
                                                class="btn btn-xs btn-primary">詳細</a>
-                                            <a href="{{ route('customers.edit', $customer->id) }}"
+                                            <a href="{{ route('customers.edit', $customer->id,['page'=>$page])}}"
                                                class="btn btn-xs btn-primary">編輯</a>
 
                                             <a href="{{ route('customers.record', $customer->id) }}"

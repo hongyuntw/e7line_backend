@@ -225,12 +225,16 @@ class CustomersController extends Controller
     public function edit(Customer $customer)
     {
         //
+//        dump($customer);
+//        dd($request);
+//        $customer = Customer::find($request->input('customer_id'));
         $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
         $users = User::all();
         $data = [
             'customer' => $customer,
             'status_text' => $status_text,
             'users' => $users,
+//            'page'=> $request->input('page'),
         ];
 
         return view('customers.edit', $data);

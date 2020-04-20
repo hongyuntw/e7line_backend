@@ -32,39 +32,6 @@ class WelfareStatusController extends Controller
         $search_type = 0;
         $search_info = '';
 
-        if ($request->has('search_type')) {
-            $search_type = $request->query('search_type');
-        }
-        if ($search_type > 0) {
-            $search_info = $request->query('search_info');
-            switch ($search_type) {
-                case 1:
-                    if($search_info!=''){
-                        $query->join('customers','welfare_status.customer_id','=','customers.id');
-                        $query->where('customers.name','like',"%{$search_info}%");
-                        $query->select('welfare_status.*');
-//                        $welfare_statuses = $query->get();
-//                        dd($welfare_statuses);
-                    }
-                    break;
-                case 2:
-                    if($search_info!=''){
-                        $query->where('welfare_name','like',"%{$search_info}%");
-                    }
-                    break;
-//                case 3:
-//                    if($search_info!=''){
-//                        $query->join('welfare_types','welfare_status.id','=','welfare_types.welfare_status_id');
-//                        $query->join('welfare_type_names','welfare_type_names.id','=','welfare_types.welfare_type_name_id');
-//                        $query->orWhere('welfare_type_names.name','like',"%{$search_info}%");
-////                        dd($query);
-//                    }
-//                    break;
-                default:
-                    break;
-            }
-        }
-
 
         if ($request->has('user_filter')) {
             $user_filter = $request->query('user_filter');
@@ -78,21 +45,22 @@ class WelfareStatusController extends Controller
                 case 2:
                     $query->join('customers','welfare_status.customer_id','=','customers.id');
                     $query->where('customers.user_id', '=', 1);
+                    break;
                 default:
                     break;
             }
         }
 
-
         if ($request->has('status_filter')) {
             $status_filter = $request->query('status_filter');
-            foreach ($status_filter as $s) {
-                if ($s > -1) {
-                    $query->orWhere('track_status', '=', $s);
-                    $query->orderBy('track_status','DESC');
-
+            $query->where(function ($query) use ($status_filter) {
+                foreach ($status_filter as $s) {
+                    if ($s >= 0) {
+                        $query->orWhere('track_status', '=', $s);
+                    }
                 }
-            }
+                return $query;
+            });
         }
 
         if ($request->has('sortBy')) {
@@ -102,25 +70,66 @@ class WelfareStatusController extends Controller
             }
         }
         else{
-            $query->orderBy($sortBy);
+            $query->orderBy($sortBy,'DESC');
+        }
+
+        if ($request->has('search_type')) {
+            $search_type = $request->query('search_type');
+        }
+        if ($search_type > 0) {
+            $search_info = $request->query('search_info');
+            switch ($search_type) {
+                case 1:
+                    if($search_info!=''){
+                        $query->join('customers','welfare_status.customer_id','=','customers.id');
+                        $query->where('customers.name','like',"%{$search_info}%");
+                        $query->select('welfare_status.*');
+                    }
+                    break;
+                case 2:
+                    if($search_info!=''){
+                        $query->where('welfare_name','like',"%{$search_info}%");
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
 
         $welfare_statuses = $query->get();
-
         $query = WelfareStatus::query();
 
-        foreach ($welfare_statuses as $key => $value) {
-            if(count($value->welfare_types)<=0){
-                unset($welfare_statuses[$key]);
+        $query->where(function ($query) use($welfare_statuses){
+            foreach ($welfare_statuses as $key => $value) {
+                if(count($value->welfare_types)<=0){
+                    unset($welfare_statuses[$key]);
+                }
+                else{
+                    $query->orWhere('id','=',$value->id);
+                }
             }
-            else{
-                $query->orWhere('id','=',$value->id);
-            }
-        }
+            return $query;
+
+        });
+
+//        foreach ($welfare_statuses as $key => $value) {
+//            if(count($value->welfare_types)<=0){
+//                unset($welfare_statuses[$key]);
+//            }
+//            else{
+//                $query->where(function ($query) use ($value) {
+//                    $query->orWhere('id','=',$value->id);
+//                    return $query;
+//                });
+//
+//            }
+//        }
+
+
+
 
         $welfare_statuses = $query->paginate(15);
-//        dd($welfare_statuses);
 
         $data = [
             'status_names'=>self::$status_names,
