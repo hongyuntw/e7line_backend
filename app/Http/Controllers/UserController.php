@@ -64,6 +64,7 @@ class UserController extends Controller
         ]);
 //        $file = $request->file('upload');
 //        $file = $request->file('image');
+        unset($request['password_confirmation']);
         $user = User::create($request->all());
         $user->password = Hash::make($user->password);
         $user->level = 0;

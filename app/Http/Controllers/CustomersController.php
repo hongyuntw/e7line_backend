@@ -91,7 +91,6 @@ class CustomersController extends Controller
             }
         }
 
-
         if ($request->has('status_filter')) {
             $status_filter = $request->query('status_filter');
             $query->where(function ($query) use ($status_filter) {

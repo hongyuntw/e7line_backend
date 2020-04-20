@@ -25,9 +25,25 @@ class CreateOrdersTable extends Migration
 //            可能會有多個，所以不用做validate
             $table->string('tax_id')->nullable();
             $table->string('ship_to');
-            $table->timestamp('latest_arrival_date')->nullable();
+
 //            這邊代表下訂單的人，不一定是福委
-            $table->string('email');
+            $table->string('email',50)->nullable();
+            $table->string('phone_number',50)->nullable();
+
+
+            $table->decimal('discount')->default(0);
+            $table->decimal('amount');
+
+
+//            為了啥購買的
+            $table->unsignedInteger('welfare_id');
+
+            //         最晚到貨時間
+//            收件日期
+            $table->timestamp('receive_date')->nullable();
+            $table->timestamp('latest_arrival_date')->nullable();
+
+            $table->timestamp('create_date');
         });
     }
 
