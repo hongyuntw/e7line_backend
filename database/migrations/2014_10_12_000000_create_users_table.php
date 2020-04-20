@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
 //            0->採購 1->業務 2->管理者
             $table->tinyInteger('level')->default(0);
+//   0->正常 1->失效（離職）
+            $table->tinyInteger('is_left')->default(0);
             $table->timestamps();
 
         });

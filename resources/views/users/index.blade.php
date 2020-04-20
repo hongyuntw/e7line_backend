@@ -45,23 +45,26 @@
                         <div class="box-body">
                             <table class="table table-bordered">
                                 <tr class="text-center">
-{{--                                    <th class="text-center" style="width: 10px;">id</th>--}}
+                                    {{--                                    <th class="text-center" style="width: 10px;">id</th>--}}
                                     <th class="text-center" style="width: 70px">業務名稱</th>
                                     <th class="text-center" style="width: 70px">業務帳號</th>
                                     <th class="text-center" style="width: 70px">註冊日期</th>
                                     <th class="text-center" style="width: 120px">業務權限</th>
-{{--                                    @if(Auth::user()->level==2)--}}
+                                    {{--                                    @if(Auth::user()->level==2)--}}
 
-                                        <th class="text-center" style="width: 120px">功能</th>
+                                    <th class="text-center" style="width: 120px">功能</th>
 
-{{--                                    @endif--}}
+                                    {{--                                    @endif--}}
                                 </tr>
                                 @foreach ($users as $user)
+                                    @if($user->is_left)
+                                        @continue
+                                    @endif
                                     <tr class="text-center">
                                         @if($user->id==1)
                                             @continue
                                         @endif
-{{--                                        <td>{{ $user->id }}.</td>--}}
+                                        {{--                                        <td>{{ $user->id }}.</td>--}}
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email}}</td>
                                         <td>{{ $user->created_at }}</td>
@@ -75,31 +78,33 @@
                                         @endif
 
                                         @if(Auth::user()->level==2)
-                                        <td> <a class="btn btn-primary" href="{{route('users.edit',$user->id)}}">編輯 </a></td>
+                                            <td><a class="btn btn-primary"
+                                                   href="{{route('users.edit',$user->id)}}">編輯 </a></td>
                                         @elseif(Auth::user()->id==$user->id)
-                                            <td> <a class="btn btn-primary" href="{{route('users.edit',$user->id)}}">編輯 </a></td>
+                                            <td><a class="btn btn-primary"
+                                                   href="{{route('users.edit',$user->id)}}">編輯 </a></td>
                                         @endif
-{{--                                        @if((Auth::user()->level==0||Auth::user()->level==2)&&$user->id!=Auth::user()->id)--}}
-{{--                                            @if($user->level!=2)--}}
-{{--                                                <td class="text-center">--}}
-{{--                                                    <form action="{{ route('users.levelup', $user->id) }}" method="post"--}}
-{{--                                                          style="display: inline-block">--}}
-{{--                                                        @csrf--}}
-{{--                                                        <button type="submit" class="btn btn-xs btn-primary">提升權限--}}
-{{--                                                        </button>--}}
-{{--                                                    </form>--}}
-{{--                                                    @if(Auth::user()->level==2)--}}
-{{--                                                        <form action="{{ route('users.leveldown', $user->id) }}"--}}
-{{--                                                              method="post"--}}
-{{--                                                              style="display: inline-block">--}}
-{{--                                                            @csrf--}}
-{{--                                                            <button type="submit" class="btn btn-xs btn-danger">降低權限--}}
-{{--                                                            </button>--}}
-{{--                                                        </form>--}}
-{{--                                                    @endif--}}
-{{--                                                </td>--}}
-{{--                                            @endif--}}
-{{--                                        @endif--}}
+                                        {{--                                        @if((Auth::user()->level==0||Auth::user()->level==2)&&$user->id!=Auth::user()->id)--}}
+                                        {{--                                            @if($user->level!=2)--}}
+                                        {{--                                                <td class="text-center">--}}
+                                        {{--                                                    <form action="{{ route('users.levelup', $user->id) }}" method="post"--}}
+                                        {{--                                                          style="display: inline-block">--}}
+                                        {{--                                                        @csrf--}}
+                                        {{--                                                        <button type="submit" class="btn btn-xs btn-primary">提升權限--}}
+                                        {{--                                                        </button>--}}
+                                        {{--                                                    </form>--}}
+                                        {{--                                                    @if(Auth::user()->level==2)--}}
+                                        {{--                                                        <form action="{{ route('users.leveldown', $user->id) }}"--}}
+                                        {{--                                                              method="post"--}}
+                                        {{--                                                              style="display: inline-block">--}}
+                                        {{--                                                            @csrf--}}
+                                        {{--                                                            <button type="submit" class="btn btn-xs btn-danger">降低權限--}}
+                                        {{--                                                            </button>--}}
+                                        {{--                                                        </form>--}}
+                                        {{--                                                    @endif--}}
+                                        {{--                                                </td>--}}
+                                        {{--                                            @endif--}}
+                                        {{--                                        @endif--}}
                                     </tr>
                                 @endforeach
                             </table>

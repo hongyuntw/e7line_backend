@@ -130,8 +130,10 @@ class UserController extends Controller
             $user->level = $request->input('level');
         }
 
+        if($request->input('is_left')){
+            $user->is_left = $request->input('is_left');
+        }
         $user->updated_at = now();
-
         $user->update();
 
         return redirect()->route('users.index');

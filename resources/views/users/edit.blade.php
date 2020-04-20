@@ -25,7 +25,8 @@
               -------------------------->
             <div class="container">
 
-                <form class="well form-horizontal" action="{{ route('users.update', $user->id) }}" method="post" id="contact_form">
+                <form class="well form-horizontal" action="{{ route('users.update', $user->id) }}" method="post"
+                      id="contact_form">
 
                     @csrf
                     @method('PATCH')
@@ -61,7 +62,7 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <input type="password" class="form-control"name="password" placeholder="請輸入密碼">
+                                    <input type="password" class="form-control" name="password" placeholder="請輸入密碼">
                                 </div>
                             </div>
                         </div>
@@ -70,39 +71,60 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <input type="password" class="form-control"name="password_confirmation" placeholder="請再次輸入密碼">
+                                    <input type="password" class="form-control" name="password_confirmation"
+                                           placeholder="請再次輸入密碼">
                                 </div>
                             </div>
                         </div>
                         @if(Auth::user()->level==2)
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Level</label>
-                            <div class="col-md-4 selectContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Level</label>
+                                <div class="col-md-4 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
 
-                                    <select id="level" name="level" class="form-control">
-                                        <option
-                                            value="0" {{ old('level',$user->level) == 0 ? 'selected' : '' }}>
-                                            0
-                                        </option>
-                                        <option
-                                            value="1" {{ old('level',$user->level) == 1 ? 'selected' : '' }}>
-                                            1
-                                        </option>
-                                        <option
-                                            value="2" {{ old('level',$user->level) == 2 ? 'selected' : '' }}>
-                                            2
-                                        </option>
+                                        <select id="level" name="level" class="form-control">
+                                            <option
+                                                value="0" {{ old('level',$user->level) == 0 ? 'selected' : '' }}>
+                                                Normal
+                                            </option>
+                                            <option
+                                                value="1" {{ old('level',$user->level) == 1 ? 'selected' : '' }}>
+                                                Normal
+                                            </option>
+                                            <option
+                                                value="2" {{ old('level',$user->level) == 2 ? 'selected' : '' }}>
+                                                Root
+                                            </option>
 
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        @endif
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">狀態</label>
+                                <div class="col-md-4 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+
+                                        <select id="is_left" name="is_left" class="form-control">
+                                            <option
+                                                value="0" {{ old('is_left',$user->is_left) == 0 ? 'selected' : '' }}>
+                                                正常
+                                            </option>
+                                            <option
+                                                value="1" {{ old('is_left',$user->is_left) == 1 ? 'selected' : '' }}>
+                                                失效
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                    @endif
 
 
-                        <!-- Button -->
+                    <!-- Button -->
                         <div class="form-group">
                             <label class="col-md-4 control-label"></label>
                             <div class="col-md-4">
