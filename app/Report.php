@@ -11,5 +11,5 @@ class Report extends Model
     const UPDATED_AT = null;
     protected $table = 'reports';
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at'];
 }

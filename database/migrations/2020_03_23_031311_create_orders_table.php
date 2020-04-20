@@ -42,8 +42,8 @@ class CreateOrdersTable extends Migration
 //            收件日期
             $table->timestamp('receive_date')->nullable();
             $table->timestamp('latest_arrival_date')->nullable();
-
-            $table->timestamp('create_date');
+            $table->timestamp('create_date')->nullable();
+            $table->timestamp('update_date')->nullable();
         });
     }
 

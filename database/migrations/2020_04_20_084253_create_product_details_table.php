@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWelfareDetailsTable extends Migration
+class CreateProductDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateWelfareDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('welfare_details', function (Blueprint $table) {
+        Schema::create('product_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',30);
-//            提供此福利之合作廠商
-            $table->unsignedInteger('welfare_company_id');
+            $table->string('name','100');
+            $table->timestamp('create_date')->nullable();
+            $table->timestamp('update_date')->nullable();
+
         });
     }
 
@@ -28,6 +29,6 @@ class CreateWelfareDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('welfare_details');
+        Schema::dropIfExists('product_details');
     }
 }

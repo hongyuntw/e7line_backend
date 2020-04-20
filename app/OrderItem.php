@@ -11,7 +11,17 @@ class OrderItem extends Model
     const UPDATED_AT = null;
     protected $table = 'order_items';
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'create_date'];
 
+    public function product_relation()
+    {
+        return $this->belongsTo(ProductRelation::class);
+
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 
 }

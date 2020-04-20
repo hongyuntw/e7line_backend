@@ -11,7 +11,7 @@ class Customer extends Model
     const UPDATED_AT = null;
     protected $table = 'customers';
 
-    protected $guarded = ['id', 'create_date', 'update_date'];
+    protected $guarded = ['id', 'create_date'];
 
 
     public function user()
@@ -34,4 +34,9 @@ class Customer extends Model
         return $this->hasMany(ConcatRecord::class);
     }
 
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
