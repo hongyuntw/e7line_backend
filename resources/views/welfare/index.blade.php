@@ -104,6 +104,8 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        <input hidden name="user_filter" value="@if(request()->get('user_filter')) {{request()->get('user_filter')}} @endif">
+
                                         <select multiple name="status_filter[]" hidden>
                                             @if(request()->get('status_filter'))
                                                 @foreach(request()->get('status_filter') as $col)
