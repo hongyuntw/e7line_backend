@@ -228,7 +228,8 @@ class DashboardController extends Controller
                 if($v == $page){
                     $res .='<li class="active"><span>'.$v.'</span></li>';
 
-                }else{
+                }
+                else{
                     $res .='<li >' ;
                     $res .='<a href="javascript:void(0)" onclick="page('.$v.')">'.$v.'</a>' ;
                     $res .='</li>' ;

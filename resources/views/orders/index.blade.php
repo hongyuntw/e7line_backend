@@ -156,7 +156,7 @@
 {{--                                            @else--}}
 {{--                                                @php($page=1)--}}
 {{--                                            @endif--}}
-                                            <a href=""
+                                            <a href="{{route('orders.detail',$order->id)}}"
                                                class="btn btn-xs btn-primary">詳細</a>
                                             <a href=""
                                                class="btn btn-xs btn-primary">編輯</a>

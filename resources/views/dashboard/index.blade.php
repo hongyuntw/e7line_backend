@@ -243,6 +243,7 @@
                                                     <li>
                                                         <a href="javascript:void(0)" onclick="wpage({{$v}})">{{$v}}</a>
                                                     </li>
+
                                                 @endif
 
                                             @endforeach

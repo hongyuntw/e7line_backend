@@ -41,21 +41,19 @@
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 10px;">客戶名稱</th>
-                                        <th class="text-center" style="width: 10px;">訂購窗口</th>
-                                        <th class="text-center" style="width: 10px;">日期</th>
-                                        <th class="text-center" style="width: 10px;">狀態</th>
+                                        <th class="text-center" style="width: 20%;">客戶名稱</th>
+                                        <th class="text-center" style="width: 10%;">訂購窗口</th>
+                                        <th class="text-center" style="width: 10%;">負責業務</th>
+                                        <th class="text-center" style="width: 10%;">日期</th>
+                                        <th class="text-center" style="width: 10%;">狀態</th>
                                     </tr>
                                     </thead>
                                     <tr>
-                                        <td>{{$order->customer->name}}</td>
-                                        <td>{{$order->business_concat_person->name}}</td>
-                                        <td>{{$order->name}}</td>
-
-
-
-
-
+                                        <td class="text-center">{{$order->customer->name}}</td>
+                                        <td class="text-center">{{$order->business_concat_person->name}}</td>
+                                        <td class="text-center">{{$order->user->name}}</td>
+                                        <td class="text-center">{{$order->create_date}}</td>
+                                        <td class="text-center">{{$order->status}}</td>
                                     </tr>
                                 </table>
 
@@ -71,62 +69,107 @@
                     <div class="col-md-12">
                         <div class="box">
 
-
                             <div class="box-body">
-                                <div id="ConcatWindow"></div>
                                 <h4 class="text-center">
                                     <label style="font-size: medium">Order Note</label>
                                 </h4>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{--                            Order Items--}}
-
-            <div class="tabs">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="box">
-
-
-                            <div class="box-body">
-                                <div id="Development_Record">
-                                    <h4 class="text-center">
-                                        <label style="font-size: medium">Order items</label>
-                                    </h4>
-                                </div>
-
-
-                                <table class="table table-striped" width="100%">
+                                <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 15%;">Products</th>
-                                        <th class="text-center" style="width: 25%;">Quantity</th>
-                                        <th class="text-center" style="width: 25%;">Price</th>
-                                        <th class="text-center" style="width: 10%;">Amount</th>
+                                        <th class="text-center" style="width: 10%;">Email</th>
+                                        <th class="text-center" style="width: 10%;">Phone</th>
+                                        <th class="text-center" style="width: 10%;">統編</th>
+                                        <th class="text-center" style="width: 10%;">收件地址</th>
+                                        <th class="text-center" style="width: 10%;">最遲到貨</th>
+                                        <th class="text-center" style="width: 10%;">收件日期</th>
 
                                     </tr>
                                     </thead>
-                                    @foreach ($concat_records as $concat_record)
-                                        <tr class="text-center">
-
-                                        </tr>
-                                    @endforeach
-
+                                    <tr>
+                                        <td class="text-center">{{$order->email}}</td>
+                                        <td class="text-center">{{$order->phone_number}}</td>
+                                        <td class="text-center">{{$order->tax_id}}</td>
+                                        <td class="text-center">{{$order->ship_to}}</td>
+                                        <td class="text-center">{{$order->latest_arrival_date}}</td>
+                                        <td class="text-center">{{$order->receive_date}}</td>
+                                    </tr>
                                 </table>
-                                <tfoot>
-                                </tfoot>
+                                <br>
+                                <h4 class="text-center">
+                                    <label style="font-size: medium">Payment</label>
+                                </h4>
+
+                                <table class="table table-striped" style="width: 100%">
+                                    <thead style="background-color: lightgray">
+                                    <tr class="text-center">
+                                        <th class="text-center" style="width: 10%;">付款方式</th>
+                                        <th class="text-center" style="width: 10%;">付款時間</th>
+                                        <th class="text-center" style="width: 10%;">後五碼</th>
+                                        <th class="text-center" style="width: 10%;">備註</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="text-center">{{$order->payment_method}}</td>
+                                        <td class="text-center">{{$order->payment_date}}</td>
+                                        <td class="text-center">{{$order->payment_last_five_number}}</td>
+
+
+                                        <td class="text-center">{{$order->note}}</td>
+
+
+                                    </tr>
+                                </table>
+
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- /.row -->
+                {{--                            Order Items--}}
+
+                <div class="tabs">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box">
+
+
+                                <div class="box-body">
+                                    <div id="Development_Record">
+                                        <h4 class="text-center">
+                                            <label style="font-size: medium">Order items</label>
+                                        </h4>
+                                    </div>
+
+
+                                    <table class="table table-striped" width="100%">
+                                        <thead style="background-color: lightgray">
+                                        <tr class="text-center">
+                                            <th class="text-center" style="width: 15%;">Products</th>
+                                            <th class="text-center" style="width: 25%;">Quantity</th>
+                                            <th class="text-center" style="width: 25%;">Price</th>
+                                            <th class="text-center" style="width: 10%;">Amount</th>
+
+                                        </tr>
+                                        </thead>
+                                        {{--                                    @foreach ($concat_records as $concat_record)--}}
+                                        {{--                                        <tr class="text-center">--}}
+
+                                        {{--                                        </tr>--}}
+                                        {{--                                    @endforeach--}}
+
+                                    </table>
+                                    <tfoot>
+                                    </tfoot>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.row -->
 
         </section>
         <!-- /.content -->

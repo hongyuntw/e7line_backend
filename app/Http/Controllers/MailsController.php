@@ -256,7 +256,7 @@ class MailsController extends Controller
 
 
 
-        $concat_persons = $query->get();
+        $concat_persons = $query->get(['customers.name']);
 //        dd($concat_persons);
         return Excel::download(new InvoicesExport($concat_persons), 'data.xlsx');
 

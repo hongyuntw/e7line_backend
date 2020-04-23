@@ -34,12 +34,18 @@ class CreateOrdersTable extends Migration
             $table->decimal('discount')->default(0);
             $table->decimal('amount');
 
+//            付款資訊
+            $table->string('payment_method')->nullable();
+            $table->string('payment_date')->nullable();
+            $table->string('payment_last_five_number')->nullable();
+
+
+
 
 //            為了啥購買的
             $table->unsignedInteger('welfare_id');
 
-            //         最晚到貨時間
-//            收件日期
+//            收件日期,最晚到貨時間
             $table->timestamp('receive_date')->nullable();
             $table->timestamp('latest_arrival_date')->nullable();
             $table->timestamp('create_date')->nullable();

@@ -33,6 +33,9 @@ class OrderTableSeeder extends Seeder
                 'latest_arrival_date'=>now()->addDays(200 - $i)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
                 'create_date'=>now(),
                 'update_date'=>now(),
+                'payment_method'=> '貨到付款',
+                'payment_date' => now()->addDays(rand(1,4)),
+                'payment_last_five_number' => '12345',
             ]);
         }
     }
