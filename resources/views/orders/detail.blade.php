@@ -113,14 +113,11 @@
                                         <td class="text-center">{{$order->payment_method}}</td>
                                         <td class="text-center">{{$order->payment_date}}</td>
                                         <td class="text-center">{{$order->payment_last_five_number}}</td>
-
-
                                         <td class="text-center">{{$order->note}}</td>
 
 
                                     </tr>
                                 </table>
-
 
 
                             </div>
@@ -154,14 +151,21 @@
 
                                         </tr>
                                         </thead>
-                                        {{--                                    @foreach ($concat_records as $concat_record)--}}
-                                        {{--                                        <tr class="text-center">--}}
-
-                                        {{--                                        </tr>--}}
-                                        {{--                                    @endforeach--}}
-
+                                        @php($total_price=0)
+                                        @foreach ($order_items  as $order_item)
+                                            <tr class="text-center">
+                                                <td>{{$order_item->product_relation->product->name}} {{$order_item->product_relation->product_detail->name}}</td>
+                                                <td>${{round($order_item->quantity)}}</td>
+                                                <td>${{round($order_item->price)}}</td>
+                                                <td>${{round($order_item->quantity*$order_item->price)}}</td>
+                                                @php($total_price += round($order_item->quantity*$order_item->price))
+                                            </tr>
+                                        @endforeach
                                     </table>
-                                    <tfoot>
+                                    <tfoot align="right">
+                                    Subtotal: {{$total_price}}
+                                    <br>
+                                    Discount: {{round($order->discount)}}
                                     </tfoot>
                                 </div>
                             </div>

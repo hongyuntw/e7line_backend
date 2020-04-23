@@ -132,17 +132,22 @@
                                                     {{ $customer->customer_name }}</td>
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record#ConcatWindow'">
                                                     @if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first())
-                                                        {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email }}
+                                                        @if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email)
+                                                            {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email }}
+                                                        @endif
                                                     @else
                                                         -
                                                     @endif
                                                 </td>
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record#ConcatWindow'">
                                                     @if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first())
-                                                        {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number }}</td>
-                                                @else
-                                                    -
-                                                @endif
+                                                        @if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number)
+                                                            {{ \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record#Development_Record'">
                                                     {{ $customer->track_content }} </td>
                                             </tr>
