@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::post('update_concat_record', 'CustomersController@update_concat_record')->name('customers.update_concat_record');
     Route::post('delete_welfare_type', 'CustomersController@delete_welfare_type')->name('customers.delete_welfare_type');
 
+    Route::post('delete_concat_record', 'CustomersController@delete_concat_record')->name('customers.delete_concat_record');
+
+
     Route::post('update_concat_person', 'CustomersController@update_concat_person')->name('customers.update_concat_person');
     Route::post('add_welfare_types', 'CustomersController@add_welfare_types')->name('customers.add_welfare_types');
     Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');

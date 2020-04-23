@@ -18,6 +18,7 @@ class CreateConcatRecordsTable extends Migration
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('user_id');
 
+            $table->boolean('is_deleted')->default(0);
             $table->tinyInteger('status');
 
             $table->string('development_content');

@@ -516,6 +516,16 @@ class CustomersController extends Controller
 
     }
 
+    public function delete_concat_record(Request $request)
+    {
+        $concat_record = ConcatRecord::find($request['concat_record_id']);
+        $concat_record->is_deleted = 1;
+        $concat_record->update();
+        return response()->json([
+            'success' => 'update concat record success',
+        ]);
+    }
+
     public function add_welfare_types(Request $request)
     {
         $this->validate($request, [

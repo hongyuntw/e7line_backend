@@ -58,9 +58,9 @@
                                     </h4>
                                 </div>
                                 <script>
-                                    function customer_edit(customer_id){
+                                    function customer_edit(customer_id) {
                                         console.log(encodeURIComponent(window.location.href));
-                                        window.location.href = '/customers/'+customer_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);
+                                        window.location.href = '/customers/' + customer_id + '/edit' + '?source_html=' + encodeURIComponent(window.location.href);
                                     }
                                 </script>
 
@@ -84,7 +84,9 @@
                                         <td class="text-center">{{$customer->scales}} 人</td>
                                         <td class="text-center">{{$customer->city}}{{$customer->area}}</td>
                                         <td class="text-center">
-                                            <textarea id="customer_note" name="customer_note" class="form-control" row="2" style="text-align: center;vertical-align: top;">{{$customer->note}}</textarea>
+                                            <textarea id="customer_note" name="customer_note" class="form-control"
+                                                      row="2"
+                                                      style="text-align: center;vertical-align: top;">{{$customer->note}}</textarea>
                                         </td>
                                         <td class="text-center">
                                             <select id="customer_status" name="customer_status">
@@ -112,8 +114,8 @@
                                                 更新狀態
                                             </button>
                                             <a class="label label-primary"
-{{--                                               href="{{route('customers.edit',$customer->id)}}"--}}
-                                                onclick="customer_edit({{$customer->id}})"
+                                               {{--                                               href="{{route('customers.edit',$customer->id)}}"--}}
+                                               onclick="customer_edit({{$customer->id}})"
                                             >編輯基本資訊</a>
 
                                         </td>
@@ -534,25 +536,25 @@
                                             month = '0' + month;
                                         if (day.length < 2)
                                             day = '0' + day;
-                                        if(hour.length<2)
+                                        if (hour.length < 2)
                                             hour = '0' + hour;
-                                        if(min.length<2)
-                                            min ='0'+min;
+                                        if (min.length < 2)
+                                            min = '0' + min;
 
-                                        return ([year, month, day].join('-'))+'T'+hour+':'+min;
+                                        return ([year, month, day].join('-')) + 'T' + hour + ':' + min;
                                     }
 
                                     function status_select_changed() {
                                         var selectObj = document.getElementById("status");
                                         if (selectObj.selectedIndex == 1) {
                                             // var today = new Date();
-                                            var now  = formatDate();
+                                            var now = formatDate();
                                             // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                                             // var time = today.getHours() + ":" + today.getMinutes();
                                             // var dateTime = date+'T'+time;
                                             console.log(now);
                                             html = '<label>追蹤日期</label> <br>';
-                                            html += '<input type="datetime-local" value="' + now +'" name="track_date"/> <br>';
+                                            html += '<input type="datetime-local" value="' + now + '" name="track_date"/> <br>';
                                             $('#track_date_div').append(html);
                                         } else {
                                             document.getElementById("track_date_div").innerHTML = '';
@@ -614,12 +616,12 @@
                                 <table class="table table-striped" width="100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 18%;">status</th>
-                                        <th class="text-center" style="width: 25%;">開發note</th>
-                                        <th class="text-center" style="width: 25%;">追蹤note</th>
-                                        <th class="text-center" style="width: 8%;">待追蹤日期</th>
+                                        <th class="text-center" style="width: 10%;">status</th>
+                                        <th class="text-center" style="width: 20%;">開發note</th>
+                                        <th class="text-center" style="width: 20%;">追蹤note</th>
+                                        <th class="text-center" style="width: 10%;">待追蹤日期</th>
                                         <th class="text-center" style="width: 8%;">創建日期</th>
-                                        <th class="text-center" style="width: 15%;">其他功能</th>
+                                        <th class="text-center" style="width: 20%;">其他功能</th>
 
                                         {{--                                <th class="text-center" style="width: 10px;">功能</th>--}}
 
@@ -627,6 +629,9 @@
                                     </tr>
                                     </thead>
                                     @foreach ($concat_records as $concat_record)
+                                        @if($concat_record->is_deleted)
+                                            @continue
+                                        @endif
                                         @php
                                             $status_name = '';
                                             $status_css = '';
@@ -647,7 +652,8 @@
                                             <td class="align-middle" style="vertical-align: middle;">
                                                 <label style="min-width: 60px;display: inline-block;"
                                                        class="{{$status_css}}">{{$status_name}}</label>
-                                                <select style="display:none;" class="form-control" name="edit_concat_record_info{{$concat_record->id}}">
+                                                <select style="display:none;" class="form-control"
+                                                        name="edit_concat_record_info{{$concat_record->id}}">
                                                     <option value="0" @if($concat_record->status==0)selected @endif>
                                                         已完成
                                                     </option>
@@ -687,7 +693,8 @@
                                                 <input
 
                                                     value="@if($concat_record->track_date){{date("Y-m-d\TH:i", strtotime($concat_record->track_date))}}@endif"
-                                                    type="datetime-local" style="display: none" class="form-control text-center"
+                                                    type="datetime-local" style="display: none"
+                                                    class="form-control text-center"
                                                     name="edit_concat_record_info{{$concat_record->id}}">
                                             </td>
                                             <td class="align-middle"
@@ -699,9 +706,14 @@
                                                     確認
                                                 </button>
                                                 <button onClick="cancel_concat_record_btn_reply_click(this.name)"
-                                                        class="label label-danger" style="display: none"
+                                                        class="label label-warning" style="display: none"
                                                         name="edit_concat_record_info{{$concat_record->id}}">
                                                     取消
+                                                </button>
+                                                <button onClick="delete_concat_record_btn_click(this.name)"
+                                                        class="label label-danger" style="display: none"
+                                                        name="edit_concat_record_info{{$concat_record->id}}">
+                                                    刪除
                                                 </button>
                                                 <button onClick="edit_concat_record_btn_reply_click(this.name)"
                                                         class="label label-info"
@@ -716,12 +728,37 @@
                                                     var btn_name = clicked_btn_name;
                                                     // console.log(edit_btn_name);
                                                     show_edit_concat_record(btn_name);
-                                                };
+                                                }
+
+                                                function delete_concat_record_btn_click(btn_name) {
+                                                    var concat_record_id = btn_name.substring(23);
+                                                    $.ajax({
+                                                        method: 'POST',
+                                                        url: '{{ route('customers.delete_concat_record') }}',
+                                                        data: {
+                                                            concat_record_id: concat_record_id,
+                                                        },
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                                        },
+                                                        success: function (data) {
+                                                            location.reload()
+                                                        },
+                                                        error: function (request) {
+                                                            var error = JSON.parse(request.responseText);
+                                                            var msg = '';
+                                                            for (var prop in error['errors']) {
+                                                                msg += error['errors'][prop] + '\n';
+                                                            }
+                                                            alert(msg);
+                                                        }
+                                                    })
+                                                }
 
                                                 //when edit_confirm be clicked
                                                 function confirm_concat_record_btn_reply_click(clicked_btn_name) {
                                                     update_edit_concat_record(clicked_btn_name);
-                                                };
+                                                }
 
                                                 // update data to db
                                                 function update_edit_concat_record(btn_name) {
@@ -765,7 +802,7 @@
                                                             alert(msg);
                                                         }
                                                     })
-                                                };
+                                                }
 
                                                 // cancel be clicked
                                                 function cancel_concat_record_btn_reply_click(clicked_btn_name) {
@@ -1008,7 +1045,7 @@
                                                     @foreach($welfare_type_names as $welfare_type_name)
                                                         @if(!(in_array($welfare_type_name->id, $welfare_status->welfare_types->pluck('welfare_type_name_id')->toArray())))
                                                             <option @if($welfare_type_name->is_deleted) disabled @endif
-                                                                value="{{$welfare_type_name->id}}">{{$welfare_type_name->name}}</option>
+                                                            value="{{$welfare_type_name->id}}">{{$welfare_type_name->name}}</option>
                                                         @endif
                                                     @endforeach
                                                 </select>

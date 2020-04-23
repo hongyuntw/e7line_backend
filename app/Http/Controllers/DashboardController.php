@@ -26,11 +26,12 @@ class DashboardController extends Controller
 //        $query->join('business_concat_persons','business_concat_persons.customer_id','=','customers.id');
 
         if(Auth::user()->level==2){
-            $query->Where('concat_records.status','=','1');
+            $query->Where('concat_records.status','=','1')->Where('concat_records.is_deleted','=',0);
 
         }
         else{
-            $query->Where('customers.user_id','=',Auth::user()->id)->Where('concat_records.status','=','1');
+            $query->Where('customers.user_id','=',Auth::user()->id)->Where('concat_records.status','=','1')
+            ->Where('concat_records.is_deleted','=',0);
 
         }
         $query->orderBy('concat_records.update_date','DESC');
@@ -145,12 +146,12 @@ class DashboardController extends Controller
         $query->join('concat_records','customers.id','=','concat_records.customer_id');
 //        $query->join('business_concat_persons','business_concat_persons.customer_id','=','customers.id');
         if(Auth::user()->level==2){
-            $query->Where('concat_records.status','=','1');
+            $query->Where('concat_records.status','=','1')->Where('concat_records.is_deleted','=',0);
 
         }
         else{
-            $query->Where('customers.user_id','=',Auth::user()->id)->Where('concat_records.status','=','1');
-
+            $query->Where('customers.user_id','=',Auth::user()->id)->Where('concat_records.status','=','1')
+                ->Where('concat_records.is_deleted','=',0);
         }
         $query->orderBy('concat_records.update_date','DESC');
 
