@@ -108,10 +108,10 @@
 {{--                                    <!-- /.search form -->--}}
 
 {{--                                </div>--}}
-{{--                                <div class="col-md-1 col-3">--}}
-{{--                                    <label>特殊功能</label><br>--}}
-{{--                                    <a class="btn btn-success btn-sm" href="{{route('mails.export',request()->input())}}">Export</a>--}}
-{{--                                </div>--}}
+                                <div class="col-md-1 col-3">
+                                    <label>特殊功能</label><br>
+                                    <a class="btn btn-success btn-sm" href="{{route('orders.create')}}">新增訂單</a>
+                                </div>
 {{--                            </div>--}}
 
 

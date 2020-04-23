@@ -67,14 +67,14 @@
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 10px;">聯絡電話</th>
-                                        <th class="text-center" style="width: 10px;">資本額</th>
-                                        <th class="text-center" style="width: 10px;">規模</th>
-                                        <th class="text-center" style="width: 10px;">地區</th>
-                                        <th class="text-center" style="width: 20px;">註記</th>
-                                        <th class="text-center" style="width: 10px;">狀態</th>
-                                        <th class="text-center" style="width: 10px;">是否開通</th>
-                                        <th class="text-center" style="width: 10px;">其他功能</th>
+                                        <th class="text-center" style="width: 15%;">聯絡電話</th>
+                                        <th class="text-center" style="width: 15%;">資本額</th>
+                                        <th class="text-center" style="width: 10%;">規模</th>
+                                        <th class="text-center" style="width: 15%;">地區</th>
+                                        <th class="text-center" style="width: 20%;">註記</th>
+                                        <th class="text-center" style="width: 5%;">狀態</th>
+                                        <th class="text-center" style="width: 10%;">是否開通</th>
+                                        <th class="text-center" style="width: 10%;">其他功能</th>
                                     </tr>
                                     </thead>
                                     <tr>

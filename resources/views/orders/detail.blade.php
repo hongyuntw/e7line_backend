@@ -46,6 +46,9 @@
                                         <th class="text-center" style="width: 10%;">負責業務</th>
                                         <th class="text-center" style="width: 10%;">日期</th>
                                         <th class="text-center" style="width: 10%;">狀態</th>
+                                        <th class="text-center" style="width: 10%;">目的</th>
+
+
                                     </tr>
                                     </thead>
                                     <tr>
@@ -54,6 +57,9 @@
                                         <td class="text-center">{{$order->user->name}}</td>
                                         <td class="text-center">{{$order->create_date}}</td>
                                         <td class="text-center">{{$order->status}}</td>
+                                        <td class="text-center">{{$order->welfare->welfare_name}}</td>
+
+
                                     </tr>
                                 </table>
 
@@ -162,11 +168,28 @@
                                             </tr>
                                         @endforeach
                                     </table>
-                                    <tfoot align="right">
-                                    Subtotal: {{$total_price}}
                                     <br>
-                                    Discount: {{round($order->discount)}}
-                                    </tfoot>
+                                    <div align="right">
+                                        <table>
+                                            <tr>
+                                                <td>Subtotal</td>
+                                                <td class="text-right">{{$total_price}}</td>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid;">
+                                                <td>Discount</td>
+                                                <td class="text-right">{{round($order->discount)}}</td>
+                                            </tr>
+                                            <hr>
+                                            <tr >
+                                                <td>Total</td>
+                                                <td class="text-right">{{$total_price-round($order->discount)}}</td>
+                                            </tr>
+
+                                        </table>
+
+
+
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -99,6 +99,9 @@ Route::middleware('auth')->group(function () {
 //    orders
     Route::get('orders','OrderController@index')->name('orders.index');
     Route::get('orders/{order}/detail','OrderController@detail')->name('orders.detail');
+    Route::get('orders/create','OrderController@create')->name('orders.create');
+    Route::get('ajax/get_customer_concat_persons', 'OrderController@get_customer_concat_persons')->name('orders.get_customer_concat_persons');
+
 
 
 
