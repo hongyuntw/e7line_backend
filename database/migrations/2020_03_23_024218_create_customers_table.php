@@ -29,6 +29,8 @@ class CreateCustomersTable extends Migration
             $table->string('city',10);
             $table->string('area',10);
 
+            $table->string('note')->nullable();
+
 
             $table->tinyInteger('active_status')->default(0);
             $table->timestamp('active_time',0)->nullable();

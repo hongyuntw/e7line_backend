@@ -29,6 +29,7 @@ class CustomersTableSeeder extends Seeder
                 'user_id'=> rand(1,4),
                 'already_set_sales' => false,
                 'is_deleted' => false,
+                'note'=>$faker->realText(rand(10,20)),
                 'status' => rand(1,5),
                 'active_status'=>rand(0,1),
                 'create_date' => now()->subDays(20 - $id)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),

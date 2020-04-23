@@ -199,8 +199,16 @@ class DashboardController extends Controller
             $res .= '<td><input type="checkbox" id="' . $customer->concat_record_id . '"
                                                            name="change_record_status" ></td>';
             $res .= '<td>'.$customer->customer_name.'</td>';
-            $res .= '<td>'.\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email.'</td>';
-            $res .= '<td>'.\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number.'</td>';
+            $email = '-';
+            if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email){
+                $email = \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->email;
+            }
+            $res .= '<td>'.$email.'</td>';
+            $phone_number = '-';
+            if(\App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number){
+                $phone_number = \App\BusinessConcatPerson::where('customer_id','=',$customer->customer_id)->orderBy('update_date','DESC')->first()->phone_number;
+            }
+            $res .= '<td>'.$phone_number.'</td>';
             $res .= '<td>'.$customer->track_content.'</td>';
             $res .= '</tr>';
         }

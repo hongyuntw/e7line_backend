@@ -188,12 +188,26 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">註記</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <textarea  class="form-control" id="note" name="note" placeholder="請輸入註記"
+                                    >{{ old('note') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
 
-                        <!-- Button -->
+
+                    {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
+
+                    <!-- Button -->
                         <div class="form-group">
                             <label class="col-md-4 control-label"></label>
                             <div class="col-md-4">
-                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
+                                <a class="btn btn-danger" href="{{ old('redirect_to', URL::previous())}}">取消</a>
+{{--                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>--}}
                                 <button type="submit" class="btn btn-primary">新增</button>
                             </div>
                         </div>

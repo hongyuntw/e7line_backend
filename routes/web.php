@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
 
 //    for customer
-    Route::get('customers/{customer}/edit', 'CustomersController@edit')->name('customers.edit');
+    Route::get('customers/{customer}/edit{request?}', 'CustomersController@edit')->name('customers.edit');
     Route::patch('customers/{customer}', 'CustomersController@update')->name('customers.update');
 //    Route::delete('customers/{customer}', 'CustomersController@destroy')->name('customers.destroy');
     Route::get('customers/create', 'CustomersController@create')->name('customers.create');

@@ -192,13 +192,31 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">註記</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                   <textarea disabled class="form-control" id="note" name="note" placeholder="請輸入註記"
+                                    >{{ old('note', $customer->note) }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- Button -->
                         <div class="form-group">
                             <label class="col-md-4 control-label"></label>
                             <div class="col-md-4">
-                                <a class="btn btn-primary" href="{{route('customers.index')}}">客戶列表</a>
-                                <a class="btn btn-primary" href="{{route('customers.edit',$customer->id)}}">編輯</a>
+                                <script>
+                                    function customer_edit(customer_id){
+                                        console.log(encodeURIComponent(window.location.href));
+                                        window.location.href = '/customers/'+customer_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);
+                                    }
+                                </script>
+{{--                                <a class="btn btn-primary" href="{{route('customers.index')}}">客戶列表</a>--}}
+                                <a class="btn btn-primary" onclick="customer_edit({{$customer->id}})">編輯</a>
+
                                 @if($customer->user_id==Auth::user()->id or Auth::user()->level==2)
 
                                     <form action="{{ route('customers.delete', $customer->id) }}" method="post"

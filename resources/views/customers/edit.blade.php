@@ -232,6 +232,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">註記</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <textarea class="form-control" id="note" name="note" placeholder="請輸入註記"
+                                              >{{ old('note', $customer->note) }}</textarea>
+
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- Button -->
                         <div class="form-group">
@@ -243,6 +255,11 @@
                         </div>
 
                     </fieldset>
+
+
+{{--                    hidden input--}}
+                    <input hidden name="source_html" value="{{$source_html}}">
+
                 </form>
             </div>
 

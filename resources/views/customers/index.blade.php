@@ -227,7 +227,8 @@
                                             @endif
                                             <a href="{{ route('customers.show', $customer->id) }}"
                                                class="btn btn-xs btn-primary">詳細</a>
-                                            <a href="{{ route('customers.edit',$customer->id)}}"
+                                            <a onclick="customer_edit({{$customer->id}})"
+{{--                                               href="{{ route('customers.edit',$customer->id)}}"--}}
                                                class="btn btn-xs btn-primary">編輯</a>
 
                                             <a href="{{ route('customers.record', $customer->id) }}"
@@ -247,6 +248,15 @@
 
                                     </tr>
                                 @endforeach
+
+                                {{--    for customer edit cookie setting and redirect--}}
+                                <script>
+                                    function customer_edit(customer_id){
+                                        console.log(encodeURIComponent(window.location.href));
+                                        window.location.href = '/customers/'+customer_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);
+                                    }
+                                </script>
+
                             </table>
                         </div>
 

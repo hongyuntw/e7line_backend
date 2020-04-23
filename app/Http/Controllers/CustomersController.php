@@ -16,6 +16,10 @@ use App\WelfareTypeName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
+
+
+
 
 class CustomersController extends Controller
 {
@@ -195,6 +199,13 @@ class CustomersController extends Controller
 //        twzipcode 會包含zipcode 要移除掉
         $request_data = $request->all();
         unset($request_data['zipcode']);
+
+        if($request->has('redirect_to')){
+            unset($request_data['redirect_to']);
+
+        }
+
+
         $customer = Customer::create($request_data);
         $customer->create_date = now();
         $customer->update();
@@ -244,11 +255,14 @@ class CustomersController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit(Customer $customer,Request $request)
     {
 
 //        dump($page);
-//        dd($request);
+//        dump($customer);
+//        dump($request->all());
+
+
 //        $customer = Customer::find($request->input('customer_id'));
         $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
         $users = User::all();
@@ -256,9 +270,11 @@ class CustomersController extends Controller
             'customer' => $customer,
             'status_text' => $status_text,
             'users' => $users,
-//            'page'=> $request->input('page'),
         ];
-
+        foreach ($request->all() as $key=>$value){
+            $data[$key] = $value;
+        }
+//        dump($data);
         return view('customers.edit', $data);
 
     }
@@ -302,14 +318,19 @@ class CustomersController extends Controller
 
         $to_be_update_data['update_date'] = now();
         unset($to_be_update_data['zipcode']);
-//        dd($to_be_update_data);
 
+        if($request->has('source_html')){
+            unset($to_be_update_data['source_html']);
+        }
 
-//
-//
-//        // $path = $request->file->storeAs('路路徑', '');
         $customer->update($to_be_update_data);
-        return redirect()->route('customers.index');
+        if($request->has('source_html')){
+            return Redirect::to($request->input('source_html'));
+        }
+        else{
+            return redirect()->route('customers.index');
+
+        }
     }
 
 
@@ -347,8 +368,6 @@ class CustomersController extends Controller
 //        dd($welfarestatus);
 
         $concat_records = $customer->concat_records()->orderBy('update_date', 'DESC')->paginate(10);
-        $welfare_companies = WelfareCompany::all();
-        $welfare_details = WelfareDetail::all();
 
 
         $welfare_type_names = WelfareTypeName::all();
@@ -361,8 +380,6 @@ class CustomersController extends Controller
             'business_concat_persons' => $business_concat_persons,
             'welfarestatus' => $welfarestatus,
             'concat_records' => $concat_records,
-            'welfare_companies' => $welfare_companies,
-            'welfare_details' => $welfare_details,
             'welfare_type_names' => $welfare_type_names,
             'status_text' => $status_text,
         ];
@@ -386,6 +403,7 @@ class CustomersController extends Controller
         $customer = Customer::find($request['customer_id']);
         $customer->status = $request['customer_status'];
         $customer->active_status = $request['active_status'];
+        $customer->note = $request['note'];
         $customer->update();
 
         return response()->json([
@@ -480,6 +498,8 @@ class CustomersController extends Controller
 
     public function update_concat_record(Request $request)
     {
+//        dump(now());
+//        dd($request['track_date']);
         $this->validate($request, [
             'track_date' => 'nullable|date|after:' . now(),
         ]);

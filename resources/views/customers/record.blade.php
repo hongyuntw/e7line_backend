@@ -57,15 +57,21 @@
                                         <label style="font-size: medium">{{$customer->name}}</label>
                                     </h4>
                                 </div>
+                                <script>
+                                    function customer_edit(customer_id){
+                                        console.log(encodeURIComponent(window.location.href));
+                                        window.location.href = '/customers/'+customer_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);
+                                    }
+                                </script>
 
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 10px;">聯絡電話</th>
                                         <th class="text-center" style="width: 10px;">資本額</th>
-
                                         <th class="text-center" style="width: 10px;">規模</th>
-                                        <th class="text-center" style="width: 15px;">地區</th>
+                                        <th class="text-center" style="width: 10px;">地區</th>
+                                        <th class="text-center" style="width: 20px;">註記</th>
                                         <th class="text-center" style="width: 10px;">狀態</th>
                                         <th class="text-center" style="width: 10px;">是否開通</th>
                                         <th class="text-center" style="width: 10px;">其他功能</th>
@@ -77,6 +83,9 @@
 
                                         <td class="text-center">{{$customer->scales}} 人</td>
                                         <td class="text-center">{{$customer->city}}{{$customer->area}}</td>
+                                        <td class="text-center">
+                                            <textarea id="customer_note" name="customer_note" class="form-control" row="2" style="text-align: center;vertical-align: top;">{{$customer->note}}</textarea>
+                                        </td>
                                         <td class="text-center">
                                             <select id="customer_status" name="customer_status">
                                                 @foreach([1,2,3,4,5] as $st_id)
@@ -103,13 +112,17 @@
                                                 更新狀態
                                             </button>
                                             <a class="label label-primary"
-                                               href="{{route('customers.edit',$customer->id)}}">編輯基本資訊</a>
+{{--                                               href="{{route('customers.edit',$customer->id)}}"--}}
+                                                onclick="customer_edit({{$customer->id}})"
+                                            >編輯基本資訊</a>
+
                                         </td>
                                         {{--                                        編輯客戶狀態等--}}
                                         <script>
                                             function update_customer_status() {
                                                 var customer_status = document.getElementsByName('customer_status')[0].value;
                                                 var active_status = document.getElementsByName('active_status')[0].value;
+                                                var note = document.getElementsByName('customer_note')[0].value;
                                                 var customer_id = '{{$customer->id}}';
                                                 $.ajax({
                                                     method: 'POST',
@@ -117,7 +130,8 @@
                                                     data: {
                                                         customer_status: customer_status,
                                                         active_status: active_status,
-                                                        customer_id: customer_id
+                                                        customer_id: customer_id,
+                                                        note: note,
 
                                                     },
                                                     // dataType: 'json',
@@ -126,7 +140,7 @@
                                                     },
                                                     success: function (data) {
                                                         // alert(data.success);
-                                                        location.reload()
+                                                        // location.reload()
                                                     },
                                                     error: function (request) {
                                                         var error = JSON.parse(request.responseText);
@@ -487,7 +501,7 @@
                                         html = '<form method="post" id="dynamic_form">';
                                         {{--html += '@csrf';--}}
                                             html += '<label>狀態</label> <br>';
-                                        html += '<select id="status" name="status" onchange="status_select_changed()">';
+                                        html += '<select id="status" name="status" class="form-control" onchange="status_select_changed()">';
                                         html += '<option value=0>已完成</option>';
                                         html += '<option value=1>待追蹤</option>'
                                         html += '<option value=2>其他</option>'
@@ -507,18 +521,44 @@
                                         $('#add_record_form').append(html);
                                     }
 
+                                    function formatDate() {
+                                        var d = new Date(),
+                                            month = '' + (d.getMonth() + 1),
+                                            day = '' + d.getDate(),
+                                            year = d.getFullYear(),
+                                            hour = d.getHours(),
+                                            min = d.getMinutes();
+
+
+                                        if (month.length < 2)
+                                            month = '0' + month;
+                                        if (day.length < 2)
+                                            day = '0' + day;
+                                        if(hour.length<2)
+                                            hour = '0' + hour;
+                                        if(min.length<2)
+                                            min ='0'+min;
+
+                                        return ([year, month, day].join('-'))+'T'+hour+':'+min;
+                                    }
+
                                     function status_select_changed() {
                                         var selectObj = document.getElementById("status");
                                         if (selectObj.selectedIndex == 1) {
+                                            // var today = new Date();
+                                            var now  = formatDate();
+                                            // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                                            // var time = today.getHours() + ":" + today.getMinutes();
+                                            // var dateTime = date+'T'+time;
+                                            console.log(now);
                                             html = '<label>追蹤日期</label> <br>';
-                                            html += '<input type="date" name="track_date" /> <br>';
+                                            html += '<input type="datetime-local" value="' + now +'" name="track_date"/> <br>';
                                             $('#track_date_div').append(html);
                                         } else {
                                             document.getElementById("track_date_div").innerHTML = '';
 
 
                                         }
-
 
                                     }
 
@@ -531,6 +571,7 @@
                                         console.log(document.getElementsByName('track_date'));
                                         if (document.getElementsByName('track_date').length > 0) {
                                             track_date = document.getElementsByName('track_date')[0].value;
+                                            console.log(track_date);
                                         }
                                         var customer_id = '{{$customer->id}}';
                                         $.ajax({
@@ -573,11 +614,11 @@
                                 <table class="table table-striped" width="100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 15%;">status</th>
+                                        <th class="text-center" style="width: 18%;">status</th>
                                         <th class="text-center" style="width: 25%;">開發note</th>
                                         <th class="text-center" style="width: 25%;">追蹤note</th>
-                                        <th class="text-center" style="width: 10%;">待追蹤日期</th>
-                                        <th class="text-center" style="width: 10%;">創建日期</th>
+                                        <th class="text-center" style="width: 8%;">待追蹤日期</th>
+                                        <th class="text-center" style="width: 8%;">創建日期</th>
                                         <th class="text-center" style="width: 15%;">其他功能</th>
 
                                         {{--                                <th class="text-center" style="width: 10px;">功能</th>--}}
@@ -603,12 +644,10 @@
 
 
                                         <tr class="text-center">
-                                            <td class="align-middle" style="vertical-align: middle">
+                                            <td class="align-middle" style="vertical-align: middle;">
                                                 <label style="min-width: 60px;display: inline-block;"
                                                        class="{{$status_css}}">{{$status_name}}</label>
-                                                {{--                                                 hidden--}}
-                                                <select style="display:none;height: 25px" class="form-control"
-                                                        name="edit_concat_record_info{{$concat_record->id}}">
+                                                <select style="display:none;" class="form-control" name="edit_concat_record_info{{$concat_record->id}}">
                                                     <option value="0" @if($concat_record->status==0)selected @endif>
                                                         已完成
                                                     </option>
@@ -641,13 +680,14 @@
                                             </td>
                                             <td class="align-middle" style="vertical-align: middle">
                                                 @if($concat_record->track_date)
-                                                    {{date("Y-m-d", strtotime($concat_record->track_date))}}
+                                                    {{date("Y-m-d H:i", strtotime($concat_record->track_date))}}
                                                 @else
                                                     -
                                                 @endif
                                                 <input
-                                                    value="@if($concat_record->track_date){{date("Y-m-d", strtotime($concat_record->track_date))}}@endif"
-                                                    type="date" style="display: none" class="form-control text-center"
+
+                                                    value="@if($concat_record->track_date){{date("Y-m-d\TH:i", strtotime($concat_record->track_date))}}@endif"
+                                                    type="datetime-local" style="display: none" class="form-control text-center"
                                                     name="edit_concat_record_info{{$concat_record->id}}">
                                             </td>
                                             <td class="align-middle"
