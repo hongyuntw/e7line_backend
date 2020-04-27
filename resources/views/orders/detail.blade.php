@@ -52,11 +52,44 @@
                                     </tr>
                                     </thead>
                                     <tr>
-                                        <td class="text-center">{{$order->customer->name}}</td>
-                                        <td class="text-center">{{$order->business_concat_person->name}}</td>
+                                        <td class="text-center">
+                                            @if($order->customer)
+                                                {{$order->customer->name}}
+                                            @else
+                                                {{$order->other_customer_name}}
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if($order->business_concat_person){{$order->business_concat_person->name}}
+                                            @else {{$order->other_concat_person_name}}
+                                            @endif</td>
                                         <td class="text-center">{{$order->user->name}}</td>
                                         <td class="text-center">{{$order->create_date}}</td>
-                                        <td class="text-center">{{$order->status}}</td>
+
+
+                                        @switch($order->status)
+                                            @case(0)
+                                            @php($css='label label-danger')
+                                            @break
+                                            @case(1)
+                                            @php($css='label label-warning')
+                                            @break
+                                            @case(2)
+                                            @php($css='label label-info')
+                                            @break
+                                            @case(3)
+                                            @php($css='label label-success')
+                                            @break
+                                            @case(4)
+                                            @php($css='label label-primary')
+                                            @break
+                                            @default
+                                            @break
+                                        @endswitch
+                                        <td class="align-middle " style="vertical-align: middle"><label
+                                                class="label{{$css}}"
+                                                style="min-width:60px;display: inline-block">{{ $status_names[$order->status] }}</label>
+
                                         <td class="text-center">{{$order->welfare->welfare_name}}</td>
 
 
@@ -96,8 +129,15 @@
                                         <td class="text-center">{{$order->phone_number}}</td>
                                         <td class="text-center">{{$order->tax_id}}</td>
                                         <td class="text-center">{{$order->ship_to}}</td>
-                                        <td class="text-center">{{$order->latest_arrival_date}}</td>
-                                        <td class="text-center">{{$order->receive_date}}</td>
+                                        <td class="text-center">
+                                            @if($order->latest_arrival_date){{$order->latest_arrival_date}}
+                                            @else -
+                                            @endif </td>
+                                        <td class="text-center">
+                                            @if($order->receive_date){{$order->receive_date}}
+                                            @else -
+                                            @endif
+                                        </td>
                                     </tr>
                                 </table>
                                 <br>
@@ -110,7 +150,7 @@
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 10%;">付款方式</th>
                                         <th class="text-center" style="width: 10%;">付款時間</th>
-                                        <th class="text-center" style="width: 10%;">後五碼</th>
+                                        <th class="text-center" style="width: 10%;">付款帳戶資訊</th>
                                         <th class="text-center" style="width: 10%;">備註</th>
 
                                     </tr>
@@ -118,7 +158,7 @@
                                     <tr>
                                         <td class="text-center">{{$order->payment_method}}</td>
                                         <td class="text-center">{{$order->payment_date}}</td>
-                                        <td class="text-center">{{$order->payment_last_five_number}}</td>
+                                        <td class="text-center">{{$order->swift_code}}{{$order->payment_account_name}}{{$order->payment_account_num}}</td>
                                         <td class="text-center">{{$order->note}}</td>
 
 
@@ -171,22 +211,21 @@
                                     <br>
                                     <div align="right">
                                         <table>
-                                            <tr>
-                                                <td>Subtotal</td>
-                                                <td class="text-right">{{$total_price}}</td>
-                                            </tr>
-                                            <tr style="border-bottom: 1px solid;">
-                                                <td>Discount</td>
-                                                <td class="text-right">{{round($order->discount)}}</td>
-                                            </tr>
+{{--                                            <tr>--}}
+{{--                                                <td>Subtotal</td>--}}
+{{--                                                <td class="text-right">{{$total_price}}</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr style="border-bottom: 1px solid;">--}}
+{{--                                                <td>Discount</td>--}}
+{{--                                                <td class="text-right">{{round($order->discount)}}</td>--}}
+{{--                                            </tr>--}}
                                             <hr>
-                                            <tr >
-                                                <td>Total</td>
+                                            <tr>
+                                                <td>Total <br> </td>
                                                 <td class="text-right">{{$total_price-round($order->discount)}}</td>
                                             </tr>
 
                                         </table>
-
 
 
                                     </div>

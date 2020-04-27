@@ -16,8 +16,10 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('customer_id');
-            $table->unsignedInteger('business_concat_person_id');
+            $table->unsignedInteger('customer_id')->nullable();
+            $table->string('other_customer_name')->nullable();
+            $table->unsignedInteger('business_concat_person_id')->nullable();
+            $table->string('other_concat_person_name')->nullable();
             $table->string('note',100)->nullable();
 //            狀態待訂
 //            0是預設
@@ -31,15 +33,21 @@ class CreateOrdersTable extends Migration
             $table->string('phone_number',50)->nullable();
 
 
-            $table->decimal('discount')->default(0);
-            $table->decimal('amount');
+            $table->decimal('amount')->default(0);
 
 //            付款資訊
-            $table->string('payment_method')->nullable();
+//            共有三種付款方式
+            $table->tinyInteger('payment_method')->default(0);
             $table->string('payment_date')->nullable();
-            $table->string('payment_last_five_number')->nullable();
+//            匯款才會有
+            $table->string('swift_code')->nullable();
+            $table->string('payment_account_name')->nullable();
+            $table->string('payment_account_num')->nullable();
 
 
+//            e7line下單帳號,姓名
+            $table->string('e7line_account');
+            $table->string('e7line_name');
 
 
 //            為了啥購買的

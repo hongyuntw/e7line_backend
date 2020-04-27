@@ -29,90 +29,90 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-{{--                            <div class="row">--}}
-{{--                                <form name="filter_form" action="{{route('mails.index')}}" method="get">--}}
-{{--                                  --}}
-{{--                                    <div class="col-md-2 col-3">--}}
-{{--                                        <label>在職狀態篩選</label>--}}
-{{--                                        <select name="is_left"--}}
-{{--                                                class="form-control form-control-sm">--}}
-{{--                                            @foreach(['-1','0','1'] as $col)--}}
-{{--                                                <option @if($col==$is_left) selected--}}
-{{--                                                        @endif value="{{$col}}">{{$status_text[$loop->index]}}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-md-2 col-3">--}}
-{{--                                        <label>收信狀態篩選</label>--}}
-{{--                                        <select  name="want_receive_mail"--}}
-{{--                                                 class="form-control form-control-sm">--}}
-{{--                                            @foreach(['-1','1','0'] as $col)--}}
-{{--                                                <option @if($col==$want_receive_mail) selected--}}
-{{--                                                        @endif value="{{$col}}">@if($col==-1)---@elseif($col==1)是@else否@endif</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-md-2 col-3">--}}
-{{--                                        <label>排序方式</label>--}}
-{{--                                        <select multiple name="sortBy[]" class="form-control form-control-sm">--}}
-{{--                                            @foreach(['create_date','name','customer_name','is_left','area','want_receive_mail'] as $col)--}}
-{{--                                                <option @if(is_array($sortBy))--}}
-{{--                                                        @if(in_array($col, $sortBy))--}}
-{{--                                                        selected--}}
-{{--                                                        @endif--}}
-{{--                                                        @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-md-1 col-3">--}}
-{{--                                        <label>篩選按鈕</label><br>--}}
-{{--                                        <button type="submit" class="w-100 btn btn-sm bg-blue">Filter</button>--}}
-{{--                                    </div>--}}
-{{--                                </form>--}}
-{{--                                <div class="col-md-3 col-3">--}}
-{{--                                    <label>搜尋</label><br>--}}
-{{--                                    <!-- search form (Optional) -->--}}
-{{--                                    <form roe="form" action="{{route('mails.index')}}" method="get">--}}
-{{--                                        <div class="form-inline">--}}
-{{--                                            <select name="search_type" class="form-group form-control">--}}
-{{--                                                <option value="1" @if(request()->get('search_type')==1) selected @endif>--}}
-{{--                                                    姓名--}}
-{{--                                                </option>--}}
-{{--                                                <option value="2" @if(request()->get('search_type')==2) selected @endif>--}}
-{{--                                                    公司(客戶)--}}
-{{--                                                </option>--}}
-{{--                                                <option value="3" @if(request()->get('search_type')==3) selected @endif>--}}
-{{--                                                    地區--}}
-{{--                                                </option>--}}
-{{--                                            </select>--}}
-{{--                                            <br>--}}
-{{--                                            <div class="inline">--}}
-{{--                                                <input type="text" name="search_info" class="form-control"--}}
-{{--                                                       placeholder="Search..." value="@if(request()->get('search_info')) {{request()->get('search_info')}} @endif">--}}
-{{--                                                <button type="submit" id="search-btn" style="cursor: pointer"--}}
-{{--                                                        class="btn btn-flat"><i class="fa fa-search"></i>--}}
-{{--                                                </button>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <input hidden name="is_left" value="{{$is_left}}">--}}
-{{--                                        <input hidden name="want_receive_mail" value="{{$want_receive_mail}}">--}}
+                            {{--                            <div class="row">--}}
+                            {{--                                <form name="filter_form" action="{{route('mails.index')}}" method="get">--}}
+                            {{--                                  --}}
+                            {{--                                    <div class="col-md-2 col-3">--}}
+                            {{--                                        <label>在職狀態篩選</label>--}}
+                            {{--                                        <select name="is_left"--}}
+                            {{--                                                class="form-control form-control-sm">--}}
+                            {{--                                            @foreach(['-1','0','1'] as $col)--}}
+                            {{--                                                <option @if($col==$is_left) selected--}}
+                            {{--                                                        @endif value="{{$col}}">{{$status_text[$loop->index]}}</option>--}}
+                            {{--                                            @endforeach--}}
+                            {{--                                        </select>--}}
+                            {{--                                    </div>--}}
+                            {{--                                    <div class="col-md-2 col-3">--}}
+                            {{--                                        <label>收信狀態篩選</label>--}}
+                            {{--                                        <select  name="want_receive_mail"--}}
+                            {{--                                                 class="form-control form-control-sm">--}}
+                            {{--                                            @foreach(['-1','1','0'] as $col)--}}
+                            {{--                                                <option @if($col==$want_receive_mail) selected--}}
+                            {{--                                                        @endif value="{{$col}}">@if($col==-1)---@elseif($col==1)是@else否@endif</option>--}}
+                            {{--                                            @endforeach--}}
+                            {{--                                        </select>--}}
+                            {{--                                    </div>--}}
+                            {{--                                    <div class="col-md-2 col-3">--}}
+                            {{--                                        <label>排序方式</label>--}}
+                            {{--                                        <select multiple name="sortBy[]" class="form-control form-control-sm">--}}
+                            {{--                                            @foreach(['create_date','name','customer_name','is_left','area','want_receive_mail'] as $col)--}}
+                            {{--                                                <option @if(is_array($sortBy))--}}
+                            {{--                                                        @if(in_array($col, $sortBy))--}}
+                            {{--                                                        selected--}}
+                            {{--                                                        @endif--}}
+                            {{--                                                        @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>--}}
+                            {{--                                            @endforeach--}}
+                            {{--                                        </select>--}}
+                            {{--                                    </div>--}}
+                            {{--                                    <div class="col-md-1 col-3">--}}
+                            {{--                                        <label>篩選按鈕</label><br>--}}
+                            {{--                                        <button type="submit" class="w-100 btn btn-sm bg-blue">Filter</button>--}}
+                            {{--                                    </div>--}}
+                            {{--                                </form>--}}
+                            {{--                                <div class="col-md-3 col-3">--}}
+                            {{--                                    <label>搜尋</label><br>--}}
+                            {{--                                    <!-- search form (Optional) -->--}}
+                            {{--                                    <form roe="form" action="{{route('mails.index')}}" method="get">--}}
+                            {{--                                        <div class="form-inline">--}}
+                            {{--                                            <select name="search_type" class="form-group form-control">--}}
+                            {{--                                                <option value="1" @if(request()->get('search_type')==1) selected @endif>--}}
+                            {{--                                                    姓名--}}
+                            {{--                                                </option>--}}
+                            {{--                                                <option value="2" @if(request()->get('search_type')==2) selected @endif>--}}
+                            {{--                                                    公司(客戶)--}}
+                            {{--                                                </option>--}}
+                            {{--                                                <option value="3" @if(request()->get('search_type')==3) selected @endif>--}}
+                            {{--                                                    地區--}}
+                            {{--                                                </option>--}}
+                            {{--                                            </select>--}}
+                            {{--                                            <br>--}}
+                            {{--                                            <div class="inline">--}}
+                            {{--                                                <input type="text" name="search_info" class="form-control"--}}
+                            {{--                                                       placeholder="Search..." value="@if(request()->get('search_info')) {{request()->get('search_info')}} @endif">--}}
+                            {{--                                                <button type="submit" id="search-btn" style="cursor: pointer"--}}
+                            {{--                                                        class="btn btn-flat"><i class="fa fa-search"></i>--}}
+                            {{--                                                </button>--}}
+                            {{--                                            </div>--}}
+                            {{--                                        </div>--}}
+                            {{--                                        <input hidden name="is_left" value="{{$is_left}}">--}}
+                            {{--                                        <input hidden name="want_receive_mail" value="{{$want_receive_mail}}">--}}
 
-{{--                                        <select multiple name="sortBy[]" hidden>--}}
-{{--                                            @if(request()->get('sortBy'))--}}
-{{--                                                @foreach(request()->get('sortBy') as $col)--}}
-{{--                                                    <option selected value="{{$col}}"></option>--}}
-{{--                                                @endforeach--}}
-{{--                                            @endif--}}
-{{--                                        </select>--}}
-{{--                                    </form>--}}
-{{--                                    <!-- /.search form -->--}}
+                            {{--                                        <select multiple name="sortBy[]" hidden>--}}
+                            {{--                                            @if(request()->get('sortBy'))--}}
+                            {{--                                                @foreach(request()->get('sortBy') as $col)--}}
+                            {{--                                                    <option selected value="{{$col}}"></option>--}}
+                            {{--                                                @endforeach--}}
+                            {{--                                            @endif--}}
+                            {{--                                        </select>--}}
+                            {{--                                    </form>--}}
+                            {{--                                    <!-- /.search form -->--}}
 
-{{--                                </div>--}}
-                                <div class="col-md-1 col-3">
-                                    <label>特殊功能</label><br>
-                                    <a class="btn btn-success btn-sm" href="{{route('orders.create')}}">新增訂單</a>
-                                </div>
-{{--                            </div>--}}
+                            {{--                                </div>--}}
+                            <div class="col-md-1 col-3">
+                                <label>特殊功能</label><br>
+                                <a class="btn btn-success btn-sm" href="{{route('orders.create')}}">新增訂單</a>
+                            </div>
+                            {{--                            </div>--}}
 
 
                         </div>
@@ -138,24 +138,62 @@
                                 @foreach ($orders as $order)
 
                                     <tr ondblclick="" class="text-center">
-                                        <td class="text-left">#{{ $order->id}} &nbsp by &nbsp {{$order->business_concat_person->name}}
+                                        <td class="text-left">#{{ $order->id}} &nbsp by &nbsp
+                                            @if($order->business_concat_person)
+                                                {{$order->business_concat_person->name}}
+                                            @else
+                                                {{$order->other_concat_person_name}}
+                                            @endif
                                             <br>
-                                            {{$order->email}}
+                                            @if($order->email)
+                                                {{$order->email}}
+                                            @else
+                                                no email
+                                            @endif
                                         </td>
                                         <td class="text-left">{{date("Y-m-d", strtotime($order->create_date))}}</td>
-                                        <td>{{$order->customer->name}}</td>
+                                        <td>
+                                            @if($order->customer)
+                                                {{$order->customer->name}}
+                                            @else
+                                                {{$order->other_customer_name}}
+                                            @endif
+                                        </td>
                                         <td class="text-left">{{ ($order->ship_to)}}</td>
                                         <td>
                                             {{$order->user->name}}
                                         </td>
-                                        <td>{{$order->status}}</td>
+
+                                        @switch($order->status)
+                                            @case(0)
+                                            @php($css='label label-danger')
+                                            @break
+                                            @case(1)
+                                            @php($css='label label-warning')
+                                            @break
+                                            @case(2)
+                                            @php($css='label label-info')
+                                            @break
+                                            @case(3)
+                                            @php($css='label label-success')
+                                            @break
+                                            @case(4)
+                                            @php($css='label label-primary')
+                                            @break
+                                            @default
+                                            @break
+                                        @endswitch
+                                        <td class="align-middle " style="vertical-align: middle"><label
+                                                class="label{{$css}}"
+                                                style="min-width:60px;display: inline-block">{{ $status_names[$order->status] }}</label>
+
                                         <td>{{round($order->amount)}}</td>
                                         <td>
-{{--                                            @if(request()->get('page'))--}}
-{{--                                                @php($page=request()->get('page'))--}}
-{{--                                            @else--}}
-{{--                                                @php($page=1)--}}
-{{--                                            @endif--}}
+                                            {{--                                            @if(request()->get('page'))--}}
+                                            {{--                                                @php($page=request()->get('page'))--}}
+                                            {{--                                            @else--}}
+                                            {{--                                                @php($page=1)--}}
+                                            {{--                                            @endif--}}
                                             <a href="{{route('orders.detail',$order->id)}}"
                                                class="btn btn-xs btn-primary">詳細</a>
                                             <a href=""
@@ -178,7 +216,7 @@
 
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
-{{--                            {{ $concat_persons->appends(request()->input())->links() }}--}}
+                            {{--                            {{ $concat_persons->appends(request()->input())->links() }}--}}
                             {{$orders->links()}}
                         </div>
                     </div>

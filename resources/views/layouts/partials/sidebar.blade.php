@@ -85,7 +85,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{route('orders.index')}}">交易列表</a></li>
-                    <li><a href="">交易--</a></li>
+                    <li><a href="{{route('orders.create')}}">新增訂單</a></li>
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>

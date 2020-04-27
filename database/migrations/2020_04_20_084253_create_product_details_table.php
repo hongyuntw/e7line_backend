@@ -16,6 +16,7 @@ class CreateProductDetailsTable extends Migration
         Schema::create('product_details', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name','100');
+            $table->decimal('price')->default(0);
             $table->timestamp('create_date')->nullable();
             $table->timestamp('update_date')->nullable();
 

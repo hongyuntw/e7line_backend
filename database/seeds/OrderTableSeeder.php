@@ -26,16 +26,17 @@ class OrderTableSeeder extends Seeder
                 'ship_to'=>$faker->address,
                 'email'=>$faker->email,
                 'phone_number'=>$faker->phoneNumber,
-                'discount'=>rand(10,300),
                 'amount'=>0,
                 'welfare_id'=>rand(1,9),
                 'receive_date'=> now()->addDays(200 - $i)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
                 'latest_arrival_date'=>now()->addDays(200 - $i)->addHours(rand(1, 5))->addMinutes(rand(1, 5)),
                 'create_date'=>now(),
                 'update_date'=>now(),
-                'payment_method'=> '貨到付款',
+                'payment_method'=> rand(0,3),
                 'payment_date' => now()->addDays(rand(1,4)),
-                'payment_last_five_number' => '12345',
+//                'payment_last_five_number' => '12345',
+                'e7line_account'=>'1321312@mail.com',
+                'e7line_name'=>$faker->name,
             ]);
         }
     }
