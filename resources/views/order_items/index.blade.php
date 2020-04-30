@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', '訂單列表')
+@section('title', '訂單細項列表')
 
 @section('content')
 
@@ -9,12 +9,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                <a href="{{route('orders.index')}}">訂單列表</a>
+                <a href="{{route('order_items.index')}}">訂單細項列表</a>
                 <small></small>
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-shopping-bag"></i> 交易狀況</li>
-                {{--                <li class="active">客戶列表</li>--}}
+                                <li class="active">訂單細項列表</li>
             </ol>
         </section>
 
@@ -125,20 +125,22 @@
                                 <tr>
                                     <th class="text-center" style="width:15%">Order</th>
                                     <th class="text-center" style="width:10%">Date</th>
-                                    <th class="text-center" style="width:25%">Customer</th>
-                                    <th class="text-center" style="width:20%">Ship to</th>
-                                    <th class="text-center" style="width:8%">Sales</th>
+                                    <th class="text-center" style="width:15%">Product</th>
                                     <th class="text-center" style="width:8%">Status</th>
+                                    <th class="text-center" style="width:8%">Qty</th>
                                     <th class="text-center" style="width:8%">Amount</th>
-                                    <th class="text-center" style="width:8%">Other</th>
+
+                                    <th class="text-center" style="width:20%">Other</th>
 
                                 </tr>
                                 </thead>
 
-                                @foreach ($orders as $order)
-                                    @if($order->is_deleted)
-                                        @continue
-                                    @endif
+                                @foreach ($order_items as $order_item)
+{{--                                    @if($order->is_deleted)--}}
+{{--                                        @continue--}}
+{{--                                    @endif--}}
+
+                                    @php($order = $order_item->order)
 
                                     <tr ondblclick="" class="text-center">
                                         <td class="text-left">#{{ $order->id}} &nbsp by &nbsp
@@ -154,20 +156,12 @@
                                                 no email
                                             @endif
                                         </td>
-                                        <td class="text-left">{{date("Y-m-d", strtotime($order->create_date))}}</td>
+                                        <td class="text-center">{{date("Y-m-d", strtotime($order->create_date))}}</td>
                                         <td>
-                                            @if($order->customer)
-                                                {{$order->customer->name}}
-                                            @else
-                                                {{$order->other_customer_name}}
-                                            @endif
+                                            {{$order_item->product_relation->product->name}}
+                                            {{$order_item->product_relation->product_detail->name}}
                                         </td>
-                                        <td class="text-left">{{ ($order->ship_to)}}</td>
-                                        <td>
-                                            {{$order->user->name}}
-                                        </td>
-
-                                        @switch($order->status)
+                                        @switch($order_item->status)
                                             @case(0)
                                             @php($css='label label-danger')
                                             @break
@@ -175,7 +169,7 @@
                                             @php($css='label label-warning')
                                             @break
                                             @case(2)
-                                            @php($css='label label-success')
+                                            @php($css='label label-info')
                                             @break
                                             @case(3)
                                             @php($css='label label-success')
@@ -188,32 +182,32 @@
                                         @endswitch
                                         <td class="align-middle " style="vertical-align: middle"><label
                                                 class="label{{$css}}"
-                                                style="min-width:60px;display: inline-block">{{ $order_status_names[$order->status] }}</label>
+                                                style="min-width:60px;display: inline-block">{{ $order_item_status_names[$order_item->status] }}</label>
 
-                                        <td>{{round($order->amount)}}</td>
+                                        <td>{{round($order_item->quantity)}}</td>
+                                        <td>${{$order_item->quantity * $order_item->price}}</td>
                                         <td>
-                                            <script>
-                                                function order_edit(order_id){
-                                                    // console.log(encodeURIComponent(window.location.href));
-                                                    window.location.href = '/orders/'+order_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);
-                                                }
-                                            </script>
+{{--                                            <script>--}}
+{{--                                                function order_edit(order_id){--}}
+{{--                                                    // console.log(encodeURIComponent(window.location.href));--}}
+{{--                                                    window.location.href = '/orders/'+order_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);--}}
+{{--                                                }--}}
+{{--                                            </script>--}}
+{{--                                            <a href="{{route('orders.detail',$order->id)}}"--}}
+{{--                                               class="btn btn-xs btn-primary">詳細</a>--}}
+{{--                                            <a onclick="order_edit({{$order->id}})"--}}
+{{--                                               class="btn btn-xs btn-primary">編輯</a>--}}
 
-                                            <a href="{{route('orders.detail',$order->id)}}"
-                                               class="btn btn-xs btn-primary">詳細</a>
-                                            <a onclick="order_edit({{$order->id}})"
-                                               class="btn btn-xs btn-primary">編輯</a>
-
-                                            @if( Auth::user()->level==2)
-                                                <form action="{{route('orders.delete',$order->id)}}"
-                                                      method="post"
-                                                      style="display: inline-block">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-xs btn-danger"
-                                                            onclick="return confirm('確定是否刪除')">刪除
-                                                    </button>
-                                                </form>
-                                            @endif
+{{--                                            @if( Auth::user()->level==2)--}}
+{{--                                                <form action="{{route('orders.delete',$order->id)}}"--}}
+{{--                                                      method="post"--}}
+{{--                                                      style="display: inline-block">--}}
+{{--                                                    @csrf--}}
+{{--                                                    <button type="submit" class="btn btn-xs btn-danger"--}}
+{{--                                                            onclick="return confirm('確定是否刪除')">刪除--}}
+{{--                                                    </button>--}}
+{{--                                                </form>--}}
+{{--                                            @endif--}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -223,7 +217,7 @@
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
                             {{--                            {{ $concat_persons->appends(request()->input())->links() }}--}}
-                            {{$orders->links()}}
+                            {{$order_items->links()}}
                         </div>
                     </div>
 

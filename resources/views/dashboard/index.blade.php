@@ -120,6 +120,7 @@
                                             <th class="text-center" style="width: 30%">客戶名稱</th>
                                             <th class="text-center" style="width: 15%">Email</th>
                                             <th class="text-center" style="width: 15%">Concat Info</th>
+                                            <th class="text-center" style="width: 15%">追蹤時間</th>
                                             <th class="text-center" style="width: 30%">Note</th>
                                         </tr>
                                         </thead>
@@ -148,6 +149,13 @@
                                                         -
                                                     @endif
                                                 </td>
+
+                                                <td>
+                                                    @if($customer->track_date)
+                                                        {{date('Y-m-d H:m',strtotime($customer->track_date))}}
+                                                    @endif
+                                                </td>
+
                                                 <td ondblclick="window.location.href = '/customers/' + {{$customer->customer_id}} + '/record#Development_Record'">
                                                     {{ $customer->track_content }} </td>
                                             </tr>

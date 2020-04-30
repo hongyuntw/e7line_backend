@@ -26,13 +26,11 @@ class CreateOrdersTable extends Migration
             $table->tinyInteger('status')->default(0);
 //            可能會有多個，所以不用做validate
             $table->string('tax_id')->nullable();
-            $table->string('ship_to');
+            $table->string('ship_to')->nullable();
 
 //            這邊代表下訂單的人，不一定是福委
             $table->string('email',50)->nullable();
             $table->string('phone_number',50)->nullable();
-
-
             $table->decimal('amount')->default(0);
 
 //            付款資訊
@@ -40,9 +38,8 @@ class CreateOrdersTable extends Migration
             $table->tinyInteger('payment_method')->default(0);
             $table->string('payment_date')->nullable();
 //            匯款才會有
-            $table->string('swift_code')->nullable();
-            $table->string('payment_account_name')->nullable();
-            $table->string('payment_account_num')->nullable();
+            $table->string('payment_account')->nullable();
+            $table->string('last_five_nums')->nullable();
 
 
 //            e7line下單帳號,姓名
@@ -58,6 +55,8 @@ class CreateOrdersTable extends Migration
             $table->timestamp('latest_arrival_date')->nullable();
             $table->timestamp('create_date')->nullable();
             $table->timestamp('update_date')->nullable();
+
+            $table->boolean('is_deleted')->default(0);
         });
     }
 

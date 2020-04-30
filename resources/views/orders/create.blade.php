@@ -89,7 +89,7 @@
                                         @endforeach
                                     </select>
 
-{{--                                    ajax get customer concat person and control disabled field--}}
+                                    {{--                                    ajax get customer concat person and control disabled field--}}
                                     <script>
                                         var customer_select_id;
                                         $('#select_customer').selectize({
@@ -243,7 +243,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                                     <select name="status" class="form-control">
-                                        @foreach($status_names as $status_name)
+                                        @foreach($order_status_names as $status_name)
                                             <option value="{{$loop->index}}">{{$status_name}}</option>
                                         @endforeach
                                     </select>
@@ -267,15 +267,14 @@
                                 function payment_method_change(payment_method_select) {
                                     var id = payment_method_select.options[payment_method_select.selectedIndex].value;
                                     //貨到/匯款
-                                    if(id == 0){
-                                        document.getElementById("payment_account_name").disabled=false;
-                                        document.getElementById("payment_account_num").disabled=false;
-                                        document.getElementById("swift_code").disabled=false;
-                                    }
-                                    else{
-                                        document.getElementById("payment_account_name").disabled=true;
-                                        document.getElementById("payment_account_num").disabled=true;
-                                        document.getElementById("swift_code").disabled=true;
+                                    if (id == 0) {
+                                        document.getElementById("payment_account").disabled = false;
+                                        document.getElementById("last_five_nums").disabled = false;
+                                        // document.getElementById("swift_code").disabled = false;
+                                    } else {
+                                        document.getElementById("payment_account").disabled = true;
+                                        document.getElementById("last_five_nums").disabled = true;
+                                        // document.getElementById("swift_code").disabled = true;
                                     }
 
                                 }
@@ -284,7 +283,8 @@
                                 <label class="control-label">付款方式</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <select name="payment_method" class="form-control" onchange="payment_method_change(this)">
+                                    <select name="payment_method" class="form-control"
+                                            onchange="payment_method_change(this)">
                                         @foreach($payment_method_names as $payment_method_name)
                                             <option value="{{$loop->index}}">{{$payment_method_name}}</option>
                                         @endforeach
@@ -292,29 +292,33 @@
                                 </div>
                             </div>
                             <div class="col-md-3 inputGroupContainer">
-                                <label class="control-label">銀行代碼</label>
+                                <label class="control-label">匯款帳戶</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="swift_code" name="swift_code"
-                                           placeholder="請輸入銀行代碼" value="{{ old('swift_code') }}">
+                                    <select class="form-control" name="payment_account" id="payment_account">
+                                        <option value="公司帳戶">公司帳戶</option>
+                                        <option value="業務帳戶">業務帳戶</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3 inputGroupContainer">
-                                <label class="control-label">戶名</label>
+                                <label class="control-label">後五碼</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="payment_account_name" name="payment_account_name"
-                                           placeholder="請輸入戶名" value="{{ old('payment_account_name') }}">
+                                    <input type="text" class="form-control" id="last_five_nums"
+                                           name="last_five_nums"
+                                           placeholder="請輸入後五碼" value="{{ old('last_five_nums') }}">
                                 </div>
                             </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class="control-label">帳號</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="payment_account_num"  name="payment_account_num"
-                                           placeholder="請輸入帳號" value="{{ old('payment_account_num') }}">
-                                </div>
-                            </div>
+                            {{--                            <div class="col-md-3 inputGroupContainer">--}}
+                            {{--                                <label class="control-label">帳號</label>--}}
+                            {{--                                <div class="input-group">--}}
+                            {{--                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>--}}
+                            {{--                                    <input type="text" class="form-control" id="payment_account_num"--}}
+                            {{--                                           name="payment_account_num"--}}
+                            {{--                                           placeholder="請輸入帳號" value="{{ old('payment_account_num') }}">--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
 
 
                         </div>
@@ -387,10 +391,9 @@
                                         .done(function (res) {
                                             console.log(res);
                                             var myNode;
-                                            if(product_select.id == "product"){
+                                            if (product_select.id == "product") {
                                                 myNode = document.getElementById("product_detail");
-                                            }
-                                            else{
+                                            } else {
                                                 myNode = document.getElementById(product_select.id + "_detail");
                                             }
                                             console.log(myNode);
@@ -402,7 +405,7 @@
                                             }
                                             html += '</select>';
                                             // console.log(myNode);
-                                            myNode.innerHTML=html;
+                                            myNode.innerHTML = html;
                                         })
 
                                 }
@@ -412,7 +415,7 @@
                                 var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
                                 //parent_node_id
                                 var parent_node_id = product_detail_select.parentNode.id;
-                                console.log(parent_node_id);
+                                // console.log(parent_node_id);
                                 if (product_detail_id > 0) {
                                     $.ajax({
                                         url: '/ajax/get_product_details_price',
@@ -421,37 +424,39 @@
                                         .done(function (res) {
                                             console.log(res);
                                             var product_price_input;
-                                            if(parent_node_id == "product_detail"){
+                                            if (parent_node_id == "product_detail") {
                                                 product_price_input = document.getElementById("product_detail_price");
-                                            }
-                                            else{
-                                                product_price_input = document.getElementById(parent_node_id+"_price");
+                                            } else {
+                                                product_price_input = document.getElementById(parent_node_id + "_price");
                                             }
                                             product_price_input.value = res;
+                                            computeSum();
+
                                         })
 
                                 }
 
                             }
-                            function add_product(){
+
+                            function add_product() {
                                 var count = document.getElementById("product_list_count").value;
                                 count = parseInt(count);
                                 count = count + 1;
                                 document.getElementById("product_list_count").value = count;
                                 const myNode = document.getElementById("product_list");
-                                html = '<div id="product_list'+count+'">' +
-                                    '<a id="delete_product_list_btn" class="btn btn-link" onclick="delete_product('+count+')">\n' +
+                                html = '<div id="product_list' + count + '">' +
+                                    '<a id="delete_product_list_btn" class="btn btn-link" onclick="delete_product(' + count + ')">\n' +
                                     '                            <i class="glyphicon glyphicon-minus-sign"></i>\n' +
                                     '                            delete product\n' +
-                                    '                        </a>'+
+                                    '                        </a>' +
                                     ' <div class="form-group">\n' +
                                     '                                <div class="col-md-3 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Product</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
                                     '                                                class="glyphicon glyphicon-shopping-cart"></i></span>\n' +
-                                    '                                        <select name="product_id[]" class="form-control"\n' +
-                                    'id="product'+count+'"'+
+                                    '                                        <select name="product_id[]" \n' +
+                                    'id="product' + count + '"' +
                                     '                                                onchange="product_change(this)">\n' +
                                     '                                            <option value="-1">選擇產品</option>\n' +
                                     '                                            @foreach($products as $product)\n' +
@@ -465,7 +470,7 @@
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
                                     '                                                class="glyphicon glyphicon-shopping-cart"></i></span>\n' +
-                                    '                                        <div id="product'+count+'_detail">\n' +
+                                    '                                        <div id="product' + count + '_detail">\n' +
                                     '                                            <select class="form-control" name="product_detail_id[]">\n' +
                                     '                                                <option value="-1">選擇產品</option>\n' +
                                     '                                            </select>\n' +
@@ -477,7 +482,7 @@
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
                                     '                                                class="glyphicon glyphicon-list"></i></span>\n' +
-                                    '                                        <input type="number" class="form-control" name="quantity[]" placeholder="請輸入數量">\n' +
+                                    '                                        <input type="number" class="form-control" name="quantity[]" placeholder="請輸入數量" onchange="computeSum()">\n' +
                                     '\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
@@ -486,42 +491,52 @@
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
                                     '                                                class="glyphicon glyphicon-list"></i></span>\n' +
-                                    '                                        <input type="number" class="form-control" name="price[]" id="product'+count+'_detail_price">\n' +
+                                    '                                        <input type="number" onchange="computeSum()" class="form-control" name="price[]" id="product' + count + '_detail_price">\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
-                                    '                            </div>'+
+                                    '                            </div>' +
                                     '</div>';
 
-                                $('#product_list').append(html);
-                                var new_select_id = "#product"+count;
+                                $("#product_list").append(html);
+
+                                var new_select_id = "#product" + count;
                                 make_selectize(new_select_id);
-                                // $("select[id=" + new_select_id + "]").selectize({
-                                // });
-                                // $("#product2").selectize({
-                                //
-                                // });
+                                computeSum();
                             }
 
-                            // function make_selectize(id){
-                            //     // console.log(id);
-                            //     $(id)[0].selectize({
-                            //
-                            //     });
-                            //
-                            //
-                            // }
+                            function make_selectize(id) {
+                                $(id).selectize({});
+                            }
 
 
                             function delete_product(num) {
                                 console.log(num);
                                 var count = document.getElementById("product_list_count").value;
                                 count = parseInt(count);
-                                document.getElementById("product_list_count").value = count-1;
-                                var id = "product_list"+num;
+                                document.getElementById("product_list_count").value = count - 1;
+                                var id = "product_list" + num;
                                 var node = document.getElementById(id);
                                 node.remove();
-                                // console.log(node);
+                                computeSum();
                             }
+
+
+                            function computeSum() {
+                                var totalPirce = 0;
+                                var input_all_qty = $('input[name="quantity[]"]');
+                                var input_all_price = $('input[name="price[]"]');
+                                for (var i = 0; i < input_all_qty.length; i++) {
+                                    if (input_all_qty[i].value) {
+                                        if (input_all_price[i].value) {
+                                            // console.log(input_all_qty[i].value);
+                                            // console.log(input_all_price[i].value);
+                                            totalPirce += input_all_qty[i].value * input_all_price[i].value;
+                                        }
+                                    }
+                                }
+                                $("#total_price").text(totalPirce);
+                            }
+
 
                         </script>
 
@@ -546,8 +561,7 @@
                                             @endforeach
                                         </select>
                                         <script>
-                                            $('#product').selectize({
-                                            });
+                                            $('#product').selectize({});
                                         </script>
                                     </div>
                                 </div>
@@ -568,7 +582,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-list"></i></span>
-                                        <input type="number" class="form-control" name="quantity[]" placeholder="請輸入數量">
+                                        <input type="number" class="form-control" name="quantity[]" placeholder="請輸入數量"
+                                               onchange="computeSum()">
 
                                     </div>
                                 </div>
@@ -577,12 +592,34 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-list"></i></span>
-                                        <input type="number" class="form-control" name="price[]" id="product_detail_price">
+                                        <input type="number" class="form-control" name="price[]" onchange="computeSum()"
+                                               id="product_detail_price">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div align="right">
+                            <table>
+                                {{--                                            <tr>--}}
+                                {{--                                                <td>Subtotal</td>--}}
+                                {{--                                                <td class="text-right">{{$total_price}}</td>--}}
+                                {{--                                            </tr>--}}
+                                {{--                                            <tr style="border-bottom: 1px solid;">--}}
+                                {{--                                                <td>Discount</td>--}}
+                                {{--                                                <td class="text-right">{{round($order->discount)}}</td>--}}
+                                {{--                                            </tr>--}}
+                                <hr>
+                                <tr>
+                                    <td>Total <br></td>
+                                    <td class="text-right">:&nbsp &nbsp &nbsp
+                                        &nbsp <span id="total_price"> 0 </span></td>
+                                </tr>
+
+                            </table>
+
+
+                        </div>
 
 
                     {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}

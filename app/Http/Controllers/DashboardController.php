@@ -34,7 +34,7 @@ class DashboardController extends Controller
             ->Where('concat_records.is_deleted','=',0);
 
         }
-        $query->orderBy('concat_records.update_date','DESC');
+        $query->orderBy('concat_records.update_date','ASC');
 
 //        $query->select('customers.id as customer_id','customers.name as customer_name',
 //            'concat_records.status as track_status','track_date','business_concat_persons.name as concat_person_name','concat_records.track_content',
@@ -191,6 +191,8 @@ class DashboardController extends Controller
                                             <th class="text-center" style="width: 30%">客戶名稱</th>
                                             <th class="text-center" style="width: 15%">Email</th>
                                             <th class="text-center" style="width: 15%">Concat Info</th>
+                                            <th class="text-center" style="width: 15%">追蹤時間</th>
+
                                             <th class="text-center" style="width: 30%">Note</th>
                                     </tr>
                                     </thead>';
@@ -214,6 +216,7 @@ class DashboardController extends Controller
                 }
             }
             $res .= '<td>'.$phone_number.'</td>';
+            $res .= '<td>' . $customer->track_date . '</td>';
             $res .= '<td>'.$customer->track_content.'</td>';
             $res .= '</tr>';
         }

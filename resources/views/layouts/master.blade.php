@@ -48,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 {{--    <link rel="stylesheet" href="css/stylesheet.css">--}}
     <!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
 
-    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+{{--    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>--}}
     <script type="text/javascript" src="{{ asset('js/standalone/selectize.min.js') }}"></script>
 {{--    <script type="text/javascript" src="{{ asset('js/selectize.min.js') }}"></script>--}}
 {{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
@@ -175,7 +175,7 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="{{ asset('js/jquery.min.js') }}"></script>
+{{--<script src="{{ asset('js/jquery.min.js') }}"></script>--}}
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <!-- AdminLTE App -->

@@ -21,6 +21,7 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedInteger('product_relation_id');
             $table->decimal('quantity');
             $table->decimal('price');
+            $table->tinyInteger('status')->default(0);
             $table->timestamp('create_date')->nullable();
             $table->timestamp('update_date')->nullable();
         });
