@@ -333,6 +333,15 @@
                                            value="{{ old('last_five_nums',$order->last_five_nums) }}">
                                 </div>
                             </div>
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class="control-label">運費</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                    <input type="number" class="form-control" id="shipping_fee"
+                                           name="shipping_fee"
+                                           placeholder="請輸入運費" value="{{ old('shipping_fee',$order->shipping_fee) }}">
+                                </div>
+                            </div>
 
                         </div>
                         <div class="form-group">

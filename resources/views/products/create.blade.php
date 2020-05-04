@@ -26,14 +26,7 @@
             <div class="container">
                 <input hidden id="input_detail_count" value="1">
                 <script>
-                    function validate(data){
-                        console.log(data);
-                        var res;
-
-                        return res;
-
-                    }
-                    function mySubmit(form){
+                    function mySubmit(form) {
                         var result = function () {
                             var tmp = null;
                             $.ajax({
@@ -46,11 +39,11 @@
                                 data: $("#product_form").serialize(),
                                 success: function (msg) {
                                     // console.log("success");
-                                    tmp =  true;
+                                    tmp = true;
                                     // console.log(tmp);
 
                                 },
-                                error: function(data){
+                                error: function (data) {
                                     var errors = data.responseJSON;
                                     // console.log(errors);
                                     var msg = '';
@@ -59,24 +52,24 @@
                                         msg += '\n';
                                     }
                                     alert(msg);
-                                    tmp =  false;
+                                    tmp = false;
                                     // console.log(tmp);
                                 }
                             });
                             return tmp;
                         }();
                         console.log("test result is");
-                        if(result){
+                        if (result) {
                             return true;
-                        }
-                        else{
+                        } else {
                             return false;
 
                         }
                     }
 
                 </script>
-                <form class="well form-horizontal" action="{{route('products.store')}}" onsubmit="return mySubmit(this);"   method="post" id="product_form">
+                <form class="well form-horizontal" action="{{route('products.store')}}"
+                      onsubmit="return mySubmit(this);" method="post" id="product_form">
                     @csrf
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible">
@@ -126,7 +119,7 @@
 
                             html = '<div id="' + count + 'dynamic_field">';
                             html += '                            <div class="input-group">\n';
-                            html += '                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>';
+                            html += '                                <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>';
                             // html += '';
                             html += '<select id="' + count + 'detail_select" onchange="product_detail_change(this)" name="product_detail_id[]">\n' +
                                 '                                    <option value="-1">新增項目(輸入在下方)</option>\n' +
@@ -136,12 +129,12 @@
                                 '                                </select>\n' +
                                 '                                <input id="' + count + '" name="product_detail[]" type="text" class="form-control"\n' +
                                 '                                       placeholder="請輸入細項">';
-                            html += '<input id="'+count+'price" name="price[]" type="number" class="form-control"\n' +
+                            html += '<input id="' + count + 'price" name="price[]" type="number" class="form-control"\n' +
                                 '                                       placeholder="請輸入價錢">';
-                            html += '<input id="'+count+'ISBN" name="ISBN[]" type="text" class="form-control"\n' +
+                            html += '<input id="' + count + 'ISBN" name="ISBN[]" type="text" class="form-control"\n' +
                                 '                                       placeholder="請輸入ISBN">';
                             html += '</div>';
-                            html+= '</div>';
+                            html += '</div>';
 
                             $("#dynamic_detail").append(html);
                             var select = $("#" + count + "detail_select").selectize();
@@ -165,53 +158,64 @@
 
                     </script>
                     <fieldset>
-                        <div class="col-md-4 inputGroupContainer">
-                            <label class=" control-label">請選擇公司</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <select id="product" name="product_id" onchange="product_change(this)">
-                                    <option value="-1">無</option>
-                                    @foreach($products as $product)
-                                        <option value="{{$product->id}}">{{$product->name}}</option>
-                                    @endforeach
-                                </select>
+                        <div class="form-group">
+                            <div class="col-md-6 inputGroupContainer">
+                                <label class=" control-label">請選擇公司</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <select id="product" name="product_id" onchange="product_change(this)">
+                                        <option value="-1">無</option>
+                                        @foreach($products as $product)
+                                            <option value="{{$product->id}}">{{$product->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input id="new_product" name="product_name" class="form-control" type="text"
+                                           placeholder="若不在上面請新增" value="{{old('product_name')}}">
+                                </div>
 
-                                <input id="new_product" name="product_name" class="form-control" type="text"
-                                       placeholder="若不在上面請新增" value="{{old('product_name')}}">
                             </div>
+                            <div class="col-md-6 inputGroupContainer">
+                                <label class="control-label">細項</label>
+                                <a onclick="add_detail_field()"><i class="glyphicon glyphicon-plus-sign"></i></a>
+                                <a onclick="delete_detail_field()"><i class="glyphicon glyphicon-minus-sign"></i></a>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <select id="1detail_select" onchange="product_detail_change(this)"
+                                            name="product_detail_id[]">
+                                        <option value="-1">新增項目(輸入在下方)</option>
+                                        @foreach($product_details as $product_detail)
+                                            <option value="{{$product_detail->id}}">{{$product_detail->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input id="1" name="product_detail[]" type="text" class="form-control"
+                                           placeholder="請輸入細項">
+                                    <input id="1price" name="price[]" type="number" class="form-control"
+                                           placeholder="請輸入價錢">
+                                    <input id="1ISBN" name="ISBN[]" type="text" class="form-control"
+                                           placeholder="請輸入ISBN">
+                                </div>
+
+                                <div id="dynamic_detail">
+
+                                </div>
+                                <script>
+                                    var product_select = $("#product").selectize();
+                                    product_select[0].selectize.setValue("-1");
+                                    var detail_select = $("#1detail_select").selectize();
+                                    detail_select[0].selectize.setValue("-1");
+
+                                </script>
+                            </div>
+                            <br>
+                            <br>
+
+
                         </div>
-
-                        <div class="inputGroupContainer">
-                            <label class="control-label">細項</label>
-                            <a onclick="add_detail_field()"><i class="glyphicon glyphicon-plus-sign"></i></a>
-                            <a onclick="delete_detail_field()"><i class="glyphicon glyphicon-minus-sign"></i></a>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <select id="1detail_select" onchange="product_detail_change(this)"
-                                        name="product_detail_id[]">
-                                    <option value="-1">新增項目(輸入在下方)</option>
-                                    @foreach($product_details as $product_detail)
-                                        <option value="{{$product_detail->id}}">{{$product_detail->name}}</option>
-                                    @endforeach
-                                </select>
-                                <input id="1" name="product_detail[]" type="text" class="form-control"
-                                       placeholder="請輸入細項">
-                                <input id="1price" name="price[]" type="number" class="form-control"
-                                       placeholder="請輸入價錢">
-                                <input id="1ISBN" name="ISBN[]" type="text" class="form-control"
-                                       placeholder="請輸入ISBN">
-                            </div>
-
-                            <div id="dynamic_detail">
-
-                            </div>
-                            <script>
-                                var product_select = $("#product").selectize();
-                                product_select[0].selectize.setValue("-1");
-                                var detail_select = $("#1detail_select").selectize();
-                                detail_select[0].selectize.setValue("-1");
-
-                            </script>
+                        <div class="col-md-12 text-center">
+                            {{--                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;--}}
+                            <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
+                            {{--                        <button onclick="add_product_validate()" type="button" class="btn-primary btn">確認送出</button>--}}
+                            <button type="submit" class="btn btn-primary">確認送出</button>
                         </div>
 
 
@@ -219,12 +223,12 @@
                     <br>
                     <br>
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div class="form-group float-right align-middle">
-                        {{--                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;--}}
-                        <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
-{{--                        <button onclick="add_product_validate()" type="button" class="btn-primary btn">確認送出</button>--}}
-                        <button type="submit" class="btn btn-primary">確認送出</button>
-                    </div>
+                    {{--                    <div class="form-group float-right align-middle">--}}
+                    {{--                        --}}{{--                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;--}}
+                    {{--                        <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>--}}
+                    {{--                        <button onclick="add_product_validate()" type="button" class="btn-primary btn">確認送出</button>--}}
+                    {{--                        <button type="submit" class="btn btn-primary">確認送出</button>--}}
+                    {{--                    </div>--}}
                 </form>
             </div>
 

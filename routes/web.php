@@ -116,11 +116,13 @@ Route::middleware('auth')->group(function () {
 //    order items
     Route::get('order_items','OrderItemController@index')->name('order_items.index');
     Route::post('/ajax/change_item_status','OrderItemController@change_item_status')->name('order_items.change_item_status');
-
+    Route::get('ajax/compute_quantity','OrderItemController@compute_quantity')->name('order_items.compute_quantity');
 
 
 //  products
     Route::get('products/create','ProductController@create')->name('products.create');
+    Route::get('products/edit', 'ProductController@edit')->name('products.edit');
+    Route::post('products/update','ProductController@update')->name('products.update');
     Route::post('products','ProductController@store')->name('products.store');
     Route::post('ajax/validate_product_form','ProductController@validate_product_form')->name('products.validate_product_form');
 

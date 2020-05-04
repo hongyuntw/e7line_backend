@@ -150,6 +150,7 @@
                                         <th class="text-center" style="width: 10%;">最遲到貨</th>
                                         <th class="text-center" style="width: 10%;">收件日期</th>
 
+
                                     </tr>
                                     </thead>
                                     <tr>
@@ -181,6 +182,8 @@
                                         <th class="text-center" style="width: 10%;">付款帳戶資訊</th>
                                         <th class="text-center" style="width: 10%;">後五碼</th>
                                         <th class="text-center" style="width: 10%;">備註</th>
+                                        <th class="text-center" style="width: 10%;">運費</th>
+
 
                                     </tr>
                                     </thead>
@@ -190,6 +193,7 @@
                                         <td class="text-center">{{$order->payment_account}}</td>
                                         <td class="text-center">{{$order->last_five_nums}}</td>
                                         <td class="text-center">{{$order->note}}</td>
+                                        <td class="text-center">{{round($order->shipping_fee)}}</td>
 
 
                                     </tr>

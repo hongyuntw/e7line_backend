@@ -30,6 +30,8 @@ class CreateOrdersTable extends Migration
 //            可能會有多個，所以不用做validate
             $table->string('tax_id')->nullable();
             $table->string('ship_to')->nullable();
+            $table->decimal('shipping_fee')->default(0);
+
 
 //            這邊代表下訂單的人，不一定是福委
             $table->string('email',50)->nullable();
@@ -39,6 +41,7 @@ class CreateOrdersTable extends Migration
 //            付款資訊
 //            共有三種付款方式
             $table->tinyInteger('payment_method')->default(0);
+            $table->tinyInteger('is_paid')->default(0);
             $table->string('payment_date')->nullable();
 //            匯款才會有
             $table->string('payment_account')->nullable();

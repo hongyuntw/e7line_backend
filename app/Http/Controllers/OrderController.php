@@ -123,6 +123,8 @@ class OrderController extends Controller
 //            'Paymethod' => self::$payment_method_names[$order->payment_method],
 //            'InvoiceNo' => $order->tax_id,
 //            'Notice' => $order->note,
+//        'ShippingFee' => $order->shipping_fee,
+
 //        ];
         //test
         $data = [
@@ -131,6 +133,7 @@ class OrderController extends Controller
             'InvoiceNo' => '',
             'Notice' => '',
             'MemberNo' => 'DEMO@amd.com',
+            'ShippingFee' => $order->shipping_fee,
         ];
 
 //        if ($order->other_customer_name) {

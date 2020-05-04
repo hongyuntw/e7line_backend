@@ -8,11 +8,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                商品管理
+                編輯
                 <small></small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> 商品管理</a></li>
+                <li><a href="#"><i class="fa fa-shopping-bag"></i> 交易狀況</a></li>
                 <li class="active">編輯商品</li>
             </ol>
         </section>
@@ -23,93 +23,179 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-            <div class="row">
-                <!-- .col -->
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">編輯商品</h3>
+            <div class="container">
+                <input hidden id="input_detail_count" value="1">
+                <script>
+                    function product_change(product_select) {
+                        // console.log(product_select);
+                        // console.log(product_list_count);
+                        var product_id = product_select.options[product_select.selectedIndex].value;
+                        // console.log(product_id);
+                        if (product_id > 0) {
+                            $.ajax({
+                                url: '/ajax/get_product_details',
+                                data: {product_id: product_id}
+                            })
+                                .done(function (res) {
+                                    console.log(res);
+                                    var myNode;
+                                    myNode = document.getElementById("product_select_div");
+                                    // console.log(myNode);
+                                    myNode.innerHTML = '';
+                                    html = '<select class="form-control" name="product_detail_id" onchange="product_detail_change(this)">';
+                                    html += '<option value=-1>請選擇產品</option>';
+                                    for (let [key, value] of Object.entries(res)) {
+                                        html += '<option value=\"' + key + '\">' + value[0] + '</option>'
+                                    }
+                                    html += '</select>';
+                                    // console.log(myNode);
+                                    myNode.innerHTML = html;
+                                    var product_price_input;
+                                    product_price_input = document.getElementById("price");
+                                    product_price_input.value = '';
+
+                                    var product_ISBN_input;
+                                    product_ISBN_input = document.getElementById("ISBN");
+                                    product_ISBN_input.value = '';
+
+                                })
+
+                        }
+                    }
+
+                    function product_detail_change(product_detail_select) {
+                        var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
+                        var product_select = document.getElementById("product_select");
+                        var product_id = product_select.options[product_select.selectedIndex].value;
+                        if (product_detail_id > 0) {
+                            $.ajax({
+                                url: '/ajax/get_product_details_price',
+                                data: {
+                                    product_detail_id: product_detail_id,
+                                    product_id: product_id,
+                                }
+                            })
+                                .done(function (res) {
+                                    console.log(res);
+                                    var product_price_input;
+                                    product_price_input = document.getElementById("price");
+                                    product_price_input.value = res['price'];
+
+                                    var product_ISBN_input;
+                                    product_ISBN_input = document.getElementById("ISBN");
+                                    if (res['ISBN']) {
+                                        product_ISBN_input.value = res['ISBN'];
+                                    }
+                                })
+                        }
+
+                    }
+
+                    function mySubmit(form){
+                        var result = function () {
+                            var tmp = null;
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: '{{route('products.update')}}',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                },
+                                data: $("#product_form").serialize(),
+                                success: function (msg) {
+                                    if(msg.success){
+                                        alert('update success')
+                                    }
+                                    else{
+                                        alert(msg.message);
+                                    }
+                                },
+                            });
+                            return false;
+                        }();
+                        return false;
+                    }
+
+
+                </script>
+                <form class="well form-horizontal" action="" onsubmit="return mySubmit(this);" method="post" id="product_form">
+                    @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
+                            請修正以下表單錯誤：
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                        <!-- /.box-header -->
-                        <!-- form start -->
-                        <form role="form" action="{{ route('products.update', $product->id) }}" method="post" enctype="multipart/form-data">
+                    @endif
 
-                            @csrf
-                            @method('PATCH')
-
-                            <div class="box-body">
-
-                                @if ($errors->any())
-                                    <div class="alert alert-danger alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button>
-                                        <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
-                                        請修正以下表單錯誤：
-                                        <ul>
-                                            @foreach($errors->all() as $error)
-                                                <li>{{ $error }}</li>
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class=" control-label">商品公司名</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <div id="dynamic_concat_person">
+                                        <select onchange="product_change(this)" id="product_select" name="product_id">
+                                            <option value="-1">請選擇商品</option>
+                                            @foreach($products as $product)
+                                                <option value="{{$product->id}}">{{$product->name}}</option>
                                             @endforeach
-                                        </ul>
+                                        </select>
+                                        <script>
+                                            var select = $("#product_select").selectize();
+                                            select[0].selectize.setValue("-1");
+                                        </script>
                                     </div>
-                                @endif
+                                </div>
 
-                                <div class="form-group">
-                                    <label for="title">名稱</label>
-                                    <input type="text" class="form-control" id="title" name="name" placeholder="請輸入名稱"
-                                           value="{{ old('name', $product->name) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="category_id">Category</label>
-                                    <select id="category_id" name="category_id" class="form-control">
-                                        @foreach($categories as $category)
-                                            <option
-                                                value="{{ $category->id }}"{{ (old('$category_id', $product->category_id) == $category->id)? ' selected' : '' }}>{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                    <div class="form-group">
-                                        <label for="listprice">listprice</label>
-                                        <input type="number" class="form-control" id="listprice" name="listprice"
-                                               placeholder="請輸入價格" value="{{ old('listprice', $product->listprice) }}">
+                            </div>
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class=" control-label">細項名稱</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <div id="product_select_div">
+                                        <select class="form-control" onchange="product_detail_change(this)"
+                                                id="product_detail_select" name="product_detail_id">
+                                            <option selected value="-1">請選擇商品</option>
+                                        </select>
                                     </div>
-                                <div class="form-group">
-                                    <label for="saleprice">saleprice</label>
-                                    <input type="number" class="form-control" id="saleprice" name="saleprice"
-                                           placeholder="請輸入價格" value="{{ old('saleprice', $product->saleprice) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="unit">單位</label>
-                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="請輸入單位"
-                                           value="{{ old('unit', $product->unit) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">描述</label>
-                                    <textarea class="form-control" id="description" rows="5" name="description"
-                                              placeholder="請輸入描述">{{ old('description', $product->description) }}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cover">產品圖</label>
-                                    <br>
-                                    <img src="{{ '/storage/'.$product->imagename }}" style="width:252px; height:246px;">
-                                    <input type="file" id="image" name="image">
+
                                 </div>
                             </div>
-                            <!-- /.box-body -->
-
-                            <div class="box-footer text-right">
-                                <a class="btn btn-link" href="{{route('products.index')}}">取消</a>
-                                <button type="submit" class="btn btn-primary">更新</button>
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class="control-label">價錢</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                    <input type="number" class="form-control" name="price" id="price"
+                                           placeholder="price"
+                                           value="{{ old('price') }}">
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <!-- /.box -->
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class="control-label">ISBN</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-align-justify"></i></span>
+                                    <input type="text" class="form-control" name="ISBN" placeholder="ISBN" id="ISBN"
+                                           value="{{ old('ISBN') }}">
+                                </div>
+                            </div>
+                        </div>
 
-                </div>
-                <!-- /.col -->
+                        <div class="form-group text-center">
+                            <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
+                            <button type="submit"  class="btn btn-primary">更新</button>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
-            <!-- /.row -->
+
 
         </section>
         <!-- /.content -->

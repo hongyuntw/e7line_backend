@@ -152,9 +152,17 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
+        $products = Product::all();
+        $product_details = ProductDetail::all();
+        $data = [
+            'products'=>$products,
+            'product_details'=>$product_details,
+        ];
+        return view('products.edit',$data);
+
     }
 
     /**
@@ -164,9 +172,48 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $data = [];
+        $msg = '';
+        if($request->input('product_id')!=-1){
+            $product_id = $request->input('product_id');
+        }
+        else{
+            $msg .= '需要選擇商品';
+        }
+
+        if($request->input('product_detail_id')!=-1){
+            $product_detail_id = $request->input('product_detail_id');
+        }
+        else{
+            $msg .= '
+            需要選擇商品細項';
+        }
+        if($request->has('price')){
+            if(!is_numeric($request->input('price'))){
+                $msg .= '
+                價錢輸入錯誤';
+            }
+        }
+
+        if($msg==''){
+            $product_relation = ProductRelation::where('product_id','=',$product_id)
+                ->where('product_detail_id','=',$product_detail_id)->first();
+            $product_relation->price = $request->input('price');
+            $product_relation->ISBN = $request->input('ISBN');
+            $product_relation->update();
+            $data['message'] = 'success';
+            $data['success'] = true;
+
+        }
+        else{
+            $data['message'] = $msg;
+            $data['success'] = false;
+        }
+        return $data;
+
     }
 
     /**
