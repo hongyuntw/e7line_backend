@@ -188,6 +188,16 @@ class OrderController extends Controller
 //        dd($resp);
         return redirect()->back();
     }
+//
+//    public function get_code_from_select()
+//    {
+//
+//    }
+
+
+
+
+
 
     /**
      * Store a newly created resource in storage.

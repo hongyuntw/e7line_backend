@@ -45,11 +45,10 @@ class OrderItemController extends Controller
         $query->select('order_items.*','orders.user_id as user_id','order_items.status as status');
 //        dd($query->first());
 
-        //        sort
+        //   get     sort
         if($request->has('sortBy')){
             $sortBy = $request->input('sortBy');
         }
-
 
 
 //        user
@@ -97,16 +96,43 @@ class OrderItemController extends Controller
             $query->whereBetween('orders.'.$sortBy,[$date_from,$date_to]);
         }
 
+        if ($request->has('search_type')) {
+            $search_type = $request->query('search_type');
+        }
+        if ($search_type > 0) {
+            $search_info = $request->query('search_info');
+            switch ($search_type) {
+                case 1:
+                    $query->where('orders.code', 'like', "%{$search_info}%");
+                    break;
+                case 2:
+                    $query->join('customers','customers.id','=','orders.customer_id');
+                    $query->where(function ($query) use ($search_info) {
+                        $query->where('customers.name', 'like', "%{$search_info}%")
+                            ->orWhere('orders.other_customer_name', 'like', "%{$search_info}%");
+                        return $query;
+
+                    });
+                    break;
+                case 3:
+                    $query->join('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
+                    $query->where(function ($query) use ($search_info) {
+                        $query->where('business_concat_persons.name', 'like', "%{$search_info}%")
+                            ->orWhere('orders.other_concat_person_name', 'like', "%{$search_info}%");
+                        return $query;
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
+
+
 
         $query->orderBy($sortBy,'DESC');
-
-
-
-//
-//        $query->orderBy($sortBy,'DESC');
-//        dump($query);
-
-
 
 
         $order_items = $query->paginate(15);
@@ -130,10 +156,10 @@ class OrderItemController extends Controller
         return view('order_items.index',$data);
     }
 
-    public function compute_quantity(Request $request)
-    {
-        return $request;
-    }
+//    public function compute_quantity(Request $request)
+//    {
+//        return $request;
+//    }
 
 
 
@@ -213,6 +239,21 @@ class OrderItemController extends Controller
                 $order_item->status = $status;
                 $order_item->update_date = now();
                 $order_item->update();
+
+//              如果此筆大訂單之所有商品都已完成，訂單狀態自動變成完成
+                $order = $order_item->order;
+                $order_items = $order->order_items;
+                $all_success_flag = true;
+                foreach ($order_items as $o_i){
+                    if($o_i->status !=4){
+                        $all_success_flag = false;
+                        break;
+                    }
+                }
+                if($all_success_flag){
+                    $order->status = 2;
+                    $order->update();
+                }
 
             }
         }

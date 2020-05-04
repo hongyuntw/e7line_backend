@@ -117,23 +117,69 @@
 
                         </div>
 
+
                         <!-- /.box-header -->
                         <div class="box-body ">
+                            <script>
+                                function select_all() {
+                                    var select_boxes = document.getElementsByName("get_code");
+                                    for (var i = 0; i < select_boxes.length; i++) {
+                                        select_boxes[i].checked = 1;
+                                    }
+                                }
+
+                                function unselect_all() {
+                                    var select_boxes = document.getElementsByName("get_code");
+                                    for (var i = 0; i < select_boxes.length; i++) {
+                                        select_boxes[i].checked = 0;
+                                    }
+                                }
+
+                                function get_code() {
+                                    var inputs = document.getElementsByName("get_code");
+                                    var ids = [];
+                                    for (var i = 0; i < inputs.length; i++) {
+                                        if (inputs[i].checked ? 1 : 0) {
+                                            ids.push(inputs[i].id);
+                                        }
+                                    }
+                                    $.ajax({
+                                        type: "POST",
+                                        url: '/ajax/get_code',
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                        },
+                                        data: {
+                                            ids: ids,
+                                        },
+                                        success: function (msg) {
+                                            window.location.reload();
+                                            console.log(msg)
+                                        }
+                                    });
+                                }
+                            </script>
 
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
+                                    <th style="width:3%"></th>
                                     <th class="text-center" style="width:15%">Order</th>
-                                    <th class="text-center" style="width:10%">Date</th>
-                                    <th class="text-center" style="width:25%">Customer</th>
+                                    <th class="text-center" style="width:10%">建單日期</th>
+                                    <th class="text-center" style="width:20%">Customer</th>
                                     <th class="text-center" style="width:20%">Ship to</th>
                                     <th class="text-center" style="width:8%">Sales</th>
-                                    <th class="text-center" style="width:8%">Status</th>
-                                    <th class="text-center" style="width:8%">Amount</th>
-                                    <th class="text-center" style="width:8%">Other</th>
-
+                                    <th class="text-center" style="width:5%">Status</th>
+                                    <th class="text-center" style="width:5%">Amount</th>
+                                    <th class="text-center" style="width:20%">Other</th>
                                 </tr>
                                 </thead>
+                                <button onclick="select_all()" class="btn-sm btn-dark">全選</button>
+                                <button onclick="unselect_all()" class="btn-sm btn-dark">取消全選</button>
+
+                                <div style="float: right">
+                                    <button class="btn-sm btn-dark" onclick="get_code()">拋單已選中</button>
+                                </div>
 
                                 @foreach ($orders as $order)
                                     @if($order->is_deleted)
@@ -141,7 +187,11 @@
                                     @endif
 
                                     <tr ondblclick="" class="text-center">
-                                        <td class="text-left">#{{ $order->id}} &nbsp by &nbsp
+                                        <td>
+                                            <input type="checkbox" id="{{$order->id}}"
+                                                   name="get_code">
+                                        </td>
+                                        <td class="text-left">#{{ $order->code}} &nbsp by &nbsp
                                             @if($order->business_concat_person)
                                                 {{$order->business_concat_person->name}}
                                             @else
@@ -193,9 +243,9 @@
                                         <td>{{round($order->amount)}}</td>
                                         <td>
                                             <script>
-                                                function order_edit(order_id){
+                                                function order_edit(order_id) {
                                                     // console.log(encodeURIComponent(window.location.href));
-                                                    window.location.href = '/orders/'+order_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);
+                                                    window.location.href = '/orders/' + order_id + '/edit' + '?source_html=' + encodeURIComponent(window.location.href);
                                                 }
                                             </script>
 

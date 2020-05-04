@@ -106,7 +106,7 @@
                         <div class="box-header with-border">
                             <div class="row">
                                 <form name="filter_form" action="{{route('order_items.index')}}" method="get">
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <label>業務</label>
                                         <select name="user_filter" class="form-control form-control-sm">
                                             <option value="-1" @if($user_filter==-1) selected @endif>All</option>
@@ -117,7 +117,7 @@
 
                                         </select>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <label>訂單狀態</label>
                                         <select name="status_filter" class="form-control form-control-sm">
                                             <option value="-1" @if(-1==$status_filter) selected
@@ -160,15 +160,6 @@
                                                 <option selected value="-1">請選擇商品</option>
                                             </select>
                                         </div>
-
-                                        {{--                                        <select name="want_receive_mail"--}}
-                                        {{--                                                class="form-control form-control-sm">--}}
-                                        {{--                                            @foreach(['-1','1','0'] as $col)--}}
-                                        {{--                                                <option @if($col==$want_receive_mail) selected--}}
-                                        {{--                                                        @endif value="{{$col}}">@if($col==-1)---@elseif($col==1)是@else--}}
-                                        {{--                                                        否@endif</option>--}}
-                                        {{--                                            @endforeach--}}
-                                        {{--                                        </select>--}}
                                     </div>
                                     <div class="col-md-2">
                                         <label>排序方式</label>
@@ -178,57 +169,50 @@
                                                         @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
                                             @endforeach
                                         </select>
-                                    </div>
-                                    <div class="col-md-2 text-center">
-                                        <label >功能</label><br>
-                                            <button type="submit" class=" btn btn-sm bg-blue" style="width: 70px">篩選
-                                            </button>
-                                        <br><br>
-{{--                                            <a class="btn btn-success btn-sm" onclick="computeQty()">計算數量</a>--}}
+                                        <br>
+                                        <button type="submit" class=" btn btn-sm bg-blue" style="width: 100%">篩選
+                                        </button>
                                     </div>
 
                                 </form>
-                                {{--                                <div class="col-md-2">--}}
-                                {{--                                    <label>搜尋</label><br>--}}
-                                {{--                                    <!-- search form (Optional) -->--}}
-                                {{--                                    <form roe="form" action="{{route('order_items.index')}}" method="get">--}}
-                                {{--                                        <div class="form-inline">--}}
-                                {{--                                            <select name="search_type" class="form-group form-control">--}}
-                                {{--                                                <option value="1" @if(request()->get('search_type')==1) selected @endif>--}}
+                                <div class="col-md-2">
+                                    <label>搜尋</label><br>
+                                    <!-- search form (Optional) -->
+                                    <form roe="form" action="{{route('order_items.index')}}" method="get">
+                                        <div class="form-inline">
+                                            <select name="search_type" class="form-group form-control" style="width: 100%;">
+                                                <option value="1" @if(request()->get('search_type')==1) selected @endif>
+                                                    訂單編號
+                                                </option>
+                                                <option value="2" @if(request()->get('search_type')==2) selected @endif>
+                                                    客戶名稱
+                                                </option>
+                                                <option value="3" @if(request()->get('search_type')==3) selected @endif>
+                                                    訂購人姓名
+                                                </option>
+                                            </select>
+                                            <br>
+                                            <div class="inline input-group">
+                                                <input type="text" name="search_info" class="form-control" style="width: 80%"
+                                                       placeholder="Search..."
+                                                       value="@if(request()->get('search_info')) {{request()->get('search_info')}} @endif">
+                                                <button type="submit" id="search-btn" style="cursor: pointer" style="width: 20%"
+                                                        class="btn btn-flat"><i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <input hidden name="user_filter" value="{{$user_filter}}">
+                                        <input hidden name="status_filter" value="{{$status_filter}}">
+                                        <input hidden name="date_from" value="{{$date_from}}">
+                                        <input hidden name="date_to" value="{{$date_to}}">
+                                        <input hidden name="sortBy" value="{{$sortBy}}">
 
-                                {{--                                                </option>--}}
-                                {{--                                                <option value="2" @if(request()->get('search_type')==2) selected @endif>--}}
-                                {{--                                                    公司(客戶)--}}
-                                {{--                                                </option>--}}
-                                {{--                                                <option value="3" @if(request()->get('search_type')==3) selected @endif>--}}
-                                {{--                                                    地區--}}
-                                {{--                                                </option>--}}
-                                {{--                                            </select>--}}
-                                {{--                                            <br>--}}
-                                {{--                                            <div class="inline input-group">--}}
-                                {{--                                                <input type="text" name="search_info" class="form-control"--}}
-                                {{--                                                       placeholder="Search..."--}}
-                                {{--                                                       value="@if(request()->get('search_info')) {{request()->get('search_info')}} @endif">--}}
-                                {{--                                                <button type="submit" id="search-btn" style="cursor: pointer"--}}
-                                {{--                                                        class="btn btn-flat"><i class="fa fa-search"></i>--}}
-                                {{--                                                </button>--}}
-                                {{--                                            </div>--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <input hidden name="is_left" value="{{$is_left}}">--}}
-                                {{--                                        <input hidden name="want_receive_mail" value="{{$want_receive_mail}}">--}}
-                                {{--                                        <select multiple name="sortBy[]" hidden>--}}
-                                {{--                                            @if(request()->get('sortBy'))--}}
-                                {{--                                                @foreach(request()->get('sortBy') as $col)--}}
-                                {{--                                                    <option selected value="{{$col}}"></option>--}}
-                                {{--                                                @endforeach--}}
-                                {{--                                            @endif--}}
-                                {{--                                        </select>--}}
-                                {{--                                    </form>--}}
-                                {{--                                    <!-- /.search form -->--}}
+                                    </form>
+                                    <!-- /.search form -->
 
-                                {{--                                </div>--}}
+                                </div>
 
-                                {{--                            </div>--}}
+                            </div>
 
 
                             </div>
@@ -264,6 +248,12 @@
                                             for (var i = 0; i < select_boxes.length; i++) {
                                                 select_boxes[i].checked = 0;
                                             }
+                                        }
+                                        function go_to_detail(order_id){
+                                            // console.log(order_id);
+                                            window.location.href='/orders/'+ order_id + '/detail';
+
+                                                // console.log(window.location.href);
                                         }
 
                                         function change_status() {
@@ -308,6 +298,8 @@
                                     </div>
 
 
+
+
                                     @foreach ($order_items as $order_item)
                                         {{--                                    @if($order->is_deleted)--}}
                                         {{--                                        @continue--}}
@@ -315,11 +307,12 @@
 
                                         @php($order = $order_item->order)
 
-                                        <tr ondblclick="" class="text-center">
-                                            <td><input type="checkbox" id="{{$order_item->id}}"
+                                        <tr ondblclick="go_to_detail({{$order->id}})" class="text-center">
+                                            <td>
+                                                <input type="checkbox" id="{{$order_item->id}}"
                                                        name="change_item_status">
                                             </td>
-                                            <td class="text-left">#{{ $order->id}} &nbsp by &nbsp
+                                            <td class="text-left">#{{ $order->code}} &nbsp by &nbsp
                                                 @if($order->business_concat_person)
                                                     {{$order->business_concat_person->name}}
                                                 @else
