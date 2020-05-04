@@ -20,6 +20,8 @@ class ProductRelationTableSeeder extends Seeder
                 \App\ProductRelation::create([
                     'product_id' => $i+1,
                     'product_detail_id' => rand(1, 10),
+                    'price'=> rand(100,1000),
+
                 ]);
             }
         }

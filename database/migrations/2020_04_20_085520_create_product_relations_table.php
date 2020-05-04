@@ -17,6 +17,8 @@ class CreateProductRelationsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('product_detail_id');
+            $table->decimal('price')->default(0);
+            $table->string('ISBN')->nullable();
             $table->timestamp('create_date');
         });
     }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\Product;
-use App\Type;
+use App\ProductDetail;
+use App\ProductRelation;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -16,26 +16,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'DESC')->paginate(15);
-
-        $data = [
-            'products' => $products,
-        ];
-
-        return view('products.index', $data);
+        //
     }
-    public function search(Request $request)
-    {
 
-        $name = $request->namebesearch;
-
-        $products = Product::where('name','like',"%{$name}%")->orderBy('created_at', 'DESC')->paginate(15);
-        $data = [
-            'products' => $products,
-        ];
-
-        return view('products.search', $data);
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -43,14 +26,45 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $types = Type::all();
-        $categories = Category::all();
+        //
+        $products = Product::all();
+        $product_details = ProductDetail::all();
         $data = [
-            'types' => $types,
-            'categories' => $categories,
+            'products'=>$products,
+            'product_details'=>$product_details,
+        ];
+        return view('products.create',$data);
+    }
+    public function rules(Request $request)
+    {
+        // general rules
+        $rules = [
+            'product_id' => 'required',
+            'product_detail_id.*' =>'required',
         ];
 
-        return view('products.create', $data);
+        // conditional rules
+        if ($request->input('product_id') == -1) {
+            $rules['product_name'] = 'required|unique:products,name';
+        }
+
+//        dump($request->input('product_detail_id'));
+
+        for($i = 0; $i< count($request->input('product_detail_id')); $i++){
+            if($request->input('product_detail_id')[$i]==-1){
+                $str = 'product_detail.' . $i;
+                $rules[$str] = 'required';
+            }
+        }
+//        dd($rules);
+        return $rules;
+    }
+
+
+    public function validate_product_form(Request $request){
+//        $msg = '';
+//        dd($this->validate($request, $this->rules($request)));
+        return $this->validate($request, $this->rules($request));
     }
 
     /**
@@ -62,131 +76,107 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'name' => 'required',
-            'saleprice' => 'required|integer|lte:listprice|min:0',
-            'listprice' => 'required|integer|min:0',
-            'unit' => 'required',
-            'description' => 'required',
-            'image' => 'required|image',
-        ]);
-//        $file = $request->file('upload');
-        $file = $request->file('image');
-        $product = Product::create($request->all());
-        $unique_name = $product->id.'.'.$file->extension();
-        $product->imagename = $unique_name;
-        $product->update();
-        $request->file('image')->move(public_path().'/storage',$unique_name);
-        // $path = $request->file->storeAs('路路徑', '');
-        return redirect()->route('products.index');
+//        dd($request);
+//        dd($this->validate($request, $this->rules($request)));
+
+        if($request->input('product_id') == -1){
+            $product = Product::create([
+                'name' => $request->input('product_name'),
+                'create_date'=> now(),
+                'update_date'=>now(),
+            ]);
+        }
+        else{
+            $product = Product::find($request->input('product_id'));
+        }
+
+        $product_detail_names = $request->input('product_detail');
+        $product_detail_ids = $request->input('product_detail_id');
+        $product_ISBN = $request->input('ISBN');
+        $product_price = $request->input('price');
+
+        for($i = 0; $i<count($product_detail_names);$i++){
+            if($product_detail_ids[$i] == -1){
+//                find if already have the set in product
+                $product_detail = ProductDetail::where('name','=',$product_detail_names[$i])->first();
+                if(!$product_detail){
+//                    create new product detail
+                    $product_detail = ProductDetail::create([
+                        'name' => $product_detail_names[$i],
+                        'create_date'=> now(),
+                        'update_date'=>now(),
+                    ]);
+                }
+            }
+            else{
+                $product_detail = ProductDetail::find($product_detail_ids[$i]);
+            }
 
 
+            $product_relation = ProductRelation::where('product_id','=',$product->id)
+                ->where('product_detail_id','=',$product_detail->id)->first();
+
+            if(!$product_relation){
+                $product_relation = ProductRelation::create([
+                    'product_id' => $product->id,
+                    'product_detail_id'=>$product_detail->id,
+                    'create_date' => now(),
+                ]);
+            }
+
+            $product_relation->ISBN = $product_ISBN[$i];
+            $product_relation->price = $product_price[$i];
+            $product_relation->update();
+
+//            setting price and ISBN
+        }
+
+        return redirect()->back();
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
         //
     }
 
-    public function showup()
-    {
-        $products = Product::where('isSelling',1)->orderBy('created_at', 'DESC')->paginate(15);
-
-        $data = [
-            'products' => $products,
-        ];
-        return view('products.up', $data);
-    }
-    public function showremove()
-    {
-        $products = Product::where('isSelling',0)->orderBy('created_at', 'DESC')->paginate(15);
-
-        $data = [
-            'products' => $products,
-        ];
-        return view('products.remove', $data);
-    }
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        $types = Type::all();
-        $categories = Category::all();
-        $data = [
-            'product' => $product,
-            'types' => $types,
-            'categories' =>$categories,
-
-        ];
-
-        return view('products.edit', $data);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'saleprice' => 'required|integer|min:0|lte:listprice',
-            'listprice' => 'required|integer|min:0',
-            'unit' => 'required',
-            'description' => 'required',
-            'image' => 'image',
-        ]);
-
-        if($request->image!=null){
-            $file = $request->file('image');
-            $unique_name = $product->id.'.'.$file->extension();
-            $product->imagename = $unique_name;
-            $product->update();
-            $request->file('image')->move(public_path().'/storage',$unique_name);
-        }
-
-        // $path = $request->file->storeAs('路路徑', '');
-        $product->update($request->all());
-        return redirect()->route('products.index');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $product->delete();
-
-        return redirect()->route('products.index');
-    }
-
-    public function upup(Product $product)
-    {
-        $product->isSelling = 1;
-        $product->update();
-        return redirect()->back();
-    }
-    public function remove(Product $product)
-    {
-        $product->isSelling = 0;
-        $product->update();
-        return redirect()->back();
+        //
     }
 }

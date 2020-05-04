@@ -105,6 +105,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('orders/{order}', 'OrderController@update')->name('orders.update');
     Route::post('orders/{order}', 'OrderController@delete')->name('orders.delete');
 
+    Route::get('orders/{order}/get_code','OrderController@get_code')->name('orders.get_code');
+
 
     Route::get('ajax/get_customer_concat_persons', 'OrderController@get_customer_concat_persons')->name('orders.get_customer_concat_persons');
     Route::get('ajax/get_product_details', 'OrderController@get_product_details')->name('orders.get_product_details');
@@ -113,6 +115,14 @@ Route::middleware('auth')->group(function () {
 
 //    order items
     Route::get('order_items','OrderItemController@index')->name('order_items.index');
+    Route::post('/ajax/change_item_status','OrderItemController@change_item_status')->name('order_items.change_item_status');
+
+
+
+//  products
+    Route::get('products/create','ProductController@create')->name('products.create');
+    Route::post('products','ProductController@store')->name('products.store');
+    Route::post('ajax/validate_product_form','ProductController@validate_product_form')->name('products.validate_product_form');
 
 
 

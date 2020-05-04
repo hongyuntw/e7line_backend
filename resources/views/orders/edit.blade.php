@@ -48,7 +48,7 @@
                     @endif
                     <fieldset>
                         <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
+                            <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">公司名稱</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -119,7 +119,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-4 inputGroupContainer">
+                            <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">公司名稱</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -131,7 +131,16 @@
                                            value="{{ old('other_name',$order->other_customer_name) }}">
                                 </div>
                             </div>
-                            <div class="col-md-4 inputGroupContainer">
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class=" control-label">抬頭</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input type="text" class="form-control" id="title"
+                                           name="title" placeholder="抬頭"
+                                           value="{{ old('title',$order->title) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">訂購目的</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -304,9 +313,12 @@
                                 <label class="control-label">匯款帳戶</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <select @if($order->payment_method!=0) disabled @endif class="form-control" name="payment_account" id="payment_account">
-                                        <option @if($order->payment_account=="公司帳戶") selected @endif value="公司帳戶">公司帳戶</option>
-                                        <option @if($order->payment_account=="業務帳戶") selected @endif value="業務帳戶">業務帳戶</option>
+                                    <select @if($order->payment_method!=0) disabled @endif class="form-control"
+                                            name="payment_account" id="payment_account">
+                                        <option @if($order->payment_account=="公司帳戶") selected @endif value="公司帳戶">公司帳戶
+                                        </option>
+                                        <option @if($order->payment_account=="業務帳戶") selected @endif value="業務帳戶">業務帳戶
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -314,7 +326,8 @@
                                 <label class="control-label">後五碼</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input @if($order->payment_method!=0) disabled @endif type="text" class="form-control" id="last_five_nums"
+                                    <input @if($order->payment_method!=0) disabled @endif type="text"
+                                           class="form-control" id="last_five_nums"
                                            name="last_five_nums"
                                            placeholder="請輸入後五碼"
                                            value="{{ old('last_five_nums',$order->last_five_nums) }}">
@@ -413,7 +426,7 @@
                                             }
                                             console.log(myNode);
                                             myNode.innerHTML = '';
-                                            html = '<select class="form-control" name="product_detail_id[]" onchange="product_detail_change(this)">';
+                                            html = '<select class="form-control" id="'+product_select.id+'_detail_select" name="product_detail_id[]" onchange="product_detail_change(this)">';
                                             html += '<option value=-1>請選擇產品</option>';
                                             for (let [key, value] of Object.entries(res)) {
                                                 html += '<option value=\"' + key + '\">' + value[0] + '</option>'
@@ -430,11 +443,18 @@
                                 var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
                                 //parent_node_id
                                 var parent_node_id = product_detail_select.parentNode.id;
-                                console.log(parent_node_id);
+                                var product_select_id = product_detail_select.id.replace('_detail_select', '');
+                                var product_select = document.getElementById(product_select_id);
+
+                                var product_id = product_select.options[product_select.selectedIndex].value;
+                                // console.log(parent_node_id);
                                 if (product_detail_id > 0) {
                                     $.ajax({
                                         url: '/ajax/get_product_details_price',
-                                        data: {product_detail_id: product_detail_id}
+                                        data: {
+                                            product_detail_id: product_detail_id,
+                                            product_id: product_id,
+                                        }
                                     })
                                         .done(function (res) {
                                             console.log(res);
@@ -444,7 +464,18 @@
                                             } else {
                                                 product_price_input = document.getElementById(parent_node_id + "_price");
                                             }
-                                            product_price_input.value = res;
+                                            product_price_input.value = res['price'];
+
+                                            var product_ISBN_input;
+                                            if (parent_node_id == "product_detail") {
+                                                product_ISBN_input = document.getElementById("product_detail_ISBN");
+                                            } else {
+                                                product_ISBN_input = document.getElementById(parent_node_id + "_ISBN");
+                                            }
+                                            if (res['ISBN']) {
+                                                product_ISBN_input.value = res['ISBN'];
+                                            }
+
                                             computeSum();
 
                                         })
@@ -463,10 +494,10 @@
                                 html = '<div id="product_list' + count + '">' +
                                     '<a id="delete_product_list_btn" class="btn btn-link" onclick="delete_product(' + count + ')">\n' +
                                     '                            <i class="glyphicon glyphicon-minus-sign"></i>\n' +
-                                    '                            \n' +
+                                    '                            delete product\n' +
                                     '                        </a>' +
                                     ' <div class="form-group">\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Product</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -481,7 +512,7 @@
                                     '                                        </select>\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Detail</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -493,7 +524,16 @@
                                     '                                        </div>\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '<div class="col-md-2 inputGroupContainer">\n' +
+                                    '                                    <label class="control-label">ISBN</label>\n' +
+                                    '                                    <div class="input-group">\n' +
+                                    '                                        <span class="input-group-addon"><i\n' +
+                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                    '                                        <input type="text" class="form-control" name="isbn[]" disabled\n' +
+                                    '                                               id="product'+count+'_detail_ISBN">\n' +
+                                    '                                    </div>\n' +
+                                    '                                </div>'+
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Quantity</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -502,7 +542,7 @@
                                     '\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Price</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -510,6 +550,14 @@
                                     '                                        <input type="number" onchange="computeSum()" class="form-control" name="price[]" id="product' + count + '_detail_price">\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
+                                    '<div class="col-md-2 inputGroupContainer">\n' +
+                                    '                                    <label class="control-label">規格</label>\n' +
+                                    '                                    <div class="input-group">\n' +
+                                    '                                        <span class="input-group-addon"><i\n' +
+                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                    '                                        <input type="text" class="form-control" name="spec_name[]">\n' +
+                                    '                                    </div>\n' +
+                                    '                                </div>'+
                                     '                            </div>' +
                                     '</div>';
 
@@ -530,17 +578,14 @@
 
                             function delete_product(num) {
                                 console.log(num);
-                                var count = document.getElementById("product_list_count").value;
-                                count = parseInt(count);
-                                console.log(count);
-                                document.getElementById("product_list_count").value = count - 1;
                                 var id = "product_list" + num;
-                                console.log(id);
+                                // console.log(id);
                                 var node = document.getElementById(id);
                                 node.remove();
                                 // console.log(node);
                                 computeSum();
                             }
+
                             function computeSum() {
                                 var totalPirce = 0;
                                 var input_all_qty = $('input[name="quantity[]"]');
@@ -556,7 +601,8 @@
                                 }
                                 $("#total_price").text(totalPirce);
                             }
-                            $(document).ready(function(){
+
+                            $(document).ready(function () {
                                 computeSum();
                             });
 
@@ -587,7 +633,7 @@
                                             @endif
 
                                             <div class="form-group">
-                                                <div class="col-md-3 inputGroupContainer">
+                                                <div class="col-md-2 inputGroupContainer">
                                                     <label class="control-label">Product</label>
                                                     <div class="input-group">
                                                             <span class="input-group-addon"><i
@@ -606,13 +652,15 @@
                                                         </script>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 inputGroupContainer">
+                                                <div class="col-md-2 inputGroupContainer">
                                                     <label class="control-label">Detail</label>
                                                     <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                     class="glyphicon glyphicon-shopping-cart"></i></span>
                                                         <div id="{{$product_var}}_detail">
-                                                            <select class="form-control" name="product_detail_id[]">
+                                                            <select class="form-control" name="product_detail_id[]"
+                                                                    id="{{$product_var}}_detail_select"
+                                                                    onchange="product_detail_change(this)">
                                                                 <option value="-1">選擇產品</option>
                                                                 @foreach($product_relations as $product_relation)
                                                                     @if($product_relation->product_id == $order_item->product_relation->product->id)
@@ -626,27 +674,49 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 inputGroupContainer">
+                                                <div class="col-md-2 inputGroupContainer">
+                                                    <label class="control-label">ISBN</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                                class="glyphicon glyphicon-list"></i></span>
+                                                        <input type="text" class="form-control" name="isbn[]" disabled
+                                                               id="{{$product_var}}_detail_ISBN"
+                                                               value="{{($order_item->product_relation->ISBN)}}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 inputGroupContainer">
                                                     <label class="control-label">Quantity</label>
                                                     <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                     class="glyphicon glyphicon-list"></i></span>
-                                                        <input type="number" class="form-control" name="quantity[]" onchange="computeSum()"
+                                                        <input type="number" class="form-control" name="quantity[]"
+                                                               onchange="computeSum()"
                                                                placeholder="請輸入數量"
                                                                value="{{old('quantity['.($loop->index+1).']',$order_item->quantity)}}">
 
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 inputGroupContainer">
+                                                <div class="col-md-2 inputGroupContainer">
                                                     <label class="control-label">Price</label>
                                                     <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                     class="glyphicon glyphicon-list"></i></span>
-                                                        <input type="number" class="form-control" name="price[]" onchange="computeSum()"
+                                                        <input type="number" class="form-control" name="price[]"
+                                                               onchange="computeSum()"
                                                                value="{{old('price['.($loop->index+1).']',$order_item->price)}}"
                                                                id="{{$product_var}}_detail_price">
                                                     </div>
                                                 </div>
+                                                <div class="col-md-2 inputGroupContainer">
+                                                    <label class="control-label">規格</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                                class="glyphicon glyphicon-list"></i></span>
+                                                        <input type="text" class="form-control" name="spec_name[]"
+                                                               value="{{old('spec_name['.($loop->index+1).']',$order_item->spec_name)}}">
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                         @endforeach

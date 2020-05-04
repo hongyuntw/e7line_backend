@@ -14,7 +14,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-shopping-bag"></i> 交易狀況</li>
-                                <li class="active">訂單細項列表</li>
+                <li class="active">訂單細項列表</li>
             </ol>
         </section>
 
@@ -123,26 +123,86 @@
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
+                                    <th style="width:4%"></th>
                                     <th class="text-center" style="width:15%">Order</th>
                                     <th class="text-center" style="width:10%">Date</th>
                                     <th class="text-center" style="width:15%">Product</th>
                                     <th class="text-center" style="width:8%">Status</th>
                                     <th class="text-center" style="width:8%">Qty</th>
                                     <th class="text-center" style="width:8%">Amount</th>
-
-                                    <th class="text-center" style="width:20%">Other</th>
+                                    <th class="text-center" style="width:8%">Sales</th>
+                                    <th class="text-center" style="width:8%">收貨日期</th>
+{{--                                    <th class="text-center" style="width:10%">Other</th>--}}
 
                                 </tr>
                                 </thead>
+                                <script>
+                                    function select_all() {
+                                        var select_boxes = document.getElementsByName("change_item_status");
+                                        for (var i = 0; i < select_boxes.length; i++) {
+                                            select_boxes[i].checked = 1;
+                                        }
+                                    }
+
+                                    function unselect_all() {
+                                        var select_boxes = document.getElementsByName("change_item_status");
+                                        for (var i = 0; i < select_boxes.length; i++) {
+                                            select_boxes[i].checked = 0;
+                                        }
+                                    }
+
+                                    function change_status(){
+                                        var inputs = document.getElementsByName("change_item_status");
+                                        var status_select = document.getElementById("status_select");
+                                        var status = status_select.options[status_select.selectedIndex].value;
+                                        console.log(status);
+                                        var ids = [];
+                                        for (var i = 0; i < inputs.length; i++) {
+                                            if (inputs[i].checked ? 1 : 0) {
+                                                ids.push(inputs[i].id);
+                                            }
+                                        }
+                                        $.ajax({
+                                            type: "POST",
+                                            url: '/ajax/change_item_status',
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                            },
+                                            data: {
+                                                ids: ids,
+                                                status: status,
+                                            },
+                                            success: function (msg) {
+                                                window.location.reload();
+                                                console.log(msg)
+                                            }
+                                        });
+                                    }
+                                </script>
+                                <button onclick="select_all()" class="btn-sm btn-dark">全選</button>
+                                <button onclick="unselect_all()" class="btn-sm btn-dark">取消全選</button>
+
+                                <div style="float: right">
+                                    <select id="status_select" name="status_select" class="select2-container float-right">
+                                        @foreach($order_item_status_names as $order_item_status_name)
+                                            <option value="{{$loop->index}}">{{$order_item_status_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <button class="btn-sm btn-dark" onclick="change_status()">更改選中狀態</button>
+                                </div>
+
 
                                 @foreach ($order_items as $order_item)
-{{--                                    @if($order->is_deleted)--}}
-{{--                                        @continue--}}
-{{--                                    @endif--}}
+                                    {{--                                    @if($order->is_deleted)--}}
+                                    {{--                                        @continue--}}
+                                    {{--                                    @endif--}}
 
                                     @php($order = $order_item->order)
 
                                     <tr ondblclick="" class="text-center">
+                                        <td><input type="checkbox" id="{{$order_item->id}}"
+                                                   name="change_item_status">
+                                        </td>
                                         <td class="text-left">#{{ $order->id}} &nbsp by &nbsp
                                             @if($order->business_concat_person)
                                                 {{$order->business_concat_person->name}}
@@ -187,28 +247,36 @@
                                         <td>{{round($order_item->quantity)}}</td>
                                         <td>${{$order_item->quantity * $order_item->price}}</td>
                                         <td>
-{{--                                            <script>--}}
-{{--                                                function order_edit(order_id){--}}
-{{--                                                    // console.log(encodeURIComponent(window.location.href));--}}
-{{--                                                    window.location.href = '/orders/'+order_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);--}}
-{{--                                                }--}}
-{{--                                            </script>--}}
-{{--                                            <a href="{{route('orders.detail',$order->id)}}"--}}
-{{--                                               class="btn btn-xs btn-primary">詳細</a>--}}
-{{--                                            <a onclick="order_edit({{$order->id}})"--}}
-{{--                                               class="btn btn-xs btn-primary">編輯</a>--}}
-
-{{--                                            @if( Auth::user()->level==2)--}}
-{{--                                                <form action="{{route('orders.delete',$order->id)}}"--}}
-{{--                                                      method="post"--}}
-{{--                                                      style="display: inline-block">--}}
-{{--                                                    @csrf--}}
-{{--                                                    <button type="submit" class="btn btn-xs btn-danger"--}}
-{{--                                                            onclick="return confirm('確定是否刪除')">刪除--}}
-{{--                                                    </button>--}}
-{{--                                                </form>--}}
-{{--                                            @endif--}}
+                                            {{$order->user->name}}
                                         </td>
+                                        <td>
+                                            @if($order->receive_date)
+                                                {{date("Y-m-d", strtotime($order->receive_date))}}
+                                            @endif
+                                        </td>
+{{--                                        <td>--}}
+                                            {{--                                            <script>--}}
+                                            {{--                                                function order_edit(order_id){--}}
+                                            {{--                                                    // console.log(encodeURIComponent(window.location.href));--}}
+                                            {{--                                                    window.location.href = '/orders/'+order_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);--}}
+                                            {{--                                                }--}}
+                                            {{--                                            </script>--}}
+                                            {{--                                            <a href="{{route('orders.detail',$order->id)}}"--}}
+                                            {{--                                               class="btn btn-xs btn-primary">詳細</a>--}}
+                                            {{--                                            <a onclick="order_edit({{$order->id}})"--}}
+                                            {{--                                               class="btn btn-xs btn-primary">編輯</a>--}}
+
+                                            {{--                                            @if( Auth::user()->level==2)--}}
+                                            {{--                                                <form action="{{route('orders.delete',$order->id)}}"--}}
+                                            {{--                                                      method="post"--}}
+                                            {{--                                                      style="display: inline-block">--}}
+                                            {{--                                                    @csrf--}}
+                                            {{--                                                    <button type="submit" class="btn btn-xs btn-danger"--}}
+                                            {{--                                                            onclick="return confirm('確定是否刪除')">刪除--}}
+                                            {{--                                                    </button>--}}
+                                            {{--                                                </form>--}}
+                                            {{--                                            @endif--}}
+{{--                                        </td>--}}
                                     </tr>
                                 @endforeach
                             </table>

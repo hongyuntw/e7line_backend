@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ConcatRecord;
 use App\Order;
 use App\OrderItem;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 class OrderItemController extends Controller
 {
 
-    public static $order_item_status_names = ['尚未受理','已收單','已叫貨','已交貨','已出貨'];
+    public static $order_item_status_names = ['尚未受理','已叫貨','已出貨','已交貨','已收單'];
 
     /**
      * Display a listing of the resource.
@@ -93,5 +94,21 @@ class OrderItemController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function change_item_status(Request $request)
+    {
+        if($request['ids']){
+            $status = $request['status'];
+            foreach($request['ids'] as $id){
+                $order_item = OrderItem::find($id);
+                $order_item->status = $status;
+                $order_item->update_date = now();
+                $order_item->update();
+
+            }
+        }
+        return "success";
     }
 }

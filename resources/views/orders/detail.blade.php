@@ -32,6 +32,14 @@
                         <div class="box">
                             <!-- /.box-header -->
                             <div class="box-body">
+
+                                @if(session('alert')=='success')
+                                    <div class="alert alert-success text-center">{{session('msg')}}</div>
+                                @elseif(session('alert')=='failed')
+                                    <div class="alert alert-danger text-center">{{session('msg')}}</div>
+                                @endif
+
+
                                 <div id="Customer">
                                     <h4 class="text-center">
                                         <label style="font-size: medium">Order Detail</label>
@@ -41,23 +49,43 @@
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
+                                        <th class="text-center" style="width: 10%;">訂單編號</th>
+
                                         <th class="text-center" style="width: 20%;">客戶名稱</th>
+                                        <th class="text-center" style="width: 20%;">抬頭</th>
+
                                         <th class="text-center" style="width: 10%;">訂購窗口</th>
                                         <th class="text-center" style="width: 10%;">負責業務</th>
                                         <th class="text-center" style="width: 10%;">日期</th>
-                                        <th class="text-center" style="width: 10%;">狀態</th>
-                                        <th class="text-center" style="width: 10%;">目的</th>
+                                        <th class="text-center" style="width: 5%;">狀態</th>
+                                        <th class="text-center" style="width: 5%;">目的</th>
 
 
                                     </tr>
                                     </thead>
                                     <tr>
                                         <td class="text-center">
+                                            @if($order->code)
+                                                {{$order->code}}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
                                             @if($order->customer)
                                                 {{$order->customer->name}}
                                             @else
                                                 {{$order->other_customer_name}}
                                             @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if($order->title)
+                                                {{$order->title}}
+                                            @else
+                                                -
+                                            @endif
+
+
                                         </td>
                                         <td class="text-center">
                                             @if($order->business_concat_person){{$order->business_concat_person->name}}
@@ -86,7 +114,7 @@
                                             @default
                                             @break
                                         @endswitch
-                                        <td ><label
+                                        <td><label
                                                 class="label{{$css}}"
                                                 style="min-width:40px;display: inline-block">{{ $order_status_names[$order->status] }}</label>
 
@@ -192,9 +220,11 @@
                                     <table class="table table-striped" width="100%">
                                         <thead style="background-color: lightgray">
                                         <tr class="text-center">
-                                            <th class="text-center" style="width: 15%;">Products</th>
-                                            <th class="text-center" style="width: 25%;">Quantity</th>
-                                            <th class="text-center" style="width: 25%;">Price</th>
+                                            <th class="text-center" style="width: 25%;">Products</th>
+                                            <th class="text-center" style="width: 15%;">規格</th>
+                                            <th class="text-center" style="width: 15%;">ISBN</th>
+                                            <th class="text-center" style="width: 10%;">Quantity</th>
+                                            <th class="text-center" style="width: 10%;">Price</th>
                                             <th class="text-center" style="width: 10%;">Amount</th>
 
                                         </tr>
@@ -203,6 +233,16 @@
                                         @foreach ($order_items  as $order_item)
                                             <tr class="text-center">
                                                 <td>{{$order_item->product_relation->product->name}} {{$order_item->product_relation->product_detail->name}}</td>
+                                                <td>
+                                                    @if($order_item->spec_name)
+                                                        {{$order_item->spec_name}}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{$order_item->product_relation->ISBN}}
+                                                </td>
                                                 <td>${{round($order_item->quantity)}}</td>
                                                 <td>${{round($order_item->price)}}</td>
                                                 <td>${{round($order_item->quantity*$order_item->price)}}</td>
@@ -219,6 +259,13 @@
                                         }
                                     </script>
                                     {{--                                <a class="btn btn-primary" href="{{route('customers.index')}}">客戶列表</a>--}}
+
+
+                                    @if(!$order->code)
+                                        <a class="btn btn-success" href="{{route('orders.get_code',$order->id)}}">送出訂單至業務系統</a>
+                                    @endif
+
+
                                     <a class="btn btn-primary" onclick="order_edit({{$order->id}})">編輯</a>
 
                                     @if( Auth::user()->level==2)

@@ -15,11 +15,14 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
+//            訂單代碼，打api之後獲得
+            $table->string('code')->nullable();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('customer_id')->nullable();
             $table->string('other_customer_name')->nullable();
             $table->unsignedInteger('business_concat_person_id')->nullable();
             $table->string('other_concat_person_name')->nullable();
+            $table->string('title')->nullable();
             $table->string('note',100)->nullable();
 //            狀態待訂
 //            0是預設

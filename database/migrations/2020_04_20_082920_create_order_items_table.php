@@ -19,6 +19,8 @@ class CreateOrderItemsTable extends Migration
 //            $table->unsignedInteger('product_id');
 //            $table->unsignedInteger('product_detail_id');
             $table->unsignedInteger('product_relation_id');
+            $table->string('spec_name')->nullable();
+
             $table->decimal('quantity');
             $table->decimal('price');
             $table->tinyInteger('status')->default(0);

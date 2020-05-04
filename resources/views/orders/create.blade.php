@@ -78,7 +78,7 @@
                     @endif
                     <fieldset>
                         <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
+                            <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">公司名稱</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -138,7 +138,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-4 inputGroupContainer">
+                            <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">公司名稱</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -147,7 +147,16 @@
                                            value="{{ old('other_name') }}">
                                 </div>
                             </div>
-                            <div class="col-md-4 inputGroupContainer">
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class=" control-label">抬頭</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input type="text" class="form-control" id="title"
+                                           name="title" placeholder="抬頭"
+                                           value="{{ old('title') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">訂購目的</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -207,9 +216,10 @@
                                 <label class="control-label">e7line帳號</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <select id="e7line_account" name="e7line_account" class="form-control">
-                                        <option value="123@mail.com">輸入account</option>
-                                    </select>
+{{--                                    <select id="e7line_account" name="e7line_account" class="form-control">--}}
+{{--                                        <option value="123@mail.com">輸入account</option>--}}
+{{--                                    </select>--}}
+                                    <input value="{{old('e7line_account','123@mail.com')}}" name="e7line_account" id="e7line_account" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-4 inputGroupContainer">
@@ -398,7 +408,7 @@
                                             }
                                             console.log(myNode);
                                             myNode.innerHTML = '';
-                                            html = '<select class="form-control" name="product_detail_id[]" onchange="product_detail_change(this)">';
+                                            html = '<select class="form-control" id="'+product_select.id+'_detail_select" name="product_detail_id[]" onchange="product_detail_change(this)">';
                                             html += '<option value=-1>請選擇產品</option>';
                                             for (let [key, value] of Object.entries(res)) {
                                                 html += '<option value=\"' + key + '\">' + value[0] + '</option>'
@@ -415,11 +425,19 @@
                                 var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
                                 //parent_node_id
                                 var parent_node_id = product_detail_select.parentNode.id;
+                                var product_select_id = product_detail_select.id.replace('_detail_select','');
+                                var product_select = document.getElementById(product_select_id);
+
+                                var product_id =  product_select.options[product_select.selectedIndex].value;
+
                                 // console.log(parent_node_id);
                                 if (product_detail_id > 0) {
                                     $.ajax({
                                         url: '/ajax/get_product_details_price',
-                                        data: {product_detail_id: product_detail_id}
+                                        data: {
+                                            product_detail_id: product_detail_id,
+                                            product_id : product_id,
+                                        }
                                     })
                                         .done(function (res) {
                                             console.log(res);
@@ -429,7 +447,18 @@
                                             } else {
                                                 product_price_input = document.getElementById(parent_node_id + "_price");
                                             }
-                                            product_price_input.value = res;
+                                            product_price_input.value = res['price'];
+
+                                            var product_ISBN_input;
+                                            if (parent_node_id == "product_detail") {
+                                                product_ISBN_input = document.getElementById("product_detail_ISBN");
+                                            } else {
+                                                product_ISBN_input = document.getElementById(parent_node_id + "_ISBN");
+                                            }
+                                            if(res['ISBN']){
+                                                product_ISBN_input.value=res['ISBN'];
+                                            }
+
                                             computeSum();
 
                                         })
@@ -450,7 +479,7 @@
                                     '                            delete product\n' +
                                     '                        </a>' +
                                     ' <div class="form-group">\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Product</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -465,7 +494,7 @@
                                     '                                        </select>\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Detail</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -477,7 +506,16 @@
                                     '                                        </div>\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '<div class="col-md-2 inputGroupContainer">\n' +
+                                    '                                    <label class="control-label">ISBN</label>\n' +
+                                    '                                    <div class="input-group">\n' +
+                                    '                                        <span class="input-group-addon"><i\n' +
+                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                    '                                        <input type="text" class="form-control" name="isbn[]" disabled\n' +
+                                    '                                               id="product'+count+'_detail_ISBN">\n' +
+                                    '                                    </div>\n' +
+                                    '                                </div>'+
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Quantity</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -486,7 +524,7 @@
                                     '\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
-                                    '                                <div class="col-md-3 inputGroupContainer">\n' +
+                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Price</label>\n' +
                                     '                                    <div class="input-group">\n' +
                                     '                                        <span class="input-group-addon"><i\n' +
@@ -494,6 +532,14 @@
                                     '                                        <input type="number" onchange="computeSum()" class="form-control" name="price[]" id="product' + count + '_detail_price">\n' +
                                     '                                    </div>\n' +
                                     '                                </div>\n' +
+                                    '<div class="col-md-2 inputGroupContainer">\n' +
+                                    '                                    <label class="control-label">規格</label>\n' +
+                                    '                                    <div class="input-group">\n' +
+                                    '                                        <span class="input-group-addon"><i\n' +
+                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                    '                                        <input type="text" class="form-control" name="spec_name[]">\n' +
+                                    '                                    </div>\n' +
+                                    '                                </div>'+
                                     '                            </div>' +
                                     '</div>';
 
@@ -511,9 +557,9 @@
 
                             function delete_product(num) {
                                 console.log(num);
-                                var count = document.getElementById("product_list_count").value;
-                                count = parseInt(count);
-                                document.getElementById("product_list_count").value = count - 1;
+                                // var count = document.getElementById("product_list_count").value;
+                                // count = parseInt(count);
+                                // document.getElementById("product_list_count").value = count - 1;
                                 var id = "product_list" + num;
                                 var node = document.getElementById(id);
                                 node.remove();
@@ -548,7 +594,7 @@
 
                         <div id="product_list">
                             <div class="form-group">
-                                <div class="col-md-3 inputGroupContainer">
+                                <div class="col-md-2 inputGroupContainer">
                                     <label class="control-label">Product</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
@@ -565,19 +611,28 @@
                                         </script>
                                     </div>
                                 </div>
-                                <div class="col-md-3 inputGroupContainer">
+                                <div class="col-md-2 inputGroupContainer">
                                     <label class="control-label">Detail</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-shopping-cart"></i></span>
                                         <div id="product_detail">
-                                            <select class="form-control" name="product_detail_id[]">
+                                            <select class="form-control" name="product_detail_id[]" id="product_detail_select">
                                                 <option value="-1">選擇產品</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 inputGroupContainer">
+                                <div class="col-md-2 inputGroupContainer">
+                                    <label class="control-label">ISBN</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-list"></i></span>
+                                        <input type="text" class="form-control" name="isbn[]" disabled
+                                               id="product_detail_ISBN">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 inputGroupContainer">
                                     <label class="control-label">Quantity</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
@@ -587,13 +642,21 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-3 inputGroupContainer">
+                                <div class="col-md-2 inputGroupContainer">
                                     <label class="control-label">Price</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-list"></i></span>
                                         <input type="number" class="form-control" name="price[]" onchange="computeSum()"
                                                id="product_detail_price">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 inputGroupContainer">
+                                    <label class="control-label">規格</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-list"></i></span>
+                                        <input type="text" class="form-control" name="spec_name[]">
                                     </div>
                                 </div>
                             </div>
@@ -634,6 +697,7 @@
 
                     </fieldset>
                 </form>
+
             </div>
 
 
