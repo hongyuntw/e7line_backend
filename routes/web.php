@@ -38,7 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('customers/create', 'CustomersController@create')->name('customers.create');
     Route::post('customers', 'CustomersController@store')->name('customers.store');
     Route::get('customers/{customer}','CustomersController@show')->name('customers.show');
+    Route::post('customers/{customer}/delete_back_to_index', 'CustomersController@delete_back_to_index')->name('customers.delete_back_to_index');
+
     Route::post('customers/{customer}', 'CustomersController@delete')->name('customers.delete');
+
 
     Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');
     Route::post('update_status', 'CustomersController@update_status')->name('customers.update_status');
@@ -102,15 +105,20 @@ Route::middleware('auth')->group(function () {
     Route::get('orders/create','OrderController@create')->name('orders.create');
     Route::post('orders','OrderController@store')->name('orders.store');
     Route::get('orders/{order}/edit{request?}', 'OrderController@edit')->name('orders.edit');
-    Route::patch('orders/{order}', 'OrderController@update')->name('orders.update');
+    Route::post('orders/update/{order}', 'OrderController@update')->name('orders.update');
     Route::post('orders/{order}', 'OrderController@delete')->name('orders.delete');
+    Route::post('orders/delete_backto_index/{order}', 'OrderController@delete_backto_index')->name('orders.delete_backto_index');
+
+
 
     Route::get('orders/{order}/get_code','OrderController@get_code')->name('orders.get_code');
 
+    Route::post('ajax/index_gec_code','OrderController@index_get_code')->name('orders.index_gex_code');
 
     Route::get('ajax/get_customer_concat_persons', 'OrderController@get_customer_concat_persons')->name('orders.get_customer_concat_persons');
     Route::get('ajax/get_product_details', 'OrderController@get_product_details')->name('orders.get_product_details');
     Route::get('ajax/get_product_details_price', 'OrderController@get_product_details_price')->name('orders.get_product_details_price');
+    Route::post('ajax/validate_order_form','OrderController@validate_order_form')->name('orders.validate_order_form');
 
 
 //    order items

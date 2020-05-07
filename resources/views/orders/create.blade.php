@@ -48,37 +48,129 @@
                 <li><a href="#"><i class="fa fa-shopping-bag"></i> 交易管理</a></li>
                 <li class="active">新增訂單</li>
             </ol>
+
         </section>
 
 
         <!-- Main content -->
         <section class="content container-fluid">
+            <script>
+                {{--                do validate--}}
+                function mySubmit() {
+                    var result = function () {
+                        var tmp = null;
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: '{{route('orders.validate_order_form')}}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                            },
+                            data: $("#order_form").serialize(),
+                            success: function (msg) {
+                                // console.log("success");
+                                tmp = true;
+                                // console.log(tmp);
+
+                            },
+                            error: function (data) {
+                                var errors = data.responseJSON;
+                                // console.log(errors);
+                                var msg = '';
+                                for (let [key, value] of Object.entries(errors.errors)) {
+                                    msg += value;
+                                    msg += '\n';
+                                }
+                                alert(msg);
+                                tmp = false;
+                                // console.log(tmp);
+                            }
+                        });
+                        return tmp;
+                    }();
+                    console.log("test result is");
+                    return result;
+                }
+
+                //create order but stay in this page
+                function createOrder() {
+                    var result = mySubmit();
+                    if (result) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: '{{route('orders.store')}}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                            },
+                            data: $("#order_form").serialize(),
+                            success: function (msg) {
+                                // console.log("success");
+                                tmp = true;
+                                // console.log(tmp);
+                                alert("新增訂單成功")
+                                // $("#order_dynamic_field").load(" #order_dynamic_field > *");
+                                var node = document.getElementById("product");
+                                node.parentNode.innerHTML = '';
+                                $("#order_dynamic_field").load(location.href + " #order_dynamic_field");
+                                console.log("reload finish");
+                                // console.log($('#product'));
+                                setTimeout(function () {
+                                    $("#product").selectize();
+                                }, 1000);
+
+
+                            },
+                            error: function (data) {
+                                var errors = data.responseJSON;
+                                // console.log(errors);
+                                var msg = '';
+                                for (let [key, value] of Object.entries(errors.errors)) {
+                                    msg += value;
+                                    msg += '\n';
+                                }
+                                alert(msg);
+                                tmp = false;
+                                // console.log(tmp);
+                            }
+                        });
+                    }
+                    // console.log("after ajax");
+                    // $("#product").selectize();
+
+                }
+
+            </script>
 
 
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-            <div class="container">
-                <form class="well form-horizontal" action="{{route('orders.store')}}" method="post" id="contact_form">
-                    @csrf
+            {{--            <div class="container">--}}
+            <form class=" form-horizontal" action="{{route('orders.store')}}" method="post" id="order_form"
+                  onsubmit="return mySubmit();">
+                @csrf
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
-                            請修正以下表單錯誤：
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    <fieldset>
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
+                        請修正以下表單錯誤：
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <fieldset>
+                    <h4>訂購基本資訊</h4>
+                    <div class="container well">
+
                         <div class="form-group">
-                            <div class="col-md-3 inputGroupContainer">
+                            <div class="col-md-4 inputGroupContainer">
                                 <label class=" control-label">公司名稱</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -88,6 +180,10 @@
                                             <option value="{{$customer->id}}">{{$customer->name}}</option>
                                         @endforeach
                                     </select>
+                                    <input type="text" class="form-control" id="other_customer_name"
+                                           name="other_customer_name" placeholder="非客戶名單之補充"
+                                           value="{{ old('other_name') }}">
+
 
                                     {{--                                    ajax get customer concat person and control disabled field--}}
                                     <script>
@@ -110,13 +206,17 @@
                                                     .done(function (res) {
                                                         console.log(res);
                                                         const myNode = document.getElementById("dynamic_concat_person");
+                                                        // console.log(myNode);
                                                         myNode.innerHTML = '';
                                                         html = '<select id="concat_person_select" name="business_concat_person_id" class="form-control" onchange="concat_person_onchange()">';
                                                         html += '<option value=-1>請選擇福委</option>'
                                                         for (let [key, value] of Object.entries(res)) {
-                                                            html += '<option value=\"' + key + '\">' + value + '</option>'
+                                                            html += '<option value=\"' + key + '\">' + value + '</option>';
                                                         }
-                                                        html += '</select>'
+                                                        html += '</select>';
+                                                        html += '<input type="text" class="form-control" name="other_concat_person_name"\n' +
+                                                            '                                               placeholder="非名單內補充" id="other_concat_person_input"\n' +
+                                                            '                                               value="{{ old("other_concat_person_name") }}">';
                                                         $('#dynamic_concat_person').append(html);
                                                     })
                                             }
@@ -136,24 +236,56 @@
                                         }
                                     </script>
                                 </div>
-
                             </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">公司名稱</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <label class=" control-label">訂購窗口</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="other_customer_name"
-                                           name="other_customer_name" placeholder="非客戶名單之補充"
-                                           value="{{ old('other_name') }}">
+                                    <div id="dynamic_concat_person">
+                                        <select class="form-control" name="business_concat_person_id">
+                                            <option disabled value="-1">選擇窗口</option>
+                                        </select>
+                                        <input type="text" class="form-control" name="other_concat_person_name"
+                                               placeholder="非名單內補充" id="other_concat_person_input"
+                                               value="{{ old('other_concat_person_name') }}">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">抬頭</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <label class="control-label">e7line帳號</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="title"
-                                           name="title" placeholder="抬頭"
-                                           value="{{ old('title') }}">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input value="{{old('e7line_account','123@mail.com')}}" name="e7line_account"
+                                           id="e7line_account" class="form-control">
+                                    <input type="text" class="form-control" name="e7line_name"
+                                           placeholder="e7line姓名"
+                                           value="{{ old('e7line_name',"231") }}">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class="control-label">電話</label>
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-earphone"></i></span>
+                                    <input type="text" class="form-control" name="phone_number"
+                                           placeholder="phone number"
+                                           value="{{ old('phone_number') }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class="control-label">信箱</label>
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-envelope"></i></span>
+                                    <input type="text" class="form-control" name="email" placeholder="email"
+                                           value="{{ old('email') }}">
                                 </div>
                             </div>
                             <div class="col-md-3 inputGroupContainer">
@@ -168,107 +300,30 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">訂購窗口</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <div id="dynamic_concat_person">
-                                        <select class="form-control">
-                                            <option disabled value="-1">請選擇福利目的</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">訂購窗口</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" name="other_concat_person_name"
-                                           placeholder="非名單內補充" id="other_concat_person_input"
-                                           value="{{ old('other_concat_person_name') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class="control-label">電話</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                    <input type="text" class="form-control" name="phone_number"
-                                           placeholder="phone number"
-                                           value="{{ old('phone_number') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class="control-label">信箱</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input type="text" class="form-control" name="email" placeholder="email"
-                                           value="{{ old('email') }}">
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <h4>收貨/付款資訊</h4>
+                    <div class="container well">
 
                         <!-- Text input-->
                         <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">e7line帳號</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-{{--                                    <select id="e7line_account" name="e7line_account" class="form-control">--}}
-{{--                                        <option value="123@mail.com">輸入account</option>--}}
-{{--                                    </select>--}}
-                                    <input value="{{old('e7line_account','123@mail.com')}}" name="e7line_account" id="e7line_account" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">e7line姓名</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                                    <input type="text" class="form-control" name="e7line_name" placeholder="e7line姓名"
-                                           value="{{ old('e7line_name',"231") }}">
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">負責業務</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <select id="user_id" name="user_id" class="form-control">
-                                        @foreach($users as $user)
-                                            @if($user->is_left==0)
-                                                <option value="{{$user->id}}">{{$user->name}}</option>
-                                            @endif
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">狀態</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                                    <select name="status" class="form-control">
-                                        @foreach($order_status_names as $status_name)
-                                            <option value="{{$loop->index}}">{{$status_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <div class="col-md-8 inputGroupContainer">
+                            <div class="col-md-6 inputGroupContainer">
                                 <label class="control-label">收貨地址</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                     <input type="text" class="form-control" id="ship_to" name="ship_to"
                                            placeholder="請輸入收貨地址" value="{{ old('ship_to') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6 inputGroupContainer">
+                                <label class=" control-label">收貨日期</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-menu-right"></i></span>
+                                    <input type="date" class="form-control" name="receive_date"
+                                           value="{{ old('receive_date') }}">
                                 </div>
                             </div>
                         </div>
@@ -315,34 +370,14 @@
                                 <label class="control-label">後五碼</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="last_five_nums"
+                                    <input type="text"
+                                           class="form-control" id="last_five_nums"
                                            name="last_five_nums"
-                                           placeholder="請輸入後五碼" value="{{ old('last_five_nums') }}">
+                                           placeholder="請輸入後五碼"
+                                           value="{{ old('last_five_nums') }}">
                                 </div>
                             </div>
                             <div class="col-md-3 inputGroupContainer">
-                                <label class="control-label">運費</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                                    <input type="number" class="form-control" id="shipping_fee"
-                                           name="shipping_fee"
-                                           placeholder="請輸入運費" value="{{ old('shipping_fee') }}">
-                                </div>
-                            </div>
-                            {{--                            <div class="col-md-3 inputGroupContainer">--}}
-                            {{--                                <label class="control-label">帳號</label>--}}
-                            {{--                                <div class="input-group">--}}
-                            {{--                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>--}}
-                            {{--                                    <input type="text" class="form-control" id="payment_account_num"--}}
-                            {{--                                           name="payment_account_num"--}}
-                            {{--                                           placeholder="請輸入帳號" value="{{ old('payment_account_num') }}">--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
-
-
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
                                 <label class=" control-label">付款日期</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
@@ -351,363 +386,401 @@
                                            value="{{ old('payment_date') }}">
                                 </div>
                             </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class=" control-label">收貨日期</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-menu-right"></i></span>
-                                    <input type="date" class="form-control" name="receive_date"
-                                           value="{{ old('receive_date') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class=" control-label">最遲到貨日期</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-menu-right"></i></span>
-                                    <input type="date" class="form-control" name="latest_arrival_date"
-                                           value="{{ old('latest_arrival_date') }}">
-                                </div>
-                            </div>
+                            {{--                            <div class="col-md-3 inputGroupContainer">--}}
+                            {{--                                <label class="control-label">後五碼</label>--}}
+                            {{--                                <div class="input-group">--}}
+                            {{--                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>--}}
+                            {{--                                    <input type="text" class="form-control" id="last_five_nums"--}}
+                            {{--                                           name="last_five_nums"--}}
+                            {{--                                           placeholder="請輸入後五碼" value="{{ old('last_five_nums') }}">--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
+
+
                         </div>
+                    </div>
 
-                        <div class="form-group">
-
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class=" control-label">統編</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="tax_id" name="tax_id"
-                                           placeholder="請輸入統編，一組以上請打在備註"
-                                           value="{{ old('tax_id') }}">
-                                </div>
-
-                            </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">備註</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <textarea rows="3" class="form-control" id="note" name="note" placeholder="請輸入備註"
-                                    >{{ old('note') }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <input hidden id="product_list_count" value="1">
-
-                        {{--                        dymaic get product info--}}
-                        <script>
-                            function product_change(product_select) {
-                                console.log(product_select);
-                                // console.log(product_list_count);
-                                var product_id = product_select.options[product_select.selectedIndex].value;
-                                // console.log(product_id);
-                                if (product_id > 0) {
-                                    $.ajax({
-                                        url: '/ajax/get_product_details',
-                                        data: {product_id: product_id}
-                                    })
-                                        .done(function (res) {
-                                            console.log(res);
-                                            var myNode;
-                                            if (product_select.id == "product") {
-                                                myNode = document.getElementById("product_detail");
-                                            } else {
-                                                myNode = document.getElementById(product_select.id + "_detail");
-                                            }
-                                            console.log(myNode);
-                                            myNode.innerHTML = '';
-                                            html = '<select class="form-control" id="'+product_select.id+'_detail_select" name="product_detail_id[]" onchange="product_detail_change(this)">';
-                                            html += '<option value=-1>請選擇產品</option>';
-                                            for (let [key, value] of Object.entries(res)) {
-                                                html += '<option value=\"' + key + '\">' + value[0] + '</option>'
-                                            }
-                                            html += '</select>';
-                                            // console.log(myNode);
-                                            myNode.innerHTML = html;
-                                        })
-
-                                }
-                            }
-
-                            function product_detail_change(product_detail_select) {
-                                var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
-                                //parent_node_id
-                                var parent_node_id = product_detail_select.parentNode.id;
-                                var product_select_id = product_detail_select.id.replace('_detail_select','');
-                                var product_select = document.getElementById(product_select_id);
-
-                                var product_id =  product_select.options[product_select.selectedIndex].value;
-
-                                // console.log(parent_node_id);
-                                if (product_detail_id > 0) {
-                                    $.ajax({
-                                        url: '/ajax/get_product_details_price',
-                                        data: {
-                                            product_detail_id: product_detail_id,
-                                            product_id : product_id,
-                                        }
-                                    })
-                                        .done(function (res) {
-                                            console.log(res);
-                                            var product_price_input;
-                                            if (parent_node_id == "product_detail") {
-                                                product_price_input = document.getElementById("product_detail_price");
-                                            } else {
-                                                product_price_input = document.getElementById(parent_node_id + "_price");
-                                            }
-                                            product_price_input.value = res['price'];
-
-                                            var product_ISBN_input;
-                                            if (parent_node_id == "product_detail") {
-                                                product_ISBN_input = document.getElementById("product_detail_ISBN");
-                                            } else {
-                                                product_ISBN_input = document.getElementById(parent_node_id + "_ISBN");
-                                            }
-                                            if(res['ISBN']){
-                                                product_ISBN_input.value=res['ISBN'];
-                                            }
-
-                                            computeSum();
-
-                                        })
-
-                                }
-
-                            }
-
-                            function add_product() {
-                                var count = document.getElementById("product_list_count").value;
-                                count = parseInt(count);
-                                count = count + 1;
-                                document.getElementById("product_list_count").value = count;
-                                const myNode = document.getElementById("product_list");
-                                html = '<div id="product_list' + count + '">' +
-                                    '<a id="delete_product_list_btn" class="btn btn-link" onclick="delete_product(' + count + ')">\n' +
-                                    '                            <i class="glyphicon glyphicon-minus-sign"></i>\n' +
-                                    '                            delete product\n' +
-                                    '                        </a>' +
-                                    ' <div class="form-group">\n' +
-                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
-                                    '                                    <label class="control-label">Product</label>\n' +
-                                    '                                    <div class="input-group">\n' +
-                                    '                                        <span class="input-group-addon"><i\n' +
-                                    '                                                class="glyphicon glyphicon-shopping-cart"></i></span>\n' +
-                                    '                                        <select name="product_id[]" \n' +
-                                    'id="product' + count + '"' +
-                                    '                                                onchange="product_change(this)">\n' +
-                                    '                                            <option value="-1">選擇產品</option>\n' +
-                                    '                                            @foreach($products as $product)\n' +
-                                    '                                                <option value="{{$product->id}}">{{$product->name}}</option>\n' +
-                                    '                                            @endforeach\n' +
-                                    '                                        </select>\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>\n' +
-                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
-                                    '                                    <label class="control-label">Detail</label>\n' +
-                                    '                                    <div class="input-group">\n' +
-                                    '                                        <span class="input-group-addon"><i\n' +
-                                    '                                                class="glyphicon glyphicon-shopping-cart"></i></span>\n' +
-                                    '                                        <div id="product' + count + '_detail">\n' +
-                                    '                                            <select class="form-control" name="product_detail_id[]">\n' +
-                                    '                                                <option value="-1">選擇產品</option>\n' +
-                                    '                                            </select>\n' +
-                                    '                                        </div>\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>\n' +
-                                    '<div class="col-md-2 inputGroupContainer">\n' +
-                                    '                                    <label class="control-label">ISBN</label>\n' +
-                                    '                                    <div class="input-group">\n' +
-                                    '                                        <span class="input-group-addon"><i\n' +
-                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
-                                    '                                        <input type="text" class="form-control" name="isbn[]" disabled\n' +
-                                    '                                               id="product'+count+'_detail_ISBN">\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>'+
-                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
-                                    '                                    <label class="control-label">Quantity</label>\n' +
-                                    '                                    <div class="input-group">\n' +
-                                    '                                        <span class="input-group-addon"><i\n' +
-                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
-                                    '                                        <input type="number" class="form-control" name="quantity[]" placeholder="請輸入數量" onchange="computeSum()">\n' +
-                                    '\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>\n' +
-                                    '                                <div class="col-md-2 inputGroupContainer">\n' +
-                                    '                                    <label class="control-label">Price</label>\n' +
-                                    '                                    <div class="input-group">\n' +
-                                    '                                        <span class="input-group-addon"><i\n' +
-                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
-                                    '                                        <input type="number" onchange="computeSum()" class="form-control" name="price[]" id="product' + count + '_detail_price">\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>\n' +
-                                    '<div class="col-md-2 inputGroupContainer">\n' +
-                                    '                                    <label class="control-label">規格</label>\n' +
-                                    '                                    <div class="input-group">\n' +
-                                    '                                        <span class="input-group-addon"><i\n' +
-                                    '                                                class="glyphicon glyphicon-list"></i></span>\n' +
-                                    '                                        <input type="text" class="form-control" name="spec_name[]">\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>'+
-                                    '                            </div>' +
-                                    '</div>';
-
-                                $("#product_list").append(html);
-
-                                var new_select_id = "#product" + count;
-                                make_selectize(new_select_id);
-                                computeSum();
-                            }
-
-                            function make_selectize(id) {
-                                $(id).selectize({});
-                            }
+                </fieldset>
 
 
-                            function delete_product(num) {
-                                console.log(num);
-                                // var count = document.getElementById("product_list_count").value;
-                                // count = parseInt(count);
-                                // document.getElementById("product_list_count").value = count - 1;
-                                var id = "product_list" + num;
-                                var node = document.getElementById(id);
-                                node.remove();
-                                computeSum();
-                            }
+                <fieldset>
+                    <h4>訂購資訊</h4>
 
-
-                            function computeSum() {
-                                var totalPirce = 0;
-                                var input_all_qty = $('input[name="quantity[]"]');
-                                var input_all_price = $('input[name="price[]"]');
-                                for (var i = 0; i < input_all_qty.length; i++) {
-                                    if (input_all_qty[i].value) {
-                                        if (input_all_price[i].value) {
-                                            // console.log(input_all_qty[i].value);
-                                            // console.log(input_all_price[i].value);
-                                            totalPirce += input_all_qty[i].value * input_all_price[i].value;
-                                        }
-                                    }
-                                }
-                                $("#total_price").text(totalPirce);
-                            }
-
-
-                        </script>
-
-
-                        <a id="add_product_btn" class="btn btn-link" onclick="add_product()">
-                            <i class="glyphicon glyphicon-plus-sign"></i>
-                            add product
-                        </a>
-
-                        <div id="product_list">
+                    <div class="container well">
+                        <div id="order_dynamic_field">
                             <div class="form-group">
-                                <div class="col-md-2 inputGroupContainer">
-                                    <label class="control-label">Product</label>
+
+                                <div class="col-md-4 inputGroupContainer">
+                                    <label class=" control-label">統編及抬頭</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input type="text" class="form-control" id="tax_id" name="tax_id"
+                                               placeholder="請輸入統編"
+                                               value="{{ old('tax_id') }}">
+                                        <input type="text" class="form-control" id="title"
+                                               name="title" placeholder="若為現金卷請輸入抬頭"
+                                               value="{{ old('title') }}">
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4 inputGroupContainer">
+                                    <label class="control-label">備註</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
-                                                class="glyphicon glyphicon-shopping-cart"></i></span>
-                                        <select id="product" name="product_id[]"
-                                                onchange="product_change(this)">
-                                            <option value="-1">選擇產品</option>
-                                            @foreach($products as $product)
-                                                <option value="{{$product->id}}">{{$product->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <script>
-                                            $('#product').selectize({});
-                                        </script>
+                                                class="glyphicon glyphicon-pencil"></i></span>
+                                        <textarea rows="3" class="form-control" id="note" name="note"
+                                                  placeholder="請輸入備註"
+                                        >{{ old('note') }}</textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-2 inputGroupContainer">
-                                    <label class="control-label">Detail</label>
+                                <div class="col-md-4 inputGroupContainer">
+                                    <label class="control-label">運費</label>
                                     <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                        <input type="number" class="form-control" id="shipping_fee"
+                                               name="shipping_fee" onchange="computeSum()"
+                                               placeholder="請輸入運費" value="{{ old('shipping_fee',0) }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input hidden id="product_list_count" value="1">
+
+                            {{--                        dymaic get product info--}}
+                            <script>
+                                function product_change(product_select) {
+                                    console.log(product_select);
+                                    // console.log(product_list_count);
+                                    var product_id = product_select.options[product_select.selectedIndex].value;
+                                    // console.log(product_id);
+                                    if (product_id > 0) {
+                                        $.ajax({
+                                            url: '/ajax/get_product_details',
+                                            data: {product_id: product_id}
+                                        })
+                                            .done(function (res) {
+                                                console.log(res);
+                                                var myNode;
+                                                if (product_select.id == "product") {
+                                                    myNode = document.getElementById("product_detail");
+                                                } else {
+                                                    myNode = document.getElementById(product_select.id + "_detail");
+                                                }
+                                                console.log(myNode);
+                                                myNode.innerHTML = '';
+                                                html = '<select class="form-control" id="' + product_select.id + '_detail_select" name="product_detail_id[]" onchange="product_detail_change(this)">';
+                                                html += '<option value=-1>請選擇產品</option>';
+                                                for (let [key, value] of Object.entries(res)) {
+                                                    html += '<option value=\"' + key + '\">' + value[0] + '</option>'
+                                                }
+                                                html += '</select>';
+                                                // console.log(myNode);
+                                                myNode.innerHTML = html;
+                                            })
+
+                                    }
+                                }
+
+                                function product_detail_change(product_detail_select) {
+                                    var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
+                                    //parent_node_id
+                                    var parent_node_id = product_detail_select.parentNode.id;
+                                    var product_select_id = product_detail_select.id.replace('_detail_select', '');
+                                    var product_select = document.getElementById(product_select_id);
+
+                                    var product_id = product_select.options[product_select.selectedIndex].value;
+
+                                    // console.log(parent_node_id);
+                                    if (product_detail_id > 0) {
+                                        $.ajax({
+                                            url: '/ajax/get_product_details_price',
+                                            data: {
+                                                product_detail_id: product_detail_id,
+                                                product_id: product_id,
+                                            }
+                                        })
+                                            .done(function (res) {
+                                                console.log(res);
+                                                var product_price_input;
+                                                if (parent_node_id == "product_detail") {
+                                                    product_price_input = document.getElementById("product_detail_price");
+                                                } else {
+                                                    product_price_input = document.getElementById(parent_node_id + "_price");
+                                                }
+                                                product_price_input.value = res['price'];
+
+                                                var product_ISBN_input;
+                                                if (parent_node_id == "product_detail") {
+                                                    product_ISBN_input = document.getElementById("product_detail_ISBN");
+                                                } else {
+                                                    product_ISBN_input = document.getElementById(parent_node_id + "_ISBN");
+                                                }
+                                                if (res['ISBN']) {
+                                                    product_ISBN_input.value = res['ISBN'];
+                                                }
+
+                                                computeSum();
+
+                                            })
+
+                                    }
+
+                                }
+
+                                function add_product() {
+                                    var count = document.getElementById("product_list_count").value;
+                                    count = parseInt(count);
+                                    count = count + 1;
+                                    document.getElementById("product_list_count").value = count;
+                                    const myNode = document.getElementById("product_list");
+                                    html = '<div id="product_list' + count + '">' +
+                                        '<a id="delete_product_list_btn" class="btn btn-link" onclick="delete_product(' + count + ')">\n' +
+                                        '                            <i class="glyphicon glyphicon-minus-sign"></i>\n' +
+                                        '                            delete product\n' +
+                                        '                        </a>' +
+                                        ' <div class="form-group">\n' +
+                                        '                                <div class="col-md-2 inputGroupContainer">\n' +
+                                        '                                    <label class="control-label">Product</label>\n' +
+                                        '                                    <div class="input-group">\n' +
+                                        '                                        <span class="input-group-addon"><i\n' +
+                                        '                                                class="glyphicon glyphicon-shopping-cart"></i></span>\n' +
+                                        '                                        <select name="product_id[]" \n' +
+                                        'id="product' + count + '"' +
+                                        '                                                onchange="product_change(this)">\n' +
+                                        '                                            <option value="-1">選擇產品</option>\n' +
+                                        '                                            @foreach($products as $product)\n' +
+                                        '                                                <option value="{{$product->id}}">{{$product->name}}</option>\n' +
+                                        '                                            @endforeach\n' +
+                                        '                                        </select>\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '                                <div class="col-md-2 inputGroupContainer">\n' +
+                                        '                                    <label class="control-label">Detail</label>\n' +
+                                        '                                    <div class="input-group">\n' +
+                                        '                                        <span class="input-group-addon"><i\n' +
+                                        '                                                class="glyphicon glyphicon-shopping-cart"></i></span>\n' +
+                                        '                                        <div id="product' + count + '_detail">\n' +
+                                        '                                            <select class="form-control" name="product_detail_id[]">\n' +
+                                        '                                                <option value="-1">選擇產品</option>\n' +
+                                        '                                            </select>\n' +
+                                        '                                        </div>\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '<div class="col-md-2 inputGroupContainer">\n' +
+                                        '                                    <label class="control-label">ISBN</label>\n' +
+                                        '                                    <div class="input-group">\n' +
+                                        '                                        <span class="input-group-addon"><i\n' +
+                                        '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                        '                                        <input type="text" class="form-control" name="isbn[]" disabled\n' +
+                                        '                                               id="product' + count + '_detail_ISBN">\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>' +
+                                        '                                <div class="col-md-2 inputGroupContainer">\n' +
+                                        '                                    <label class="control-label">Quantity</label>\n' +
+                                        '                                    <div class="input-group">\n' +
+                                        '                                        <span class="input-group-addon"><i\n' +
+                                        '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                        '                                        <input type="number" class="form-control" name="quantity[]" placeholder="請輸入數量" onchange="computeSum()">\n' +
+                                        '\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '                                <div class="col-md-2 inputGroupContainer">\n' +
+                                        '                                    <label class="control-label">Price</label>\n' +
+                                        '                                    <div class="input-group">\n' +
+                                        '                                        <span class="input-group-addon"><i\n' +
+                                        '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                        '                                        <input type="number" onchange="computeSum()" class="form-control" name="price[]" id="product' + count + '_detail_price">\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '<div class="col-md-2 inputGroupContainer">\n' +
+                                        '                                    <label class="control-label">規格</label>\n' +
+                                        '                                    <div class="input-group">\n' +
+                                        '                                        <span class="input-group-addon"><i\n' +
+                                        '                                                class="glyphicon glyphicon-list"></i></span>\n' +
+                                        '                                        <input type="text" class="form-control" name="spec_name[]">\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>' +
+                                        '                            </div>' +
+                                        '</div>';
+
+                                    $("#product_list").append(html);
+
+                                    var new_select_id = "#product" + count;
+                                    make_selectize(new_select_id);
+                                    computeSum();
+
+                                    // $("product_list").scrollTop = $("product_list").scrollHeight;
+
+                                }
+
+                                function make_selectize(id) {
+                                    console.log(id);
+                                    $(id).selectize({});
+                                    $("#product").selectize();
+                                }
+
+
+                                function delete_product(num) {
+                                    console.log(num);
+                                    // var count = document.getElementById("product_list_count").value;
+                                    // count = parseInt(count);
+                                    // document.getElementById("product_list_count").value = count - 1;
+                                    var id = "product_list" + num;
+                                    var node = document.getElementById(id);
+                                    node.remove();
+                                    computeSum();
+                                }
+
+
+                                function computeSum() {
+                                    var totalPirce = 0;
+                                    var input_all_qty = $('input[name="quantity[]"]');
+                                    var input_all_price = $('input[name="price[]"]');
+                                    for (var i = 0; i < input_all_qty.length; i++) {
+                                        if (input_all_qty[i].value) {
+                                            if (input_all_price[i].value) {
+                                                // console.log(input_all_qty[i].value);
+                                                // console.log(input_all_price[i].value);
+                                                totalPirce += input_all_qty[i].value * input_all_price[i].value;
+                                            }
+                                        }
+                                    }
+                                    $("#subtotal_price").text(totalPirce)
+                                    if ($("#shipping_fee").val()) {
+                                        totalPirce += parseInt($("#shipping_fee").val());
+                                        $("#shipping_fee_table").text($("#shipping_fee").val());
+                                    }
+                                    else{
+                                        $("#shipping_fee_table").text(0);
+
+                                    }
+                                    $("#total_price").text(totalPirce);
+                                }
+
+
+                            </script>
+
+
+                            <a id="add_product_btn" class="btn btn-link" onclick="add_product()">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                add product
+                            </a>
+
+                            <div id="product_list">
+                                <div class="form-group">
+                                    <div class="col-md-2 inputGroupContainer">
+                                        <label class="control-label">Product</label>
+                                        <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-shopping-cart"></i></span>
-                                        <div id="product_detail">
-                                            <select class="form-control" name="product_detail_id[]" id="product_detail_select">
+                                            <select id="product" name="product_id[]"
+                                                    onchange="product_change(this)">
                                                 <option value="-1">選擇產品</option>
+                                                @foreach($products as $product)
+                                                    <option value="{{$product->id}}">{{$product->name}}</option>
+                                                @endforeach
                                             </select>
+                                            <script>
+                                                $('#product').selectize({});
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 inputGroupContainer">
+                                        <label class="control-label">Detail</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-shopping-cart"></i></span>
+                                            <div id="product_detail">
+                                                <select class="form-control" name="product_detail_id[]"
+                                                        id="product_detail_select">
+                                                    <option value="-1">選擇產品</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 inputGroupContainer">
+                                        <label class="control-label">ISBN</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-list"></i></span>
+                                            <input type="text" class="form-control" name="isbn[]" disabled
+                                                   id="product_detail_ISBN">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 inputGroupContainer">
+                                        <label class="control-label">Quantity</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-list"></i></span>
+                                            <input type="number" class="form-control" name="quantity[]"
+                                                   placeholder="請輸入數量"
+                                                   onchange="computeSum()">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 inputGroupContainer">
+                                        <label class="control-label">Price</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-list"></i></span>
+                                            <input type="number" class="form-control" name="price[]"
+                                                   onchange="computeSum()"
+                                                   id="product_detail_price">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 inputGroupContainer">
+                                        <label class="control-label">規格</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-list"></i></span>
+                                            <input type="text" class="form-control" name="spec_name[]">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2 inputGroupContainer">
-                                    <label class="control-label">ISBN</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i
-                                                class="glyphicon glyphicon-list"></i></span>
-                                        <input type="text" class="form-control" name="isbn[]" disabled
-                                               id="product_detail_ISBN">
-                                    </div>
-                                </div>
-                                <div class="col-md-2 inputGroupContainer">
-                                    <label class="control-label">Quantity</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i
-                                                class="glyphicon glyphicon-list"></i></span>
-                                        <input type="number" class="form-control" name="quantity[]" placeholder="請輸入數量"
-                                               onchange="computeSum()">
+                            </div>
 
-                                    </div>
-                                </div>
-                                <div class="col-md-2 inputGroupContainer">
-                                    <label class="control-label">Price</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i
-                                                class="glyphicon glyphicon-list"></i></span>
-                                        <input type="number" class="form-control" name="price[]" onchange="computeSum()"
-                                               id="product_detail_price">
-                                    </div>
-                                </div>
-                                <div class="col-md-2 inputGroupContainer">
-                                    <label class="control-label">規格</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i
-                                                class="glyphicon glyphicon-list"></i></span>
-                                        <input type="text" class="form-control" name="spec_name[]">
-                                    </div>
+                            <div align="right">
+                                <table>
+                                    <tr>
+                                        <td>運費</td>
+                                        <td class="text-right"><span id="shipping_fee_table">0</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Subtotal</td>
+                                        <td class="text-right"><span id="subtotal_price">0</span></td>
+                                        <hr>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Total <br></td>
+                                        <td class="text-right">:&nbsp &nbsp &nbsp
+                                            &nbsp <span id="total_price"> 0 </span></td>
+                                    </tr>
+
+                                </table>
+
+
+                            </div>
+
+
+                        {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
+                        <!-- Button -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <a class="btn btn-danger" href="{{ old('redirect_to', URL::previous())}}">取消</a>
+                                    <button type="button" class="btn btn-success" onclick="createOrder()">新增(使用相同資訊)
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">新增</button>
                                 </div>
                             </div>
                         </div>
 
-                        <div align="right">
-                            <table>
-                                {{--                                            <tr>--}}
-                                {{--                                                <td>Subtotal</td>--}}
-                                {{--                                                <td class="text-right">{{$total_price}}</td>--}}
-                                {{--                                            </tr>--}}
-                                {{--                                            <tr style="border-bottom: 1px solid;">--}}
-                                {{--                                                <td>Discount</td>--}}
-                                {{--                                                <td class="text-right">{{round($order->discount)}}</td>--}}
-                                {{--                                            </tr>--}}
-                                <hr>
-                                <tr>
-                                    <td>Total <br></td>
-                                    <td class="text-right">:&nbsp &nbsp &nbsp
-                                        &nbsp <span id="total_price"> 0 </span></td>
-                                </tr>
+                </fieldset>
+            </form>
 
-                            </table>
-
-
-                        </div>
-
-
-                    {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
-                    <!-- Button -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"></label>
-                            <div class="col-md-4">
-                                <a class="btn btn-danger" href="{{ old('redirect_to', URL::previous())}}">取消</a>
-                                <button type="submit" class="btn btn-primary">新增</button>
-                            </div>
-                        </div>
-
-                    </fieldset>
-                </form>
-
-            </div>
+            {{--            </div>--}}
 
 
         </section>

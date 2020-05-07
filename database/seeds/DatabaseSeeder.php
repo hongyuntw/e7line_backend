@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
 //        $this->call(StatusTableSeeder::class);
         $this->call(WelfaresTableSeeder::class);
+
         $this->call(CustomersTableSeeder::class);
         $this->call(ConcatRecordsTableSeeder::class);
         $this->call(WelfareStatusTableSeeder::class);

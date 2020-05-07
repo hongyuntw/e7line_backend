@@ -13,6 +13,7 @@ use App\User;
 use App\Welfare;
 use App\WelfareStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Session;
@@ -34,7 +35,7 @@ class OrderController extends Controller
     public function index()
     {
         //
-        $orders = Order::paginate(15);
+        $orders = Order::where('is_deleted','=',0)->paginate(15);
         $data = [
             'orders' => $orders,
             'order_status_names' => self::$order_status_names,
@@ -93,13 +94,12 @@ class OrderController extends Controller
 //            'email'=>'required',
             'e7line_account' => 'required|not_in:-1',
             'e7line_name' => 'required',
-            'user_id' => 'required',
-            'status' => 'required',
             'payment_method' => 'required',
             'product_id.*' => 'required',
             'product_detail_id.*' => 'required',
             'quantity.*' => 'required',
             'price.*' => 'required',
+            'shipping_fee'=>'required',
         ];
 
         // conditional rules
@@ -188,11 +188,23 @@ class OrderController extends Controller
 //        dd($resp);
         return redirect()->back();
     }
-//
-//    public function get_code_from_select()
+
+//    public function get_code(int $order_id)
 //    {
 //
 //    }
+//
+    public function index_get_code(Request $request)
+    {
+
+    }
+
+
+    public function validate_order_form(Request $request)
+    {
+        return $this->validate($request, $this->rules($request));
+
+    }
 
 
 
@@ -209,7 +221,7 @@ class OrderController extends Controller
     {
         //
 //        dd($request);
-        $this->validate($request, $this->rules($request));
+//        $this->validate($request, $this->rules($request));
 
         $data = $request->all();
         $product_info = [
@@ -232,7 +244,7 @@ class OrderController extends Controller
         unset($data['quantity']);
         unset($data['price']);
         unset($data['spec_name']);
-
+        $data['user_id'] = Auth::user()->id;
         $order = Order::create($data);
 
 //  create order item
@@ -322,7 +334,7 @@ class OrderController extends Controller
     {
         //
 //        dd($request);
-        $this->validate($request, $this->rules($request));
+//        $this->validate($request, $this->rules($request));
 
         $data = $request->all();
         $product_info = [
@@ -443,6 +455,14 @@ class OrderController extends Controller
         $order->update_date = now();
         $order->update();
         return redirect()->back();
+    }
+
+    public function delete_backto_index(Order $order)
+    {
+        $order->is_deleted = 1;
+        $order->update_date = now();
+        $order->update();
+        return Redirect::route('orders.index');
     }
 
 

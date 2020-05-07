@@ -74,6 +74,7 @@ class CustomersController extends Controller
         $user_filter = 0;
         $search_type = 0;
         $search_info = '';
+        $query->where('is_deleted','=',0);
 
 
 //        dd($query);
@@ -351,6 +352,17 @@ class CustomersController extends Controller
 
     public function delete(Customer $customer)
     {
+//        dd($customer);
+        $customer->is_deleted = 1;
+        $customer->delete_time = now();
+        $customer->update();
+
+        return redirect()->back();
+    }
+
+    public function delete_back_to_index(Customer $customer)
+    {
+        dd($customer);
         $customer->is_deleted = 1;
         $customer->delete_time = now();
         $customer->update();

@@ -41,7 +41,12 @@ class ProductController extends Controller
         $rules = [
             'product_id' => 'required',
             'product_detail_id.*' =>'required',
+            'price.*' => 'required',
         ];
+
+//        to array
+        $product_detail_ids = array($request->input('product_detail_id'));
+
 
         // conditional rules
         if ($request->input('product_id') == -1) {
@@ -50,7 +55,7 @@ class ProductController extends Controller
 
 //        dump($request->input('product_detail_id'));
 
-        for($i = 0; $i< count($request->input('product_detail_id')); $i++){
+        for($i = 0; $i< count($product_detail_ids); $i++){
             if($request->input('product_detail_id')[$i]==-1){
                 $str = 'product_detail.' . $i;
                 $rules[$str] = 'required';
@@ -78,6 +83,9 @@ class ProductController extends Controller
         //
 //        dd($request);
 //        dd($this->validate($request, $this->rules($request)));
+//        $this->validate($request,[
+//            'product_price.*'=>'required',
+//        ]);
 
         if($request->input('product_id') == -1){
             $product = Product::create([
@@ -196,6 +204,9 @@ class ProductController extends Controller
                 $msg .= '
                 價錢輸入錯誤';
             }
+        }
+        else{
+            $msg .= '需要輸入商品價格';
         }
 
         if($msg==''){

@@ -219,9 +219,11 @@
 
                                 @if($customer->user_id==Auth::user()->id or Auth::user()->level==2)
 
-                                    <form action="{{ route('customers.delete', $customer->id) }}" method="post"
+                                    <form action="{{route('customers.delete_back_to_index',$customer->id)}}" method="post"
                                           style="display: inline-block">
                                         @csrf
+{{--                                        <a href="{{route('customers.delete_back_to_index',$customer->id)}}">123213</a>--}}
+{{--                                        {{$customer->is_deleted}}--}}
                                         <button type="submit" class="btn btn-danger"
                                                 onclick="return confirm('確定是否刪除')">刪除
                                         </button>

@@ -23,32 +23,79 @@
 
 
             <!--------------------------
-              | Your Page Content Here |
-              -------------------------->
-            <div class="container">
-                <form class="well form-horizontal" action="{{route('orders.update',$order->id)}}" method="post"
-                      id="contact_form">
-                    @csrf
-                    @method('PATCH')
+                      | Your Page Content Here |
+                      -------------------------->
+            {{--        <div class="container">--}}
+            <script>
+                {{--                do validate--}}
+                function mySubmit(form) {
+                    var result = function () {
+                        var tmp = null;
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: '{{route('orders.validate_order_form')}}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                            },
+                            data: $("#order_form").serialize(),
+                            success: function (msg) {
+                                // console.log("success");
+                                tmp = true;
+                                // console.log(tmp);
+
+                            },
+                            error: function (data) {
+                                var errors = data.responseJSON;
+                                // console.log(errors);
+                                var msg = '';
+                                for (let [key, value] of Object.entries(errors.errors)) {
+                                    msg += value;
+                                    msg += '\n';
+                                }
+                                alert(msg);
+                                tmp = false;
+                                // console.log(tmp);
+                            }
+                        });
+                        return tmp;
+                    }();
+                    console.log("test result is");
+                    if (result) {
+                        return true;
+                    } else {
+                        return false;
+
+                    }
+                }
 
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
-                            請修正以下表單錯誤：
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    <fieldset>
+            </script>
+            <form class="form-horizontal" action="{{route('orders.update',$order->id)}}" method="post"
+                  id="order_form" onsubmit="return mySubmit(this);">
+                @csrf
+                {{--                @method('PATCH')--}}
+
+
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
+                        請修正以下表單錯誤：
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <fieldset>
+                    <h4>訂購基本資訊</h4>
+                    <div class="container well">
                         <div class="form-group">
-                            <div class="col-md-3 inputGroupContainer">
+                            <div class="col-md-4 inputGroupContainer">
                                 <label class=" control-label">公司名稱</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -64,6 +111,12 @@
                                             >{{$customer->name}}</option>
                                         @endforeach
                                     </select>
+                                    <input type="text" class="form-control" id="other_customer_name"
+                                           name="other_customer_name" placeholder="非客戶名單之補充"
+                                           @if($order->customer)
+                                           disabled
+                                           @endif
+                                           value="{{ old('other_name',$order->other_customer_name) }}">
 
                                     {{--                                    ajax get customer concat person and control disabled field--}}
                                     <script>
@@ -119,43 +172,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">公司名稱</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="other_customer_name"
-                                           name="other_customer_name" placeholder="非客戶名單之補充"
-                                           @if($order->customer)
-                                           disabled
-                                           @endif
-                                           value="{{ old('other_name',$order->other_customer_name) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">抬頭</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" id="title"
-                                           name="title" placeholder="抬頭"
-                                           value="{{ old('title',$order->title) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">訂購目的</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <select name="welfare_id" class="form-control">
-                                        @foreach($welfares as $welfare)
-                                            <option @if($welfare->id==$order->welfare->id)selected
-                                                    @endif value="{{$welfare->id}}">{{$welfare->welfare_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-3 inputGroupContainer">
+                            <div class="col-md-4 inputGroupContainer">
                                 <label class=" control-label">訂購窗口</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -178,26 +195,36 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        <input type="text" class="form-control" name="other_concat_person_name"
+                                               placeholder="非名單內補充" id="other_concat_person_input"
+                                               @if($order->business_concat_person)
+                                               disabled
+                                               @endif
+                                               value="{{ old('other_concat_person_name',$order->other_concat_person_name) }}">
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="col-md-3 inputGroupContainer">
-                                <label class=" control-label">訂購窗口</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <label class="control-label">e7line帳號</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="text" class="form-control" name="other_concat_person_name"
-                                           placeholder="非名單內補充" id="other_concat_person_input"
-                                           @if($order->business_concat_person)
-                                           disabled
-                                           @endif
-                                           value="{{ old('other_concat_person_name',$order->other_concat_person_name) }}">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" name="e7line_account"
+                                           placeholder="輸入account"
+                                           value="{{ old('e7line_account',$order->e7line_account) }}">
+                                    <input type="text" class="form-control" name="e7line_name"
+                                           placeholder="e7line姓名"
+                                           value="{{ old('e7line_name',$order->e7line_name) }}">
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-3 inputGroupContainer">
                                 <label class="control-label">電話</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-earphone"></i></span>
                                     <input type="text" class="form-control" name="phone_number"
                                            placeholder="phone number"
                                            value="{{ old('phone_number',$order->phone_number) }}">
@@ -206,76 +233,58 @@
                             <div class="col-md-3 inputGroupContainer">
                                 <label class="control-label">信箱</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-envelope"></i></span>
                                     <input type="text" class="form-control" name="email" placeholder="email"
                                            value="{{ old('email',$order->email) }}">
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">e7line帳號</label>
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class=" control-label">訂購目的</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input type="text" class="form-control" name="e7line_account"
-                                           placeholder="輸入account"
-                                           value="{{ old('e7line_account',$order->e7line_account) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">e7line姓名</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                                    <input type="text" class="form-control" name="e7line_name" placeholder="e7line姓名"
-                                           value="{{ old('e7line_name',$order->e7line_name) }}">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">負責業務</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <select id="user_id" name="user_id" class="form-control">
-                                        @foreach($users as $user)
-                                            @if($user->is_left==0)
-                                                <option
-                                                    @if($order->user->id==$user->id)
-                                                    selected
-                                                    @endif
-                                                    value="{{$user->id}}">{{$user->name}}</option>
-                                            @endif
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class="control-label">狀態</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                                    <select name="status" class="form-control">
-                                        @foreach($order_status_names as $status_name)
-                                            <option @if($order->status==$loop->index) selected
-                                                    @endif value="{{$loop->index}}">{{$status_name}}</option>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <select name="welfare_id" class="form-control">
+                                        @foreach($welfares as $welfare)
+                                            <option @if($welfare->id==$order->welfare->id)selected
+                                                    @endif value="{{$welfare->id}}">{{$welfare->welfare_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </fieldset>
 
 
+                <!-- Text input-->
+                <fieldset>
+                    <h4>收貨/付款資訊</h4>
+
+                    <div class="container well">
+
+                        <!-- Text input-->
                         <div class="form-group">
-                            <div class="col-md-8 inputGroupContainer">
+                            <div class="col-md-6 inputGroupContainer">
                                 <label class="control-label">收貨地址</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                            <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-home"></i></span>
                                     <input type="text" class="form-control" id="ship_to" name="ship_to"
                                            placeholder="請輸入收貨地址" value="{{ old('ship_to',$order->ship_to) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6 inputGroupContainer">
+                                <label class=" control-label">收貨日期</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-menu-right"></i></span>
+                                    <input type="date" class="form-control" name="receive_date"
+                                           @if($order->receive_date)
+                                           @php($receive_date = date("Y-m-d", strtotime($order->receive_date)))
+                                           @else
+                                           @php($receive_date = null)
+                                           @endif
+                                           value="{{ old('receive_date',$receive_date) }}">
                                 </div>
                             </div>
                         </div>
@@ -291,7 +300,6 @@
                                     } else {
                                         document.getElementById("payment_account").disabled = true;
                                         document.getElementById("last_five_nums").disabled = true;
-                                        // document.getElementById("swift_code").disabled = true;
                                     }
 
                                 }
@@ -299,7 +307,8 @@
                             <div class="col-md-3 inputGroupContainer">
                                 <label class="control-label">付款方式</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-lock"></i></span>
                                     <select name="payment_method" class="form-control"
                                             onchange="payment_method_change(this)">
                                         @foreach($payment_method_names as $payment_method_name)
@@ -312,12 +321,17 @@
                             <div class="col-md-3 inputGroupContainer">
                                 <label class="control-label">匯款帳戶</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-lock"></i></span>
                                     <select @if($order->payment_method!=0) disabled @endif class="form-control"
                                             name="payment_account" id="payment_account">
-                                        <option @if($order->payment_account=="公司帳戶") selected @endif value="公司帳戶">公司帳戶
+                                        <option @if($order->payment_account=="公司帳戶") selected
+                                                @endif value="公司帳戶">
+                                            公司帳戶
                                         </option>
-                                        <option @if($order->payment_account=="業務帳戶") selected @endif value="業務帳戶">業務帳戶
+                                        <option @if($order->payment_account=="業務帳戶") selected
+                                                @endif value="業務帳戶">
+                                            業務帳戶
                                         </option>
                                     </select>
                                 </div>
@@ -325,7 +339,8 @@
                             <div class="col-md-3 inputGroupContainer">
                                 <label class="control-label">後五碼</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-lock"></i></span>
                                     <input @if($order->payment_method!=0) disabled @endif type="text"
                                            class="form-control" id="last_five_nums"
                                            name="last_five_nums"
@@ -334,18 +349,6 @@
                                 </div>
                             </div>
                             <div class="col-md-3 inputGroupContainer">
-                                <label class="control-label">運費</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                                    <input type="number" class="form-control" id="shipping_fee"
-                                           name="shipping_fee"
-                                           placeholder="請輸入運費" value="{{ old('shipping_fee',$order->shipping_fee) }}">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-4 inputGroupContainer">
                                 <label class=" control-label">付款日期</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
@@ -359,54 +362,48 @@
                                            value="{{ old('payment_date',$payment_date) }}">
                                 </div>
                             </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class=" control-label">收貨日期</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-menu-right"></i></span>
-                                    <input type="date" class="form-control" name="receive_date"
-                                           @if($order->receive_date)
-                                           @php($receive_date = date("Y-m-d", strtotime($order->receive_date)))
-                                           @else
-                                           @php($receive_date = null)
-                                           @endif
-                                           value="{{ old('receive_date',$receive_date) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class=" control-label">最遲到貨日期</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-menu-right"></i></span>
-                                    <input type="date" class="form-control" name="latest_arrival_date"
-                                           @if($order->latest_arrival_date)
-                                           @php($latest_arrival_date = date("Y-m-d", strtotime($order->latest_arrival_date)))
-                                           @else
-                                           @php($latest_arrival_date = null)
-                                           @endif
-                                           value="{{ old('latest_arrival_date',$latest_arrival_date) }}">
-                                </div>
-                            </div>
                         </div>
+                    </div>
+                </fieldset>
 
+                <fieldset>
+                    <h4>訂購資訊</h4>
+
+                    <div class="container well">
                         <div class="form-group">
 
-                            <div class="col-md-4 inputGroupContainer">
-                                <label class=" control-label">統編</label>
+                            <div class="col-md-3 inputGroupContainer">
+                                <label class=" control-label">統編及抬頭</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-lock"></i></span>
                                     <input type="text" class="form-control" id="tax_id" name="tax_id"
-                                           placeholder="請輸入統編，一組以上請打在備註"
+                                           placeholder="請輸入統編"
                                            value="{{ old('tax_id',$order->tax_id) }}">
+                                    <input type="text" class="form-control" id="title"
+                                           name="title" placeholder="若為現金卷請輸入抬頭"
+                                           value="{{ old('title',$order->title) }}">
                                 </div>
-
                             </div>
                             <div class="col-md-4 inputGroupContainer">
                                 <label class="control-label">備註</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <textarea rows="3" class="form-control" id="note" name="note" placeholder="請輸入備註"
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-pencil"></i></span>
+                                    <textarea rows="3" class="form-control" id="note" name="note"
+                                              placeholder="請輸入備註"
                                     >{{ old('note',$order->note) }}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4 inputGroupContainer">
+                                <label class="control-label">運費</label>
+                                <div class="input-group">
+                                            <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-usd"></i></span>
+                                    <input type="number" class="form-control" id="shipping_fee"
+                                           name="shipping_fee"
+                                           placeholder="請輸入運費" onchange="computeSum()"
+                                           value="{{ old('shipping_fee',$order->shipping_fee) }}">
                                 </div>
                             </div>
                         </div>
@@ -435,7 +432,7 @@
                                             }
                                             console.log(myNode);
                                             myNode.innerHTML = '';
-                                            html = '<select class="form-control" id="'+product_select.id+'_detail_select" name="product_detail_id[]" onchange="product_detail_change(this)">';
+                                            html = '<select class="form-control" id="' + product_select.id + '_detail_select" name="product_detail_id[]" onchange="product_detail_change(this)">';
                                             html += '<option value=-1>請選擇產品</option>';
                                             for (let [key, value] of Object.entries(res)) {
                                                 html += '<option value=\"' + key + '\">' + value[0] + '</option>'
@@ -539,9 +536,9 @@
                                     '                                        <span class="input-group-addon"><i\n' +
                                     '                                                class="glyphicon glyphicon-list"></i></span>\n' +
                                     '                                        <input type="text" class="form-control" name="isbn[]" disabled\n' +
-                                    '                                               id="product'+count+'_detail_ISBN">\n' +
+                                    '                                               id="product' + count + '_detail_ISBN">\n' +
                                     '                                    </div>\n' +
-                                    '                                </div>'+
+                                    '                                </div>' +
                                     '                                <div class="col-md-2 inputGroupContainer">\n' +
                                     '                                    <label class="control-label">Quantity</label>\n' +
                                     '                                    <div class="input-group">\n' +
@@ -566,7 +563,7 @@
                                     '                                                class="glyphicon glyphicon-list"></i></span>\n' +
                                     '                                        <input type="text" class="form-control" name="spec_name[]">\n' +
                                     '                                    </div>\n' +
-                                    '                                </div>'+
+                                    '                                </div>' +
                                     '                            </div>' +
                                     '</div>';
 
@@ -574,6 +571,9 @@
                                 var new_select_id = "#product" + count;
                                 make_selectize(new_select_id);
                                 computeSum();
+                                // window.scrollTo(0,$("product_list").scrollHeight);
+                                // $("product_list").scrollTop = $("product_list").scrollHeight;
+
 
                             }
 
@@ -608,6 +608,15 @@
                                         }
                                     }
                                 }
+                                $("#subtotal_price").text(totalPirce)
+                                if ($("#shipping_fee").val()) {
+                                    totalPirce += parseInt($("#shipping_fee").val());
+                                    $("#shipping_fee_table").text($("#shipping_fee").val());
+                                }
+                                else{
+                                    $("#shipping_fee_table").text(0);
+
+                                }
                                 $("#total_price").text(totalPirce);
                             }
 
@@ -636,7 +645,8 @@
                                 <div id="product_list">
                                     @else
                                         <div id="product_list{{$loop->index+1}}">
-                                            <a class="btn btn-link" onclick="delete_product({{$loop->index+1}})">
+                                            <a class="btn btn-link"
+                                               onclick="delete_product({{$loop->index+1}})">
                                                 <i class="glyphicon glyphicon-minus-sign"></i>
                                             </a>
                                             @endif
@@ -667,7 +677,8 @@
                                                             <span class="input-group-addon"><i
                                                                     class="glyphicon glyphicon-shopping-cart"></i></span>
                                                         <div id="{{$product_var}}_detail">
-                                                            <select class="form-control" name="product_detail_id[]"
+                                                            <select class="form-control"
+                                                                    name="product_detail_id[]"
                                                                     id="{{$product_var}}_detail_select"
                                                                     onchange="product_detail_change(this)">
                                                                 <option value="-1">選擇產品</option>
@@ -688,7 +699,8 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><i
                                                                 class="glyphicon glyphicon-list"></i></span>
-                                                        <input type="text" class="form-control" name="isbn[]" disabled
+                                                        <input type="text" class="form-control" name="isbn[]"
+                                                               disabled
                                                                id="{{$product_var}}_detail_ISBN"
                                                                value="{{($order_item->product_relation->ISBN)}}">
                                                     </div>
@@ -698,7 +710,8 @@
                                                     <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                     class="glyphicon glyphicon-list"></i></span>
-                                                        <input type="number" class="form-control" name="quantity[]"
+                                                        <input type="number" class="form-control"
+                                                               name="quantity[]"
                                                                onchange="computeSum()"
                                                                placeholder="請輸入數量"
                                                                value="{{old('quantity['.($loop->index+1).']',$order_item->quantity)}}">
@@ -721,7 +734,8 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><i
                                                                 class="glyphicon glyphicon-list"></i></span>
-                                                        <input type="text" class="form-control" name="spec_name[]"
+                                                        <input type="text" class="form-control"
+                                                               name="spec_name[]"
                                                                value="{{old('spec_name['.($loop->index+1).']',$order_item->spec_name)}}">
                                                     </div>
                                                 </div>
@@ -731,15 +745,16 @@
                                         @endforeach
                                         <div align="right">
                                             <table>
-                                                {{--                                            <tr>--}}
-                                                {{--                                                <td>Subtotal</td>--}}
-                                                {{--                                                <td class="text-right">{{$total_price}}</td>--}}
-                                                {{--                                            </tr>--}}
-                                                {{--                                            <tr style="border-bottom: 1px solid;">--}}
-                                                {{--                                                <td>Discount</td>--}}
-                                                {{--                                                <td class="text-right">{{round($order->discount)}}</td>--}}
-                                                {{--                                            </tr>--}}
-                                                <hr>
+                                                <tr>
+                                                    <td>運費</td>
+                                                    <td class="text-right"><span id="shipping_fee_table">0</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Subtotal</td>
+                                                    <td class="text-right"><span id="subtotal_price">0</span></td>
+                                                    <hr>
+
+                                                </tr>
                                                 <tr>
                                                     <td>Total <br></td>
                                                     <td class="text-right">:&nbsp &nbsp &nbsp
@@ -747,6 +762,7 @@
                                                 </tr>
 
                                             </table>
+
 
 
                                         </div>
@@ -763,13 +779,17 @@
                                             </div>
                                         </div>
 
-                    </fieldset>
-                </form>
-            </div>
+                                </div>
+                    </div>
+
+
+                </fieldset>
+            </form>
+            {{--    </div>--}}
 
 
         </section>
         <!-- /.content -->
-    </div>
+    {{--    </div>--}}
     <!-- /.content-wrapper -->
 @endsection

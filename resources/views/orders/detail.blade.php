@@ -274,9 +274,10 @@
 
                                     @if( Auth::user()->level==2)
 
-                                        <form action="{{ route('orders.delete', $order->id) }}" method="post"
+                                        <form action="{{ route('orders.delete_backto_index', $order->id) }}" method="post"
                                               style="display: inline-block">
                                             @csrf
+                                            {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
                                             <button type="submit" class="btn btn-danger"
                                                     onclick="return confirm('確定是否刪除')">刪除
                                             </button>
@@ -284,20 +285,22 @@
                                     @endif
 
                                     <div align="right">
+
                                         <table>
-                                            {{--                                            <tr>--}}
-                                            {{--                                                <td>Subtotal</td>--}}
-                                            {{--                                                <td class="text-right">{{$total_price}}</td>--}}
-                                            {{--                                            </tr>--}}
-                                            {{--                                            <tr style="border-bottom: 1px solid;">--}}
-                                            {{--                                                <td>Discount</td>--}}
-                                            {{--                                                <td class="text-right">{{round($order->discount)}}</td>--}}
-                                            {{--                                            </tr>--}}
-                                            <hr>
+                                            <tr>
+                                                <td>運費</td>
+                                                <td class="text-right"><span id="shipping_fee_table">{{round($order->shipping_fee)}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Subtotal</td>
+                                                <td class="text-right"><span id="subtotal_price">{{$total_price}}</span></td>
+                                                <hr>
+
+                                            </tr>
                                             <tr>
                                                 <td>Total <br></td>
                                                 <td class="text-right">:&nbsp &nbsp &nbsp
-                                                    &nbsp{{$total_price-round($order->discount)}}</td>
+                                                    &nbsp <span id="total_price">{{round($total_price+$order->shipping_fee)}}</span></td>
                                             </tr>
 
                                         </table>

@@ -160,9 +160,10 @@
                     <fieldset>
                         <div class="form-group">
                             <div class="col-md-6 inputGroupContainer">
-                                <label class=" control-label">請選擇公司</label>
+                                <label class=" control-label">請選擇分類</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-shopping-cart"></i></span>
                                     <select id="product" name="product_id" onchange="product_change(this)">
                                         <option value="-1">無</option>
                                         @foreach($products as $product)
@@ -179,7 +180,8 @@
                                 <a onclick="add_detail_field()"><i class="glyphicon glyphicon-plus-sign"></i></a>
                                 <a onclick="delete_detail_field()"><i class="glyphicon glyphicon-minus-sign"></i></a>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-shopping-cart"></i></span>
                                     <select id="1detail_select" onchange="product_detail_change(this)"
                                             name="product_detail_id[]">
                                         <option value="-1">新增項目(輸入在下方)</option>
@@ -210,10 +212,13 @@
                             <br>
 
 
+                            {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
+
+
                         </div>
                         <div class="col-md-12 text-center">
                             {{--                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;--}}
-                            <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
+                            <a class="btn btn-danger" href="{{ old('redirect_to', URL::previous())}}">取消</a>
                             {{--                        <button onclick="add_product_validate()" type="button" class="btn-primary btn">確認送出</button>--}}
                             <button type="submit" class="btn btn-primary">確認送出</button>
                         </div>

@@ -145,7 +145,7 @@
                                     }
                                     $.ajax({
                                         type: "POST",
-                                        url: '/ajax/get_code',
+                                        url: '',
                                         headers: {
                                             'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                         },
