@@ -89,7 +89,7 @@ class OrderController extends Controller
         $rules = [
             'customer_id' => 'required',
             'welfare_id' => 'required',
-            'business_concat_person_id' => 'required',
+//            'business_concat_person_id' => 'required',
 //            'phone_number'=>'required',
 //            'email'=>'required',
             'e7line_account' => 'required|not_in:-1',
