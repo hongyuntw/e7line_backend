@@ -15,7 +15,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{route('orders.index')}}"><i class="fa fa-shopping-bag"></i> 交易狀況</a></li>
-                <li class="active">交易詳細</li>
+                <li class="active">訂單詳細</li>
             </ol>
         </section>
 
@@ -42,24 +42,21 @@
 
                                 <div id="Customer">
                                     <h4 class="text-center">
-                                        <label style="font-size: medium">Order Detail</label>
+                                        <label style="font-size: medium">訂單基本資訊</label>
                                     </h4>
                                 </div>
+
+
+
 
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 10%;">訂單編號</th>
-
                                         <th class="text-center" style="width: 20%;">客戶名稱</th>
-                                        <th class="text-center" style="width: 20%;">抬頭</th>
-
-                                        <th class="text-center" style="width: 10%;">訂購窗口</th>
-                                        <th class="text-center" style="width: 10%;">負責業務</th>
-                                        <th class="text-center" style="width: 10%;">日期</th>
                                         <th class="text-center" style="width: 5%;">狀態</th>
+                                        <th class="text-center" style="width: 10%;">建立日期</th>
                                         <th class="text-center" style="width: 5%;">目的</th>
-
 
                                     </tr>
                                     </thead>
@@ -78,23 +75,6 @@
                                                 {{$order->other_customer_name}}
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            @if($order->title)
-                                                {{$order->title}}
-                                            @else
-                                                -
-                                            @endif
-
-
-                                        </td>
-                                        <td class="text-center">
-                                            @if($order->business_concat_person){{$order->business_concat_person->name}}
-                                            @else {{$order->other_concat_person_name}}
-                                            @endif</td>
-                                        <td class="text-center">{{$order->user->name}}</td>
-                                        <td class="text-center">{{$order->create_date}}</td>
-
-
                                         @switch($order->status)
                                             @case(0)
                                             @php($css='label label-danger')
@@ -117,10 +97,32 @@
                                         <td><label
                                                 class="label{{$css}}"
                                                 style="min-width:40px;display: inline-block">{{ $order_status_names[$order->status] }}</label>
-
+                                        <td class="text-center">{{$order->create_date}}</td>
                                         <td class="text-center">{{$order->welfare->welfare_name}}</td>
+                                    </tr>
+                                </table>
+                                <table class="table table-striped" style="width: 100%">
+                                    <thead style="background-color: lightgray">
+                                    <tr class="text-center">
+                                        <th class="text-center" style="width: 10%;">訂購窗口</th>
+                                        <th class="text-center" style="width: 10%;">Email</th>
+                                        <th class="text-center" style="width: 10%;">Phone</th>
+                                        <th class="text-center" style="width: 10%;">負責業務</th>
+                                        <th class="text-center" style="width: 10%;">e7line帳戶資訊</th>
 
 
+
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="text-center">
+                                            @if($order->business_concat_person){{$order->business_concat_person->name}}
+                                            @else {{$order->other_concat_person_name}}
+                                            @endif</td>
+                                        <td class="text-center">{{$order->email}}</td>
+                                        <td class="text-center">{{$order->phone_number}}</td>
+                                        <td class="text-center">{{$order->user->name}}</td>
+                                        <td class="text-center">{{$order->e7line_account}}<br>{{$order->e7line_name}}</td>
                                     </tr>
                                 </table>
 
@@ -138,30 +140,24 @@
 
                             <div class="box-body">
                                 <h4 class="text-center">
-                                    <label style="font-size: medium">Order Note</label>
+                                    <label style="font-size: medium">收貨/付款資訊</label>
                                 </h4>
+
+
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
-                                        <th class="text-center" style="width: 10%;">Email</th>
-                                        <th class="text-center" style="width: 10%;">Phone</th>
-                                        <th class="text-center" style="width: 10%;">統編</th>
+
                                         <th class="text-center" style="width: 10%;">收件地址</th>
-                                        <th class="text-center" style="width: 10%;">最遲到貨</th>
                                         <th class="text-center" style="width: 10%;">收件日期</th>
 
 
                                     </tr>
                                     </thead>
                                     <tr>
-                                        <td class="text-center">{{$order->email}}</td>
-                                        <td class="text-center">{{$order->phone_number}}</td>
-                                        <td class="text-center">{{$order->tax_id}}</td>
+
                                         <td class="text-center">{{$order->ship_to}}</td>
-                                        <td class="text-center">
-                                            @if($order->latest_arrival_date){{$order->latest_arrival_date}}
-                                            @else -
-                                            @endif </td>
+
                                         <td class="text-center">
                                             @if($order->receive_date){{$order->receive_date}}
                                             @else -
@@ -169,32 +165,21 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <br>
-                                <h4 class="text-center">
-                                    <label style="font-size: medium">Payment</label>
-                                </h4>
-
                                 <table class="table table-striped" style="width: 100%">
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 10%;">付款方式</th>
-                                        <th class="text-center" style="width: 10%;">付款時間</th>
-                                        <th class="text-center" style="width: 10%;">付款帳戶資訊</th>
+                                        <th class="text-center" style="width: 10%;">匯款帳戶</th>
                                         <th class="text-center" style="width: 10%;">後五碼</th>
-                                        <th class="text-center" style="width: 10%;">備註</th>
-                                        <th class="text-center" style="width: 10%;">運費</th>
-
+                                        <th class="text-center" style="width: 10%;">付款時間</th>
 
                                     </tr>
                                     </thead>
                                     <tr>
                                         <td class="text-center">{{$payment_method_names[$order->payment_method]}}</td>
-                                        <td class="text-center">{{$order->payment_date}}</td>
                                         <td class="text-center">{{$order->payment_account}}</td>
                                         <td class="text-center">{{$order->last_five_nums}}</td>
-                                        <td class="text-center">{{$order->note}}</td>
-                                        <td class="text-center">{{round($order->shipping_fee)}}</td>
-
+                                        <td class="text-center">{{$order->payment_date}}</td>
 
                                     </tr>
                                 </table>
@@ -216,9 +201,32 @@
                                 <div class="box-body">
                                     <div id="Development_Record">
                                         <h4 class="text-center">
-                                            <label style="font-size: medium">Order items</label>
+                                            <label style="font-size: medium">訂購資訊</label>
                                         </h4>
                                     </div>
+                                    <table class="table table-striped" style="width: 100%">
+                                        <thead style="background-color: lightgray">
+                                        <tr class="text-center">
+                                            <th class="text-center" style="width: 33%;">統編</th>
+                                            <th class="text-center" style="width: 33%;">抬頭</th>
+                                            <th class="text-center" style="width: 33%;">備註</th>
+
+
+
+                                        </tr>
+                                        </thead>
+                                        <tr>
+                                            <td class="text-center">{{$order->tax_id}}</td>
+                                            <td class="text-center">
+                                                @if($order->title)
+                                                    {{$order->title}}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td class="text-center">{{$order->note}}</td>
+                                        </tr>
+                                    </table>
 
 
                                     <table class="table table-striped" width="100%">
@@ -274,7 +282,8 @@
 
                                     @if( Auth::user()->level==2)
 
-                                        <form action="{{ route('orders.delete_backto_index', $order->id) }}" method="post"
+                                        <form action="{{ route('orders.delete_backto_index', $order->id) }}"
+                                              method="post"
                                               style="display: inline-block">
                                             @csrf
                                             {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
@@ -289,18 +298,23 @@
                                         <table>
                                             <tr>
                                                 <td>運費</td>
-                                                <td class="text-right"><span id="shipping_fee_table">{{round($order->shipping_fee)}}</span></td>
+                                                <td class="text-right"><span
+                                                        id="shipping_fee_table">{{round($order->shipping_fee)}}</span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Subtotal</td>
-                                                <td class="text-right"><span id="subtotal_price">{{$total_price}}</span></td>
+                                                <td class="text-right"><span id="subtotal_price">{{$total_price}}</span>
+                                                </td>
                                                 <hr>
 
                                             </tr>
                                             <tr>
                                                 <td>Total <br></td>
                                                 <td class="text-right">:&nbsp &nbsp &nbsp
-                                                    &nbsp <span id="total_price">{{round($total_price+$order->shipping_fee)}}</span></td>
+                                                    &nbsp <span
+                                                        id="total_price">{{round($total_price+$order->shipping_fee)}}</span>
+                                                </td>
                                             </tr>
 
                                         </table>

@@ -240,6 +240,8 @@ class OrderItemController extends Controller
                 $order_item->update_date = now();
                 $order_item->update();
 
+//                把訂單從為處理=>處理中
+
 //              如果此筆大訂單之所有商品都已完成，訂單狀態自動變成完成
                 $order = $order_item->order;
                 $order_items = $order->order_items;
@@ -250,13 +252,19 @@ class OrderItemController extends Controller
                         break;
                     }
                 }
+                if($order->status == 0){
+                    $order->status = 1;
+                    $order->update();
+                }
                 if($all_success_flag){
                     $order->status = 2;
                     $order->update();
                 }
 
+
             }
         }
         return "success";
+
     }
 }

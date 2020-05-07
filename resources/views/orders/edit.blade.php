@@ -573,6 +573,10 @@
                                 computeSum();
                                 // window.scrollTo(0,$("product_list").scrollHeight);
                                 // $("product_list").scrollTop = $("product_list").scrollHeight;
+                                window.scrollTo({
+                                    top: document.body.scrollHeight-400,
+                                    behavior: "smooth"
+                                });
 
 
                             }

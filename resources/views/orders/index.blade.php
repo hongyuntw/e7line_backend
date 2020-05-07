@@ -165,12 +165,13 @@
                                 <tr>
                                     <th style="width:3%"></th>
                                     <th class="text-center" style="width:15%">Order</th>
-                                    <th class="text-center" style="width:10%">建單日期</th>
                                     <th class="text-center" style="width:20%">Customer</th>
-                                    <th class="text-center" style="width:20%">Ship to</th>
+                                    <th class="text-center" style="width:8%">統編</th>
                                     <th class="text-center" style="width:8%">Sales</th>
                                     <th class="text-center" style="width:5%">Status</th>
                                     <th class="text-center" style="width:5%">Amount</th>
+                                    <th class="text-center" style="width:10%">建單日期</th>
+                                    <th class="text-center" style="width:10%">收貨日期</th>
                                     <th class="text-center" style="width:20%">Other</th>
                                 </tr>
                                 </thead>
@@ -204,7 +205,6 @@
                                                 no email
                                             @endif
                                         </td>
-                                        <td class="text-left">{{date("Y-m-d", strtotime($order->create_date))}}</td>
                                         <td>
                                             @if($order->customer)
                                                 {{$order->customer->name}}
@@ -212,7 +212,7 @@
                                                 {{$order->other_customer_name}}
                                             @endif
                                         </td>
-                                        <td class="text-left">{{ ($order->ship_to)}}</td>
+                                        <td class="text-left">{{ ($order->tax_id)}}</td>
                                         <td>
                                             {{$order->user->name}}
                                         </td>
@@ -241,6 +241,14 @@
                                                 style="min-width:60px;display: inline-block">{{ $order_status_names[$order->status] }}</label>
 
                                         <td>{{round($order->amount)}}</td>
+                                        <td class="text-center">{{date("Y-m-d", strtotime($order->create_date))}}</td>
+                                        <td class="text-center">
+                                            @if($order->receive_date){{date("Y-m-d", strtotime($order->receive_date))}}@else
+                                                -
+                                            @endif
+                                        </td>
+
+
                                         <td>
                                             <script>
                                                 function order_edit(order_id) {

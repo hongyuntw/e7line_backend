@@ -609,6 +609,12 @@
                                     var new_select_id = "#product" + count;
                                     make_selectize(new_select_id);
                                     computeSum();
+                                    // var element = document.getElementById("order_dynamic_field");
+                                    // element.scrollTop = element.scrollHeight;
+                                    window.scrollTo({
+                                        top: document.body.scrollHeight-400,
+                                        behavior: "smooth"
+                                    });
 
                                     // $("product_list").scrollTop = $("product_list").scrollHeight;
 

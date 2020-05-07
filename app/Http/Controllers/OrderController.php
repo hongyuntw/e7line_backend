@@ -118,23 +118,30 @@ class OrderController extends Controller
 //        dd($order);
         $api_path = 'https://www.e7line.com:8081/API/CreateOrderBySales.aspx';
 
-//        $data = [
-//            'Address' => $order->ship_to,
-//            'Paymethod' => self::$payment_method_names[$order->payment_method],
-//            'InvoiceNo' => $order->tax_id,
-//            'Notice' => $order->note,
-//        'ShippingFee' => $order->shipping_fee,
-
-//        ];
-        //test
+        $memberNo = "";
+        if($order->customer_id!=-1){
+            $memberNo = $order->customer->name;
+        }
+        else{
+            $memberNo = $order->other_customer_name;
+        }
         $data = [
-            'Address' => '',
-            'Paymethod' => '貨到付款',
-            'InvoiceNo' => '',
-            'Notice' => '',
-            'MemberNo' => 'DEMO@amd.com',
-            'ShippingFee' => $order->shipping_fee,
+            'Address' => $order->ship_to? $order->ship_to :'',
+            'Paymethod' => self::$payment_method_names[$order->payment_method],
+            'InvoiceNo' => $order->tax_id ? $order->tax_id : '',
+            'Notice' => $order->note ?$order->note : '',
+            'ShippingFee' => (integer)round($order->shipping_fee),
+            'MemberNo' => $memberNo,
         ];
+        //test
+//        $data = [
+//            'Address' => '',
+//            'Paymethod' => '貨到付款',
+//            'InvoiceNo' => '',
+//            'Notice' => '',
+//            'MemberNo' => 'DEMO@amd.com',
+//            'ShippingFee' => $order->shipping_fee,
+//        ];
 
 //        if ($order->other_customer_name) {
 //            $data['MemberNo'] = $order->other_customer_name;
@@ -143,27 +150,28 @@ class OrderController extends Controller
 //        }
 
         $orderSubs = [];
-        $arr = [];
-//            $arr['ISBN'] = $order_item->product_relation->ISBN;
-        $arr['ISBN'] = 'S2004220006';
-        $arr['Qty'] = 1;
-        $arr['ListPrice'] = 260;
-        $arr['SpecName'] = '粉色';
-        array_push($orderSubs, $arr);
-////
-//        foreach ($order->order_items as $order_item) {
-//            $arr = [];
+//        $arr = [];
 ////            $arr['ISBN'] = $order_item->product_relation->ISBN;
+//        $arr['ISBN'] = 'S2004220006';
+//        $arr['Qty'] = 1;
+//        $arr['ListPrice'] = 260;
+//        $arr['SpecName'] = '粉色';
+//        array_push($orderSubs, $arr);
+////
+        foreach ($order->order_items as $order_item) {
+            $arr = [];
+            $arr['ISBN'] = $order_item->product_relation->ISBN?$order_item->product_relation->ISBN:'';
 //            $arr['ISBN'] = 'P1903270016';
-//            $arr['Qty'] = $order_item->quantity;
-//            $arr['ListPrice'] = $order_item->price;
-//            $arr['SpecName'] = $order->spec_name;
-//            array_push($orderSubs, $arr);
-//        }
+            $arr['Qty'] = (integer)($order_item->quantity);
+            $arr['ListPrice'] = (integer)round($order_item->price);
+            $arr['SpecName'] = $order->spec_name?$order->spec_name : '';
+            array_push($orderSubs, $arr);
+        }
         $data['orderSubs'] = $orderSubs;
+//        dump($data);
         $data_json = json_encode($data);
 //        dump($data_json);
-//        dd(gettype($data_json));
+//        dd(($data_json));
 
         $client = new \GuzzleHttp\Client();
         $result = $client->post($api_path, [
@@ -171,6 +179,7 @@ class OrderController extends Controller
                 'e7lineOrder'=> $data_json
             ]
         ]);
+//        dd($result);
         $resp  = $result->getBody()->getContents();
 //        dump(($resp));
         $resp = json_decode($resp,true,2);
