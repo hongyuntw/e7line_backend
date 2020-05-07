@@ -243,7 +243,7 @@
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                     <div id="dynamic_concat_person">
                                         <select class="form-control" name="business_concat_person_id">
-                                            <option disabled value="-1">選擇窗口</option>
+                                            <option  value="-1">選擇窗口</option>
                                         </select>
                                         <input type="text" class="form-control" name="other_concat_person_name"
                                                placeholder="非名單內補充" id="other_concat_person_input"
