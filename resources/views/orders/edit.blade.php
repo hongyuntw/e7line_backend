@@ -259,7 +259,7 @@
                                 <script>
                                     function e7line_info_change(select){
                                         var str = select.options[select.selectedIndex].text;
-                                        var text = str.split(";");
+                                        var text = str.split("###");
                                         console.log(text);
                                         document.getElementById("e7line_account").value=text[2];
                                         document.getElementById("e7line_name").value=text[0];
@@ -308,7 +308,7 @@
                                                     for (let [key, value] of Object.entries(data.members)) {
                                                         // console.log(key);
                                                         // console.log(value);
-                                                        var val = value.Name+';'+ value.companyName+';'+value.memberNo;
+                                                        var val = value.Name+'###'+ value.companyName+'###'+value.memberNo;
                                                         html+= '<option value="'+val+ '">'+ val +'</option>';
                                                         // $("#e7line_field").append(html);
                                                     }
