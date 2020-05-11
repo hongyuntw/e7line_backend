@@ -221,7 +221,7 @@ class OrderController extends Controller
         $api_path = 'https://www.e7line.com:8081/API/CreateOrderBySales.aspx';
 
         $memberNo = "";
-        if($order->customer_id!=-1){
+        if($order->customer_id != -1 && $order->customer_id != null){
             $memberNo = $order->customer->name;
         }
         else{
