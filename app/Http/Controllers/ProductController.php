@@ -180,6 +180,22 @@ class ProductController extends Controller
         //
     }
 
+    public function change_name(Request $request)
+    {
+        $msg = '';
+        if($request->input('product_id')!= -1){
+            if($request->input('product_name')){
+
+            }
+            else{
+
+            }
+        }
+        return $request;
+
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *

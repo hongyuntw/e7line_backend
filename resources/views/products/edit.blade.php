@@ -8,11 +8,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                編輯
+                編輯商品
                 <small></small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> 交易狀況</a></li>
+                <li><a href="{{route('orders.index')}}"><i class="fa fa-shopping-bag"></i> 交易狀況</a></li>
                 <li class="active">編輯商品</li>
             </ol>
         </section>
@@ -42,7 +42,8 @@
                                     myNode = document.getElementById("product_select_div");
                                     // console.log(myNode);
                                     myNode.innerHTML = '';
-                                    html = '<select class="form-control" name="product_detail_id" onchange="product_detail_change(this)">';
+                                    html = '<select class="form-control" name="product_detail_id" ';
+                                    html += 'onchange="product_detail_change(this)">';
                                     html += '<option value=-1>請選擇產品</option>';
                                     for (let [key, value] of Object.entries(res)) {
                                         html += '<option value=\"' + key + '\">' + value[0] + '</option>'
@@ -57,6 +58,7 @@
                                     var product_ISBN_input;
                                     product_ISBN_input = document.getElementById("ISBN");
                                     product_ISBN_input.value = '';
+
 
                                 })
 
@@ -91,7 +93,7 @@
 
                     }
 
-                    function mySubmit(form){
+                    function mySubmit(form) {
                         var result = function () {
                             var tmp = null;
                             $.ajax({
@@ -103,10 +105,9 @@
                                 },
                                 data: $("#product_form").serialize(),
                                 success: function (msg) {
-                                    if(msg.success){
+                                    if (msg.success) {
                                         alert('update success')
-                                    }
-                                    else{
+                                    } else {
                                         alert(msg.message);
                                     }
                                 },
@@ -116,31 +117,52 @@
                         return false;
                     }
 
+                    function change_name(form) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: '{{route('products.change_name')}}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                            },
+                            data: $("#change_product_form").serialize(),
+                            success: function (msg) {
+                                console.log(msg);
+                            },
+                        });
+
+
+
+                        return false;
+                    }
+
 
                 </script>
-                <form class="well form-horizontal" action="" onsubmit="return mySubmit(this);" method="post" id="product_form">
-                    @csrf
-                    @if ($errors->any())
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
-                            請修正以下表單錯誤：
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                <fieldset>
 
-                    <fieldset>
+                    <form class="well form-horizontal" action="" onsubmit="return mySubmit(this);" method="post"
+                          id="product_form">
+                        @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
+                                請修正以下表單錯誤：
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="form-group">
                             <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">商品公司名</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-shopping-cart"></i></span>
                                     <div id="dynamic_concat_person">
                                         <select onchange="product_change(this)" id="product_select" name="product_id">
                                             <option value="-1">請選擇商品</option>
@@ -159,7 +181,8 @@
                             <div class="col-md-3 inputGroupContainer">
                                 <label class=" control-label">細項名稱</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-shopping-cart"></i></span>
                                     <div id="product_select_div">
                                         <select class="form-control" onchange="product_detail_change(this)"
                                                 id="product_detail_select" name="product_detail_id">
@@ -181,7 +204,8 @@
                             <div class="col-md-3 inputGroupContainer">
                                 <label class="control-label">ISBN</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-align-justify"></i></span>
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-align-justify"></i></span>
                                     <input type="text" class="form-control" name="ISBN" placeholder="ISBN" id="ISBN"
                                            value="{{ old('ISBN') }}">
                                 </div>
@@ -190,10 +214,64 @@
 
                         <div class="form-group text-center">
                             <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
-                            <button type="submit"  class="btn btn-primary">更新</button>
+                            <button type="submit" class="btn btn-primary">更新</button>
                         </div>
-                    </fieldset>
-                </form>
+                    </form>
+
+
+{{--                    產品名字變更--}}
+                    @if(Auth::user()->level==2)
+                        <form class="well form-horizontal" action="" onsubmit="return change_name(this);" method="post"
+                              id="change_product_form">
+                            @csrf
+                            <div class="form-group">
+                                <div class="col-md-6 inputGroupContainer">
+                                    <label class=" control-label">商品公司名</label>
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-shopping-cart"></i></span>
+                                        <select id="product_select2" name="product_id">
+                                            <option value="-1">請選擇商品</option>
+                                            @foreach($products as $product)
+                                                <option value="{{$product->id}}">{{$product->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <script>
+                                            var select = $("#product_select2").selectize();
+                                            select[0].selectize.setValue("-1");
+                                        </script>
+                                        <input name="product_name" class="form-control" placeholder="請輸入想變更的名稱">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 inputGroupContainer">
+                                    <label class=" control-label">細項名稱</label>
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-shopping-cart"></i></span>
+                                        <select name="product_detail_id" id="product_detail_select2">
+                                            <option selected value="-1">請選擇商品</option>
+                                            @foreach($product_details as $product_detail)
+                                                <option value="{{$product_detail->id}}">{{$product_detail->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <input name="product_detail_name" class="form-control" placeholder="請輸入想變更的名稱">
+                                        <script>
+                                            var select = $("#product_detail_select2").selectize();
+                                            select[0].selectize.setValue("-1");
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
+                                <button type="submit" class="btn btn-primary">更新</button>
+                            </div>
+                        </form>
+                    @endif
+                </fieldset>
+
+
             </div>
 
 

@@ -258,7 +258,7 @@
                                 {{--                            api to get account --}}
                                 <script>
                                     function e7line_info_change(select){
-                                        var str = select.options[select.selectedIndex].text;
+                                        var str = select.options[select.selectedIndex].value;
                                         var text = str.split("###");
                                         console.log(text);
                                         document.getElementById("e7line_account").value=text[2];
@@ -308,8 +308,10 @@
                                                     for (let [key, value] of Object.entries(data.members)) {
                                                         // console.log(key);
                                                         // console.log(value);
-                                                        var val = value.Name+'###'+ value.companyName+'###'+value.memberNo;
-                                                        html+= '<option value="'+val+ '">'+ val +'</option>';
+                                                        var val = value.Name+'###'+ value.companyName+'###'+value.memberNo;                                                    var display_val = value.Name+'-'+ value.companyName+'-'+value.memberNo;
+                                                        var display_val = value.Name+'-'+ value.companyName+'-'+value.memberNo;
+
+                                                        html+= '<option value="'+val+ '">'+ display_val +'</option>';
                                                         // $("#e7line_field").append(html);
                                                     }
                                                     html += '</select>';

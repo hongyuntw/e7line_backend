@@ -131,6 +131,7 @@ Route::middleware('auth')->group(function () {
 //  products
     Route::get('products/create','ProductController@create')->name('products.create');
     Route::get('products/edit', 'ProductController@edit')->name('products.edit');
+    Route::post('ajax/products/change_name','ProductController@change_name')->name('products.change_name');
     Route::post('products/update','ProductController@update')->name('products.update');
     Route::post('products','ProductController@store')->name('products.store');
     Route::post('ajax/search','ProductController@search')->name('products.search');
