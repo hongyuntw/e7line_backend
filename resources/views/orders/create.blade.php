@@ -68,14 +68,12 @@
                             },
                             data: $("#order_form").serialize(),
                             success: function (msg) {
-                                // console.log("success");
+                                console.log(msg)
                                 tmp = true;
-                                // console.log(tmp);
-
                             },
                             error: function (data) {
+                                console.log(data);
                                 var errors = data.responseJSON;
-                                // console.log(errors);
                                 var msg = '';
                                 for (let [key, value] of Object.entries(errors.errors)) {
                                     msg += value;
@@ -83,12 +81,12 @@
                                 }
                                 alert(msg);
                                 tmp = false;
-                                // console.log(tmp);
                             }
                         });
                         return tmp;
                     }();
-                    console.log("test result is");
+                    // console.log("test result is");
+                    // console.log(result);
                     return result;
                 }
 

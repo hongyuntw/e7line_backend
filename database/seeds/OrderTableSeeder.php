@@ -36,6 +36,7 @@ class OrderTableSeeder extends Seeder
 //                'payment_last_five_number' => '12345',
                 'e7line_account'=>'1321312@mail.com',
                 'e7line_name'=>$faker->name,
+                'no'=> date("y").date("m").str_pad($i, 4, '0', STR_PAD_LEFT),
             ]);
         }
     }

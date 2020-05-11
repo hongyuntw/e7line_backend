@@ -32,13 +32,114 @@ class OrderController extends Controller
 
     public static $payment_method_names = ['匯款', '貨到付款', '薪資帳戶扣款', '信用卡刷卡機制', 'LINEPay'];
 
-    public function index()
+    public function index(Request $request)
     {
         //
-        $orders = Order::where('is_deleted','=',0)->paginate(15);
+        $status = 0;
+        $sortBy_text = ['建單日期', '收件日期'];
+        $user_filter = -1;
+        $status_filter = -1;
+        $sortBy = 'create_date';
+        $query = Order::query();
+        $search_type = 0;
+        $search_info = '';
+        $products = Product::all();
+        $users = User::all();
+        $product_id = -1;
+        $product_detail_id = -1;
+        $product_relation = null;
+        $date_from = null;
+        $date_to = null;
+
+        //   get     sort
+        if($request->has('sortBy')){
+            $sortBy = $request->input('sortBy');
+        }
+//        user
+        if($request->has('user_filter')){
+            $user_filter = $request->input('user_filter');
+        }
+        if($user_filter>0) {
+            $query->where('user_id','=',$user_filter);
+        }
+// status
+        if ($request->has('status_filter')) {
+            $status_filter = $request->input('status_filter');
+        }
+        if((int)$status_filter>=0){
+            $query->where('orders.status', '=', (int)$status_filter);
+        }
+        //        date filter
+        if($request->has('date_from')){
+            $date_from = $request->input('date_from');
+        }
+        if($request->has('date_to')){
+            $date_to = $request->input('date_to');
+        }
+        if($date_from != null && $date_to != null){
+            $date_from_addtime = $date_from." 00:00:00";
+            $date_to_addtime = $date_to. " 23:59:59";
+            $query->whereBetween('orders.'.$sortBy,[$date_from_addtime,$date_to_addtime]);
+        }
+        if ($request->has('search_type')) {
+            $search_type = $request->query('search_type');
+        }
+        if ($search_type > 0) {
+            $search_info = $request->query('search_info');
+            switch ($search_type) {
+                case 1:
+                    $query->where('orders.no', 'like', "%{$search_info}%");
+                    break;
+                case 2:
+                    $query->join('customers','customers.id','=','orders.customer_id');
+                    $query->where(function ($query) use ($search_info) {
+                        $query->where('customers.name', 'like', "%{$search_info}%")
+                            ->orWhere('orders.other_customer_name', 'like', "%{$search_info}%");
+                        return $query;
+
+                    });
+                    break;
+                case 3:
+                    $query->where("tax_id",'like',"%{$search_info}%");
+                    break;
+                case 4:
+                    $query->join('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
+                    $query->where(function ($query) use ($search_info) {
+                        $query->where('business_concat_persons.name', 'like', "%{$search_info}%")
+                            ->orWhere('orders.other_concat_person_name', 'like', "%{$search_info}%");
+                        return $query;
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
+
+
+
+
+        $query->where('is_deleted','=',0);
+//        dd($sortBy);
+        $query->orderBy('orders.'.$sortBy,'DESC');
+        $orders = $query->paginate(15);
+
+
+
         $data = [
             'orders' => $orders,
             'order_status_names' => self::$order_status_names,
+            'status_filter' => $status_filter,
+            'product_id'=>$product_id,
+            'product_detail_id'=>$product_detail_id,
+            'user_filter'=>$user_filter,
+            'users'=>$users,
+            'sortBy'=>$sortBy,
+            'sortBy_text'=>$sortBy_text,
+            'date_from'=>$date_from,
+            'date_to'=>$date_to,
         ];
 
         return view('orders.index', $data);
@@ -86,6 +187,7 @@ class OrderController extends Controller
     public function rules(Request $request)
     {
         // general rules
+//        dd($request);
         $rules = [
             'customer_id' => 'required',
             'welfare_id' => 'required',
@@ -95,8 +197,8 @@ class OrderController extends Controller
             'e7line_account' => 'required|not_in:-1',
             'e7line_name' => 'required',
             'payment_method' => 'required',
-            'product_id.*' => 'required',
-            'product_detail_id.*' => 'required',
+            'product_id.*' => 'required|min:1',
+            'product_detail_id.*' => 'required|integer|min:1',
             'quantity.*' => 'required',
             'price.*' => 'required',
             'shipping_fee'=>'required',
@@ -211,6 +313,8 @@ class OrderController extends Controller
 
     public function validate_order_form(Request $request)
     {
+//        return $request;
+//        dd($request);
         return $this->validate($request, $this->rules($request));
 
     }
@@ -254,6 +358,10 @@ class OrderController extends Controller
         unset($data['price']);
         unset($data['spec_name']);
         $data['user_id'] = Auth::user()->id;
+        $currentMonth = date('m');
+        $this_month_data = Order::whereRaw('MONTH(create_date) = ?',[$currentMonth])->get();
+        $no = date("y").date("m").str_pad(count($this_month_data)+1, 4, '0', STR_PAD_LEFT);
+        $data['no'] = $no;
         $order = Order::create($data);
 
 //  create order item
@@ -357,10 +465,21 @@ class OrderController extends Controller
         unset($data['_token']);
         $source_html = $request['source_html'];
         if ($data['customer_id'] == -1) {
+            $order->customer_id = null;
+            $order->update();
             unset($data['customer_id']);
         }
+        else{
+            $order->other_customer_name = null;
+
+        }
         if ($data['business_concat_person_id'] == -1) {
+            $order->business_concat_person_id = null;
+            $order->update();
             unset($data['business_concat_person_id']);
+        }
+        else{
+            $order->other_concat_person_name = null;
         }
         unset($data['redirect_to']);
         unset($data['product_id']);

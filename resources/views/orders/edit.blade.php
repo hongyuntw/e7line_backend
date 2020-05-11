@@ -25,7 +25,6 @@
             <!--------------------------
                       | Your Page Content Here |
                       -------------------------->
-            {{--        <div class="container">--}}
             <script>
                 {{--                do validate--}}
                 function mySubmit(form) {
@@ -60,13 +59,8 @@
                         });
                         return tmp;
                     }();
-                    console.log("test result is");
-                    if (result) {
-                        return true;
-                    } else {
-                        return false;
-
-                    }
+                    // console.log("test result is");
+                    return result;
                 }
 
 
@@ -118,6 +112,7 @@
                                            @endif
                                            value="{{ old('other_name',$order->other_customer_name) }}">
 
+
                                     {{--                                    ajax get customer concat person and control disabled field--}}
                                     <script>
                                         var customer_select_id;
@@ -140,7 +135,11 @@
                                                         console.log(res);
                                                         const myNode = document.getElementById("dynamic_concat_person");
                                                         myNode.innerHTML = '';
-                                                        var old_id = '{{$order->business_concat_person->id}}';
+
+                                                            {{--var old_id = '{{$order->business_concat_person->id}}';--}}
+                                                        var concat_person_select = document.getElementById("concat_person_select");
+                                                        var old_id = concat_person_select.options[concat_person_select.selectedIndex].value;
+
                                                         html = '<select id="concat_person_select" name="business_concat_person_id" class="form-control" onchange="concat_person_onchange()">';
                                                         html += '<option value=-1>請選擇福委</option>'
                                                         for (let [key, value] of Object.entries(res)) {
@@ -152,6 +151,8 @@
                                                         }
                                                         html += '</select>'
                                                         $('#dynamic_concat_person').append(html);
+
+
                                                     })
                                             }
                                         });
@@ -161,10 +162,11 @@
                                             // console.log(concat_person_select);
                                             var selected_concat_person_id = concat_person_select.options[concat_person_select.selectedIndex].value;
                                             var other_concat_person_input = document.getElementById("other_concat_person_input");
-                                            if (selected_concat_person_id < 0) {
+                                            if (selected_concat_person_id <= 0) {
                                                 other_concat_person_input.disabled = false;
                                             } else {
                                                 other_concat_person_input.disabled = true;
+                                                other_concat_person_input.value = "";
 
                                             }
                                         }
@@ -172,6 +174,7 @@
                                 </div>
 
                             </div>
+
                             <div class="col-md-4 inputGroupContainer">
                                 <label class=" control-label">訂購窗口</label>
                                 <div class="input-group">
@@ -180,13 +183,14 @@
                                         <select id="concat_person_select" class="form-control"
                                                 name="business_concat_person_id"
                                                 onchange="concat_person_onchange()">
-                                            <option @if(!$order->business_concat_person) selected @endif value="-1">
+                                            <option @if($order->business_concat_person == null) selected
+                                                    @endif value="-1">
                                                 請選擇福委
                                             </option>
                                             @if($order->customer)
                                                 @foreach($order->customer->business_concat_persons as $concat_person)
                                                     <option
-                                                        @if($order->business_concat_person)
+                                                        @if($order->business_concat_person!=null)
                                                         @if($order->business_concat_person->id == $concat_person->id)
                                                         selected
                                                         @endif
@@ -204,6 +208,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-4 inputGroupContainer">
                                 <label class="control-label">e7line帳號</label>
                                 <div class="input-group">
@@ -574,7 +579,7 @@
                                 // window.scrollTo(0,$("product_list").scrollHeight);
                                 // $("product_list").scrollTop = $("product_list").scrollHeight;
                                 window.scrollTo({
-                                    top: document.body.scrollHeight-400,
+                                    top: document.body.scrollHeight - 400,
                                     behavior: "smooth"
                                 });
 
@@ -616,8 +621,7 @@
                                 if ($("#shipping_fee").val()) {
                                     totalPirce += parseInt($("#shipping_fee").val());
                                     $("#shipping_fee_table").text($("#shipping_fee").val());
-                                }
-                                else{
+                                } else {
                                     $("#shipping_fee_table").text(0);
 
                                 }
@@ -766,7 +770,6 @@
                                                 </tr>
 
                                             </table>
-
 
 
                                         </div>

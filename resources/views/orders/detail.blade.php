@@ -53,6 +53,8 @@
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 10%;">訂單編號</th>
+
+                                        <th class="text-center" style="width: 10%;">e7line編號</th>
                                         <th class="text-center" style="width: 20%;">客戶名稱</th>
                                         <th class="text-center" style="width: 5%;">狀態</th>
                                         <th class="text-center" style="width: 10%;">建立日期</th>
@@ -61,6 +63,7 @@
                                     </tr>
                                     </thead>
                                     <tr>
+                                        <td class="text-center">{{$order->no}}</td>
                                         <td class="text-center">
                                             @if($order->code)
                                                 {{$order->code}}
@@ -273,7 +276,7 @@
                                     {{--                                <a class="btn btn-primary" href="{{route('customers.index')}}">客戶列表</a>--}}
 
 
-                                    @if(!$order->code)
+                                    @if(!$order->code && Auth::user()->level==2)
                                         <a class="btn btn-success" href="{{route('orders.get_code',$order->id)}}">送出訂單至業務系統</a>
                                     @endif
 

@@ -93,7 +93,9 @@ class OrderItemController extends Controller
             $date_to = $request->input('date_to');
         }
         if($date_from != null && $date_to != null){
-            $query->whereBetween('orders.'.$sortBy,[$date_from,$date_to]);
+            $date_from_addtime = $date_from." 00:00:00";
+            $date_to_addtime = $date_to. " 23:59:59";
+            $query->whereBetween('orders.'.$sortBy,[$date_from_addtime,$date_to_addtime]);
         }
 
         if ($request->has('search_type')) {
@@ -103,7 +105,7 @@ class OrderItemController extends Controller
             $search_info = $request->query('search_info');
             switch ($search_type) {
                 case 1:
-                    $query->where('orders.code', 'like', "%{$search_info}%");
+                    $query->where('orders.no', 'like', "%{$search_info}%");
                     break;
                 case 2:
                     $query->join('customers','customers.id','=','orders.customer_id');
@@ -131,7 +133,7 @@ class OrderItemController extends Controller
 
 
 
-
+        $query->where('is_deleted','=',0);
         $query->orderBy($sortBy,'DESC');
 
 

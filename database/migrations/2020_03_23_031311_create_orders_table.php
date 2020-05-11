@@ -17,6 +17,10 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
 //            訂單代碼，打api之後獲得
             $table->string('code')->nullable();
+//            編號 供對照
+            $table->string('no');
+
+
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('customer_id')->nullable();
             $table->string('other_customer_name')->nullable();
@@ -30,13 +34,13 @@ class CreateOrdersTable extends Migration
 //            可能會有多個，所以不用做validate
             $table->string('tax_id')->nullable();
             $table->string('ship_to')->nullable();
-            $table->decimal('shipping_fee')->default(0);
+            $table->unsignedInteger('shipping_fee')->default(0);
 
 
 //            這邊代表下訂單的人，不一定是福委
             $table->string('email',50)->nullable();
             $table->string('phone_number',50)->nullable();
-            $table->decimal('amount')->default(0);
+            $table->unsignedInteger('amount')->default(0);
 
 //            付款資訊
 //            共有三種付款方式

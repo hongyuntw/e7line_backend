@@ -617,10 +617,11 @@
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 10%;">status</th>
-                                        <th class="text-center" style="width: 20%;">開發note</th>
-                                        <th class="text-center" style="width: 20%;">追蹤note</th>
+                                        <th class="text-center" style="width: 18%;">開發note</th>
+                                        <th class="text-center" style="width: 18%;">追蹤note</th>
                                         <th class="text-center" style="width: 10%;">待追蹤日期</th>
                                         <th class="text-center" style="width: 8%;">創建日期</th>
+                                        <th class="text-center" style="width: 5%;">by</th>
                                         <th class="text-center" style="width: 20%;">其他功能</th>
 
                                         {{--                                <th class="text-center" style="width: 10px;">功能</th>--}}
@@ -699,6 +700,8 @@
                                             </td>
                                             <td class="align-middle"
                                                 style="vertical-align: middle">{{date("Y-m-d", strtotime($concat_record->create_date))}}</td>
+                                            <td class="align-middle"
+                                            style="vertical-align: middle">{{$concat_record->user->name}}</td>
                                             <td class="align-middle" style="vertical-align: middle">
                                                 <button onClick="confirm_concat_record_btn_reply_click(this.name)"
                                                         class="label label-success" style="display: none"
