@@ -128,6 +128,7 @@
                             data: $("#change_product_form").serialize(),
                             success: function (msg) {
                                 console.log(msg);
+                                alert(msg);
                             },
                         });
 

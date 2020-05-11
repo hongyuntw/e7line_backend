@@ -184,14 +184,28 @@ class ProductController extends Controller
     {
         $msg = '';
         if($request->input('product_id')!= -1){
-            if($request->input('product_name')){
-
+            if($request->input('product_name')!=null){
+                $product = Product::find($request->input('product_id'));
+                $msg .= '公司名: '.$product->name .'已變更為:'.$request->input('product_name');
+                $product->name = $request->input('product_name');
+                $product->update();
             }
             else{
-
+                $msg .= '公司名稱是空白的，更改無效';
             }
         }
-        return $request;
+        if($request->input('product_detail_id')!= -1){
+            if($request->input('product_detail_name')!=null){
+                $product_detail = ProductDetail::find($request->input('product_detail_id'));
+                $msg .= '商品名: '.$product_detail->name .'已變更為:'.$request->input('product_detail_name');
+                $product_detail->name = $request->input('product_detail_name');
+                $product_detail->update();
+            }
+            else{
+                $msg .= '商品名是空白的，更改無效';
+            }
+        }
+        return $msg;
 
     }
 
