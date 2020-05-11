@@ -194,7 +194,7 @@ class OrderController extends Controller
             'business_concat_person_id' => 'required',
 //            'phone_number'=>'required',
 //            'email'=>'required',
-            'e7line_account' => 'required|not_in:-1',
+            'e7line_account' => 'required',
             'e7line_name' => 'required',
             'payment_method' => 'required',
             'product_id.*' => 'required|min:1',
@@ -236,29 +236,10 @@ class OrderController extends Controller
             'MemberNo' => $memberNo,
         ];
         //test
-//        $data = [
-//            'Address' => '',
-//            'Paymethod' => '貨到付款',
-//            'InvoiceNo' => '',
-//            'Notice' => '',
-//            'MemberNo' => 'DEMO@amd.com',
-//            'ShippingFee' => $order->shipping_fee,
-//        ];
 
-//        if ($order->other_customer_name) {
-//            $data['MemberNo'] = $order->other_customer_name;
-//        } else {
-//            $data['MemberNo'] = $order->customer->name;
-//        }
 
         $orderSubs = [];
-//        $arr = [];
-////            $arr['ISBN'] = $order_item->product_relation->ISBN;
-//        $arr['ISBN'] = 'S2004220006';
-//        $arr['Qty'] = 1;
-//        $arr['ListPrice'] = 260;
-//        $arr['SpecName'] = '粉色';
-//        array_push($orderSubs, $arr);
+
 ////
         foreach ($order->order_items as $order_item) {
             $arr = [];
@@ -300,6 +281,23 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
+    public function get_e7line_account_info(Request $request)
+    {
+        $api_path = 'https://www.e7line.com:8081/API/GetMemberByCompany.aspx';
+//        return(123);
+//        dump(json_encode($request->input('customer_info')));
+
+        $client = new \GuzzleHttp\Client();
+        $result = $client->post($api_path, [
+            'form_params' => [
+                'searchText'=> $request->input('customer_info'),
+            ]
+        ]);
+//        dd($result);
+        $resp  = $result->getBody()->getContents();
+        return $resp;
+    }
+
 //    public function get_code(int $order_id)
 //    {
 //
@@ -307,7 +305,66 @@ class OrderController extends Controller
 //
     public function index_get_code(Request $request)
     {
+//        id => msg
+        $total_result = [];
+        if($request->has('ids')){
+            foreach ($request->input('ids')as $id){
+                $order = Order::find($id);
+                $api_path = 'https://www.e7line.com:8081/API/CreateOrderBySales.aspx';
+                $memberNo = "";
+                if($order->customer_id != -1){
+                    $memberNo = $order->customer->name;
+                }
+                else{
+                    $memberNo = $order->other_customer_name;
+                }
+                $data = [
+                    'Address' => $order->ship_to? $order->ship_to :'',
+                    'Paymethod' => self::$payment_method_names[$order->payment_method],
+                    'InvoiceNo' => $order->tax_id ? $order->tax_id : '',
+                    'Notice' => $order->note ?$order->note : '',
+                    'ShippingFee' => (integer)round($order->shipping_fee),
+                    'MemberNo' => $memberNo,
+                ];
+                $orderSubs = [];
+                foreach ($order->order_items as $order_item) {
+                    $arr = [];
+                    $arr['ISBN'] = $order_item->product_relation->ISBN?$order_item->product_relation->ISBN:'';
+                    $arr['Qty'] = (integer)($order_item->quantity);
+                    $arr['ListPrice'] = (integer)round($order_item->price);
+                    $arr['SpecName'] = $order->spec_name?$order->spec_name : '';
+                    array_push($orderSubs, $arr);
+                }
+                $data['orderSubs'] = $orderSubs;
+                $data_json = json_encode($data);
+                $client = new \GuzzleHttp\Client();
+                $result = $client->post($api_path, [
+                    'form_params' => [
+                        'e7lineOrder'=> $data_json
+                    ]
+                ]);
+                $resp  = $result->getBody()->getContents();
+//        dump(($resp));
+                $resp = json_decode($resp,true,2);
+                if($resp['isScuess']==true){
+                    $order->code = $resp['orderNo'];
+                    $order->update_date = now();
+                    $order->update();
+                    $total_result[$order->no] = $resp['message'];
+//
+//                    Session::flash('alert', 'success');
+//                    Session::flash('msg',$resp['message']);
+                }
+                else{
+                    $total_result[$order->no] = $resp['message'];
+                }
 
+            }
+            return $total_result;
+
+
+        }
+        return;
     }
 
 
@@ -343,6 +400,7 @@ class OrderController extends Controller
             'quantity' => $data['quantity'],
             'price' => $data['price'],
             'spec_name' => $data['spec_name'],
+            'ISBN'=>$data['ISBN'],
         ];
         unset($data['_token']);
         if ($data['customer_id'] == -1) {
@@ -357,6 +415,8 @@ class OrderController extends Controller
         unset($data['quantity']);
         unset($data['price']);
         unset($data['spec_name']);
+        unset($data['ISBN']);
+        unset($data['e7line_info']);
         $data['user_id'] = Auth::user()->id;
         $currentMonth = date('m');
         $this_month_data = Order::whereRaw('MONTH(create_date) = ?',[$currentMonth])->get();
@@ -376,6 +436,7 @@ class OrderController extends Controller
                 'quantity' => $product_info['quantity'][$i],
                 'price' => $product_info['price'][$i],
                 'spec_name' => $product_info['spec_name'][$i],
+
                 'create_date' => now(),
                 'update_date' => now(),
             ]);
@@ -488,6 +549,9 @@ class OrderController extends Controller
         unset($data['price']);
         unset($data['source_html']);
         unset($data['spec_name']);
+        unset($data['e7line_info']);
+        unset($data['ISBN']);
+
 
         $order->update($data);
 

@@ -54,12 +54,44 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">信箱</label>
+                            <label class="col-md-4 control-label">類別</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <select name="level" class="form-control">
+                                        <option value="0">業務</option>
+                                        <option value="1">採購</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">信箱(帳號)</label>
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                     <input type="text" class="form-control"name="email" placeholder="請輸入信箱"
                                            value="{{ old('email') }}" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">電話</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                    <input type="text" class="form-control"name="phone_number" placeholder="請輸入電話"
+                                           value="{{ old('phone_number') }}" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">分機</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                    <input type="text" class="form-control"name="extension_number" placeholder="請輸入分機"
+                                           value="{{ old('extension_number') }}" >
                                 </div>
                             </div>
                         </div>

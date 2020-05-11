@@ -162,16 +162,30 @@
                                     }
                                     $.ajax({
                                         type: "POST",
-                                        url: '',
+                                        url: '{{route('orders.index_gex_code')}}',
                                         headers: {
                                             'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                                         },
                                         data: {
                                             ids: ids,
                                         },
-                                        success: function (msg) {
+                                        success: function (data) {
+                                            console.log(data);
+                                            // var msg = data.responseJSON;
+                                            // console.log(msg);
+                                            var msg = '';
+                                            for (let [key, value] of Object.entries(data)) {
+                                                // msg_str += value;
+                                                // console.log(key);
+                                                msg += '訂單編號:'+key+'\t'+value;
+                                                msg += '\n';
+                                            }
+                                            alert(msg);
+                                            // tmp = false;
                                             window.location.reload();
-                                            console.log(msg)
+                                        },
+                                        error: function (){
+                                            alert('伺服器出了點問題，稍後再重試');
                                         }
                                     });
                                 }

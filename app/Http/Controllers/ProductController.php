@@ -72,6 +72,32 @@ class ProductController extends Controller
         return $this->validate($request, $this->rules($request));
     }
 
+    public function search(Request $request)
+    {
+        $search_info = $request->input('search_info');
+
+        $query = ProductRelation::query();
+        $query->join('products','products.id','=','product_relations.product_id');
+        $query->join('product_details','product_details.id','=','product_relations.product_detail_id');
+
+        $query->select('product_relations.*','products.name','product_details.name' );
+
+
+//        dd($query->get()[0]);
+
+        $query->where('products.name', 'like', "%{$search_info}%")
+            ->orWhere('product_details.name', 'like', "%{$search_info}%");
+        $resp = [];
+        foreach ($query->get() as $product_relation){
+//            dd($product_relation);
+            $resp[$product_relation->id] = array(
+                $product_relation->product->name , $product_relation->product_detail->name,$product_relation->ISBN
+            );
+        }
+        return $resp;
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *

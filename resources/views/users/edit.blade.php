@@ -56,6 +56,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">電話</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                    <input type="text" class="form-control"name="phone_number" placeholder="請輸入電話"
+                                           value="{{ old('phone_number',$user->phone_number) }}" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">分機</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                    <input type="text" class="form-control"name="extension_number" placeholder="請輸入分機"
+                                           value="{{ old('extension_number',$user->extension_number) }}" >
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">新密碼</label>
@@ -86,7 +106,7 @@
                                         <select id="level" name="level" class="form-control">
                                             <option
                                                 value="0" {{ old('level',$user->level) == 0 ? 'selected' : '' }}>
-                                                Normal
+                                                採購
                                             </option>
                                             <option
                                                 value="1" {{ old('level',$user->level) == 1 ? 'selected' : '' }}>

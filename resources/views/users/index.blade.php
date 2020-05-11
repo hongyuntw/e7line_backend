@@ -67,7 +67,7 @@
                                         <td>{{ $user->created_at }}</td>
                                         <td>
                                             @if($user->level==0)
-                                                Normal
+                                                業務
                                             @elseif($user->level==1)
                                                 採購
                                             @elseif($user->level==2)

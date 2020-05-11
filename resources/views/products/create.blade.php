@@ -154,10 +154,58 @@
                             // console.log(select);
                             // select.parentNode.removeChild(select);
                         }
+                        function searchProduct(){
+                            var search_info = document.getElementById("search_info").value;
+                            if(search_info==null || search_info==''){
+                                alert('請輸入商品關鍵字');
+                                return;
+                            }
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: '{{route('products.search')}}',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                },
+                                data: {
+                                    search_info : search_info,
+                                },
+                                success: function (data) {
+                                    var msg = '搜尋到以下商品\n';
+                                    for (let [key, value] of Object.entries(data)) {
+                                        msg += "商品:"+value[0]+' '+value[1]+' ISBN:'+value[2];
+                                        msg += '\n';
+                                    }
+                                    alert(msg);
+                                    // console.log(data);
+
+                                },
+                                error: function () {
+                                    console.log('請稍後再試');
+                                }
+                            });
+
+
+
+
+                        }
 
 
                     </script>
                     <fieldset>
+                        <div class="form-group">
+                            <div class="col-md-12 inputGroupContainer" >
+                                <label class="control-label">搜尋商品是否存在</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    <input  name="search_info" class="form-control" type="text" id="search_info"
+                                           placeholder="商品關鍵字" value="{{old('search_info')}}">
+                                    <button class="form-control" onclick="searchProduct()" type="button"><i class="fa fa-search"></i></button>
+
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 inputGroupContainer">
                                 <label class=" control-label">請選擇分類</label>

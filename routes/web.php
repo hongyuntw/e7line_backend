@@ -112,8 +112,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('orders/{order}/get_code','OrderController@get_code')->name('orders.get_code');
+    Route::post('ajax/orders/get_e7line_account_info','OrderController@get_e7line_account_info')->name('orders.get_e7line_account_info');
 
-    Route::post('ajax/index_gec_code','OrderController@index_get_code')->name('orders.index_gex_code');
+    Route::post('ajax/index_get_code','OrderController@index_get_code')->name('orders.index_gex_code');
 
     Route::get('ajax/get_customer_concat_persons', 'OrderController@get_customer_concat_persons')->name('orders.get_customer_concat_persons');
     Route::get('ajax/get_product_details', 'OrderController@get_product_details')->name('orders.get_product_details');
@@ -132,6 +133,7 @@ Route::middleware('auth')->group(function () {
     Route::get('products/edit', 'ProductController@edit')->name('products.edit');
     Route::post('products/update','ProductController@update')->name('products.update');
     Route::post('products','ProductController@store')->name('products.store');
+    Route::post('ajax/search','ProductController@search')->name('products.search');
     Route::post('ajax/validate_product_form','ProductController@validate_product_form')->name('products.validate_product_form');
 
 

@@ -241,7 +241,7 @@
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                     <div id="dynamic_concat_person">
                                         <select class="form-control" name="business_concat_person_id">
-                                            <option  value="-1">選擇窗口</option>
+                                            <option value="-1">選擇窗口</option>
                                         </select>
                                         <input type="text" class="form-control" name="other_concat_person_name"
                                                placeholder="非名單內補充" id="other_concat_person_input"
@@ -253,13 +253,97 @@
                                 <label class="control-label">e7line帳號</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input value="{{old('e7line_account','123@mail.com')}}" name="e7line_account"
-                                           id="e7line_account" class="form-control">
-                                    <input type="text" class="form-control" name="e7line_name"
-                                           placeholder="e7line姓名"
-                                           value="{{ old('e7line_name',"231") }}">
+                                    <div id="e7line_field">
+                                        <input style="display: none" value="" name="e7line_account"
+                                               id="e7line_account" class="form-control">
+                                        <input style="display: none" type="text" class="form-control" name="e7line_name" id="e7line_name"
+                                               placeholder="e7line姓名"
+                                               value="">
+                                    </div>
+                                    <button type="button" onclick="gete7lineAccount()" style="color: #00a65a"
+                                            class="form-control">Get Account
+                                    </button>
                                 </div>
                             </div>
+                            {{--                            api to get account --}}
+                            <script>
+                                function e7line_info_change(select){
+                                    var str = select.options[select.selectedIndex].text;
+                                    var text = str.split(";");
+                                    console.log(text);
+                                    document.getElementById("e7line_account").value=text[2];
+                                    document.getElementById("e7line_name").value=text[0];
+
+                                }
+                                function gete7lineAccount() {
+                                    var customer_info;
+                                    //    有可能是從選單選的
+                                    var customer_select = document.getElementById("select_customer");
+                                    var customer_select_text = customer_select.options[customer_select.selectedIndex].text;
+                                    var customer_select_val = customer_select.options[customer_select.selectedIndex].value;
+                                    if (customer_select_val != -1) {
+                                        customer_info = customer_select_text;
+                                    } else {
+                                        //從其他輸入選擇
+                                        var other_customer_name_val = document.getElementById("other_customer_name").value;
+                                        if (other_customer_name_val == null || other_customer_name_val == "") {
+                                            alert('需要提供客戶資訊，請選擇客戶或輸入名字');
+                                            return;
+                                        }
+                                        customer_info = other_customer_name_val;
+                                    }
+                                    $.ajax({
+                                        async: false,
+                                        type: "POST",
+                                        url: '{{route('orders.get_e7line_account_info')}}',
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                        },
+                                        data: {
+                                            customer_info: customer_info
+                                        },
+                                        success: function (data) {
+                                            // console.log(data);
+                                            var data = JSON.parse(data);
+                                            // console.log(data);
+                                            var node = document.getElementById("e7line_field");
+                                            node.innerHTML = "";
+                                            html = '<select id="e7line_info" name="e7line_info" onchange="e7line_info_change(this)">';
+                                            if (data.isScuess) {
+                                                if(data.members.length==0){
+                                                    alert("找不到對應之客戶，請重新輸入關鍵字");
+                                                    return;
+                                                }
+
+                                                for (let [key, value] of Object.entries(data.members)) {
+                                                    // console.log(key);
+                                                    // console.log(value);
+                                                    var val = value.Name+';'+ value.companyName+';'+value.memberNo;
+                                                    html+= '<option value="'+val+ '">'+ val +'</option>';
+                                                    // $("#e7line_field").append(html);
+                                                }
+                                                html += '</select>';
+                                                html += '<input style="display: none" value="'+ data.members[0].memberNo+'" name="e7line_account"\n' +
+                                                    '                                               id="e7line_account" class="form-control">\n' +
+                                                    '                                        <input  style="display: none" type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
+                                                    '                                               placeholder="e7line姓名"\n' +
+                                                    '                                               value="'+ data.members[0].Name +'">';
+                                                $("#e7line_field").append(html);
+
+                                            }
+                                            else {
+                                                alert(data.message);
+                                            }
+                                        },
+                                        error: function () {
+                                            alert('伺服器出了點問題，稍後再重試');
+                                        }
+                                    });
+                                    $("#e7line_info").selectize();
+
+
+                                }
+                            </script>
 
 
                         </div>
@@ -570,7 +654,7 @@
                                         '                                    <div class="input-group">\n' +
                                         '                                        <span class="input-group-addon"><i\n' +
                                         '                                                class="glyphicon glyphicon-list"></i></span>\n' +
-                                        '                                        <input type="text" class="form-control" name="isbn[]" disabled\n' +
+                                        '                                        <input type="text" class="form-control" name="ISBN[]" \n' +
                                         '                                               id="product' + count + '_detail_ISBN">\n' +
                                         '                                    </div>\n' +
                                         '                                </div>' +
@@ -610,8 +694,8 @@
                                     // var element = document.getElementById("order_dynamic_field");
                                     // element.scrollTop = element.scrollHeight;
                                     window.scrollTo({
-                                        top: document.body.scrollHeight-400,
-                                        behavior: "smooth"
+                                        top: document.body.scrollHeight - document.body.scrollHeight * 0.1,
+                                        behavior: "smooth",
                                     });
 
                                     // $("product_list").scrollTop = $("product_list").scrollHeight;
@@ -654,8 +738,7 @@
                                     if ($("#shipping_fee").val()) {
                                         totalPirce += parseInt($("#shipping_fee").val());
                                         $("#shipping_fee_table").text($("#shipping_fee").val());
-                                    }
-                                    else{
+                                    } else {
                                         $("#shipping_fee_table").text(0);
 
                                     }
@@ -708,7 +791,7 @@
                                         <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-list"></i></span>
-                                            <input type="text" class="form-control" name="isbn[]" disabled
+                                            <input type="text" class="form-control" name="ISBN[]"
                                                    id="product_detail_ISBN">
                                         </div>
                                     </div>

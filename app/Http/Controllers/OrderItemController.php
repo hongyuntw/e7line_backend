@@ -76,14 +76,24 @@ class OrderItemController extends Controller
 //      check if user select product ornot
 //        dump($product_detail_id);
 //        dd($product_id);
-        if($product_detail_id != -1 && $product_id != -1){
-            $product_relation = ProductRelation::where('product_id', '=', $product_id)
-                ->where('product_detail_id', '=', $product_detail_id)->first();
+        if($product_detail_id != -1 || $product_id != -1){
+            $query->join('product_relations','order_items.product_relation_id','=','product_relations.id');
+            if($product_id!=-1 && $product_detail_id != -1){
+                $query->where('product_id', '=', $product_id)
+                    ->where('product_detail_id', '=', $product_detail_id);
+            }
+            else if($product_id!=-1 && $product_detail_id == -1){
+                $query->where('product_id','=',$product_id);
+            }
+//            else{
+//                $query->where('product_detail_id', '=', $product_detail_id);
+//            }
+
         }
-//        get the selected product
-        if($product_relation != null){
-            $query->where('product_relation_id','=',$product_relation->id);
-        }
+////        get the selected product
+//        if($product_relation != null){
+//            $query->where('product_relation_id','=',$product_relation->id);
+//        }
 
 //        date filter
         if($request->has('date_from')){

@@ -135,6 +135,13 @@ class UserController extends Controller
 //            $user->is_left = $request->input('is_left');
             $user->is_left = $request->input('is_left');
         }
+        if($request->has('phone_number')){
+            $user->phone_number = $request->input('phone_number');
+        }
+        if($request->has('extension_number')){
+            $user->extension_number = $request->input('extension_number');
+        }
+
         $user->updated_at = now();
         $user->update();
 //        dd($user);
