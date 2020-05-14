@@ -109,70 +109,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="">報價列表</a></li>
-                    <li><a href="">報價--</a></li>
+                    <li><a href="{{route('qoute.index')}}">報價參考</a></li>
                 </ul>
-{{--                <a href="#">--}}
-{{--                    <i class="fa fa-shopping-bag"></i>--}}
-{{--                    <span>商品管理</span>--}}
-{{--                    <span class="pull-right-container">--}}
-{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
-{{--                    </span>--}}
-{{--                </a>--}}
-{{--                <ul class="treeview-menu">--}}
-{{--                    <li><a href="{{ route('products.index') }}">商品列表</a></li>--}}
-{{--                    <li><a href="{{ route('products.create') }}">新增商品</a></li>--}}
-{{--                </ul>--}}
-{{--                <a href="#">--}}
-{{--                    <i class="fa fa-shopping-bag"></i>--}}
-{{--                    <span>訂單管理</span>--}}
-{{--                    <span class="pull-right-container">--}}
-{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
-{{--                    </span>--}}
-{{--                </a>--}}
-{{--                <ul class="treeview-menu">--}}
-{{--                    <li><a href="{{ route('sales.index') }}">訂單列表</a></li>--}}
-{{--                </ul>--}}
-{{--                <a href="#">--}}
-{{--                    <i class="fa fa-shopping-bag"></i>--}}
-{{--                    <span>會員管理</span>--}}
-{{--                    <span class="pull-right-container">--}}
-{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
-{{--                    </span>--}}
-{{--                </a>--}}
-{{--                <ul class="treeview-menu">--}}
-{{--                    <li><a href="{{ route('members.index') }}">會員列表</a></li>--}}
-{{--                </ul>--}}
-{{--                <a href="#">--}}
-{{--                    <i class="fa fa-shopping-bag"></i>--}}
-{{--                    <span>廣告管理</span>--}}
-{{--                    <span class="pull-right-container">--}}
-{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
-{{--                    </span>--}}
-{{--                </a>--}}
-{{--                <ul class="treeview-menu">--}}
-{{--                    <li><a href="{{ route('ads.index') }}">廣告列表</a></li>--}}
-{{--                </ul>--}}
-{{--                <a href="#">--}}
-{{--                    <i class="fa fa-shopping-bag"></i>--}}
-{{--                    <span>客服服務</span>--}}
-{{--                    <span class="pull-right-container">--}}
-{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
-{{--                    </span>--}}
-{{--                </a>--}}
-{{--                <ul class="treeview-menu">--}}
-{{--                    <li><a href="{{ route('suggestions.index') }}">意見管理</a></li>--}}
-{{--                </ul>--}}
-{{--                <a href="#">--}}
-{{--                    <i class="fa fa-shopping-bag"></i>--}}
-{{--                    <span>優惠券服務</span>--}}
-{{--                    <span class="pull-right-container">--}}
-{{--                        <i class="fa fa-angle-left pull-right"></i>--}}
-{{--                    </span>--}}
-{{--                </a>--}}
-{{--                <ul class="treeview-menu">--}}
-{{--                    <li><a href="{{ route('coupons.index') }}">優惠券列表</a></li>--}}
-{{--                </ul>--}}
             </li>
         </ul>
         <!-- /.sidebar-menu -->

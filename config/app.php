@@ -149,6 +149,9 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
+
+
 
 
 
@@ -218,6 +221,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' =>Collective\Html\HtmlFacade::class,
+        'Charts' => ConsoleTVs\Charts\Charts::class,
+
 
     ],
 

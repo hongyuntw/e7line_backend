@@ -367,8 +367,11 @@
                             <h3 class="box-title text-center">可能的訂單</h3>
                             <div class="box-tools" style="display: inline-block">
                                 <label>order By</label>
-                                <select id="orderBy" name="orderBy" class="">
+                                <select id="orderBy" name="orderBy" class="" onchange="opage({{$opage}})">
                                     <option value="create_date">建單時間</option>
+                                    <option value="welfare_id">目的</option>
+                                    <option value="customer_id">客戶名稱</option>
+                                    <option value="amount">總金額</option>
                                 </select>
                             </div>
                         </div>

@@ -30,7 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/ajax/set_concat_status','DashboardController@set_concat_status')->name('dashboard.set_concat_status');
 
 
-
+// 報價
+    Route::get('qoute','QuoteController@index')->name('qoute.index');
+    Route::get('quote/ajax/getChartData','QuoteController@getChartData')->name('qoute.getChartData');
 
 
 //    for customer
