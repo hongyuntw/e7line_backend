@@ -437,11 +437,9 @@ class OrderController extends Controller
                 'quantity' => $product_info['quantity'][$i],
                 'price' => $product_info['price'][$i],
                 'spec_name' => $product_info['spec_name'][$i],
-
                 'create_date' => now(),
                 'update_date' => now(),
             ]);
-
             $amount += $product_info['price'][$i] * $product_info['quantity'][$i];
         }
 

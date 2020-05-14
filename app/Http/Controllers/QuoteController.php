@@ -38,7 +38,7 @@ class QuoteController extends Controller
         if($request->has('product_relation_id')){
             $product_relation_id = $request->input('product_relation_id');
             $product_relation = ProductRelation::find($product_relation_id);
-            $title = $product_relation->product->name . $product_relation->product_detail->name;
+            $title = $product_relation->product->name .' '. $product_relation->product_detail->name;
 
             $order_items = $product_relation->order_items()->orderBy('create_date')->get();
 
@@ -46,10 +46,10 @@ class QuoteController extends Controller
             $data  = [];
             foreach ($order_items as $order_item){
                 if(array_key_exists($order_item->price, $data)){
-                    $data[$order_item->price] +=1;
+                    $data[$order_item->price] += $order_item->quantity;
                 }
                 else{
-                    $data[$order_item->price] =1;
+                    $data[$order_item->price] = $order_item->quantity;
                 }
             }
             ksort($data,1);

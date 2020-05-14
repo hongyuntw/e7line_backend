@@ -8,6 +8,15 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
+            <h1>
+                報價
+                <small></small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="{{route('qoute.index')}}"><i class="fa fa-shopping-bag"></i> 報價參考</a></li>
+                <li class="active">報價列表</li>
+            </ol>
+
         </section>
 
         <!-- Main content -->
@@ -16,9 +25,17 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
+
+            <div class="container well">
+
+
+
+
+            </div>
+
             <div class="container well">
                 <div class="col-md-6">
-                    <h3>Price List</h3>
+                    <h3>報價參考</h3>
                 </div>
                 <script>
                     var liveChart;
@@ -27,7 +44,6 @@
                         liveChart = new Chart(ctx_live, {
                             // 參數設定[註1]
                             type: "line", // 圖表類型
-
                             data: {
                                 labels: ["0"], // 標題
                                 datasets: [{
@@ -47,6 +63,10 @@
                                         },
                                     }],
                                     yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true,
+                                            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                        },
                                         display: true,
                                         scaleLabel: {
                                             display: true,
@@ -70,16 +90,10 @@
                                     product_relation_id: product_relation_id
                                 },
                                 success: function (msg) {
-                                    // console.log(msg);
-                                    var node = document.getElementById("mychart");
-                                    // console.log(liveChart);
-
-                                    // console.log(liveChart.data.labels);
+                                    console.log(msg);
                                     liveChart.data.labels = msg.prices;
-                                    // console.log(liveChart.data.labels);
                                     liveChart.data.datasets[0].data = msg.quantity;
                                     liveChart.data.datasets[0].label = msg.title + " 成交數量";
-                                    // console.log()
                                     liveChart.update();
 
                                 }
@@ -95,11 +109,10 @@
                         <option value="-1">選擇一個商品</option>
                         @foreach($product_relations as $product_relation)
                             <option
-                                value="{{$product_relation->id}}">{{$product_relation->product->name}}{{$product_relation->product_detail->name}}</option>
+                                value="{{$product_relation->id}}">{{$product_relation->product->name}}&nbsp{{$product_relation->product_detail->name}}</option>
                         @endforeach
                     </select>
                     <script>
-                            {{--                        default select--}}
                         var product_select = $("#product_select").selectize();
                         product_select[0].selectize.setValue("-1");
 

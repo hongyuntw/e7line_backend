@@ -10,8 +10,7 @@ class OrderItem extends Model
     const CREATED_AT = null;
     const UPDATED_AT = null;
     protected $table = 'order_items';
-
-    protected $guarded = ['id', 'create_date'];
+    protected $guarded = ['id'];
 
     public function product_relation()
     {
