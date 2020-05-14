@@ -6,6 +6,7 @@ use App\Category;
 use App\ConcatRecord;
 use App\Customer;
 use App\Member;
+use App\Order;
 use App\Sale;
 use App\Type;
 use App\WelfareStatus;
@@ -114,8 +115,32 @@ class DashboardController extends Controller
             $wpp[$i]=$i;
         }
 
+//        its for maybe order
+        $order_query = Order::query();
+        $monthStart = now()->subMonth(1);
+        $monthEnd = now();
+        $order_query->whereBetween('create_date',[$monthStart,$monthEnd]);
+        $order_query->orderBy('create_date','DESC');
+        $orders = $order_query->get();
 
+        $ocount= count($orders);
+        $orev = '6';
+        $osums = ceil($ocount/$orev);
+
+        $opage = Input::get('opage');
+        if(empty($opage)){
+            $opage = "1";
+        }
+        $oprev = ($opage-1)>0?$opage-1:1;
+        $onext = ($opage+1)<$osums?$opage+1:$osums;
+        $ooffset = ($opage-1)*$orev;
+        $orders = $order_query->skip($ooffset)->limit($orev)->get();
+        $opp = array();
+        for($i=1;$i<=$osums;$i++){
+            $opp[$i]=$i;
+        }
         $data = [
+//            customers
             'customers' => $customers,
             'count' => $count,
             'rev' => $rev,
@@ -124,6 +149,7 @@ class DashboardController extends Controller
             'sums'=>$sums,
             'pp'=>$pp,
             'page'=>$page,
+//            welfares
             'welfare_statuses'=>$welfare_stautses,
             'wcount' => $wcount,
             'wrev' => $wrev,
@@ -132,9 +158,137 @@ class DashboardController extends Controller
             'wsums'=>$wsums,
             'wpp'=>$wpp,
             'wpage'=>$wpage,
-
+//            orders
+            'orders'=>$orders,
+            'ocount'=>$ocount,
+            'orev' => $orev,
+            'oprev'=>$oprev,
+            'onext'=>$onext,
+            'osums'=>$osums,
+            'opp'=>$opp,
+            'opage'=>$opage,
         ];
         return view('dashboard.index' , $data);
+    }
+
+
+    public function getoPage(Request $request)
+    {
+        //        its for maybe order
+        $order_query = Order::query();
+        $monthStart = now()->subMonth(1);
+        $monthEnd = now();
+        $order_query->whereBetween('create_date',[$monthStart,$monthEnd]);
+        $orders = $order_query->get();
+
+        $ocount= count($orders);
+        $orev = '6';
+        $osums = ceil($ocount/$orev);
+
+        $opage = Input::get('opage');
+        $orderBy = Input::get('orderBy');
+        $order_query->orderBy($orderBy,'DESC');
+
+        if(empty($opage)){
+            $opage = "1";
+        }
+        $oprev = ($opage-1)>0?$opage-1:1;
+        $onext = ($opage+1)<$osums?$opage+1:$osums;
+        $ooffset = ($opage-1)*$orev;
+        $orders = $order_query->skip($ooffset)->limit($orev)->get();
+        $opp = array();
+        for($i=1;$i<=$osums;$i++){
+            $opp[$i]=$i;
+        }
+
+        $res = '<table class="table table-bordered table-hover" style="width: 100%">
+                                        <thead style="background-color: lightgray">
+                                        <tr>
+                                            <th class="text-center" style="width: 30%">客戶名稱</th>
+                                            <th class="text-center" style="width: 15%">建單時間</th>
+                                            <th class="text-center" style="width: 15%">目的</th>
+                                            <th class="text-center" style="width: 15%">總金額</th>
+                                            <th class="text-center" style="width: 30%">其他</th>
+                                        </tr>
+                                        </thead>';
+        foreach($orders as $order){
+            $res .= '<tr ondblclick="window.location.href = \'/orders/' . $order->id . '/detail\' " class="text-center">';
+            if($order->customer){
+                $res .= '<td>'.$order->customer->name.'</td>';
+            }
+            else{
+                $res .= '<td>'.$order->other_customer_name.'</td>';
+            }
+            $res .= '<td>'.date('Y-m-d H:m',strtotime($order->create_date)).'</td>';
+            $res .='<td>'. $order->welfare->welfare_name.'</td>';
+            $res .= '<td>'.$order->amount.'</td>';
+            $res .= '<td>其他</td>';
+            $res .= '</tr>';
+        }
+        $res.= '</table>';
+
+        $res .='<div class="page">';
+        $res .='<!-------分页---------->' ;
+        if($ocount > $orev){
+            $res .= '<ul class="pagination">';
+            if($opage != 1){
+                $res .='<li >';
+                $res .='<a href="javascript:void(0)" onclick="opage('.$oprev.')"><<</a>';
+                $res .='</li>';
+            }
+            $flago = true;
+            foreach($opp as $k=>$v){
+                if($v == $opage){
+                    $res .='<li class="active"><span>'.$v.'</span></li>';
+
+                }
+                elseif (abs($v-$opage)>=3 && $v<$opage){
+                    if($v==1){
+                        $res.='<li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="opage('.$v.')">'.$v.'</a>
+                                                        </li>';
+                    }
+                    else{
+                        if($flago){
+                            $res.= '<li><span>...</span></li>';
+                            $flago = false;
+                        }
+
+                    }
+                }
+                elseif(abs($v-$opage)>=3 && $v>$opage){
+                    if($v==count($opp)){
+                        $res.='<li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="opage('.$v.')">'.$v.'</a>
+                                                        </li>';
+                    }
+                    else{
+                        if($flago){
+                            $res.= '<li><span>...</span></li>';
+                            $flago = false;
+                        }
+
+                    }
+                }
+                else{
+                    $flago = true;
+                    $res .='<li >' ;
+                    $res .='<a href="javascript:void(0)" onclick="opage('.$v.')">'.$v.'</a>' ;
+                    $res .='</li>' ;
+                }
+
+            }
+            if($opage != $osums){
+                $res .= '<li>';
+                $res .= "<a href='javascript:void(0)' onclick='opage(".$onext.")'>>></a>" ;
+                $res .= '</li>';
+            }
+            $res .='</ul>';
+        }
+        return $res;
+
     }
 
 
@@ -231,12 +385,44 @@ class DashboardController extends Controller
                 $res .='<a href="javascript:void(0)" onclick="page('.$prev.')"><<</a>';
                 $res .='</li>';
             }
+            $flag = true;
             foreach($pp as $k=>$v){
                 if($v == $page){
                     $res .='<li class="active"><span>'.$v.'</span></li>';
 
                 }
+                elseif (abs($v-$page)>=3 && $v<$page){
+                    if($v==1){
+                        $res.='<li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="page('.$v.')">'.$v.'</a>
+                                                        </li>';
+                    }
+                    else{
+                        if($flag){
+                            $res.= '<li><span>...</span></li>';
+                            $flag = false;
+                        }
+
+                    }
+                }
+                elseif(abs($v-$page)>=3 && $v>$page){
+                    if($v==count($pp)){
+                        $res.='<li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="page('.$v.')">'.$v.'</a>
+                                                        </li>';
+                    }
+                    else{
+                        if($flag){
+                            $res.= '<li><span>...</span></li>';
+                            $flag = false;
+                        }
+
+                    }
+                }
                 else{
+                    $flag = true;
                     $res .='<li >' ;
                     $res .='<a href="javascript:void(0)" onclick="page('.$v.')">'.$v.'</a>' ;
                     $res .='</li>' ;
@@ -326,11 +512,44 @@ class DashboardController extends Controller
                 $res .='<a href="javascript:void(0)" onclick="wpage('.$wprev.')"><<</a>';
                 $res .='</li>';
             }
+            $flag_w = true;
             foreach($wpp as $k=>$v){
                 if($v == $wpage){
                     $res .='<li class="active"><span>'.$v.'</span></li>';
 
-                }else{
+                }
+                elseif (abs($v-$wpage)>=3 && $v<$wpage){
+                    if($v==1){
+                        $res.='<li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="wpage('.$v.')">'.$v.'</a>
+                                                        </li>';
+                    }
+                    else{
+                        if($flag_w){
+                            $res.= '<li><span>...</span></li>';
+                            $flag_w = false;
+                        }
+
+                    }
+                }
+                elseif(abs($v-$wpage)>=3 && $v>$wpage){
+                    if($v==count($wpp)){
+                        $res.='<li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="wpage('.$v.')">'.$v.'</a>
+                                                        </li>';
+                    }
+                    else{
+                        if($flag_w){
+                            $res.= '<li><span>...</span></li>';
+                            $flag_w = false;
+                        }
+
+                    }
+                }
+                else{
+                    $flag_w = true;
                     $res .='<li >' ;
                     $res .='<a href="javascript:void(0)" onclick="wpage('.$v.')">'.$v.'</a>' ;
                     $res .='</li>' ;

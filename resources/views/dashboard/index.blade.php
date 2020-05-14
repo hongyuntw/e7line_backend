@@ -40,6 +40,28 @@
                     })
                 }
 
+                function opage(page){
+                    var orderBy_select  = document.getElementById("orderBy");
+                    var orderBy = orderBy_select.options[orderBy_select.selectedIndex].value;
+                    // console.log(orderBy);
+                    $.ajax({
+                        type: "get",
+                        url: "ajax/getoPage",
+                        data: {
+                            opage: page,
+                            orderBy: orderBy
+                        },
+                        success: function (msg) {
+                            if (msg) {
+                                const myNode = document.getElementById("dynamic_opage");
+                                myNode.innerHTML = '';
+                                $("#dynamic_opage").append(msg);
+                            }
+                        }
+                    })
+
+                }
+
                 function wpage(page) {
                     $.ajax({
                         type: "get",
@@ -170,16 +192,45 @@
                                                         <a href="javascript:void(0)" onclick="page({{$prev}})"><<</a>
                                                     </li>
                                                 @endif
+                                                @php($flag = true)
                                                 @foreach($pp as $k=>$v)
+                                                    {{--                                                當前page--}}
                                                     @if($v == $page)
                                                         <li class="active"><span>{{$v}}</span></li>
+                                                        {{--                                                    超過範圍之外page--}}
+                                                    @elseif(abs($v-$page)>=3 && $v<$page)
+                                                        @if($v==1)
+                                                            <li>
+                                                                <a href="javascript:void(0)"
+                                                                   onclick="page({{$v}})">{{$v}}</a>
+                                                            </li>
+                                                        @else
+                                                            @if($flag)
+                                                                <li><span>...</span></li>
+                                                                @php($flag = false)
+                                                            @endif
+                                                        @endif
+
+                                                    @elseif(abs($v-$page)>=3 && $v>$page)
+                                                        @if($v==count($pp))
+                                                            <li>
+                                                                <a href="javascript:void(0)"
+                                                                   onclick="page({{$v}})">{{$v}}</a>
+                                                            </li>
+                                                        @else
+                                                            @if($flag)
+                                                                <li><span>...</span></li>
+                                                                @php($flag = false)
+                                                            @endif
+                                                        @endif
+
                                                     @else
+                                                        @php($flag = true)
                                                         <li>
                                                             <a href="javascript:void(0)"
                                                                onclick="page({{$v}})">{{$v}}</a>
                                                         </li>
                                                     @endif
-
                                                 @endforeach
                                                 <li>
                                                     <a href="javascript:void(0)" onclick="page({{$next}})">>></a>
@@ -207,7 +258,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">
-                        <div class="box-header with-border">
+                        <div class="box-header with-border text-center">
                             <h3 class="box-title text-center">待追蹤福利</h3>
                         </div>
                         <!-- /.box-header -->
@@ -249,14 +300,43 @@
                                                     <a href="javascript:void(0)" onclick="wpage({{$wprev}})"><<</a>
                                                 </li>
                                             @endif
+                                            @php($flag_w = true)
                                             @foreach($wpp as $k=>$v)
+                                                {{--                                                當前page--}}
                                                 @if($v == $wpage)
                                                     <li class="active"><span>{{$v}}</span></li>
+                                                    {{--                                                    超過範圍之外page--}}
+                                                @elseif(abs($v-$wpage)>=3 && $v<$wpage)
+                                                    @if($v==1)
+                                                        <li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="wpage({{$v}})">{{$v}}</a>
+                                                        </li>
+                                                    @else
+                                                        @if($flag_w)
+                                                            <li><span>...</span></li>
+                                                            @php($flag_w = false)
+                                                        @endif
+                                                    @endif
+
+                                                @elseif(abs($v-$wpage)>=3 && $v>$wpage)
+                                                    @if($v==count($wpp))
+                                                        <li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="wpage({{$v}})">{{$v}}</a>
+                                                        </li>
+                                                    @else
+                                                        @if($flag_w)
+                                                            <li><span>...</span></li>
+                                                            @php($flag_w = false)
+                                                        @endif
+                                                    @endif
+
                                                 @else
+                                                    @php($flag_w = true)
                                                     <li>
                                                         <a href="javascript:void(0)" onclick="wpage({{$v}})">{{$v}}</a>
                                                     </li>
-
                                                 @endif
 
                                             @endforeach
@@ -278,6 +358,136 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+
+                        <div class="box-header with-border text-center">
+                            <h3 class="box-title text-center">可能的訂單</h3>
+                            <div class="box-tools" style="display: inline-block">
+                                <label>order By</label>
+                                <select id="orderBy" name="orderBy" class="">
+                                    <option value="create_date">建單時間</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form method="post" id="change_record_status_form">
+
+                                <div id="dynamic_opage">
+                                    <input hidden type="text" id="current_order_page" value="{{$opage}}">
+
+
+                                    <table class="table table-bordered table-hover" style="width: 100%">
+                                        <thead style="background-color: lightgray">
+                                        <tr>
+                                            <th class="text-center" style="width: 30%">客戶名稱</th>
+                                            <th class="text-center" style="width: 15%">建單時間</th>
+                                            <th class="text-center" style="width: 15%">目的</th>
+                                            <th class="text-center" style="width: 15%">總金額</th>
+                                            <th class="text-center" style="width: 30%">其他</th>
+                                        </tr>
+                                        </thead>
+                                        @foreach ($orders as $order)
+                                            <tr class="text-center"
+                                                ondblclick="window.location.href = '/orders/' + {{$order->id}} + '/detail'">
+                                                {{--                                                <td><input type="checkbox" id="{{$customer->concat_record_id}}"--}}
+                                                {{--                                                           name="change_record_status">--}}
+                                                {{--                                                </td>--}}
+                                                <td>
+                                                    @if($order->customer)
+                                                        {{ $order->customer->name }}</td>
+                                                    @else
+                                                        {{$order->other_customer_name}}
+                                                    @endif
+                                                <td>
+                                                    {{date('Y-m-d H:m',strtotime($order->create_date))}}
+                                                </td>
+                                                <td>
+                                                    {{$order->welfare->welfare_name}}
+                                                </td>
+
+                                                <td>
+                                                    {{$order->amount}}
+                                                </td>
+                                                <td>
+                                                    其他
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                    <div class="page">
+                                        <!-------分页---------->
+                                        @if($ocount > $orev)
+                                            <ul class="pagination">
+                                                @if($opage !=1)
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="opage({{$oprev}})"><<</a>
+                                                    </li>
+                                                @endif
+                                                @php($flago = true)
+                                                @foreach($opp as $k=>$v)
+                                                    {{--                                                當前page--}}
+                                                    @if($v == $opage)
+                                                        <li class="active"><span>{{$v}}</span></li>
+                                                        {{--                                                    超過範圍之外page--}}
+                                                    @elseif(abs($v-$opage)>=3 && $v<$opage)
+                                                        @if($v==1)
+                                                            <li>
+                                                                <a href="javascript:void(0)"
+                                                                   onclick="opage({{$v}})">{{$v}}</a>
+                                                            </li>
+                                                        @else
+                                                            @if($flago)
+                                                                <li><span>...</span></li>
+                                                                @php($flago = false)
+                                                            @endif
+                                                        @endif
+
+                                                    @elseif(abs($v-$opage)>=3 && $v>$opage)
+                                                        @if($v==count($opp))
+                                                            <li>
+                                                                <a href="javascript:void(0)"
+                                                                   onclick="opage({{$v}})">{{$v}}</a>
+                                                            </li>
+                                                        @else
+                                                            @if($flago)
+                                                                <li><span>...</span></li>
+                                                                @php($flago = false)
+                                                            @endif
+                                                        @endif
+
+                                                    @else
+                                                        @php($flago = true)
+                                                        <li>
+                                                            <a href="javascript:void(0)"
+                                                               onclick="opage({{$v}})">{{$v}}</a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="opage({{$onext}})">>></a>
+                                                </li>
+                                            </ul>
+                                    @endif
+                                    <!-------分页---------->
+                                    </div>
+
+                                </div>
+                            </form>
+
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+            </div>
 
 
         </section>

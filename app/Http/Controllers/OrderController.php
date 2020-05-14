@@ -284,13 +284,13 @@ class OrderController extends Controller
     public function get_e7line_account_info(Request $request)
     {
         $api_path = 'https://www.e7line.com:8081/API/GetMemberByCompany.aspx';
-//        return(123);
-//        dump(json_encode($request->input('customer_info')));
+        $search = $request->input('customer_info');
+        $search = str_replace('台','臺',$search);
 
         $client = new \GuzzleHttp\Client();
         $result = $client->post($api_path, [
             'form_params' => [
-                'searchText'=> $request->input('customer_info'),
+                'searchText'=> $search,
             ]
         ]);
 //        dd($result);

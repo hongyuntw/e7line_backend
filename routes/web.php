@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/','DashboardController@index')->name('dashboard.index');
     Route::get('/ajax/getPage','DashboardController@getPage')->name('dashboard.getPage');
     Route::get('/ajax/getwPage','DashboardController@getwPage')->name('dashboard.getwPage');
+    Route::get('/ajax/getoPage','DashboardController@getoPage')->name('dashboard.getoPage');
+
     Route::post('/ajax/set_concat_status','DashboardController@set_concat_status')->name('dashboard.set_concat_status');
 
 
