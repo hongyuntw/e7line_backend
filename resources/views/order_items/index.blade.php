@@ -193,13 +193,14 @@
                                                     訂購人姓名
                                                 </option>
                                             </select>
-                                            <div class="inline" style="display: inline">
+
+                                            <div class="inline">
                                                 <input type="text" name="search_info" class="form-control"
                                                        style="width: 80%"
                                                        placeholder="Search..."
                                                        value="@if(request()->get('search_info')) {{request()->get('search_info')}} @endif">
-                                                <button type="submit" id="search-btn"
-                                                        style="cursor: pointer;width: 20% "
+                                                <button type="submit" id="search-btn" style="cursor: pointer"
+                                                        style="width: 20%"
                                                         class="btn btn-flat"><i class="fa fa-search"></i>
                                                 </button>
                                             </div>
