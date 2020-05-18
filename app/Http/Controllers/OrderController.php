@@ -194,8 +194,8 @@ class OrderController extends Controller
             'business_concat_person_id' => 'required',
 //            'phone_number'=>'required',
 //            'email'=>'required',
-            'e7line_account' => 'required',
-            'e7line_name' => 'required',
+//            'e7line_account' => 'required',
+//            'e7line_name' => 'required',
             'payment_method' => 'required',
             'product_id.*' => 'required|min:1',
             'product_detail_id.*' => 'required|integer|min:1',
@@ -418,6 +418,7 @@ class OrderController extends Controller
         unset($data['spec_name']);
         unset($data['ISBN']);
         unset($data['e7line_info']);
+        unset($data['e7line_customer_info']);
         $data['user_id'] = Auth::user()->id;
         $currentMonth = date('m');
         $this_month_data = Order::whereRaw('MONTH(create_date) = ?',[$currentMonth])->get();
@@ -550,6 +551,8 @@ class OrderController extends Controller
         unset($data['spec_name']);
         unset($data['e7line_info']);
         unset($data['ISBN']);
+        unset($data['e7line_customer_info']);
+
 
 
         $order->update($data);

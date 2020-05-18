@@ -53,8 +53,8 @@ class CreateOrdersTable extends Migration
 
 
 //            e7line下單帳號,姓名
-            $table->string('e7line_account');
-            $table->string('e7line_name');
+            $table->string('e7line_account')->nullable();
+            $table->string('e7line_name')->nullable();
 
 
 //            為了啥購買的

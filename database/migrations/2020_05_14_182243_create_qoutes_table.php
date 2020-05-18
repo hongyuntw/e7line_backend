@@ -31,8 +31,7 @@ class CreateQoutesTable extends Migration
      */
     public function down()
     {
-        Schema::table('quotes', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('quotes');
+
     }
 }

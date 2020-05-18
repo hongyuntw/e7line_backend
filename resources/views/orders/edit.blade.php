@@ -133,7 +133,7 @@
                                             @endforeach
                                         </select>
                                         <input type="text" class="form-control" id="other_customer_name"
-                                               name="other_customer_name" placeholder="非客戶名單之補充"
+                                               name="other_customer_name" placeholder="非客戶名單之補充" onchange="otherCustomerInputChange(this)"
                                                @if($order->customer)
                                                disabled
                                                @endif
@@ -151,7 +151,13 @@
                                                     if (value < 0) {
                                                         other_customer_name_input.disabled = false;
                                                     } else {
+                                                        var customer_select = document.getElementById("select_customer");
+                                                        var customer_name = customer_select.options[customer_select.selectedIndex].text;
+                                                        console.log(customer_name);
+                                                        var node = document.getElementById("e7line_customer_info");
+                                                        node.value = customer_name;
                                                         other_customer_name_input.disabled = true;
+                                                        other_customer_name_input.value = null;
                                                     }
                                                     // console.log(customer_select_id);
                                                     $.ajax({
@@ -200,6 +206,11 @@
 
                                                 }
                                             }
+                                            function otherCustomerInputChange(_input){
+                                                var node = document.getElementById("e7line_customer_info");
+                                                node.value = _input.value;
+
+                                            }
                                         </script>
                                     </div>
 
@@ -243,12 +254,14 @@
                                     <label class="control-label">e7line帳號</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input class="form-control" id="e7line_customer_info" name="e7line_customer_info" placeholder="請輸入客戶資訊以供查詢">
+
                                         <div id="e7line_field">
                                             <input  value="{{old('e7line_account',$order->e7line_account)}}" name="e7line_account"
-                                                   id="e7line_account" class="form-control">
+                                                    id="e7line_account" class="form-control" placeholder="e7line帳號">
                                             <input  type="text" class="form-control" name="e7line_name" id="e7line_name"
-                                                   placeholder="e7line姓名"
-                                                   value="{{old('e7line_name',$order->e7line_name)}}">
+                                                    placeholder="e7line姓名"
+                                                    value="{{old('e7line_name',$order->e7line_name)}}">
                                         </div>
                                         <button type="button" onclick="gete7lineAccount()" style="color: #00a65a"
                                                 class="form-control">Get Account
@@ -257,6 +270,16 @@
                                 </div>
                                 {{--                            api to get account --}}
                                 <script>
+                                    var customer_select = document.getElementById("select_customer");
+                                    var initCustomerId = customer_select.options[customer_select.selectedIndex].value;
+                                    var e7lineInfoInput = document.getElementById("e7line_customer_info");
+                                    if(initCustomerId<0){
+                                        e7lineInfoInput.value = document.getElementById("other_customer_name").value
+                                    }
+                                    else{
+                                        e7lineInfoInput.value = customer_select.options[customer_select.selectedIndex].text;
+                                    }
+
                                     function e7line_info_change(select){
                                         var str = select.options[select.selectedIndex].value;
                                         var text = str.split("###");
@@ -268,19 +291,25 @@
                                     function gete7lineAccount() {
                                         var customer_info;
                                         //    有可能是從選單選的
-                                        var customer_select = document.getElementById("select_customer");
-                                        var customer_select_text = customer_select.options[customer_select.selectedIndex].text;
-                                        var customer_select_val = customer_select.options[customer_select.selectedIndex].value;
-                                        if (customer_select_val != -1) {
-                                            customer_info = customer_select_text;
-                                        } else {
-                                            //從其他輸入選擇
-                                            var other_customer_name_val = document.getElementById("other_customer_name").value;
-                                            if (other_customer_name_val == null || other_customer_name_val == "") {
-                                                alert('需要提供客戶資訊，請選擇客戶或輸入名字');
-                                                return;
-                                            }
-                                            customer_info = other_customer_name_val;
+                                        // var customer_select = document.getElementById("select_customer");
+                                        // var customer_select_text = customer_select.options[customer_select.selectedIndex].text;
+                                        // var customer_select_val = customer_select.options[customer_select.selectedIndex].value;
+                                        // if (customer_select_val != -1) {
+                                        //     customer_info = customer_select_text;
+                                        // } else {
+                                        //     //從其他輸入選擇
+                                        //     var other_customer_name_val = document.getElementById("other_customer_name").value;
+                                        //     if (other_customer_name_val == null || other_customer_name_val == "") {
+                                        //         alert('需要提供客戶資訊，請選擇客戶或輸入名字');
+                                        //         return;
+                                        //     }
+                                        //     customer_info = other_customer_name_val;
+                                        // }
+                                        var e7lineInfoInput = document.getElementById("e7line_customer_info");
+                                        customer_info = e7lineInfoInput.value;
+                                        if(customer_info==null || customer_info==''){
+                                            alert('需要提供客戶資訊，請選擇客戶或輸入名字');
+                                            return;
                                         }
                                         $.ajax({
                                             async: false,
@@ -315,9 +344,9 @@
                                                         // $("#e7line_field").append(html);
                                                     }
                                                     html += '</select>';
-                                                    html += '<input style="display: none" value="'+ data.members[0].memberNo+'" name="e7line_account"\n' +
+                                                    html += '<input  value="'+ data.members[0].memberNo+'" name="e7line_account"\n' +
                                                         '                                               id="e7line_account" class="form-control">\n' +
-                                                        '                                        <input  style="display: none" type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
+                                                        '                                        <input  type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
                                                         '                                               placeholder="e7line姓名"\n' +
                                                         '                                               value="'+ data.members[0].Name +'">';
                                                     $("#e7line_field").append(html);
@@ -698,10 +727,10 @@
                                     computeSum();
                                     // window.scrollTo(0,$("product_list").scrollHeight);
                                     // $("product_list").scrollTop = $("product_list").scrollHeight;
-                                    window.scrollTo({
-                                        top: document.body.scrollHeight - document.body.scrollHeight * 0.1,
-                                        behavior: "smooth",
-                                    });
+                                    // window.scrollTo({
+                                    //     top: document.body.scrollHeight - document.body.scrollHeight * 0.1,
+                                    //     behavior: "smooth",
+                                    // });
 
 
                                 }
