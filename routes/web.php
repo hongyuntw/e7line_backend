@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('quotes/create', 'QuoteController@create')->name('quote.create');
     Route::post('quotes', 'QuoteController@store')->name('quote.store');
     Route::get('quotes/ajax/getProductQuote','QuoteController@getProductQuote')->name('quote.getProductQuote');
+    Route::get('quotes/ajax/initIndex','QuoteController@initIndex')->name('quote.initIndex');
+
 
     Route::post('quotes/{quote}/delete', 'QuoteController@delete')->name('quote.delete');
 

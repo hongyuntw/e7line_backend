@@ -22,6 +22,21 @@
         <!-- Main content -->
         <section class="content container-fluid">
 
+            <script>
+                $(document).ready(function () {
+                    var node = document.getElementById("dynamicQuote");
+                    $.ajax({
+                        type: "get",
+                        url: "{{route('quote.initIndex')}}",
+                        success: function (msg) {
+                            node.innerHTML = '';
+                            node.innerHTML = msg;
+
+                        }
+                    })
+                })
+            </script>
+
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
@@ -41,10 +56,10 @@
                                     </select>
                                     <script>
                                         var product_select = $("#product").selectize({
-                                            onChange : function(value){
+                                            onChange: function (value) {
                                                 console.log(value);
                                                 var node = document.getElementById("dynamicQuote");
-                                                if(value>0){
+                                                if (value > 0) {
                                                     $.ajax({
                                                         type: "get",
                                                         url: "{{route('quote.getProductQuote')}}",
@@ -58,14 +73,14 @@
                                                         }
                                                     })
 
-                                                }
-                                                else{
+                                                } else {
                                                     node.innerHTML = '';
                                                 }
 
 
                                             }
                                         });
+                                        product_select[0].selectize.setValue({{\Illuminate\Support\Facades\Session::get('quote_product_id',"-1")}});
                                     </script>
                                 </div>
                                 <div class="col-md-6">
@@ -76,42 +91,42 @@
                             </div>
                         </div>
                         <div class="box-body" id="dynamicQuote">
-{{--                                <table class="table table-bordered table-hover" width="100%">--}}
-{{--                                    <thead style="background-color: lightgray">--}}
-{{--                                    <tr>--}}
-{{--                                        <th class="text-center" style="width:15%">級距</th>--}}
-{{--                                        <th class="text-center" style="width:20%">原廠%</th>--}}
-{{--                                        <th class="text-center" style="width:8%">e7line%</th>--}}
-{{--                                        <th class="text-center" style="width:8%">備註</th>--}}
-{{--                                        <th class="text-center" style="width:20%">Other</th>--}}
-{{--                                    </tr>--}}
-{{--                                    </thead>--}}
-{{--                                    @foreach ($quotes as $quote)--}}
-{{--                                        @if($quote->is_deleted)--}}
-{{--                                            @continue--}}
-{{--                                        @endif--}}
-{{--                                        <tr ondblclick="" class="text-center">--}}
-{{--                                            <td>{{$quote->step}}</td>--}}
-{{--                                            <td>{{$quote->origin}}</td>--}}
-{{--                                            <td>{{ ($quote->e7line)}}</td>--}}
-{{--                                            <td>{{$quote->note}}</td>--}}
-{{--                                            <td>--}}
-{{--                                                <a class="btn btn-xs btn-primary">編輯</a>--}}
+                            {{--                                <table class="table table-bordered table-hover" width="100%">--}}
+                            {{--                                    <thead style="background-color: lightgray">--}}
+                            {{--                                    <tr>--}}
+                            {{--                                        <th class="text-center" style="width:15%">級距</th>--}}
+                            {{--                                        <th class="text-center" style="width:20%">原廠%</th>--}}
+                            {{--                                        <th class="text-center" style="width:8%">e7line%</th>--}}
+                            {{--                                        <th class="text-center" style="width:8%">備註</th>--}}
+                            {{--                                        <th class="text-center" style="width:20%">Other</th>--}}
+                            {{--                                    </tr>--}}
+                            {{--                                    </thead>--}}
+                            {{--                                    @foreach ($quotes as $quote)--}}
+                            {{--                                        @if($quote->is_deleted)--}}
+                            {{--                                            @continue--}}
+                            {{--                                        @endif--}}
+                            {{--                                        <tr ondblclick="" class="text-center">--}}
+                            {{--                                            <td>{{$quote->step}}</td>--}}
+                            {{--                                            <td>{{$quote->origin}}</td>--}}
+                            {{--                                            <td>{{ ($quote->e7line)}}</td>--}}
+                            {{--                                            <td>{{$quote->note}}</td>--}}
+                            {{--                                            <td>--}}
+                            {{--                                                <a class="btn btn-xs btn-primary">編輯</a>--}}
 
-{{--                                                @if( Auth::user()->level==2)--}}
-{{--                                                    <form action="{{route('quote.delete',$quote->id)}}"--}}
-{{--                                                          method="post"--}}
-{{--                                                          style="display: inline-block">--}}
-{{--                                                        @csrf--}}
-{{--                                                        <button type="submit" class="btn btn-xs btn-danger"--}}
-{{--                                                                onclick="return confirm('確定是否刪除')">刪除--}}
-{{--                                                        </button>--}}
-{{--                                                    </form>--}}
-{{--                                                @endif--}}
-{{--                                            </td>--}}
-{{--                                        </tr>--}}
-{{--                                    @endforeach--}}
-{{--                                </table>--}}
+                            {{--                                                @if( Auth::user()->level==2)--}}
+                            {{--                                                    <form action="{{route('quote.delete',$quote->id)}}"--}}
+                            {{--                                                          method="post"--}}
+                            {{--                                                          style="display: inline-block">--}}
+                            {{--                                                        @csrf--}}
+                            {{--                                                        <button type="submit" class="btn btn-xs btn-danger"--}}
+                            {{--                                                                onclick="return confirm('確定是否刪除')">刪除--}}
+                            {{--                                                        </button>--}}
+                            {{--                                                    </form>--}}
+                            {{--                                                @endif--}}
+                            {{--                                            </td>--}}
+                            {{--                                        </tr>--}}
+                            {{--                                    @endforeach--}}
+                            {{--                                </table>--}}
 
 
                         </div>

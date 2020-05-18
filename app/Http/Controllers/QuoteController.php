@@ -9,6 +9,7 @@ use App\Quote;
 use Illuminate\Http\Request;
 use ConsoleTVs\Charts;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class QuoteController extends Controller
 {
@@ -36,6 +37,12 @@ class QuoteController extends Controller
 
     public function getProductQuote(Request $request)
     {
+        session_start();
+        if(Session::exists('quote_product_id')){
+            Session::remove('quote_product_id');
+        }
+        Session::put('quote_product_id',$request->input('id'));
+        session_write_close();
         $product = Product::find($request->input('id'));
         $quotes = $product->quotes;
         $resp = '                                <table class="table table-bordered table-hover" width="100%">
@@ -78,6 +85,64 @@ class QuoteController extends Controller
 
 
     }
+
+
+    public function initIndex()
+    {
+        session_start();
+        $product_id = Session::get('quote_product_id');
+        if(empty($product_id)){
+            session_write_close();  //<---------- Add this to close the session so that reading from the session will contain the new value.
+            return  '<table></table>';
+
+        }
+        session_write_close();  //<---------- Add this to close the session so that reading from the session will contain the new value.
+
+        $product = Product::find($product_id);
+        $quotes = $product->quotes;
+        $resp = '                                <table class="table table-bordered table-hover" width="100%">
+                                    <thead style="background-color: lightgray">
+                                    <tr>
+                                        <th class="text-center" style="width:15%">級距</th>
+                                        <th class="text-center" style="width:20%">原廠%</th>
+                                        <th class="text-center" style="width:8%">e7line%</th>
+                                        <th class="text-center" style="width:8%">備註</th>
+                                        <th class="text-center" style="width:20%">Other</th>
+                                    </tr>
+                                    </thead>';
+
+        foreach ($quotes as $quote) {
+            if ($quote->is_deleted) {
+                continue;
+            }
+            $resp .= '<tr ondblclick="" class="text-center">';
+            $resp .= '<td>' . $quote->step . '</td>';
+            $resp .= '<td>' . $quote->origin . '</td>';
+            $resp .= '<td>' . $quote->e7line . '</td>';
+            $resp .= '<td>' . $quote->note . '</td>';
+            $resp.= '<td>';
+            $resp .= '<a class="btn btn-xs btn-primary" href="'.route('quote.edit',$quote->id).'" >編輯</a>';
+            if (Auth::user()->level == 2) {
+                $resp .= '<form action="' . route('quote.delete',$quote->id) . '" method="post"
+                                                          style="display: inline-block">';
+                $resp.= csrf_field();
+                $resp .= '<button type="submit" class="btn btn-xs btn-danger"
+                                                                onclick="return confirm("確定是否刪除")">刪除
+                                                        </button>
+                                                    </form>';
+            }
+            $resp .= '</td></tr>';
+
+
+        }
+        $resp .= '</table>';
+        return $resp;
+
+    }
+
+
+
+
 
     public function getChartData(Request $request)
     {
@@ -150,6 +215,12 @@ class QuoteController extends Controller
         $quote = Quote::Create($data);
         $quote->create_date = now();
         $quote->update();
+        session_start();
+        if(Session::exists('quote_product_id')){
+            Session::remove('quote_product_id');
+        }
+        Session::put('quote_product_id',$request->input('product_id'));
+        session_write_close();
         return redirect()->route('quote.index');
 
     }
