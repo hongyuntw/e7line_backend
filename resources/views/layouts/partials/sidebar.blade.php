@@ -109,7 +109,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{route('qoute.index')}}">報價參考</a></li>
+                    <li><a href="{{route('quote.index')}}">報價參考</a></li>
+                    <li><a href="{{route('quote.create')}}">新增報價參考</a></li>
                 </ul>
             </li>
         </ul>

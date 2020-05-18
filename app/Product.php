@@ -18,5 +18,10 @@ class Product extends Model
         return $this->hasMany(ProductRelation::class);
     }
 
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
+    }
+
 
 }

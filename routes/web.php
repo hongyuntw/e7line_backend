@@ -32,8 +32,16 @@ Route::middleware('auth')->group(function () {
 
 
 // 報價
-    Route::get('qoute','QuoteController@index')->name('qoute.index');
-    Route::get('quote/ajax/getChartData','QuoteController@getChartData')->name('qoute.getChartData');
+    Route::get('quote','QuoteController@index')->name('quote.index');
+    Route::get('quotes/create', 'QuoteController@create')->name('quote.create');
+    Route::post('quotes', 'QuoteController@store')->name('quote.store');
+    Route::get('quotes/ajax/getProductQuote','QuoteController@getProductQuote')->name('quote.getProductQuote');
+
+    Route::post('quotes/{quote}/delete', 'QuoteController@delete')->name('quote.delete');
+
+    Route::get('quotes/{quote}/edit', 'QuoteController@edit')->name('quote.edit');
+    Route::post('quotes/{quote}', 'QuoteController@update')->name('quote.update');
+    Route::get('quotes/ajax/getChartData','QuoteController@getChartData')->name('quote.getChartData');
 
 
 //    for customer

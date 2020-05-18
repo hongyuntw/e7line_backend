@@ -20,11 +20,9 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
-
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">

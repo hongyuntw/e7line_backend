@@ -15,11 +15,12 @@ class CreateQoutesTable extends Migration
     {
         Schema::create('quotes', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('product_id');
             $table->string('step');
             $table->float('origin');
             $table->float('e7line');
-            $table->string('note');
-            $table->boolean('is_deleted');
+            $table->string('note')->nullable();
+            $table->boolean('is_deleted')->default(0);
             $table->timestamp('create_date');
         });
     }
