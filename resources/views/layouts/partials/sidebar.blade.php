@@ -103,6 +103,16 @@
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>
+                    <span>任務清單</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('tasks.index')}}">任務列表</a></li>
+                </ul>
+                <a href="#">
+                    <i class="fa fa-shopping-bag"></i>
                     <span>報價參考</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>

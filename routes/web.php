@@ -75,6 +75,16 @@ Route::middleware('auth')->group(function () {
     Route::get('customers/{request?}','CustomersController@index')->name('customers.index');
 
 
+//    tasks
+    Route::get('tasks','TaskController@index')->name('tasks.index');
+    Route::get('tasks/create', 'TaskController@create')->name('tasks.create');
+    Route::post('tasks', 'TaskController@store')->name('tasks.store');
+    Route::post('tasks/{task}/delete', 'TaskController@delete')->name('tasks.delete');
+    Route::get('tasks/{task}/edit', 'TaskController@edit')->name('tasks.edit');
+    Route::post('tasks/{task}', 'TaskController@update')->name('tasks.update');
+
+
+
 
 
 

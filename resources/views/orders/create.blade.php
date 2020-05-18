@@ -315,7 +315,7 @@
                                         alert('需要提供客戶資訊，請選擇客戶或輸入名字');
                                         return;
                                     }
-                                    customer_info.replaceAll('台','臺');
+                                    customer_info.replace('台','臺');
                                     $.ajax({
                                         async: false,
                                         type: "POST",
