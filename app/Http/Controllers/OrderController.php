@@ -43,6 +43,7 @@ class OrderController extends Controller
         $query = Order::query();
         $search_type = 0;
         $search_info = '';
+        $code_filter = -1;
         $products = Product::all();
         $users = User::all();
         $product_id = -1;
@@ -69,6 +70,22 @@ class OrderController extends Controller
         if((int)$status_filter>=0){
             $query->where('orders.status', '=', (int)$status_filter);
         }
+        if($request->has('code_filter')){
+            $code_filter = $request->input('code_filter');
+        }
+        if($code_filter>=0){
+            switch ($code_filter){
+                case 0:
+                    $query->whereNull('orders.code');
+                    break;
+                case 1:
+                    $query->whereNotNull('orders.code');
+
+                    break;
+                default:
+                    break;
+            }
+        }
         //        date filter
         if($request->has('date_from')){
             $date_from = $request->input('date_from');
@@ -92,6 +109,7 @@ class OrderController extends Controller
                     break;
                 case 2:
                     $query->join('customers','customers.id','=','orders.customer_id');
+                    $query->select('orders.*','customers.name');
                     $query->where(function ($query) use ($search_info) {
                         $query->where('customers.name', 'like', "%{$search_info}%")
                             ->orWhere('orders.other_customer_name', 'like', "%{$search_info}%");
@@ -104,6 +122,7 @@ class OrderController extends Controller
                     break;
                 case 4:
                     $query->join('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
+
                     $query->where(function ($query) use ($search_info) {
                         $query->where('business_concat_persons.name', 'like', "%{$search_info}%")
                             ->orWhere('orders.other_concat_person_name', 'like', "%{$search_info}%");
@@ -121,7 +140,7 @@ class OrderController extends Controller
 
 
 
-        $query->where('is_deleted','=',0);
+        $query->where('orders.is_deleted','=',0);
 //        dd($sortBy);
         $query->orderBy('orders.'.$sortBy,'DESC');
         $orders = $query->paginate(15);
@@ -140,6 +159,7 @@ class OrderController extends Controller
             'sortBy_text'=>$sortBy_text,
             'date_from'=>$date_from,
             'date_to'=>$date_to,
+            'code_filter'=>$code_filter,
         ];
 
         return view('orders.index', $data);
@@ -197,7 +217,7 @@ class OrderController extends Controller
 //            'e7line_account' => 'required',
 //            'e7line_name' => 'required',
             'payment_method' => 'required',
-            'product_id.*' => 'required|min:1',
+            'product_id.*' => 'required|integer|min:1',
             'product_detail_id.*' => 'required|integer|min:1',
             'quantity.*' => 'required',
             'price.*' => 'required',
@@ -212,6 +232,14 @@ class OrderController extends Controller
             $rules['other_concat_person_name'] = 'required';
         }
         return $rules;
+    }
+
+    public function changeStatusBack(Request $request)
+    {
+        $order = Order::find($request->input('id'));
+        $order->status = 0;
+        $order->update();
+        return "已將訂單#".$order->no."狀態改回未處理";
     }
 
 

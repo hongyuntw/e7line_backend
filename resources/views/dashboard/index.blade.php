@@ -25,6 +25,16 @@
                 function page(page) {
                     $.ajax({
                         type: "get",
+                        url: "{{route('dashboard.setPageSession')}}",
+                        data: {
+                            page: page
+                        },
+                        success: function (msg) {
+                            console.log(msg);
+                        }
+                    });
+                    $.ajax({
+                        type: "get",
                         url: "ajax/getPage",
                         data: {
                             page: page
@@ -41,6 +51,16 @@
                 }
 
                 function opage(page){
+                    $.ajax({
+                        type: "get",
+                        url: "{{route('dashboard.setPageSession')}}",
+                        data: {
+                            opage: page
+                        },
+                        success: function (msg) {
+                            console.log(msg);
+                        }
+                    });
                     var orderBy_select  = document.getElementById("orderBy");
                     var orderBy = orderBy_select.options[orderBy_select.selectedIndex].value;
                     // console.log(orderBy);
@@ -63,6 +83,16 @@
                 }
 
                 function wpage(page) {
+                    $.ajax({
+                        type: "get",
+                        url: "{{route('dashboard.setPageSession')}}",
+                        data: {
+                            wpage: page
+                        },
+                        success: function (msg) {
+                            console.log(msg);
+                        }
+                    });
                     $.ajax({
                         type: "get",
                         url: "ajax/getwPage",

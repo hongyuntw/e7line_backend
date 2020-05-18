@@ -52,6 +52,12 @@
                                                         @endif value="{{$loop->index}}">{{$status_name}}</option>
                                             @endforeach
                                         </select>
+                                        <label>拋單狀態</label>
+                                        <select name="code_filter" class="form-control form-control-sm">
+                                            <option value="-1" @if(-1==$code_filter) selected @endif>All </option>
+                                            <option value="0" @if(0==$code_filter) selected @endif>未拋單</option>
+                                            <option value="1" @if(1==$code_filter) selected @endif>已拋單</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-2">
                                         <label>日期篩選</label>
@@ -109,6 +115,7 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        <input hidden name="code_filter" value="{{$code_filter}}">
                                         <input hidden name="user_filter" value="{{$user_filter}}">
                                         <input hidden name="status_filter" value="{{$status_filter}}">
                                         <input hidden name="date_from" value="{{$date_from}}">
@@ -177,14 +184,14 @@
                                             for (let [key, value] of Object.entries(data)) {
                                                 // msg_str += value;
                                                 // console.log(key);
-                                                msg += '訂單編號:'+key+'\t'+value;
+                                                msg += '訂單編號:' + key + '\t' + value;
                                                 msg += '\n';
                                             }
                                             alert(msg);
                                             // tmp = false;
                                             window.location.reload();
                                         },
-                                        error: function (){
+                                        error: function () {
                                             alert('伺服器出了點問題，稍後再重試');
                                         }
                                     });
@@ -306,10 +313,38 @@
                                                     </button>
                                                 </form>
                                             @endif
+                                            @if(Auth::user()->level!=0 && $order->status==1)
+                                                <button type="button" onclick="changeOrderStatusBack({{$order->id}})"
+                                                        class="btn btn-xs btn-primary">退回未處理
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
                             </table>
+                            <script>
+                                function changeOrderStatusBack(id) {
+                                    console.log(id);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: '{{route('orders.changeStatusBack')}}',
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                        },
+                                        data: {
+                                            id: id,
+                                        },
+                                        success: function (msg) {
+                                            alert(msg);
+                                            window.location.reload();
+                                        },
+                                        error: function () {
+                                            alert('伺服器出了點問題，稍後再重試');
+                                        }
+                                    });
+
+                                }
+                            </script>
                         </div>
 
                         <!-- /.box-body -->

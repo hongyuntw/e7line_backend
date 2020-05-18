@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ajax/getPage','DashboardController@getPage')->name('dashboard.getPage');
     Route::get('/ajax/getwPage','DashboardController@getwPage')->name('dashboard.getwPage');
     Route::get('/ajax/getoPage','DashboardController@getoPage')->name('dashboard.getoPage');
+    Route::get('/ajax/setPageSession','DashboardController@setPageSession')->name('dashboard.setPageSession');
 
     Route::post('/ajax/set_concat_status','DashboardController@set_concat_status')->name('dashboard.set_concat_status');
 
@@ -104,6 +105,7 @@ Route::middleware('auth')->group(function () {
     Route::get('mails/export','MailsController@export')->name('mails.export');
 
 //    orders
+    Route::post('orders/changeStatusBack','OrderController@changeStatusBack')->name('orders.changeStatusBack');
     Route::get('orders','OrderController@index')->name('orders.index');
     Route::get('orders/{order}/detail','OrderController@detail')->name('orders.detail');
     Route::get('orders/create','OrderController@create')->name('orders.create');

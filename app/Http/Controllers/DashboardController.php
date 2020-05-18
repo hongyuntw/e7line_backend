@@ -15,10 +15,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
 //        its for concat record
@@ -57,10 +58,20 @@ class DashboardController extends Controller
         $rev = '6';
         $sums = ceil($count/$rev);
 
-        $page = Input::get('page');
+//        $page = Input::get('page');
+//        if()
+//        $page = Session::get('dashboard_page');
+//        $page = Input::get('page');
+        session_start();
+        $page = $request->input('page');
         if(empty($page)){
-            $page = "1";
+            $page = Session::get('dashboard_page');
+            Session::remove('dashboard_page');
+            if(empty($page)){
+                $page = "1";
+            }
         }
+        session_write_close();
         $prev = ($page-1)>0?$page-1:1;
         $next = ($page+1)<$sums?$page+1:$sums;
         $offset = ($page-1)*$rev;
@@ -99,10 +110,16 @@ class DashboardController extends Controller
         $wrev = '6';
         $wsums = ceil($wcount/$wrev);
 
-        $wpage = Input::get('wpage');
+        session_start();
+        $wpage = $request->input('wpage');
         if(empty($wpage)){
-            $wpage = "1";
+            $wpage = Session::get('dashboard_wpage');
+            Session::remove('dashboard_wpage');
+            if(empty($wpage)){
+                $wpage = "1";
+            }
         }
+        session_write_close();
         $wprev = ($wpage-1)>0?$wpage-1:1;
         $wnext = ($wpage+1)<$wsums?$wpage+1:$wsums;
         $woffset = ($wpage-1)*$wrev;
@@ -119,6 +136,9 @@ class DashboardController extends Controller
         $order_query = Order::query();
         $monthStart = now()->subMonth(1);
         $monthEnd = now();
+        if(Auth::user()->level!=2){
+            $query->where('user_id','=',Auth::user()->id);
+        }
         $order_query->whereBetween('create_date',[$monthStart,$monthEnd]);
         $order_query->orderBy('create_date','DESC');
         $orders = $order_query->get();
@@ -127,10 +147,16 @@ class DashboardController extends Controller
         $orev = '6';
         $osums = ceil($ocount/$orev);
 
-        $opage = Input::get('opage');
+        session_start();
+        $opage = $request->input('opage');
         if(empty($opage)){
-            $opage = "1";
+            $opage = Session::get('dashboard_opage');
+            Session::remove('dashboard_opage');
+            if(empty($opage)){
+                $opage = "1";
+            }
         }
+        session_write_close();
         $oprev = ($opage-1)>0?$opage-1:1;
         $onext = ($opage+1)<$osums?$opage+1:$osums;
         $ooffset = ($opage-1)*$orev;
@@ -580,6 +606,38 @@ class DashboardController extends Controller
         }
 
         return $request['page'];
+
+
+    }
+
+    public function setPageSession(Request $request)
+    {
+        if($request->has('page')){
+            session_start();
+            Session::remove('dashboard_page');
+            Session::put('dashboard_page',$request->input('page'));
+            session_write_close();  //<---------- Add this to close the session so that reading from the session will contain the new value.
+            return 'success set page to session to' . $request->input('page');
+
+        }
+        if($request->has('wpage')){
+            session_start();
+            Session::remove('dashboard_wpage');
+            Session::put('dashboard_wpage',$request->input('wpage'));
+            session_write_close();  //<---------- Add this to close the session so that reading from the session will contain the new value.
+            return 'success set page to session to' . $request->input('wpage');
+
+
+        }
+        if($request->has('opage')){
+            session_start();
+            Session::remove('dashboard_opage');
+            Session::put('dashboard_opage',$request->input('opage'));
+            session_write_close();  //<---------- Add this to close the session so that reading from the session will contain the new value.
+            return 'success set page to session to' . $request->input('opage');
+
+
+        }
 
 
     }

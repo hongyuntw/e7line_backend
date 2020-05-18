@@ -27,7 +27,7 @@
 
                 $(document).ready(function () {
                     computeSum();
-                    if ('{{$order->status==1}}') {
+                    if ('{{$order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0}}') {
                         console.log("hi bro");
                         console.log($('#base_info').find('input, textarea, button, select'));
                         $('#base_info').find('input, textarea, button, select').prop('disabled', true);
@@ -80,7 +80,7 @@
                     }();
                     // console.log("test result is");
                     if (!result) {
-                        if ('{{$order->status==1}}') {
+                        if ('{{$order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0}}') {
                             $('#base_info').find('input, textarea, button, select').prop('disabled', true);
                             $('#item_info').find('input, textarea, button, select').prop('disabled', true);
                         }
@@ -120,7 +120,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                         <select id="select_customer" name="customer_id"
-                                                @if($order->status==1) disabled @endif>
+                                                @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
                                             <option value="-1">Select a customer...</option>
                                             @foreach($customers as $customer)
                                                 <option value="{{$customer->id}}"
@@ -311,6 +311,8 @@
                                             alert('需要提供客戶資訊，請選擇客戶或輸入名字');
                                             return;
                                         }
+                                        customer_info.replaceAll('台','臺');
+
                                         $.ajax({
                                             async: false,
                                             type: "POST",
@@ -647,6 +649,7 @@
                                 function add_product() {
                                     var count = document.getElementById("product_list_count").value;
                                     count = parseInt(count);
+                                    var productListId = "#product" + count + "_list";
                                     count = count + 1;
                                     // console.log(count);
                                     document.getElementById("product_list_count").value = count;
@@ -721,7 +724,8 @@
                                         '                            </div>' +
                                         '</div>';
 
-                                    $('#product_list').append(html);
+                                    $('#insertField').prepend(html);
+                                    // $(productListId).prepend(html);
                                     var new_select_id = "#product" + count;
                                     make_selectize(new_select_id);
                                     computeSum();
@@ -783,7 +787,7 @@
                             </script>
 
 
-                            @if($order->status==0)
+                            @if($order->status==0||\Illuminate\Support\Facades\Auth::user()->level!=0)
                                 <a id="add_product_btn" class="btn btn-link" onclick="add_product()">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                     add product
@@ -803,7 +807,7 @@
                                     <div id="product_list">
                                         @else
                                             <div id="product_list{{$loop->index+1}}">
-                                                @if($order->status==0)
+                                                @if($order->status==0||\Illuminate\Support\Facades\Auth::user()->level!=0)
 
                                                     <a class="btn btn-link"
                                                        onclick="delete_product({{$loop->index+1}})">
@@ -822,7 +826,7 @@
                                                                     class="glyphicon glyphicon-shopping-cart"></i></span>
                                                             <select id="{{$product_var}}" name="product_id[]"
                                                                     onchange="product_change(this)"
-                                                                    @if($order->status==1) disabled @endif>
+                                                                    @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
                                                                 <option value="-1">選擇產品</option>
                                                                 @foreach($products as $product)
                                                                     <option
@@ -845,7 +849,7 @@
                                                                         name="product_detail_id[]"
                                                                         id="{{$product_var}}_detail_select"
                                                                         onchange="product_detail_change(this)"
-                                                                        @if($order->status==1) disabled @endif>
+                                                                        @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
                                                                     <option value="-1">選擇產品</option>
                                                                     @foreach($product_relations as $product_relation)
                                                                         @if($product_relation->product_id == $order_item->product_relation->product->id)
@@ -868,7 +872,7 @@
 
                                                                    id="{{$product_var}}_detail_ISBN"
                                                                    value="{{($order_item->product_relation->ISBN)}}"
-                                                                   @if($order->status==1) disabled @endif>
+                                                                   @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2 inputGroupContainer">
@@ -881,7 +885,7 @@
                                                                    onchange="computeSum()"
                                                                    placeholder="請輸入數量"
                                                                    value="{{old('quantity['.($loop->index+1).']',$order_item->quantity)}}"
-                                                                   @if($order->status==1) disabled @endif>
+                                                                   @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
 
                                                         </div>
                                                     </div>
@@ -894,7 +898,7 @@
                                                                    onchange="computeSum()"
                                                                    value="{{old('price['.($loop->index+1).']',$order_item->price)}}"
                                                                    id="{{$product_var}}_detail_price"
-                                                                   @if($order->status==1) disabled @endif>
+                                                                   @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2 inputGroupContainer">
@@ -905,12 +909,16 @@
                                                             <input type="text" class="form-control"
                                                                    name="spec_name[]"
                                                                    value="{{old('spec_name['.($loop->index+1).']',$order_item->spec_name)}}"
-                                                                   @if($order->status==1) disabled @endif>
+                                                                   @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
                                                         </div>
                                                     </div>
 
                                                 </div>
                                             </div>
+                                        @if($loop->index==0)
+                                                <div id="insertField"></div>
+                                            @endif
+
                                             @endforeach
                                             <div align="right">
                                                 <table>
