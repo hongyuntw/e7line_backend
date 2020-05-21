@@ -280,10 +280,9 @@ class OrderController extends Controller
         }
         $data['orderSubs'] = $orderSubs;
 //        dump($data);
-//        dump($data);
+        dump($data);
         $data_json = json_encode($data);
-//        dump($data_json);
-//        dd(($data_json));
+        dd(($data_json));
 
         $client = new \GuzzleHttp\Client();
         $result = $client->post($api_path, [

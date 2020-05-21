@@ -36,9 +36,11 @@ class WelfareStatusController extends Controller
         $query_all = WelfareStatus::query();
         $welfare_statuses = $query_all->get();
         $query = WelfareStatus::query();
-        $query->where(function ($query) use ($welfare_statuses) {
+//        $welfare_types = WelfareType::all();
+        $table_welfare_types = WelfareType::all();
+        $query->where(function ($query) use ($welfare_statuses,$table_welfare_types) {
             foreach ($welfare_statuses as $key => $value) {
-                if (count($value->welfare_types) <= 0 || is_null($value->welfare_types)) {
+                if (count($value->welfare_types) <= 0 || is_null($value->welfare_types) || $table_welfare_types->isEmpty()) {
                     unset($welfare_statuses[$key]);
                 }
                 else {
@@ -47,7 +49,6 @@ class WelfareStatusController extends Controller
             }
             return $query;
         });
-
         $search_type = 0;
         $search_info = '';
 
@@ -117,6 +118,7 @@ class WelfareStatusController extends Controller
         } else {
             $query->orderBy($sortBy, 'DESC');
         }
+
 
 
 
