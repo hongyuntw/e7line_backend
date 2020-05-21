@@ -38,9 +38,10 @@ class WelfareStatusController extends Controller
         $query = WelfareStatus::query();
         $query->where(function ($query) use ($welfare_statuses) {
             foreach ($welfare_statuses as $key => $value) {
-                if (count($value->welfare_types) <= 0) {
+                if (count($value->welfare_types) <= 0 || is_null($value->welfare_types)) {
                     unset($welfare_statuses[$key]);
-                } else {
+                }
+                else {
                     $query->orWhere('welfare_status.id', '=', $value->id);
                 }
             }
