@@ -223,7 +223,6 @@
                     <script>
                         var product_select = $("#product_select").selectize();
                         product_select[0].selectize.setValue("-1");
-
                     </script>
                 </div>
                 <div class="col-md-12 center-block" id="chart_div">

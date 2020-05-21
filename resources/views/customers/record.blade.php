@@ -546,6 +546,7 @@
 
                                     function status_select_changed() {
                                         var selectObj = document.getElementById("status");
+                                        console.log("trigger");
                                         if (selectObj.selectedIndex == 1) {
                                             // var today = new Date();
                                             var now = formatDate();
@@ -609,6 +610,18 @@
                                         const myNode = document.getElementById("add_record_form");
                                         myNode.innerHTML = '';
                                     }
+                                    function recordStatusChange(select){
+                                        var input = document.getElementsByName(select.name)[3];
+                                        if(select.selectedIndex == 1){
+                                            console.log(213123);
+                                            input.value = formatDate();
+                                        }
+                                        else{
+                                            input.value = null;
+                                        }
+
+
+                                    }
 
                                 </script>
 
@@ -654,7 +667,7 @@
                                                 <label style="min-width: 60px;display: inline-block;"
                                                        class="{{$status_css}}">{{$status_name}}</label>
                                                 <select style="display:none;" class="form-control"
-                                                        name="edit_concat_record_info{{$concat_record->id}}">
+                                                        name="edit_concat_record_info{{$concat_record->id}}" onchange="recordStatusChange(this)">
                                                     <option value="0" @if($concat_record->status==0)selected @endif>
                                                         已完成
                                                     </option>

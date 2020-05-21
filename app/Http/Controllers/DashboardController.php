@@ -134,12 +134,16 @@ class DashboardController extends Controller
 
 //        its for maybe order
         $order_query = Order::query();
-        $monthStart = now()->subMonth(1);
-        $monthEnd = now();
+        $monthStart = now()->subMonth(1)->month;
+        $monthEnd = now()->month;
+        $order_query->whereYear('create_date','<',now()->startOfYear());
+        $order_query->whereMonth('create_date','>=',$monthStart);
+        $order_query->whereMonth('create_date','<=',$monthEnd);
+
         if(Auth::user()->level!=2){
-            $query->where('user_id','=',Auth::user()->id);
+            $order_query->where('user_id','=',Auth::user()->id);
         }
-        $order_query->whereBetween('create_date',[$monthStart,$monthEnd]);
+
         $order_query->orderBy('create_date','DESC');
         $orders = $order_query->get();
 
@@ -202,9 +206,32 @@ class DashboardController extends Controller
     {
         //        its for maybe order
         $order_query = Order::query();
-        $monthStart = now()->subMonth(1);
-        $monthEnd = now();
-        $order_query->whereBetween('create_date',[$monthStart,$monthEnd]);
+
+
+        $monthStart = now()->subMonth(1)->month;
+        $monthEnd = now()->month;
+        $order_query->whereYear('create_date','<',now()->startOfYear());
+        $order_query->whereMonth('create_date','>=',$monthStart);
+        $order_query->whereMonth('create_date','<=',$monthEnd);
+
+        if(Auth::user()->level!=2){
+            $order_query->where('user_id','=',Auth::user()->id);
+        }
+        $orderBy = 'create_date';
+        if($request->has('orderBy')){
+            $orderBy = $request->input('orderBy');
+            if($orderBy == 'customer_id'){
+                $order_query->orderBy($orderBy,'DESC')->orderBy('other_customer_name','DESC');
+            }
+            else{
+                $order_query->orderBy($orderBy,'DESC');
+
+            }
+        }
+        else{
+            $order_query->orderBy($orderBy,'DESC');
+
+        }
         $orders = $order_query->get();
 
         $ocount= count($orders);
