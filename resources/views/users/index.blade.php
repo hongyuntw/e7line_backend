@@ -50,6 +50,8 @@
                                     <th class="text-center" style="width: 70px">業務帳號</th>
                                     <th class="text-center" style="width: 70px">註冊日期</th>
                                     <th class="text-center" style="width: 120px">業務權限</th>
+
+
                                     {{--                                    @if(Auth::user()->level==2)--}}
 
                                     <th class="text-center" style="width: 120px">功能</th>

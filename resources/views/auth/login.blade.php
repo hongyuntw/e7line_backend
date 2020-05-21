@@ -38,24 +38,30 @@
         <p class="login-box-msg">請登入帳號</p>
 
         @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
-            請修正以下表單錯誤：
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-ban"></i> 錯誤！</h4>
+                請修正以下表單錯誤：
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
+
         <form action="{{ route('login') }}" method="post">
+
+            @if(session('alert')=='failed')
+                <div class="alert alert-danger text-center">{{session('msg')}}</div>
+            @endif
 
             @csrf
 
             <div class="form-group has-feedback">
-                <input type="email" name="email" class="form-control" placeholder="請輸入 Email" value="{{ old('email') }}" required autofocus>
+                <input type="email" name="email" class="form-control" placeholder="請輸入 Email" value="{{ old('email') }}"
+                       required autofocus>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -78,7 +84,7 @@
             </div>
         </form>
 
-        <a href="{{ route('password.request') }}">忘記密碼</a>  <a hidden href="{{ route('register') }}" class="text-center">註冊帳號</a>
+        <a href="{{ route('password.request') }}">忘記密碼</a> <a hidden href="{{ route('register') }}" class="text-center">註冊帳號</a>
     </div>
     <!-- /.login-box-body -->
 </div>

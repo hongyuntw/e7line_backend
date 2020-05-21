@@ -108,7 +108,7 @@ class OrderController extends Controller
                     $query->where('orders.no', 'like', "%{$search_info}%");
                     break;
                 case 2:
-                    $query->join('customers','customers.id','=','orders.customer_id');
+                    $query->leftJoin('customers','customers.id','=','orders.customer_id');
                     $query->select('orders.*','customers.name');
                     $query->where(function ($query) use ($search_info) {
                         $query->where('customers.name', 'like', "%{$search_info}%")
@@ -121,8 +121,7 @@ class OrderController extends Controller
                     $query->where("tax_id",'like',"%{$search_info}%");
                     break;
                 case 4:
-                    $query->join('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
-
+                    $query->leftJoin('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
                     $query->where(function ($query) use ($search_info) {
                         $query->where('business_concat_persons.name', 'like', "%{$search_info}%")
                             ->orWhere('orders.other_concat_person_name', 'like', "%{$search_info}%");

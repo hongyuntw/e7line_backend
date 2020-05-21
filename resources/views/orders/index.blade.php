@@ -347,8 +347,9 @@
 
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
-                            {{--                            {{ $concat_persons->appends(request()->input())->links() }}--}}
-                            {{$orders->links()}}
+{{--                            {{$orders->links()}}--}}
+                            {{ $orders->appends(request()->input())->links() }}
+
                         </div>
                     </div>
 
