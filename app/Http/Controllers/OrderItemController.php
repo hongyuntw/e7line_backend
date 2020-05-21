@@ -244,30 +244,51 @@ class OrderItemController extends Controller
 
     public function change_item_status(Request $request)
     {
+        $msg = "";
         if($request['ids']){
             $status = $request['status'];
             foreach($request['ids'] as $id){
                 $order_item = OrderItem::find($id);
+                //                當有一筆訂單改為以收單，其他同筆大單下之細項要改為以收單
+//                判斷是否是從尚未處裡=>以收單
+                if($order_item->status ==0 && $status == 1){
+                    foreach ($order_item->order->order_items as $order_item){
+//                        若有未處理的
+                        if($order_item->status == 0){
+                            $order_item->status = 1;
+                            $order_item->update_date = now();
+                            $order_item->update();
+                        }
+                    }
+                }
+//                若有從尚未處理變到已叫/交貨時應該新增提醒
+
+                if($order_item->status==0 && $status>1){
+                    $msg .= '提醒: 已將訂單編號'.$order_item->order->no.'狀態從未完成改成已叫/交貨 \\n';
+               }
+
+
                 $order_item->status = $status;
                 $order_item->update_date = now();
                 $order_item->update();
 
-//                把訂單從為處理=>處理中
 
-//              如果此筆大訂單之所有商品都已完成，訂單狀態自動變成完成
                 $order = $order_item->order;
                 $order_items = $order->order_items;
+//                判斷全部訂單是否都是已交貨
                 $all_success_flag = true;
                 foreach ($order_items as $o_i){
-                    if($o_i->status !=4){
+                    if($o_i->status != 3){
                         $all_success_flag = false;
                         break;
                     }
                 }
+                //                把訂單從為處理=>處理中
                 if($order->status == 0){
                     $order->status = 1;
                     $order->update();
                 }
+                //              如果此筆大訂單之所有商品都已完成，訂單狀態自動變成完成
                 if($all_success_flag){
                     $order->status = 2;
                     $order->update();
@@ -276,7 +297,12 @@ class OrderItemController extends Controller
 
             }
         }
-        return "success";
+
+        $data =[
+            'success'=>true,
+            'msg' =>$msg,
+        ];
+        return $data;
 
     }
 }

@@ -118,7 +118,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-1">
-                                        <label>訂單狀態</label>
+                                        <label>細項狀態</label>
                                         <select name="status_filter" class="form-control form-control-sm">
                                             <option value="-1" @if(-1==$status_filter) selected
                                                 @endif>All
@@ -283,7 +283,11 @@
                                                 status: status,
                                             },
                                             success: function (msg) {
-                                                window.location.reload();
+                                                if(msg.success){
+                                                    alert(msg.msg);
+                                                    window.location.reload();
+
+                                                }
                                                 console.log(msg)
                                             }
                                         });
