@@ -249,19 +249,20 @@ class OrderController extends Controller
         $api_path = 'https://www.e7line.com:8081/API/CreateOrderBySales.aspx';
 
         $memberNo = "";
-        if($order->customer_id != -1 && $order->customer_id != null){
-            $memberNo = $order->customer->name;
-        }
-        else{
-            $memberNo = $order->other_customer_name;
-        }
+//        if($order->customer_id != -1 && $order->customer_id != null){
+//            $memberNo = $order->customer->name;
+//        }
+//        else{
+//            $memberNo = $order->other_customer_name;
+//        }
+
         $data = [
             'Address' => $order->ship_to? $order->ship_to :'',
             'Paymethod' => self::$payment_method_names[$order->payment_method],
             'InvoiceNo' => $order->tax_id ? $order->tax_id : '',
             'Notice' => $order->note ?$order->note : '',
             'ShippingFee' => (integer)round($order->shipping_fee),
-            'MemberNo' => $memberNo,
+            'MemberNo' => $order->e7line_account?$order->e7line_account: '',
         ];
         //test
 
@@ -280,9 +281,10 @@ class OrderController extends Controller
         }
         $data['orderSubs'] = $orderSubs;
 //        dump($data);
+        dump($data);
         $data_json = json_encode($data);
 //        dump($data_json);
-//        dd(($data_json));
+        dd(($data_json));
 
         $client = new \GuzzleHttp\Client();
         $result = $client->post($api_path, [

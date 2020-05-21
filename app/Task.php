@@ -14,9 +14,10 @@ class Task extends Model
     protected $guarded = ['id',];
 
 
-    public function user()
+
+    public function task_assignments()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(TaskAssignment::class);
     }
 
 }

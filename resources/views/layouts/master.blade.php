@@ -24,7 +24,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           apply the skin class to the body tag so the changes take effect. -->
     <link rel="stylesheet" href="{{ asset('css/skins/skin-blue.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/selectize.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">
+{{--    <link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">--}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('css/selectize.bootstrap3.css') }}">
 {{--    <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">--}}
 {{--    <link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">--}}

@@ -144,62 +144,77 @@
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th style="width:3%"></th>
-                                    <th class="text-center" style="width:10%">主題</th>
-                                    <th class="text-center" style="width:10%">Status</th>
-                                    <th class="text-center" style="width:80%">任務內容</th>
-
-                                    @if(Auth::user()->level==2)
-                                        <th class="text-center" style="width:20%">回覆內容</th>
-                                        <th class="text-center" style="width:20%">指派業務</th>
-                                    @endif
+                                    <th rowspan="2" class="text-center align-middle" style="width:10%;vertical-align: middle">主題</th>
+                                    <th rowspan="2" class="text-center" style="width:30%;vertical-align: middle">任務內容</th>
+                                    <th colspan="4" class="text-center" style="width:60%;vertical-align: middle">MORE</th>
                                 </tr>
-                                </thead>
+                                <tr>
+                                    <td class="text-center" style="width: 5%">業務</td>
+                                    <td class="text-center" style="width: 5%">狀態</td>
+                                    <td class="text-center" style="width: 30%">reply</td>
+                                    <td class="text-center" style="width: 20%">其他</td>
+                                </tr>
 
+                                </thead>
                                 @foreach($tasks as $task)
                                     <tr>
-                                        <td></td>
-                                        <td class="text-left">{{$task->topic}}</td>
-                                        @switch($task->status)
-                                            @case(0)
-                                            @php($css='label label-danger')
-                                            @break
-                                            @case(1)
-                                            @php($css='label label-warning')
-                                            @break
-                                            @case(2)
-                                            @php($css='label label-success')
-                                            @break
-                                            @default
-                                            @break
-                                        @endswitch
-                                        <td class="align-middle " style="vertical-align: middle"><label
-                                                class="label{{$css}}"
-                                                style="min-width:60px;display: inline-block">{{ $task_status_names[$task->status] }}</label>
-                                        <td class="text-left">{{$task->content}}</td>
-                                        <td class="text-left">{{$task->reply}}</td>
-                                        @if(Auth::user()->level==2)
-                                            <td>{{$task->reply}}</td>
+                                        <td style="vertical-align: middle" rowspan="{{count($task->task_assignments)}}"
+                                            class="text-left">{{$task->topic}}</td>
+                                        <td style="vertical-align: middle" rowspan="{{count($task->task_assignments)}}"
+                                            class="text-left">{{$task->content}} </td>
+
+                                        @foreach($task->task_assignments as $task_assignment)
+                                            {{--                                        <tr>--}}
+                                            <td>{{$task_assignment->user->name}}</td>
+                                            @switch($task_assignment->status)
+                                                @case(0)
+                                                @php($css='label label-danger')
+                                                @break
+                                                @case(1)
+                                                @php($css='label label-warning')
+                                                @break
+                                                @case(2)
+                                                @php($css='label label-success')
+                                                @break
+                                                @default
+                                                @break
+                                            @endswitch
+                                            <td class="align-middle text-center "
+                                                style="vertical-align: middle"><label
+                                                    class="label{{$css}}"
+                                                    style="min-width:100px;display: inline-block;color: #0f0f0f">{{ $task_status_names[$task_assignment->status] }}</label>
+                                                <i class="fa fa-comment-o"></i>&nbsp{{count($task_assignment->task_reply_msgs)}}
+                                            </td>
                                             <td>
-                                                {{$task->users}}
-                                                @foreach($task->users as $user)
-                                                    <li>{{$user->name}}</li>
+                                                @foreach($task_assignment->task_reply_msgs as $msg)
+                                                    {{$msg->user->name}}<i
+                                                        class="fa fa-long-arrow-right"></i>{{$msg->text}}
                                                 @endforeach
                                             </td>
-                                        @endif
-
-
-                                    </tr>
+                                            <td class="text-center">
+                                                other
+                                            </td>
+                                            {{--                                        </tr>--}}
+                                            @if($loop->last)
+                                            </tr>
+                                            @else
+                                                </tr>
+                                                <tr>
+                                            @endif
+                                @endforeach
+                                {{--                                        </td>--}}
 
                                 @endforeach
 
 
                             </table>
+                            <div class="box-footer clearfix">
+                                {{--                            {{ $concat_persons->appends(request()->input())->links() }}--}}
+                                {{$tasks->links()}}
+                            </div>
                         </div>
 
                     </div>
-
-
 
 
                 </div>

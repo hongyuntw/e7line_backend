@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskAssigmentsTable extends Migration
+class CreateTaskReplyMsgs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTaskAssigmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_assignments', function (Blueprint $table) {
+        Schema::create('task_reply_msgs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('text')->nullable();
+            $table->unsignedInteger('task_assignment_id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('task_id');
-            $table->tinyInteger('status');
-            $table->tinyInteger('return_nums')->default(0);
             $table->timestamp('create_date')->nullable();
             $table->timestamp('update_date')->nullable();
 
@@ -32,6 +31,6 @@ class CreateTaskAssigmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_assignments');
+        Schema::dropIfExists('task_reply_msgs');
     }
 }

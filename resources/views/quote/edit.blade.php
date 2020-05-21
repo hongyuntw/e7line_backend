@@ -64,7 +64,7 @@
                                 <label class="control-label">級距</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-shopping-cart"></i></span>
+                                            class="fa fa-line-chart"></i></span>
                                     <input name="step" class="form-control" type="text" id="step"
                                            placeholder="請輸入級距" value="{{old('step',$quote->step)}}">
 
@@ -76,7 +76,7 @@
                                 <label class=" control-label">原廠</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-shopping-cart"></i></span>
+                                            class="fa fa-bar-chart"></i></span>
                                     <input id="origin" name="origin" class="form-control" type="number"
                                            placeholder="請輸入原廠" value="{{old('origin',$quote->origin)}}">
                                 </div>
@@ -86,7 +86,7 @@
                                 <label class="control-label">e7Line</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-shopping-cart"></i></span>
+                                            class="fa fa-bar-chart"></i></span>
                                     <input id="e7line" name="e7line" type="number" class="form-control"
                                            placeholder="請輸入e7line" value="{{old('e7line',$quote->e7line)}}">
                                 </div>
@@ -95,7 +95,7 @@
                                 <label class="control-label">備註</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-shopping-cart"></i></span>
+                                            class="fa fa-sticky-note"></i></span>
                                     <input id="note" name="note" type="text" class="form-control"
                                            placeholder="請輸入備註" value="{{old('note',$quote->note)}}" >
                                 </div>

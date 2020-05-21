@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -18,7 +19,18 @@ class TaskController extends Controller
     {
         //
 
-        $tasks = Task::all();
+        $query = Task::query();
+
+
+
+
+        if(Auth::user()->level!=2){
+            $query->join('task_assignments','tasks.id','=','task_assignments.task_id');
+            $query->where('user_id','=',Auth::user()->id);
+        }
+
+        $query->orderBy('tasks.create_date','DESC');
+        $tasks = $query->paginate(15);
 
         $data = [
             'tasks' => $tasks,
