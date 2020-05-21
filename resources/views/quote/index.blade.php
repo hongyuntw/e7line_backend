@@ -24,16 +24,46 @@
 
             <script>
                 $(document).ready(function () {
+                    var product_select = $("#product").selectize({
+                        onChange: function (value) {
+                            console.log(value);
+                            if (value > 0) {
+                                $.ajax({
+                                    async: false,
+                                    type: "get",
+                                    url: "{{route('quote.getProductQuote')}}",
+                                    data: {
+                                        id: value
+                                    },
+                                    success: function (msg) {
+                                        var node = document.getElementById("dynamicQuote");
+                                        node.innerHTML = msg.table_html;
+                                        var chart_select_div = document.getElementById("chart_select_div");
+                                        chart_select_div.innerHTML = msg.select_html;
+                                        $("#product_select").selectize();
+                                    }
+                                })
+
+                            } else {
+                                node.innerHTML = '';
+                            }
+                        }
+                    });
+                    product_select[0].selectize.setValue({{\Illuminate\Support\Facades\Session::get('quote_product_id',"-1")}});
+
                     var node = document.getElementById("dynamicQuote");
                     $.ajax({
+                        async: false,
                         type: "get",
                         url: "{{route('quote.initIndex')}}",
                         success: function (msg) {
-                            node.innerHTML = '';
-                            node.innerHTML = msg;
-
+                            node.innerHTML = msg.table_html;
+                            var chart_select_div = document.getElementById("chart_select_div");
+                            chart_select_div.innerHTML = msg.select_html;
                         }
-                    })
+                    });
+                    console.log("after init");
+                    $("#product_select").selectize();
                 })
             </script>
 
@@ -54,34 +84,7 @@
                                             <option value="{{$product->id}}">{{$product->name}}</option>
                                         @endforeach
                                     </select>
-                                    <script>
-                                        var product_select = $("#product").selectize({
-                                            onChange: function (value) {
-                                                console.log(value);
-                                                var node = document.getElementById("dynamicQuote");
-                                                if (value > 0) {
-                                                    $.ajax({
-                                                        type: "get",
-                                                        url: "{{route('quote.getProductQuote')}}",
-                                                        data: {
-                                                            id: value
-                                                        },
-                                                        success: function (msg) {
-                                                            node.innerHTML = '';
-                                                            node.innerHTML = msg;
 
-                                                        }
-                                                    })
-
-                                                } else {
-                                                    node.innerHTML = '';
-                                                }
-
-
-                                            }
-                                        });
-                                        product_select[0].selectize.setValue({{\Illuminate\Support\Facades\Session::get('quote_product_id',"-1")}});
-                                    </script>
                                 </div>
                                 <div class="col-md-6">
                                     <label>其他功能</label>
@@ -90,46 +93,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-body" id="dynamicQuote">
-                            {{--                                <table class="table table-bordered table-hover" width="100%">--}}
-                            {{--                                    <thead style="background-color: lightgray">--}}
-                            {{--                                    <tr>--}}
-                            {{--                                        <th class="text-center" style="width:15%">級距</th>--}}
-                            {{--                                        <th class="text-center" style="width:20%">原廠%</th>--}}
-                            {{--                                        <th class="text-center" style="width:8%">e7line%</th>--}}
-                            {{--                                        <th class="text-center" style="width:8%">備註</th>--}}
-                            {{--                                        <th class="text-center" style="width:20%">Other</th>--}}
-                            {{--                                    </tr>--}}
-                            {{--                                    </thead>--}}
-                            {{--                                    @foreach ($quotes as $quote)--}}
-                            {{--                                        @if($quote->is_deleted)--}}
-                            {{--                                            @continue--}}
-                            {{--                                        @endif--}}
-                            {{--                                        <tr ondblclick="" class="text-center">--}}
-                            {{--                                            <td>{{$quote->step}}</td>--}}
-                            {{--                                            <td>{{$quote->origin}}</td>--}}
-                            {{--                                            <td>{{ ($quote->e7line)}}</td>--}}
-                            {{--                                            <td>{{$quote->note}}</td>--}}
-                            {{--                                            <td>--}}
-                            {{--                                                <a class="btn btn-xs btn-primary">編輯</a>--}}
+                        <div class="box-body" id="dynamicQuote"></div>
 
-                            {{--                                                @if( Auth::user()->level==2)--}}
-                            {{--                                                    <form action="{{route('quote.delete',$quote->id)}}"--}}
-                            {{--                                                          method="post"--}}
-                            {{--                                                          style="display: inline-block">--}}
-                            {{--                                                        @csrf--}}
-                            {{--                                                        <button type="submit" class="btn btn-xs btn-danger"--}}
-                            {{--                                                                onclick="return confirm('確定是否刪除')">刪除--}}
-                            {{--                                                        </button>--}}
-                            {{--                                                    </form>--}}
-                            {{--                                                @endif--}}
-                            {{--                                            </td>--}}
-                            {{--                                        </tr>--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </table>--}}
-
-
-                        </div>
                     </div>
 
                 </div>
@@ -211,7 +176,7 @@
 
                 </script>
 
-                <div class="col-md-6">
+                <div class="col-md-6" id="chart_select_div">
                     <select name="product" id="product_select" onchange="productOnchange(this)">
                         <option value="-1">選擇一個商品</option>
                         @foreach($product_relations as $product_relation)
@@ -220,11 +185,12 @@
                                 &nbsp{{$product_relation->product_detail->name}}</option>
                         @endforeach
                     </select>
-                    <script>
-                        var product_select = $("#product_select").selectize();
-                        product_select[0].selectize.setValue("-1");
-                    </script>
+
                 </div>
+
+                <script>
+
+                </script>
                 <div class="col-md-12 center-block" id="chart_div">
                     <canvas id="mychart" width="400" height="200"></canvas>
                 </div>

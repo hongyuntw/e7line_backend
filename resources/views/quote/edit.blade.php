@@ -77,7 +77,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
                                             class="fa fa-bar-chart"></i></span>
-                                    <input id="origin" name="origin" class="form-control" type="number"
+                                    <input id="origin" name="origin" class="form-control" type="text"
                                            placeholder="請輸入原廠" value="{{old('origin',$quote->origin)}}">
                                 </div>
 
@@ -87,7 +87,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i
                                             class="fa fa-bar-chart"></i></span>
-                                    <input id="e7line" name="e7line" type="number" class="form-control"
+                                    <input id="e7line" name="e7line" type="text" class="form-control"
                                            placeholder="請輸入e7line" value="{{old('e7line',$quote->e7line)}}">
                                 </div>
                             </div>

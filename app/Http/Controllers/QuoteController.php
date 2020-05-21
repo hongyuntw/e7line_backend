@@ -81,7 +81,25 @@ class QuoteController extends Controller
 
         }
         $resp .= '</table>';
-        return $resp;
+
+        $product_relations = $product->product_relations;
+
+        $select_html = '<select name="product" id="product_select" onchange="productOnchange(this)">
+                        <option value="-1">選擇一個商品</option>';
+
+        foreach ($product_relations as $product_relation){
+            $select_html .= '<option value="' . $product_relation->id .'">';
+            $select_html .= $product_relation->product->name . ' ' . $product_relation->product_detail->name . '</option>';
+        }
+
+
+        $select_html .= '</select>';
+        $data = [
+            'table_html' => $resp,
+            'select_html' =>$select_html,
+        ];
+
+        return $data;
 
 
     }
@@ -136,7 +154,27 @@ class QuoteController extends Controller
 
         }
         $resp .= '</table>';
-        return $resp;
+
+
+        $product_relations = $product->product_relations;
+
+        $select_html = '<select name="product" id="product_select" onchange="productOnchange(this)">
+                        <option value="-1">選擇一個商品</option>';
+
+        foreach ($product_relations as $product_relation){
+            $select_html .= '<option value="' . $product_relation->id .'">';
+            $select_html .= $product_relation->product->name . ' ' . $product_relation->product_detail->name . '</option>';
+        }
+
+
+        $select_html .= '</select>';
+        $data = [
+            'table_html' => $resp,
+            'select_html' =>$select_html,
+        ];
+
+
+        return $data;
 
     }
 
