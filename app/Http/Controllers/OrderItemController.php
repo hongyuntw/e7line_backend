@@ -264,7 +264,7 @@ class OrderItemController extends Controller
 //                若有從尚未處理變到已叫/交貨時應該新增提醒
 
                 if($order_item->status==0 && $status>1){
-                    $msg .= '提醒: 已將訂單編號'.$order_item->order->no.'狀態從未完成改成已叫/交貨 \\n';
+                    $msg .= '提醒: 已將訂單編號'.$order_item->order->no.'狀態從未完成改成已叫(交)貨' .PHP_EOL;
                }
 
 

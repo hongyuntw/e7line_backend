@@ -24,6 +24,7 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
+            {{dd($orders)}}
 
             <script>
                 function product_change(product_select) {
@@ -284,7 +285,9 @@
                                             },
                                             success: function (msg) {
                                                 if(msg.success){
-                                                    alert(msg.msg);
+                                                    if(msg.msg!=''){
+                                                        alert(msg.msg);
+                                                    }
                                                     window.location.reload();
 
                                                 }

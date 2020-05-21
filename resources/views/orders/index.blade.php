@@ -311,11 +311,11 @@
                                                     </button>
                                                 </form>
                                             @endif
-                                            @if(Auth::user()->level!=0 && $order->status==1)
-                                                <button type="button" onclick="changeOrderStatusBack({{$order->id}})"
-                                                        class="btn btn-xs btn-primary">退回未處理
-                                                </button>
-                                            @endif
+{{--                                            @if(Auth::user()->level!=0 && $order->status==1)--}}
+{{--                                                <button type="button" onclick="changeOrderStatusBack({{$order->id}})"--}}
+{{--                                                        class="btn btn-xs btn-primary">退回未處理--}}
+{{--                                                </button>--}}
+{{--                                            @endif--}}
                                         </td>
                                     </tr>
                                 @endforeach

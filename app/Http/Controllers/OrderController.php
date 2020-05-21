@@ -122,6 +122,8 @@ class OrderController extends Controller
                     break;
                 case 4:
                     $query->leftJoin('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
+//                    dd($query->get());
+                    $query->select('orders.*','business_concat_persons.name');
                     $query->where(function ($query) use ($search_info) {
                         $query->where('business_concat_persons.name', 'like', "%{$search_info}%")
                             ->orWhere('orders.other_concat_person_name', 'like', "%{$search_info}%");
