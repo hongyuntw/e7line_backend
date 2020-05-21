@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class OrderItemController extends Controller
 {
 
-    public static $order_item_status_names = ['尚未受理','已叫貨','已出貨','已交貨','已收單'];
+    public static $order_item_status_names = ['尚未受理','已收單','已叫貨','已交貨'];
 
     /**
      * Display a listing of the resource.

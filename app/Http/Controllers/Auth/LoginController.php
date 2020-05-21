@@ -59,10 +59,21 @@ class LoginController extends Controller
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_left' => 0])) {
              return redirect()->intended('/');
-        }  else {
+        }
+        else {
             $this->incrementLoginAttempts($request);
-            Session::flash('alert', 'failed');
-            Session::flash('msg','業務已失效');
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+//                帳號密碼沒錯但是業務失效
+                Session::flash('alert', 'failed');
+                Session::flash('msg','業務已失效');
+                Auth::logout();
+            }
+            else{
+                Session::flash('alert', 'failed');
+                Session::flash('msg','帳號或密碼錯誤');
+
+            }
+
             return view('auth.login');
 
 //            return response()->json([
