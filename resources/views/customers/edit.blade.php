@@ -83,6 +83,9 @@
 {{--                                        <div class="form-group">--}}
                                             <select id="user_id" name="user_id" class="form-control">
                                                 @foreach($users as $user)
+                                                    @if($user->is_left)
+                                                        @continue
+                                                    @endif
                                                     <option
                                                         value="{{ $user->id }}"{{ (old('user_id',$customer->user_id) == $user->id)? ' selected' : '' }}>{{ $user->name }}</option>
                                                 @endforeach
@@ -94,6 +97,9 @@
                                                 <select id="user_id" name="user_id" class="form-control"
                                                         disabled="disabled">
                                                     @foreach($users as $user)
+                                                        @if($user->is_left)
+                                                            @continue
+                                                        @endif
                                                         <option
                                                             value="{{ $user->id }}"{{ ($user->id == $customer->user_id)? ' selected' : '' }}>{{ $user->name }}</option>
                                                     @endforeach
@@ -101,6 +107,9 @@
                                             @else
                                                 <select id="user_id" name="user_id" class="form-control">
                                                     @foreach($users as $user)
+                                                        @if($user->is_left)
+                                                            @continue
+                                                        @endif
                                                         <option value="{{ $user->id }}">
                                                             {{ $user->name }}
                                                         </option>

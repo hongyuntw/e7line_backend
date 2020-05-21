@@ -316,6 +316,7 @@
                                         return;
                                     }
                                     customer_info.replace('台','臺');
+                                    var default_value = null;
                                     $.ajax({
                                         async: false,
                                         type: "POST",
@@ -340,30 +341,38 @@
                                                 }
 
                                                 for (let [key, value] of Object.entries(data.members)) {
-                                                    // console.log(key);
                                                     // console.log(value);
                                                     var val = value.Name + '###' + value.companyName + '###' + value.memberNo;
+
                                                     var display_val = value.Name + '-' + value.companyName + '-' + value.memberNo;
+                                                    if(key==0){
+                                                        default_value = val;
+                                                    }
                                                     html += '<option value="' + val + '">' + display_val + '</option>';
                                                     // $("#e7line_field").append(html);
                                                 }
                                                 html += '</select>';
-                                                html += '<input style="display: none" value="' + data.members[0].memberNo + '" name="e7line_account"\n' +
-                                                    '                                               id="e7line_account" class="form-control">\n' +
-                                                    '                                        <input  style="display: none" type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
-                                                    '                                               placeholder="e7line姓名"\n' +
-                                                    '                                               value="' + data.members[0].Name + '">';
+                                                // html += '<input style="display: none" value="' + data.members[0].memberNo + '" name="e7line_account"\n' +
+                                                //     '                                               id="e7line_account" class="form-control">\n' +
+                                                //     '                                        <input  style="display: none" type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
+                                                //     '                                               placeholder="e7line姓名"\n' +
+                                                //     '                                               value="' + data.members[0].Name + '">';
                                                 $("#e7line_field").append(html);
 
-                                            } else {
+                                            }
+                                            else {
                                                 alert(data.message);
+                                                return;
                                             }
                                         },
                                         error: function () {
                                             alert('伺服器出了點問題，稍後再重試');
+                                            return;
                                         }
                                     });
-                                    $("#e7line_info").selectize();
+                                    var select = $("#e7line_info").selectize();
+                                    // console.log((select[0].selectize.option))
+                                    select[0].selectize.setValue(default_value);
 
 
                                 }

@@ -133,7 +133,8 @@
                                             @endforeach
                                         </select>
                                         <input type="text" class="form-control" id="other_customer_name"
-                                               name="other_customer_name" placeholder="非客戶名單之補充" onchange="otherCustomerInputChange(this)"
+                                               name="other_customer_name" placeholder="非客戶名單之補充"
+                                               onchange="otherCustomerInputChange(this)"
                                                @if($order->customer)
                                                disabled
                                                @endif
@@ -206,7 +207,8 @@
 
                                                 }
                                             }
-                                            function otherCustomerInputChange(_input){
+
+                                            function otherCustomerInputChange(_input) {
                                                 var node = document.getElementById("e7line_customer_info");
                                                 node.value = _input.value;
 
@@ -254,14 +256,16 @@
                                     <label class="control-label">e7line帳號</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input class="form-control" id="e7line_customer_info" name="e7line_customer_info" placeholder="請輸入客戶資訊以供查詢">
-
+                                        <input class="form-control" id="e7line_customer_info"
+                                               name="e7line_customer_info" placeholder="請輸入客戶資訊以供查詢">
+                                        <input value="{{old('e7line_account',$order->e7line_account)}}"
+                                               name="e7line_account"
+                                               id="e7line_account" class="form-control" placeholder="e7line帳號">
+                                        <input type="text" class="form-control" name="e7line_name" id="e7line_name"
+                                               placeholder="e7line姓名"
+                                               value="{{old('e7line_name',$order->e7line_name)}}">
                                         <div id="e7line_field">
-                                            <input  value="{{old('e7line_account',$order->e7line_account)}}" name="e7line_account"
-                                                    id="e7line_account" class="form-control" placeholder="e7line帳號">
-                                            <input  type="text" class="form-control" name="e7line_name" id="e7line_name"
-                                                    placeholder="e7line姓名"
-                                                    value="{{old('e7line_name',$order->e7line_name)}}">
+
                                         </div>
                                         <button type="button" onclick="gete7lineAccount()" style="color: #00a65a"
                                                 class="form-control">Get Account
@@ -273,21 +277,21 @@
                                     var customer_select = document.getElementById("select_customer");
                                     var initCustomerId = customer_select.options[customer_select.selectedIndex].value;
                                     var e7lineInfoInput = document.getElementById("e7line_customer_info");
-                                    if(initCustomerId<0){
+                                    if (initCustomerId < 0) {
                                         e7lineInfoInput.value = document.getElementById("other_customer_name").value
-                                    }
-                                    else{
+                                    } else {
                                         e7lineInfoInput.value = customer_select.options[customer_select.selectedIndex].text;
                                     }
 
-                                    function e7line_info_change(select){
+                                    function e7line_info_change(select) {
                                         var str = select.options[select.selectedIndex].value;
                                         var text = str.split("###");
                                         console.log(text);
-                                        document.getElementById("e7line_account").value=text[2];
-                                        document.getElementById("e7line_name").value=text[0];
+                                        document.getElementById("e7line_account").value = text[2];
+                                        document.getElementById("e7line_name").value = text[0];
 
                                     }
+
                                     function gete7lineAccount() {
                                         var customer_info;
                                         //    有可能是從選單選的
@@ -307,11 +311,12 @@
                                         // }
                                         var e7lineInfoInput = document.getElementById("e7line_customer_info");
                                         customer_info = e7lineInfoInput.value;
-                                        if(customer_info==null || customer_info==''){
+                                        if (customer_info == null || customer_info == '') {
                                             alert('需要提供客戶資訊，請選擇客戶或輸入名字');
                                             return;
                                         }
-                                        customer_info.replace('台','臺');
+                                        customer_info.replace('台', '臺');
+                                        var default_value = null;
 
                                         $.ajax({
                                             async: false,
@@ -331,7 +336,7 @@
                                                 node.innerHTML = "";
                                                 html = '<select id="e7line_info" name="e7line_info" onchange="e7line_info_change(this)">';
                                                 if (data.isScuess) {
-                                                    if(data.members.length==0){
+                                                    if (data.members.length == 0) {
                                                         alert("找不到對應之客戶，請重新輸入關鍵字");
                                                         return;
                                                     }
@@ -339,37 +344,40 @@
                                                     for (let [key, value] of Object.entries(data.members)) {
                                                         // console.log(key);
                                                         // console.log(value);
-                                                        var val = value.Name+'###'+ value.companyName+'###'+value.memberNo;                                                    var display_val = value.Name+'-'+ value.companyName+'-'+value.memberNo;
-                                                        var display_val = value.Name+'-'+ value.companyName+'-'+value.memberNo;
+                                                        var val = value.Name + '###' + value.companyName + '###' + value.memberNo;
+                                                        var display_val = value.Name + '-' + value.companyName + '-' + value.memberNo;
+                                                        var display_val = value.Name + '-' + value.companyName + '-' + value.memberNo;
+                                                        if (key == 0) {
+                                                            default_value = val;
+                                                        }
 
-                                                        html+= '<option value="'+val+ '">'+ display_val +'</option>';
+                                                        html += '<option value="' + val + '">' + display_val + '</option>';
                                                         // $("#e7line_field").append(html);
                                                     }
                                                     html += '</select>';
-                                                    html += '<input  value="'+ data.members[0].memberNo+'" name="e7line_account"\n' +
-                                                        '                                               id="e7line_account" class="form-control">\n' +
-                                                        '                                        <input  type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
-                                                        '                                               placeholder="e7line姓名"\n' +
-                                                        '                                               value="'+ data.members[0].Name +'">';
+                                                    // html += '<input  value="' + data.members[0].memberNo + '" name="e7line_account"\n' +
+                                                    //     '                                               id="e7line_account" class="form-control">\n' +
+                                                    //     '                                        <input  type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
+                                                    //     '                                               placeholder="e7line姓名"\n' +
+                                                    //     '                                               value="' + data.members[0].Name + '">';
                                                     $("#e7line_field").append(html);
 
-                                                }
-                                                else {
+                                                } else {
                                                     alert(data.message);
+                                                    return;
                                                 }
                                             },
                                             error: function () {
                                                 alert('伺服器出了點問題，稍後再重試');
+                                                returm;
                                             }
                                         });
-                                        $("#e7line_info").selectize();
+                                        var select = $("#e7line_info").selectize();
+                                        select[0].selectize.setValue(default_value);
 
 
                                     }
                                 </script>
-
-
-
 
 
                             </div>
@@ -915,7 +923,7 @@
 
                                                 </div>
                                             </div>
-                                        @if($loop->index==0)
+                                            @if($loop->index==0)
                                                 <div id="insertField"></div>
                                             @endif
 

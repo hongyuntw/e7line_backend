@@ -25,7 +25,8 @@
               -------------------------->
             <div class="container">
 
-                <form class="well form-horizontal" action="{{ route('customers.store') }}" method="post" id="contact_form">
+                <form class="well form-horizontal" action="{{ route('customers.store') }}" method="post"
+                      id="contact_form">
 
                     @csrf
 
@@ -50,7 +51,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="請輸入名稱"
-                                           value="{{ old('name') }}" >
+                                           value="{{ old('name') }}">
                                 </div>
                             </div>
                         </div>
@@ -63,6 +64,9 @@
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <select id="user_id" name="user_id" class="form-control">
                                         @foreach($users as $user)
+                                            @if($user->is_left)
+                                                @continue
+                                            @endif
                                             <option
                                                 value="{{ $user->id }}"{{ (old('$user_id',$user->id) == 1)? ' selected' : '' }}>{{ $user->name }}</option>
                                         @endforeach
@@ -74,7 +78,8 @@
                             <label class="col-md-4 control-label">統編</label>
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-menu-right"></i></span>
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-menu-right"></i></span>
                                     <input type="text" class="form-control" id="tax_id" name="tax_id"
 
                                            placeholder="請輸入統編" value="{{ old('tax_id') }}">
@@ -95,7 +100,8 @@
                             <label class="col-md-4 control-label">規模</label>
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-menu-right"></i></span>
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-menu-right"></i></span>
                                     <input type="number" class="form-control" id="scales" name="scales"
                                            placeholder="請輸入規模"
                                            value="{{ old('scales') }}">
@@ -193,7 +199,7 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <textarea  class="form-control" id="note" name="note" placeholder="請輸入註記"
+                                    <textarea class="form-control" id="note" name="note" placeholder="請輸入註記"
                                     >{{ old('note') }}</textarea>
                                 </div>
                             </div>
@@ -207,7 +213,7 @@
                             <label class="col-md-4 control-label"></label>
                             <div class="col-md-4">
                                 <a class="btn btn-danger" href="{{ old('redirect_to', URL::previous())}}">取消</a>
-{{--                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>--}}
+                                {{--                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>--}}
                                 <button type="submit" class="btn btn-primary">新增</button>
                             </div>
                         </div>
