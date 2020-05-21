@@ -358,6 +358,15 @@ class DashboardController extends Controller
         $next = ($page+1)<$sums?$page+1:$sums;
         $offset = ($page-1)*$rev;
         $customers = $query->skip($offset)->limit($rev)->get();
+
+        if(count($customers)==0 && $page>1){
+            $page -= 1;
+            $prev = ($page-1)>0?$page-1:1;
+            $next = ($page+1)<$sums?$page+1:$sums;
+            $offset = ($page-1)*$rev;
+            $customers = $query->skip($offset)->limit($rev)->get();
+
+        }
         $pp = array();
         for($i=1;$i<=$sums;$i++){
             $pp[$i]=$i;
