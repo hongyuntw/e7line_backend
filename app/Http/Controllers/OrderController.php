@@ -339,6 +339,11 @@ class OrderController extends Controller
             foreach ($request->input('ids')as $id){
                 $order = Order::find($id);
 //                dd($order);
+                if($order->code){
+                    $total_result[$order->no] = '已經拋單過了';
+                    continue;
+
+                }
                 $api_path = 'https://www.e7line.com:8081/API/CreateOrderBySales.aspx';
 
                 $data = [
@@ -374,9 +379,6 @@ class OrderController extends Controller
                     $order->update_date = now();
                     $order->update();
                     $total_result[$order->no] = $resp['message'];
-//
-//                    Session::flash('alert', 'success');
-//                    Session::flash('msg',$resp['message']);
                 }
                 else{
                     $total_result[$order->no] = $resp['message'];
