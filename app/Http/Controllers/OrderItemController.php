@@ -10,6 +10,7 @@ use App\ProductRelation;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\PHP;
 
 class OrderItemController extends Controller
 {
@@ -147,7 +148,41 @@ class OrderItemController extends Controller
         $query->orderBy($sortBy,'DESC');
 
 
+        $query_for_all = $query;
+//        here to create msg for 採購
+        $order_items_all = $query_for_all->get();
+
+//        this is record every product and every item total quantity
+        $qt_arr = [];
+        foreach ($order_items_all as $item){
+            if(array_key_exists($item->product_relation->product->name,$qt_arr)){
+                if(array_key_exists($item->product_relation->product_detail->name,$qt_arr[$item->product_relation->product->name])){
+                    $qt_arr[$item->product_relation->product->name][$item->product_relation->product_detail->name] += $item->quantity;
+                }
+                else{
+                    $qt_arr[$item->product_relation->product->name][$item->product_relation->product_detail->name] = $item->quantity;
+                }
+            }
+            else{
+                $qt_arr[$item->product_relation->product->name][$item->product_relation->product_detail->name] = $item->quantity;
+            }
+        }
+        $msg='產品數量統計:<br>';
+        foreach ($qt_arr as $key=>$value) {
+            $msg .= '-----' . $key . '-----<br>';
+            foreach ($value as $name => $qty) {
+                $msg .= $name . ' 總數量: ' . $qty . '<br>';
+            }
+        }
+
+
+
+
+
+
+
         $order_items = $query->paginate(15);
+//        dd($order_items_all);
 //        dd($order_items);
 //        $orders = Order::paginate(15);
         $data=[
@@ -163,6 +198,7 @@ class OrderItemController extends Controller
             'sortBy_text'=>$sortBy_text,
             'date_from'=>$date_from,
             'date_to'=>$date_to,
+            'msg'=>$msg,
         ];
 
         return view('order_items.index',$data);

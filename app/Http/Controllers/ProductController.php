@@ -186,23 +186,23 @@ class ProductController extends Controller
         if($request->input('product_id')!= -1){
             if($request->input('product_name')!=null){
                 $product = Product::find($request->input('product_id'));
-                $msg .= '公司名: '.$product->name .'已變更為:'.$request->input('product_name');
+                $msg .= '公司名: '.$product->name .'已變更為:'.$request->input('product_name').PHP_EOL;
                 $product->name = $request->input('product_name');
                 $product->update();
             }
             else{
-                $msg .= '公司名稱是空白的，更改無效';
+                $msg .= '公司名稱是空白的，更改無效'.PHP_EOL;
             }
         }
         if($request->input('product_detail_id')!= -1){
             if($request->input('product_detail_name')!=null){
                 $product_detail = ProductDetail::find($request->input('product_detail_id'));
-                $msg .= '商品名: '.$product_detail->name .'已變更為:'.$request->input('product_detail_name');
+                $msg .= '商品名: '.$product_detail->name .'已變更為:'.$request->input('product_detail_name').PHP_EOL;
                 $product_detail->name = $request->input('product_detail_name');
                 $product_detail->update();
             }
             else{
-                $msg .= '商品名是空白的，更改無效';
+                $msg .= '商品名是空白的，更改無效'.PHP_EOL;
             }
         }
         return $msg;
@@ -245,24 +245,22 @@ class ProductController extends Controller
             $product_id = $request->input('product_id');
         }
         else{
-            $msg .= '需要選擇商品';
+            $msg .= '需要選擇商品'.PHP_EOL;
         }
 
         if($request->input('product_detail_id')!=-1){
             $product_detail_id = $request->input('product_detail_id');
         }
         else{
-            $msg .= '
-            需要選擇商品細項';
+            $msg .= '需要選擇商品細項'.PHP_EOL;
         }
         if($request->has('price')){
             if(!is_numeric($request->input('price'))){
-                $msg .= '
-                價錢輸入錯誤';
+                $msg .= '價錢輸入錯誤';
             }
         }
         else{
-            $msg .= '需要輸入商品價格';
+            $msg .= '需要輸入商品價格'.PHP_EOL;
         }
 
         if($msg==''){

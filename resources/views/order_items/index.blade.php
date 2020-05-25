@@ -24,7 +24,6 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-            {{dd($orders)}}
 
             <script>
                 function product_change(product_select) {
@@ -221,6 +220,8 @@
 
 
                         </div>
+                        <div id="detail_msg"></div>
+
 
                         <!-- /.box-header -->
                         <div class="box-body ">
@@ -240,6 +241,7 @@
                                     {{--                                    <th class="text-center" style="width:10%">Other</th>--}}
                                 </tr>
                                 </thead>
+
                                 <script>
                                     function select_all() {
                                         var select_boxes = document.getElementsByName("change_item_status");
@@ -284,8 +286,8 @@
                                                 status: status,
                                             },
                                             success: function (msg) {
-                                                if(msg.success){
-                                                    if(msg.msg!=''){
+                                                if (msg.success) {
+                                                    if (msg.msg != '') {
                                                         alert(msg.msg);
                                                     }
                                                     window.location.reload();
@@ -295,6 +297,18 @@
                                             }
                                         });
                                     }
+
+                                    function showDetail(msg) {
+                                        // console.log(msg);
+                                        html = '<div class="alert-success alert text-center">';
+                                        html += msg;
+                                        html += '</div>';
+                                        var node = document.getElementById("detail_msg");
+                                        node.innerHTML = html;
+                                        // alert(msg);
+                                    }
+                                    window.showDetail = showDetail;
+
                                 </script>
                                 <button onclick="select_all()" class="btn-sm btn-dark">全選</button>
                                 <button onclick="unselect_all()" class="btn-sm btn-dark">取消全選</button>
@@ -309,6 +323,8 @@
                                     @if(Auth::user()->level >=1 )
                                         <button class="btn-sm btn-dark" onclick="change_status()">更改選中狀態</button>
                                     @endif
+                                    <button class="btn-sm btn-dark" onclick="showDetail({{json_encode($msg)}})">顯示詳細數量</button>
+
                                 </div>
 
 
