@@ -282,8 +282,10 @@
 
 
                                     <a class="btn btn-primary" onclick="order_edit({{$order->id}})">編輯</a>
+                                    <a class="btn btn-primary" href="{{route('orders.export',$order->id)}}">匯出</a>
 
-                                    @if( Auth::user()->level==2)
+
+                                @if( Auth::user()->level==2)
 
                                         <form action="{{ route('orders.delete_backto_index', $order->id) }}"
                                               method="post"

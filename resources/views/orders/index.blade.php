@@ -334,6 +334,7 @@
                                                class="btn btn-xs btn-primary">詳細</a>
                                             <a onclick="order_edit({{$order->id}})"
                                                class="btn btn-xs btn-primary">編輯</a>
+                                            <a href="{{route('orders.export',$order->id)}}" class="btn-xs btn btn-primary">匯出</a>
 
                                             @if( Auth::user()->level==2)
                                                 <form action="{{route('orders.delete',$order->id)}}"

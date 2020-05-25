@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\BusinessConcatPerson;
 use App\Customer;
+use App\Exports\InvoicesExport;
+use App\Exports\OrderExport;
 use App\Order;
 use App\OrderItem;
 use App\Product;
@@ -16,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 use Session;
 
 
@@ -409,6 +412,12 @@ class OrderController extends Controller
             return $total_result;
         }
         return;
+    }
+
+    public function export(Order $order)
+    {
+//        dd($order);
+        return Excel::download(new OrderExport($order), $order->no.'.xlsx');
     }
 
 

@@ -135,6 +135,7 @@ Route::middleware('auth')->group(function () {
     Route::post('orders/{order}', 'OrderController@delete')->name('orders.delete');
     Route::post('orders/delete_backto_index/{order}', 'OrderController@delete_backto_index')->name('orders.delete_backto_index');
 
+    Route::get('orders/{order}/export','OrderController@export')->name('orders.export');
 
 
     Route::get('orders/{order}/get_code','OrderController@get_code')->name('orders.get_code');
