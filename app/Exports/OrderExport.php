@@ -218,7 +218,9 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
 
                 array_push($merge_cell_info, 'J'.($row_index) .':K'.$row_index);
 
-                $event->sheet->getDelegate()->setCellValue('J'.($row_index),$newDate = date("Y-m-d", strtotime($this->order->payment_date)));
+                if($this->order->payment_date){
+                    $event->sheet->getDelegate()->setCellValue('J'.($row_index),$newDate = date("Y-m-d", strtotime($this->order->payment_date)));
+                }
 
                 $row_index++;
                 if($this->order->payment_account=="公司帳戶"){
