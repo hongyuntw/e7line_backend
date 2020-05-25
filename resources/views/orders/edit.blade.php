@@ -732,7 +732,7 @@
                                         '                            </div>' +
                                         '</div>';
 
-                                    $('#insertField').prepend(html);
+                                    $('#insertField').append(html);
                                     // $(productListId).prepend(html);
                                     var new_select_id = "#product" + count;
                                     make_selectize(new_select_id);
@@ -813,13 +813,14 @@
                                 @endif
                                 @if($loop->index==0)
                                     <div id="product_list">
+                                        <div id="insertField"></div>
+
                                         @else
                                             <div id="product_list{{$loop->index+1}}">
                                                 @if($order->status==0||\Illuminate\Support\Facades\Auth::user()->level!=0)
-
                                                     <a class="btn btn-link"
                                                        onclick="delete_product({{$loop->index+1}})">
-                                                        <i class="glyphicon glyphicon-minus-sign"></i>
+                                                        <i class="glyphicon glyphicon-minus-sign"></i>delete product
                                                     </a>
                                                 @endif
 
@@ -923,9 +924,7 @@
 
                                                 </div>
                                             </div>
-                                            @if($loop->index==0)
-                                                <div id="insertField"></div>
-                                            @endif
+
 
                                             @endforeach
                                             <div align="right">
