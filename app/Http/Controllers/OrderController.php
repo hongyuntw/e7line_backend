@@ -28,7 +28,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public static $order_item_status_names = ['尚未受理', '已收單', '已叫貨', '已交貨', '已出貨'];
-    public static $order_status_names = ['未處理', '處理中', '已完成'];
+    public static $order_status_names = ['未處理', '處理中', '貨已到', '已完成'];
 
     public static $payment_method_names = ['匯款', '貨到付款', '薪資帳戶扣款', '信用卡刷卡機制', 'LINEPay'];
 
@@ -390,6 +390,23 @@ class OrderController extends Controller
             return $total_result;
 
 
+        }
+        return;
+    }
+
+    public function changeStatus2Success(Request $request)
+    {
+        $total_result = [];
+        if($request->has('ids')){
+            foreach ($request->input('ids')as $id){
+                $order = Order::find($id);
+//                dd($order);
+//                3 = 已完成
+                $order->status = 3;
+                $order->update();
+                $total_result[$order->no] = '變更狀態成功。';
+            }
+            return $total_result;
         }
         return;
     }

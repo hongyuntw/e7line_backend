@@ -52,7 +52,7 @@
                                         </select>
                                         <label>拋單狀態</label>
                                         <select name="code_filter" class="form-control form-control-sm">
-                                            <option value="-1" @if(-1==$code_filter) selected @endif>All </option>
+                                            <option value="-1" @if(-1==$code_filter) selected @endif>All</option>
                                             <option value="0" @if(0==$code_filter) selected @endif>未拋單</option>
                                             <option value="1" @if(1==$code_filter) selected @endif>已拋單</option>
                                         </select>
@@ -194,6 +194,38 @@
                                         }
                                     });
                                 }
+                                function changeStatus2Success() {
+                                    var inputs = document.getElementsByName("get_code");
+                                    var ids = [];
+                                    for (var i = 0; i < inputs.length; i++) {
+                                        if (inputs[i].checked ? 1 : 0) {
+                                            ids.push(inputs[i].id);
+                                        }
+                                    }
+                                    $.ajax({
+                                        type: "POST",
+                                        url: '{{route('orders.changeStatus2Success')}}',
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                        },
+                                        data: {
+                                            ids: ids,
+                                        },
+                                        success: function (data) {
+                                            console.log(data);
+                                            var msg = '';
+                                            for (let [key, value] of Object.entries(data)) {
+                                                msg += '訂單編號:' + key + '\t' + value;
+                                                msg += '\n';
+                                            }
+                                            alert(msg);
+                                            window.location.reload();
+                                        },
+                                        error: function () {
+                                            alert('伺服器出了點問題，稍後再重試');
+                                        }
+                                    });
+                                }
                             </script>
 
                             <table class="table table-bordered table-hover" width="100%">
@@ -217,7 +249,9 @@
                                 <div style="float: right">
                                     @if(Auth::user()->level==2)
                                         <button class="btn-sm btn-dark" onclick="get_code()">拋單已選中</button>
+
                                     @endif
+                                        <button class="btn-sm btn-dark" onclick="changeStatus2Success()">設為已完成</button>
                                 </div>
 
                                 @foreach ($orders as $order)
@@ -264,7 +298,7 @@
                                             @php($css='label label-warning')
                                             @break
                                             @case(2)
-                                            @php($css='label label-success')
+                                            @php($css='label label-primary')
                                             @break
                                             @case(3)
                                             @php($css='label label-success')
@@ -311,11 +345,11 @@
                                                     </button>
                                                 </form>
                                             @endif
-{{--                                            @if(Auth::user()->level!=0 && $order->status==1)--}}
-{{--                                                <button type="button" onclick="changeOrderStatusBack({{$order->id}})"--}}
-{{--                                                        class="btn btn-xs btn-primary">退回未處理--}}
-{{--                                                </button>--}}
-{{--                                            @endif--}}
+                                            {{--                                            @if(Auth::user()->level!=0 && $order->status==1)--}}
+                                            {{--                                                <button type="button" onclick="changeOrderStatusBack({{$order->id}})"--}}
+                                            {{--                                                        class="btn btn-xs btn-primary">退回未處理--}}
+                                            {{--                                                </button>--}}
+                                            {{--                                            @endif--}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -347,7 +381,7 @@
 
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
-{{--                            {{$orders->links()}}--}}
+                            {{--                            {{$orders->links()}}--}}
                             {{ $orders->appends(request()->input())->links() }}
 
                         </div>

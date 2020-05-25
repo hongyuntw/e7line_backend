@@ -142,6 +142,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('ajax/index_get_code','OrderController@index_get_code')->name('orders.index_gex_code');
 
+    Route::post('ajax/changeStatus2Success','OrderController@changeStatus2Success')->name('orders.changeStatus2Success');
+
     Route::get('ajax/get_customer_concat_persons', 'OrderController@get_customer_concat_persons')->name('orders.get_customer_concat_persons');
     Route::get('ajax/get_product_details', 'OrderController@get_product_details')->name('orders.get_product_details');
     Route::get('ajax/get_product_details_price', 'OrderController@get_product_details_price')->name('orders.get_product_details_price');
