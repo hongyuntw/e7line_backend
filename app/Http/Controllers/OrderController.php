@@ -403,11 +403,31 @@ class OrderController extends Controller
         if($request->has('ids')){
             foreach ($request->input('ids')as $id){
                 $order = Order::find($id);
-//                dd($order);
-//                3 = 已完成
-                $order->status = 3;
-                $order->update();
-                $total_result[$order->no] = '變更狀態成功。';
+                if($order->status !=2 ){
+                    $total_result[$order->no] = '狀態非貨已到，無法變更為已完成。';
+                }
+                else{
+                    //                3 = 已完成
+                    $order->status = 3;
+                    $order->update();
+                    $total_result[$order->no] = '變更狀態成功。';
+
+                }
+
+            }
+            return $total_result;
+        }
+        return;
+    }
+
+
+    public function exportFromIndex(Request $request)
+    {
+        $total_result = [];
+        if($request->has('ids')){
+            foreach ($request->input('ids')as $id){
+                $order = Order::find($id);
+                return Excel::download(new OrderExport($order), $order->no.'.xlsx');
             }
             return $total_result;
         }

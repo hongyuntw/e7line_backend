@@ -144,9 +144,13 @@
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th rowspan="2" class="text-center align-middle" style="width:10%;vertical-align: middle">主題</th>
-                                    <th rowspan="2" class="text-center" style="width:30%;vertical-align: middle">任務內容</th>
-                                    <th colspan="4" class="text-center" style="width:60%;vertical-align: middle">MORE</th>
+                                    <th rowspan="2" class="text-center align-middle"
+                                        style="width:10%;vertical-align: middle">主題
+                                    </th>
+                                    <th rowspan="2" class="text-center" style="width:30%;vertical-align: middle">任務內容
+                                    </th>
+                                    <th colspan="4" class="text-center" style="width:60%;vertical-align: middle">MORE
+                                    </th>
                                 </tr>
                                 <tr>
                                     <td class="text-center" style="width: 5%">業務</td>
@@ -196,11 +200,11 @@
                                             </td>
                                             {{--                                        </tr>--}}
                                             @if($loop->last)
-                                            </tr>
-                                            @else
-                                                </tr>
-                                                <tr>
-                                            @endif
+                                    </tr>
+                                    @else
+                                    </tr>
+                                    <tr>
+                                    @endif
                                 @endforeach
                                 {{--                                        </td>--}}
 

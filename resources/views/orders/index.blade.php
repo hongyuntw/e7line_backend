@@ -194,6 +194,30 @@
                                         }
                                     });
                                 }
+                                function exportOrders(){
+                                    var inputs = document.getElementsByName("get_code");
+                                    var ids = [];
+                                    for (var i = 0; i < inputs.length; i++) {
+                                        if (inputs[i].checked ? 1 : 0) {
+                                            ids.push(inputs[i].id);
+                                        }
+                                    }
+                                    $.ajax({
+                                        type: "POST",
+                                        url: '{{route('orders.exportFromIndex')}}',
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                        },
+                                        data: {
+                                            ids: ids,
+                                        },
+                                        success: function (data) {},
+                                        error: function () {
+                                            alert('伺服器出了點問題，稍後再重試');
+                                        }
+                                    });
+
+                                }
                                 function changeStatus2Success() {
                                     var inputs = document.getElementsByName("get_code");
                                     var ids = [];
@@ -252,6 +276,8 @@
 
                                     @endif
                                         <button class="btn-sm btn-dark" onclick="changeStatus2Success()">設為已完成</button>
+{{--                                        <button class="btn-sm btn-dark" onclick="exportOrders()">匯出已選中</button>--}}
+
                                 </div>
 
                                 @foreach ($orders as $order)
