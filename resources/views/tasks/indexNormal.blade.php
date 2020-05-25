@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', '交易詳細')
+@section('title', '任務列表')
 
 @section('content')
     <meta id="csrf_token" name="csrf_token" content="{{ csrf_token() }}"/>

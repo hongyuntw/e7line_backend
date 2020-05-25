@@ -420,6 +420,13 @@ class OrderController extends Controller
         return;
     }
 
+    public function orderSuccess(Order $order)
+    {
+        $order->status = 3;
+        $order->update();
+        return redirect()->back();
+    }
+
 
     public function exportFromIndex(Request $request)
     {

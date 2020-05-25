@@ -139,6 +139,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('ajax/exportFromIndex','OrderController@exportFromIndex')->name('orders.exportFromIndex');
 
+    Route::get('orders/{order}/orderSuccess','OrderController@orderSuccess')->name('orders.orderSuccess');
+
 
 
     Route::get('orders/{order}/get_code','OrderController@get_code')->name('orders.get_code');

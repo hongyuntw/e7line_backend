@@ -396,6 +396,8 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
         $drawing->setDescription('Logo');
         $drawing->setPath(public_path('/img/e7line/e7lineLogo.png'));
         $drawing->setHeight(50);
+        $drawing->setOffsetX(-20);
+
 //        $drawing->setWidth(60);
 //        $drawing->
         $drawing->setCoordinates('C1');

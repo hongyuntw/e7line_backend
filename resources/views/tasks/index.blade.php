@@ -133,11 +133,7 @@
                                 {{--                                </div>--}}
 
                             </div>
-
-
                         </div>
-
-
                         <!-- /.box-header -->
                         <div class="box-body ">
 
@@ -160,15 +156,17 @@
                                 </tr>
 
                                 </thead>
+
                                 @foreach($tasks as $task)
                                     <tr>
                                         <td style="vertical-align: middle" rowspan="{{count($task->task_assignments)}}"
                                             class="text-left">{{$task->topic}}</td>
                                         <td style="vertical-align: middle" rowspan="{{count($task->task_assignments)}}"
                                             class="text-left">{{$task->content}} </td>
-
+                                    </tr>
+                                    <tr>
                                         @foreach($task->task_assignments as $task_assignment)
-                                            {{--                                        <tr>--}}
+{{--                                                                                    <tr>--}}
                                             <td>{{$task_assignment->user->name}}</td>
                                             @switch($task_assignment->status)
                                                 @case(0)
@@ -200,12 +198,12 @@
                                             </td>
                                             {{--                                        </tr>--}}
                                             @if($loop->last)
-                                    </tr>
-                                    @else
-                                    </tr>
-                                    <tr>
-                                    @endif
-                                @endforeach
+                                                </tr>
+                                            @else
+                                                </tr>
+                                                <tr>
+                                            @endif
+                                        @endforeach
                                 {{--                                        </td>--}}
 
                                 @endforeach

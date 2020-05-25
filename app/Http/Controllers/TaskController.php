@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use App\TaskAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,26 +20,44 @@ class TaskController extends Controller
     {
         //
 
-        $query = Task::query();
+        if(Auth::user()->level==2){
+            $query = Task::query();
+            $query->orderBy('tasks.create_date','DESC');
+            $tasks = $query->paginate(15);
 
+            $data = [
+                'tasks' => $tasks,
+                'task_status_names' => self::$task_status_names,
 
+            ];
 
+            return view('tasks.index',$data);
 
-        if(Auth::user()->level!=2){
-            $query->join('task_assignments','tasks.id','=','task_assignments.task_id');
+        }
+        else{
+
+            $query = TaskAssignment::query();
             $query->where('user_id','=',Auth::user()->id);
+            $query->orderBy('task_assignments.create_date','DESC');
+
+            $doneTaskAssignments = $query->where('status','=',2)->get();
+            $checkTaskAssignments = $query->where('status','=',1)->get();
+            $needToCheckTaskAssignments = $query->where('status','=',0)->get();
+            dump($doneTaskAssignments);
+            dump($checkTaskAssignments);
+            dd($needToCheckTaskAssignments);
+            $tasks = $query->paginate(15);
+
+            $data = [
+
+
+            ];
+
+
+
+            return view('tasks.indexNormal');
         }
 
-        $query->orderBy('tasks.create_date','DESC');
-        $tasks = $query->paginate(15);
-
-        $data = [
-            'tasks' => $tasks,
-            'task_status_names' => self::$task_status_names,
-
-        ];
-
-        return view('tasks.index',$data);
     }
 
     /**
