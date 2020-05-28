@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::post('customers', 'CustomersController@store')->name('customers.store');
     Route::get('customers/{customer}','CustomersController@show')->name('customers.show');
     Route::post('customers/{customer}/delete_back_to_index', 'CustomersController@delete_back_to_index')->name('customers.delete_back_to_index');
+    Route::post('customers/import', 'CustomersController@import')->name('customers.import');
 
     Route::post('customers/{customer}', 'CustomersController@delete')->name('customers.delete');
 

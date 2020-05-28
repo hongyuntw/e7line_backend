@@ -25,6 +25,14 @@
               | Your Page Content Here |
               -------------------------->
 
+            @if(session('msg'))
+                @if(session('msg')=='')
+                    <div class="alert alert-success text-center">{{'Success'}}</div>
+                @else
+                    <div class="alert alert-danger text-center">{{session('msg')}}</div>
+                @endif
+            @endif
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">
@@ -100,7 +108,8 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <input hidden name="user_filter" value="@if(request()->get('user_filter')) {{request()->get('user_filter')}} @endif">
+                                        <input hidden name="user_filter"
+                                               value="@if(request()->get('user_filter')) {{request()->get('user_filter')}} @endif">
 
                                         <select multiple name="status_filter[]" hidden>
                                             @if(request()->get('status_filter'))
@@ -124,6 +133,14 @@
                                 <div class="col-md-1 col-3">
                                     <label>特殊功能</label><br>
                                     <a class="btn btn-success btn-sm" href="{{route('customers.create')}}">新增客戶</a>
+                                    <br>
+                                    <br>
+                                    <form action="{{ route('customers.import') }}" method="POST"
+                                          enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="file" name="file" class="form-control-file">
+                                        <button class="btn btn-success btn-sm">匯入客戶</button>
+                                    </form>
                                 </div>
 
 
@@ -230,7 +247,7 @@
                                             <a href="{{ route('customers.show', $customer->id) }}"
                                                class="btn btn-xs btn-primary">詳細</a>
                                             <a onclick="customer_edit({{$customer->id}})"
-{{--                                               href="{{ route('customers.edit',$customer->id)}}"--}}
+                                               {{--                                               href="{{ route('customers.edit',$customer->id)}}"--}}
                                                class="btn btn-xs btn-primary">編輯</a>
 
                                             <a href="{{ route('customers.record', $customer->id) }}"
@@ -254,9 +271,9 @@
 
                                 {{--    for customer edit cookie setting and redirect--}}
                                 <script>
-                                    function customer_edit(customer_id){
+                                    function customer_edit(customer_id) {
                                         console.log(encodeURIComponent(window.location.href));
-                                        window.location.href = '/customers/'+customer_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);
+                                        window.location.href = '/customers/' + customer_id + '/edit' + '?source_html=' + encodeURIComponent(window.location.href);
                                     }
                                 </script>
 

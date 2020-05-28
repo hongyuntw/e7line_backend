@@ -39,9 +39,11 @@ class TaskController extends Controller
             $query = TaskAssignment::query();
             $query->where('user_id','=',Auth::user()->id);
             $query->orderBy('task_assignments.create_date','DESC');
+            $query_2 = $query;
+            $query_1 = $query;
 
-            $doneTaskAssignments = $query->where('status','=',2)->get();
-            $checkTaskAssignments = $query->where('status','=',1)->get();
+            $doneTaskAssignments = $query_2->where('status','=',2)->get();
+            $checkTaskAssignments = $query_1->where('status','=',1)->get();
             $needToCheckTaskAssignments = $query->where('status','=',0)->get();
             dump($doneTaskAssignments);
             dump($checkTaskAssignments);

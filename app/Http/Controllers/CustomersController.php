@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessConcatPerson;
 use App\ConcatRecord;
 use App\Customer;
+use App\Imports\CustomersImport;
 use App\Status;
 use App\User;
 use App\Welfare;
@@ -13,12 +14,14 @@ use App\WelfareDetail;
 use App\WelfareStatus;
 use App\WelfareType;
 use App\WelfareTypeName;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
-
-
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class CustomersController extends Controller
@@ -565,6 +568,80 @@ class CustomersController extends Controller
             'success' => 'success',
         ]);
 
+
+    }
+
+
+    public function import(Request $request)
+    {
+        $import = new CustomersImport;
+        Excel::import($import, request()->file('file'));
+        $rows = $import->getRows()->toArray();
+
+        $rules = [
+            'user_name' => 'required|in:'.User::all()->implode('name', ','),
+            'name' => 'required|unique:customers',
+            'tax_id' => 'numeric|digits_between:8,8|nullable',
+            'phone_number' => 'max:20|nullable',
+            'fax_number' => 'max:20|nullable',
+            'address' => 'max:50|nullable',
+            'capital' => 'max:25|nullable',
+            'city' => 'required',
+            'area' => 'required',
+        ];
+        array_shift($rows);
+
+        $index = 1;
+        foreach($rows as $row){
+            $rename_row = [
+                'name' => $row[0],
+                'user_name' => $row[1],
+                'tax_id' =>$row[2],
+                'capital'=>$row[3],
+                'scales'=>$row[4],
+                'city'=>$row[5],
+                'area'=>$row[6],
+                'address'=>$row[7],
+                'phone_number'=>$row[8],
+                'fax_number'=>$row[9],
+                'note'=>$row[10],
+            ];
+
+            $msg = '';
+            $validator = Validator::make($rename_row,$rules);
+            if ($validator->fails()) {
+                $msg .= '第'.$index.'筆資料新增失敗,錯誤訊息為下:'.PHP_EOL;
+                foreach ($validator->errors()->all() as $error){
+                    $msg .= $error . PHP_EOL;
+                }
+            }
+            else{
+                $user = User::where('name','=',$rename_row['user_name'])->first();
+                $newCustomer = Customer::create([
+                    'name'=>$rename_row['name'],
+                    'status' => 0,
+                    'user_id'=>$user->id,
+                    'tax_id' => $rename_row['tax_id'],
+                    'capital' => $rename_row['capital'],
+                    'scales' =>  $rename_row['scales'],
+                    'city' => $rename_row['city'],
+                    'area' => $rename_row['area'],
+                    'phone_number' => $rename_row['phone_number'],
+                    'fax_number' => $rename_row['fax_number'],
+                    'address' => $rename_row['address'],
+                    'note' => $rename_row['note'],
+                    'active_status'=> 0,
+                    'already_set_sales' => $user->id == 1? 0 : 1,
+                    'is_deleted'=>0,
+                    'create_date'=>now(),
+                    'update_date'=>now(),
+                ]);
+            }
+            $index ++;
+        }
+
+        Session::flash('msg',$msg);
+        return redirect()->back();
 
     }
 
