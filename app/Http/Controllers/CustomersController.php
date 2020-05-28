@@ -612,6 +612,7 @@ class CustomersController extends Controller
                 'capital' => 'max:25|nullable',
                 'city' => 'required',
                 'area' => 'required',
+                'scales' => 'nullable|integer'
             ];
             $error_messages = [
                 'user_name.in' => '找不到業務名字',
@@ -624,6 +625,7 @@ class CustomersController extends Controller
                 'name.required' => '客戶名稱欄位沒填喔',
                 'city.required' => '城市欄位沒填喔',
                 'area.required' => '地區欄位沒填喔',
+                'scales.*' => '規模請填整數喔',
 
 
 
@@ -695,7 +697,6 @@ class CustomersController extends Controller
 
         }
         catch (\Exception $exception){
-            dd($exception);
             $msg = '格式錯誤！請檢查檔案格式是否正確';
             Session::flash('msg',$msg);
             return redirect()->back();
