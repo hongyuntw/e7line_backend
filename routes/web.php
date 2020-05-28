@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::post('customers/import', 'CustomersController@import')->name('customers.import');
 
     Route::post('customers/{customer}', 'CustomersController@delete')->name('customers.delete');
+    Route::get('customers/export/downloadTemplate','CustomersController@downloadTemplate')->name('customers.downloadTemplate');
 
 
     Route::get('customers/{customer}/record','CustomersController@record')->name('customers.record');

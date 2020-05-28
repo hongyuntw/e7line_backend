@@ -130,17 +130,22 @@
                                     <!-- /.search form -->
 
                                 </div>
-                                <div class="col-md-1 col-3">
+                                <div class="col-md-2">
                                     <label>特殊功能</label><br>
                                     <a class="btn btn-success btn-sm" href="{{route('customers.create')}}">新增客戶</a>
                                     <br>
                                     <br>
-                                    <form action="{{ route('customers.import') }}" method="POST"
-                                          enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="file" name="file" class="form-control-file">
-                                        <button class="btn btn-success btn-sm">匯入客戶</button>
-                                    </form>
+                                    <div class="inline">
+                                        <form action="{{ route('customers.import') }}" method="POST"
+                                              enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="file" name="file" class="form-control-file">
+                                            <button class="btn btn-success btn-sm">匯入客戶</button>
+                                            <a class="btn btn-primary btn-sm"
+                                               href="{{route('customers.downloadTemplate')}}">樣版下載</a>
+                                        </form>
+
+                                    </div>
                                 </div>
 
 

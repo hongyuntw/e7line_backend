@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\BusinessConcatPerson;
 use App\ConcatRecord;
 use App\Customer;
+use App\Exports\CustomerTemplateExport;
+use App\Exports\OrderExport;
 use App\Imports\CustomersImport;
 use App\Status;
 use App\User;
@@ -634,7 +636,7 @@ class CustomersController extends Controller
                     $user = User::where('name','=',$rename_row['user_name'])->first();
                     $newCustomer = Customer::create([
                         'name'=>$rename_row['name'],
-                        'status' => 0,
+                        'status' => 1,
                         'user_id'=>$user->id,
                         'tax_id' => $rename_row['tax_id'],
                         'capital' => $rename_row['capital'],
@@ -665,5 +667,12 @@ class CustomersController extends Controller
             Session::flash('msg',$msg);
             return redirect()->back();
         }
+    }
+
+    public function downloadTemplate()
+    {
+//        dd(123);
+        return Excel::download(new CustomerTemplateExport(), '客戶資料格式參考.xlsx');
+
     }
 }
