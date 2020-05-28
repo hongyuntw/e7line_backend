@@ -33,6 +33,15 @@
                 @endif
             @endif
 
+            @if(session('msgs'))
+                <div class="alert-danger alert text-center">
+                    @foreach(session('msgs') as $msg)
+                        {{$msg}} <br>
+
+                    @endforeach
+                </div>
+            @endif
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">

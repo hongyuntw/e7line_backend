@@ -575,6 +575,10 @@ class CustomersController extends Controller
 
 
     }
+    function containsOnlyNull($input)
+    {
+        return empty(array_filter($input, function ($a) { return $a !== null;}));
+    }
 
 
     public function import(Request $request)
@@ -609,10 +613,31 @@ class CustomersController extends Controller
                 'city' => 'required',
                 'area' => 'required',
             ];
+            $error_messages = [
+                'user_name.in' => '找不到業務名字',
+                'name.unique' => '客戶名稱重複',
+                'tax_id.*' => '統編格式錯誤',
+                'fax_number.*'=>'傳真最長20碼',
+                'address.*'=>'地址最長50碼',
+                'capital.*'=>'傳真最長25',
+                'user_name.required' => '業務欄位沒填喔',
+                'name.required' => '客戶名稱欄位沒填喔',
+                'city.required' => '城市欄位沒填喔',
+                'area.required' => '地區欄位沒填喔',
+
+
+
+            ];
             array_shift($rows);
 
+            $msgs = [];
+            $msg = '';
             $index = 1;
+            $success_count = 0;
             foreach($rows as $row){
+                if($this->containsOnlyNull($row)){
+                    continue;
+                }
                 $rename_row = [
                     'name' => $row[0],
                     'user_name' => $row[1],
@@ -627,13 +652,13 @@ class CustomersController extends Controller
                     'note'=>$row[10],
                 ];
 
-                $msg = '';
-                $validator = Validator::make($rename_row,$rules);
+                $validator = Validator::make($rename_row,$rules,$error_messages);
                 if ($validator->fails()) {
-                    $msg .= '第'.$index.'筆資料新增失敗,錯誤訊息為下:'.PHP_EOL;
+                    $msg = '第'.$index.'筆資料新增失敗, ';
                     foreach ($validator->errors()->all() as $error){
-                        $msg .= $error . PHP_EOL;
+                        $msg .= $error . ' ,';
                     }
+                    array_push($msgs,$msg);
                 }
                 else{
                     $user = User::where('name','=',$rename_row['user_name'])->first();
@@ -657,11 +682,14 @@ class CustomersController extends Controller
                         'update_date' => now(),
                     ]);
                     $this->addWelfareStatus($newCustomer);
+                    $success_count ++;
                 }
                 $index ++;
             }
 
-            Session::flash('msg',$msg);
+
+            array_push($msgs,'成功新增'.$success_count.'筆客戶');
+            Session::flash('msgs',$msgs);
             return redirect()->back();
 
 
