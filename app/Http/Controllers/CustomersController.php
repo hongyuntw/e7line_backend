@@ -695,6 +695,7 @@ class CustomersController extends Controller
 
         }
         catch (\Exception $exception){
+            dd($exception);
             $msg = '格式錯誤！請檢查檔案格式是否正確';
             Session::flash('msg',$msg);
             return redirect()->back();
