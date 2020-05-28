@@ -216,20 +216,23 @@ class CustomersController extends Controller
         $customer->create_date = now();
         $customer->update();
 
-        $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
-        $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
+        $this->addWelfareStatus($customer);
 
-        foreach (range(0, count($welfare_names) - 1) as $id) {
-            \App\WelfareStatus::create([
-                'customer_id' => $customer->id,
-                'welfare_code' => $welfare_codes[$id],
-                'welfare_name' => $welfare_names[$id],
-                'track_status' => 1,
-                'welfare_id' => $id,
-                'create_date' => now(),
-                'update_date' => now(),
-            ]);
-        }
+
+//        $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
+//        $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
+//
+//        foreach (range(0, count($welfare_names) - 1) as $id) {
+//            \App\WelfareStatus::create([
+//                'customer_id' => $customer->id,
+//                'welfare_code' => $welfare_codes[$id],
+//                'welfare_name' => $welfare_names[$id],
+//                'track_status' => 1,
+//                'welfare_id' => $id,
+//                'create_date' => now(),
+//                'update_date' => now(),
+//            ]);
+//        }
 
 
         return redirect()->route('customers.index');
@@ -650,9 +653,10 @@ class CustomersController extends Controller
                         'active_status'=> 0,
                         'already_set_sales' => $user->id == 1? 0 : 1,
                         'is_deleted'=>0,
-                        'create_date'=>now(),
-                        'update_date'=>now(),
+                        'create_date' => now(),
+                        'update_date' => now(),
                     ]);
+                    $this->addWelfareStatus($newCustomer);
                 }
                 $index ++;
             }
@@ -666,6 +670,24 @@ class CustomersController extends Controller
             $msg = '格式錯誤！請檢查檔案格式是否正確';
             Session::flash('msg',$msg);
             return redirect()->back();
+        }
+    }
+
+
+    public function addWelfareStatus(Customer $customer)
+    {
+        $welfare_codes = ['W001', 'W002', 'W003', 'W004', 'W005', 'W006', 'W007', 'W008', 'W009'];
+        $welfare_names = ['春節', '尾牙', '端午', '51勞動', '中秋', '生日', '電影', '旅遊', '其他'];
+        foreach (range(0, count($welfare_names) - 1) as $id) {
+            \App\WelfareStatus::create([
+                'customer_id' => $customer->id,
+                'welfare_code' => $welfare_codes[$id],
+                'welfare_name' => $welfare_names[$id],
+                'track_status' => 1,
+                'welfare_id' => $id,
+                'create_date' => now(),
+                'update_date' => now(),
+            ]);
         }
     }
 

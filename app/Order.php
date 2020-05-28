@@ -11,7 +11,7 @@ class Order extends Model
     const UPDATED_AT = null;
     protected $table = 'orders';
 
-    protected $guarded = ['id', 'create_date'];
+    protected $guarded = ['id',];
 
 
     public function order_items()

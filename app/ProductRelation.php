@@ -12,7 +12,7 @@ class ProductRelation extends Model
     const UPDATED_AT = null;
     protected $table = 'product_relations';
 
-    protected $guarded = ['id', 'create_date'];
+    protected $guarded = ['id'];
 
 
     public function product()

@@ -11,7 +11,7 @@ class WelfareStatus extends Model
     const UPDATED_AT = null;
     protected $table = 'welfare_status';
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id'];
 
 
     public function welfare_company()

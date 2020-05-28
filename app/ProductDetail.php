@@ -11,7 +11,7 @@ class ProductDetail extends Model
     const UPDATED_AT = null;
     protected $table = 'product_details';
 
-    protected $guarded = ['id', 'create_date'];
+    protected $guarded = ['id'];
 
     public function product_relations()
     {
