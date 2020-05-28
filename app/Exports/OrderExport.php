@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;     // 自動註冊事件監聽器
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
-use PHPExcel_Cell_DataType;
+//use PHPExcel_Cell_DataType;
 
 use function GuzzleHttp\Psr7\str;
 
@@ -144,8 +144,8 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
                 $event->sheet->getDelegate()->setCellValue('C5',$this->order->business_concat_person?$this->order->business_concat_person->name:$this->order->other_concat_person_name);
 
                 $event->sheet->getDelegate()->setCellValue('E5','聯絡電話');
-//                $event->sheet->getDelegate()->setCellValue('G5',strval($this->order->phone_number));
-                $event->sheet->getDelegate()->setCellValueExplicit('G5',strval($this->order->phone_number),PHPExcel_Cell_DataType::TYPE_STRING);
+                $event->sheet->getDelegate()->setCellValue('G5',strval($this->order->phone_number));
+//                $event->sheet->getDelegate()->setCellValueExplicit('G5',strval($this->order->phone_number),PHPExcel_Cell_DataType::TYPE_STRING);
 
 
                 $event->sheet->getDelegate()->setCellValue('E6','Mail');
