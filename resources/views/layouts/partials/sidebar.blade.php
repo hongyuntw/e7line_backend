@@ -16,19 +16,19 @@
             </div>
         </div>
 
-{{--        <!-- search form (Optional) -->--}}
-{{--        <form role="form" action="{{route('products.search')}}" method="get" class="sidebar-form">--}}
-{{--            <div class="input-group">--}}
-{{--                <input type="text" name="namebesearch" class="form-control" placeholder="Search Product...">--}}
-{{--                <span class="input-group-btn">--}}
-{{--              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>--}}
-{{--              </button>--}}
-{{--            </span>--}}
-{{--            </div>--}}
-{{--        </form>--}}
-{{--        <!-- /.search form -->--}}
+    {{--        <!-- search form (Optional) -->--}}
+    {{--        <form role="form" action="{{route('products.search')}}" method="get" class="sidebar-form">--}}
+    {{--            <div class="input-group">--}}
+    {{--                <input type="text" name="namebesearch" class="form-control" placeholder="Search Product...">--}}
+    {{--                <span class="input-group-btn">--}}
+    {{--              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>--}}
+    {{--              </button>--}}
+    {{--            </span>--}}
+    {{--            </div>--}}
+    {{--        </form>--}}
+    {{--        <!-- /.search form -->--}}
 
-        <!-- Sidebar Menu -->
+    <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">管理系統</li>
             <!-- Optionally, you can add icons to the links -->
@@ -110,6 +110,9 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{route('tasks.index')}}">任務列表</a></li>
+                    @if(Auth::user()->level==2)
+                        <li><a href="{{route('tasks.create')}}">新增任務</a></li>
+                    @endif
                 </ul>
                 <a href="#">
                     <i class="fa fa-shopping-bag"></i>

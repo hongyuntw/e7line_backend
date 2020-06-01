@@ -18,6 +18,7 @@ class CreateTaskAssigmentsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('task_id');
             $table->tinyInteger('status');
+            $table->boolean('is_deleted')->default(false);
             $table->tinyInteger('return_nums')->default(0);
             $table->timestamp('create_date')->nullable();
             $table->timestamp('update_date')->nullable();

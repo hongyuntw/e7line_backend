@@ -17,6 +17,7 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->string('content');
             $table->string('topic')->nullable();
+            $table->boolean('is_deleted')->default(false);
             $table->timestamp('create_date')->nullable();
             $table->timestamp('update_date')->nullable();
         });

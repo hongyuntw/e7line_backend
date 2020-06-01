@@ -81,9 +81,24 @@ Route::middleware('auth')->group(function () {
     Route::get('tasks','TaskController@index')->name('tasks.index');
     Route::get('tasks/create', 'TaskController@create')->name('tasks.create');
     Route::post('tasks', 'TaskController@store')->name('tasks.store');
-    Route::post('tasks/{task}/delete', 'TaskController@delete')->name('tasks.delete');
+    Route::post('tasks/{task_assignment}/delete', 'TaskController@delete')->name('tasks.delete');
     Route::get('tasks/{task}/edit', 'TaskController@edit')->name('tasks.edit');
-    Route::post('tasks/{task}', 'TaskController@update')->name('tasks.update');
+    Route::patch('tasks/{task}', 'TaskController@update')->name('tasks.update');
+//    業務回覆任務完成
+    Route::post('ajax/tasks/taskComplete','TaskController@taskComplete')->name('tasks.taskComplete');
+//    root 檢查通過
+    Route::post('ajax/tasks/taskChecked','TaskController@taskChecked')->name('tasks.taskChecked');
+//    root 退回狀態
+    Route::post('ajax/tasks/taskBack','TaskController@taskBack')->name('tasks.taskBack');
+
+    Route::get('tasks/create','TaskController@create')->name('tasks.create');
+    Route::post('ajax/tasks/taskBackToProcess','TaskController@taskBackToProcess')->name('tasks.taskBackToProcess');
+    Route::get('tasks/ajax/getProcessPage','TaskController@getProcessPage')->name('tasks.getProcessPage');
+    Route::get('tasks/ajax/setPageSession','TaskController@setPageSession')->name('tasks.setPageSession');
+    Route::get('tasks/ajax/getCheckPage','TaskController@getCheckPage')->name('tasks.getCheckPage');
+    Route::get('tasks/ajax/getDonePage','TaskController@getDonePage')->name('tasks.getDonePage');
+
+
 
 
 

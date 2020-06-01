@@ -57,11 +57,6 @@ class DashboardController extends Controller
         $count= count($customers);
         $rev = '6';
         $sums = ceil($count/$rev);
-
-//        $page = Input::get('page');
-//        if()
-//        $page = Session::get('dashboard_page');
-//        $page = Input::get('page');
         session_start();
         $page = $request->input('page');
         if(empty($page)){
@@ -671,8 +666,6 @@ class DashboardController extends Controller
             Session::put('dashboard_opage',$request->input('opage'));
             session_write_close();  //<---------- Add this to close the session so that reading from the session will contain the new value.
             return 'success set page to session to' . $request->input('opage');
-
-
         }
 
 
