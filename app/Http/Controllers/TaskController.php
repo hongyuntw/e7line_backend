@@ -45,9 +45,9 @@ class TaskController extends Controller
             $doneTaskAssignments = $query_2->where('status','=',2)->get();
             $checkTaskAssignments = $query_1->where('status','=',1)->get();
             $needToCheckTaskAssignments = $query->where('status','=',0)->get();
-            dump($doneTaskAssignments);
-            dump($checkTaskAssignments);
-            dd($needToCheckTaskAssignments);
+//            dump($doneTaskAssignments);
+//            dump($checkTaskAssignments);
+//            dd($needToCheckTaskAssignments);
             $tasks = $query->paginate(15);
 
             $data = [

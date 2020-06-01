@@ -175,6 +175,8 @@
                                             </svg>&nbsp; {{$welfare_status->customer->name }}</td>
                                         <td>{{ $welfare_status->welfare_name }}</td>
                                         <td class="text-left">
+{{--                                            {{dump($welfare_status->welfare_types)}}--}}
+{{--                                            {{dump($welfare_status)}}--}}
                                             @foreach($welfare_status->welfare_types as $welfare_type)
                                                 <li>{{$welfare_type->welfare_type_name->name}}</li>
                                             @endforeach
