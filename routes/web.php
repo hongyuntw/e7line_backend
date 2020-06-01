@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::get('tasks/ajax/setPageSession','TaskController@setPageSession')->name('tasks.setPageSession');
     Route::get('tasks/ajax/getCheckPage','TaskController@getCheckPage')->name('tasks.getCheckPage');
     Route::get('tasks/ajax/getDonePage','TaskController@getDonePage')->name('tasks.getDonePage');
+    Route::post('tasks/ajax/deleteMsg','TaskController@deleteMsg')->name('tasks.deleteMsg');
 
 
 

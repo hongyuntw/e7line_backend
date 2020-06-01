@@ -159,6 +159,30 @@
                                         });
                                     }
 
+                                    function delete_msg(btn_id){
+                                        var msg_id = btn_id.replace('_msg','');
+                                        $.ajax({
+                                            async: false,
+                                            type: "POST",
+                                            url: '{{route('tasks.deleteMsg')}}',
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                            },
+                                            data: {
+                                                msg_id: msg_id,
+                                            },
+                                            success: function (data) {
+                                                process_page(data.process_page);
+
+                                            },
+                                            error: function () {
+                                                alert('伺服器出了點問題，稍後再重試');
+                                                return;
+                                            }
+                                        });
+
+                                    }
+
                                     function taskBackToProcess(task_asm_id) {
                                         $.ajax({
                                             async: false,
@@ -217,7 +241,17 @@
                                                                 @endif
                                                                 {{--                                                            {{dump($msg->update_date)}}--}}
                                                                 {{$msg->text}} &nbsp &nbsp<span
-                                                                    style="float: right">{{date("Y/m/d H:i", strtotime($msg->update_date))}}</span>
+                                                                    style="float: right">{{date("Y/m/d H:i", strtotime($msg->update_date))}}
+
+
+                                                                    @if($msg->can_delete && $msg->user_id == Auth::user()->id)
+                                                                        <span style="float: right;">
+                                                                        <a id="{{$msg->id}}_msg" style="color:darkred;text-shadow:0 1px 0 #fff;
+                                                                                font-weight: 700;opacity: 2;cursor: pointer"
+                                                                           onclick="delete_msg(this.id)">x</a>
+                                                                    </span>
+                                                                    @endif
+                                                                </span>
 
                                                             </li>
                                                         @endforeach

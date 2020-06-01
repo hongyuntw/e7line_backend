@@ -312,7 +312,18 @@ class TaskController extends Controller
                     $res .= ' <i class="fa fa-li fa-mail-reply" style="color: red"></i>';
 
                 }
-                $res .= $msg->text.'&nbsp &nbsp<span style="float: right">' . date("Y/m/d H:i", strtotime($msg->update_date)) . '</span>';
+                $res .= $msg->text.'&nbsp &nbsp<span style="float: right">' . date("Y/m/d H:i", strtotime($msg->update_date));
+
+
+                if($msg->can_delete && $msg->user_id == Auth::user()->id){
+                    $res .=  '<span style="float: right;">
+                                                                        <a id="'.$msg->id.'_msg" style="color:darkred;text-shadow:0 1px 0 #fff;
+                                                                                font-weight: 700;opacity: 2;cursor: pointer"
+                                                                           onclick="delete_msg(this.id)">x</a>
+                                                                    </span>';
+                }
+                $res .= '</span>';
+
                 $res .= '</li>';
             }
             $res .= '</ul>';
@@ -735,6 +746,8 @@ class TaskController extends Controller
 //        dd($taskAsm);
         return "success";
     }
+
+//    this only root can access
     public function taskBack(Request $request)
     {
         $taskAsm = TaskAssignment::find($request->input('task_id'));
@@ -743,11 +756,19 @@ class TaskController extends Controller
             $taskAsm->status = 0;
             $taskAsm->update_date = now();
             $taskAsm->update();
+            foreach ($taskAsm->task_reply_msgs as $msg){
+                $msg->can_delete = 0;
+                $msg->update();
+            }
         }
         else{
             $taskAsm->status = 0;
             $taskAsm->update_date = now();
             $taskAsm->return_nums =  $taskAsm->return_nums + 1;
+            foreach ($taskAsm->task_reply_msgs as $msg){
+                $msg->can_delete = 0;
+                $msg->update();
+            }
             $task_msg = TaskReplyMsg::create([
                 'text' => $msg,
                 'task_assignment_id'=> $taskAsm->id,
@@ -802,6 +823,21 @@ class TaskController extends Controller
             'users' => User::all(),
         ];
         return view('tasks.create',$data);
+    }
+
+
+    public function deleteMsg(Request $request)
+    {
+        $msg = TaskReplyMsg::find($request->input('msg_id'));
+        $msg->delete();
+        $process_page = Session::get('process_page');
+        if(empty($process_page)){
+            $process_page = "1";
+        }
+        return [
+            'process_page' => $process_page,
+        ];
+
     }
 
 

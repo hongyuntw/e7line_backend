@@ -18,6 +18,7 @@ class CreateTaskReplyMsgs extends Migration
             $table->string('text')->nullable();
             $table->unsignedInteger('task_assignment_id');
             $table->unsignedInteger('user_id');
+            $table->boolean('can_delete')->default(true);
             $table->timestamp('create_date')->nullable();
             $table->timestamp('update_date')->nullable();
 
