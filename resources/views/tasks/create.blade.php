@@ -95,7 +95,7 @@
                             <div class="col-md-4">
                                 <br>
                                 <br>
-                                <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
+                                <a class="btn btn-danger" href="{{ route('tasks.index') }}">取消</a>
                                 <button type="submit" class="btn btn-primary">確認送出</button>
                             </div>
                         </div>
