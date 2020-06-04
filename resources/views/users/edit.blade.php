@@ -106,7 +106,7 @@
                                         <select id="level" name="level" class="form-control">
                                             <option
                                                 value="0" {{ old('level',$user->level) == 0 ? 'selected' : '' }}>
-                                                採購
+                                                業務
                                             </option>
                                             <option
                                                 value="1" {{ old('level',$user->level) == 1 ? 'selected' : '' }}>
