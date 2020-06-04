@@ -263,7 +263,7 @@
                                                 <td>
                                                     {{$order_item->product_relation->ISBN}}
                                                 </td>
-                                                <td>${{round($order_item->quantity)}}</td>
+                                                <td>{{round($order_item->quantity)}}</td>
                                                 <td>${{round($order_item->price)}}</td>
                                                 <td>${{round($order_item->quantity*$order_item->price)}}</td>
                                                 @php($total_price += round($order_item->quantity*$order_item->price))
