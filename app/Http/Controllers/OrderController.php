@@ -748,6 +748,49 @@ class OrderController extends Controller
         return $concat_persons;
     }
 
+
+    public function get_customer_info(Request $request)
+    {
+        $customer_id = $request['customer_select_id'];
+        $customer  = Customer::find($customer_id);
+        $res = [
+            'address'=>'',
+            'phone_number'=>'',
+        ];
+
+
+        if($customer){
+            $res['address'] = $customer->city . $customer->area . $customer->address;
+            if($customer->phone_number){
+                $res['phone_number'] = $customer->phone_number;
+            }
+        }
+        return $res;
+    }
+
+    public function get_concat_person_info(Request $request)
+    {
+        $concat_person_id = $request['selected_concat_person_id'];
+        $concat_person  = BusinessConcatPerson::find($concat_person_id);
+        $res = [
+            'email'=>'',
+            'phone_number'=>'',
+        ];
+
+
+        if($concat_person){
+
+            if($concat_person->phone_number){
+                $res['phone_number'] = $concat_person->phone_number;
+            }
+            if($concat_person->email){
+                $res['email'] = $concat_person->email;
+            }
+        }
+        return $res;
+    }
+
+
     public function get_product_details(Request $request)
     {
         $product_id = $request['product_id'];

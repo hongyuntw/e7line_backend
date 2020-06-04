@@ -191,10 +191,10 @@
                                             onChange: function (value) {
                                                 customer_select_id = value;
                                                 var other_customer_name_input = document.getElementById("other_customer_name");
-                                                // console.log(other_customer_name_input);
                                                 if (value < 0) {
                                                     other_customer_name_input.disabled = false;
-                                                } else {
+                                                }
+                                                else {
                                                     var customer_select = document.getElementById("select_customer");
                                                     var customer_name = customer_select.options[customer_select.selectedIndex].text;
                                                     console.log(customer_name);
@@ -203,7 +203,21 @@
                                                     other_customer_name_input.disabled = true;
                                                     other_customer_name_input.value = null;
                                                 }
-                                                // console.log(customer_select_id);
+                                                $.ajax({
+                                                    url: '/ajax/get_customer_info',
+                                                    data: {
+                                                        customer_select_id: customer_select_id,
+                                                    }
+
+                                                })
+                                                    .done(function (res) {
+                                                        var node = document.getElementById("ship_to");
+                                                        node.value = res.address;
+                                                        node = document.getElementById("phone_number")
+                                                        node.value = res.phone_number;
+
+                                                    });
+
                                                 $.ajax({
                                                     url: '/ajax/get_customer_concat_persons',
                                                     data: {customer_select_id: customer_select_id}
@@ -234,10 +248,23 @@
                                             var other_concat_person_input = document.getElementById("other_concat_person_input");
                                             if (selected_concat_person_id < 0) {
                                                 other_concat_person_input.disabled = false;
-                                            } else {
+                                            }
+                                            else {
                                                 other_concat_person_input.disabled = true;
 
                                             }
+                                            $.ajax({
+                                                url: '/ajax/get_concat_person_info',
+                                                data: {
+                                                    selected_concat_person_id: selected_concat_person_id,
+                                                }
+
+                                            })
+                                                .done(function (res) {
+                                                    var node = document.getElementById("email");
+                                                    node.value = res.email;
+                                                });
+
                                         }
 
                                         function otherCustomerInputChange(_input) {
@@ -294,21 +321,7 @@
 
                                 function gete7lineAccount() {
                                     var customer_info;
-                                    //    有可能是從選單選的
-                                    // var customer_select = document.getElementById("select_customer");
-                                    // var customer_select_text = customer_select.options[customer_select.selectedIndex].text;
-                                    // var customer_select_val = customer_select.options[customer_select.selectedIndex].value;
-                                    // if (customer_select_val != -1) {
-                                    //     customer_info = customer_select_text;
-                                    // } else {
-                                    //     //從其他輸入選擇
-                                    //     var other_customer_name_val = document.getElementById("other_customer_name").value;
-                                    //     if (other_customer_name_val == null || other_customer_name_val == "") {
-                                    //         alert('需要提供客戶資訊，請選擇客戶或輸入名字');
-                                    //         return;
-                                    //     }
-                                    //     customer_info = other_customer_name_val;
-                                    // }
+
                                     var e7lineInfoInput = document.getElementById("e7line_customer_info");
                                     customer_info = e7lineInfoInput.value;
                                     if (customer_info == null || customer_info == '') {
@@ -352,11 +365,6 @@
                                                     // $("#e7line_field").append(html);
                                                 }
                                                 html += '</select>';
-                                                // html += '<input style="display: none" value="' + data.members[0].memberNo + '" name="e7line_account"\n' +
-                                                //     '                                               id="e7line_account" class="form-control">\n' +
-                                                //     '                                        <input  style="display: none" type="text" class="form-control" name="e7line_name" id="e7line_name"\n' +
-                                                //     '                                               placeholder="e7line姓名"\n' +
-                                                //     '                                               value="' + data.members[0].Name + '">';
                                                 $("#e7line_field").append(html);
 
                                             } else {
@@ -388,7 +396,7 @@
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-earphone"></i></span>
                                     <input type="text" class="form-control" name="phone_number"
-                                           placeholder="phone number"
+                                           placeholder="phone number" id="phone_number"
                                            value="{{ old('phone_number') }}">
                                 </div>
                             </div>
@@ -398,7 +406,7 @@
                                 <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-envelope"></i></span>
-                                    <input type="text" class="form-control" name="email" placeholder="email"
+                                    <input type="text" class="form-control" name="email" placeholder="email" id="email"
                                            value="{{ old('email') }}">
                                 </div>
                             </div>
@@ -427,6 +435,7 @@
                                 <label class="control-label">收貨地址</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+
                                     <input type="text" class="form-control" id="ship_to" name="ship_to"
                                            placeholder="請輸入收貨地址" value="{{ old('ship_to') }}">
                                 </div>
