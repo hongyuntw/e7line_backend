@@ -257,13 +257,15 @@
                                 <tr>
                                     <th style="width:3%"></th>
                                     <th class="text-center" style="width:15%">Order</th>
-                                    <th class="text-center" style="width:20%">Customer</th>
+                                    <th class="text-center" style="width:15%">Customer</th>
                                     <th class="text-center" style="width:8%">統編</th>
-                                    <th class="text-center" style="width:8%">Sales</th>
+                                    <th class="text-center" style="width:5%">Sales</th>
                                     <th class="text-center" style="width:5%">Status</th>
                                     <th class="text-center" style="width:5%">Amount</th>
                                     <th class="text-center" style="width:10%">建單日期</th>
                                     <th class="text-center" style="width:10%">收貨日期</th>
+                                    <th class="text-center" style="width:10%">Note</th>
+
                                     <th class="text-center" style="width:20%">Other</th>
                                 </tr>
                                 </thead>
@@ -345,6 +347,9 @@
                                             @if($order->receive_date){{date("Y-m-d", strtotime($order->receive_date))}}@else
                                                 -
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{$order->note}}
                                         </td>
 
 

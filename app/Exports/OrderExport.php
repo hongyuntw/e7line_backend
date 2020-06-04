@@ -12,8 +12,10 @@ use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;     // 自動註冊事件監聽器
 use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 //use PHPExcel_Cell_DataType;
+
 
 use function GuzzleHttp\Psr7\str;
 
@@ -50,7 +52,8 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
                 // 合併單元格
                 $merge_cell_info = [
 //                    header
-                    'A1:K2',
+                    'A1:H2',
+                    'I1:K2',
                     'A3:K3',
 //                    訂購日期
                     'A4:B4',
@@ -124,8 +127,11 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
                 }
 
 //
-                $event->sheet->getDelegate()->getStyle('A1:K1')->getFont()->setSize(20);
+                $event->sheet->getDelegate()->getStyle('A1')->getFont()->setSize(20);
                 $event->sheet->getDelegate()->setCellValue('A1','大宗禮券/禮品訂購單');
+
+                $event->sheet->getDelegate()->setCellValue('I1','No '. $this->order->no);
+
                 $event->sheet->getDelegate()->setCellValue('A3','★為了保障客戶權益，姓名、電話、地址、收貨時間及付款時間請務必填寫完整★');
 
                 $event->sheet->getDelegate()->setCellValue('A4','訂購日期');
@@ -145,7 +151,7 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
 
                 $event->sheet->getDelegate()->setCellValue('E5','聯絡電話');
                 $event->sheet->getDelegate()->setCellValue('G5',strval($this->order->phone_number));
-//                $event->sheet->getDelegate()->setCellValueExplicit('G5',strval($this->order->phone_number),PHPExcel_Cell_DataType::TYPE_STRING);
+                $event->sheet->getDelegate()->setCellValueExplicit('G5',$this->order->phone_number,DataType::TYPE_STRING);
 
 
                 $event->sheet->getDelegate()->setCellValue('E6','Mail');
@@ -323,7 +329,14 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
 
 
                 $event->sheet->getDelegate()->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
                 $event->sheet->getDelegate()->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+                $event->sheet->getDelegate()->getStyle('I1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+                $event->sheet->getDelegate()->getStyle('I1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+
 
                 $event->sheet->getDelegate()->getStyle('A3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
@@ -453,7 +466,7 @@ class OrderExport implements FromArray,WithEvents,WithDrawings
         $drawing->setDescription('Logo');
         $drawing->setPath(public_path('/img/e7line/e7lineLogo.png'));
         $drawing->setHeight(50);
-        $drawing->setOffsetX(-20);
+        $drawing->setOffsetX(-120);
 
 //        $drawing->setWidth(60);
 //        $drawing->
