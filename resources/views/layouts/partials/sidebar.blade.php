@@ -102,12 +102,36 @@
                     <li><a href="{{route('mails.index')}}">郵件列表</a></li>
                 </ul>
                 <a href="#">
+                    @php
+                        $user = Auth::user();
+                        $task_unprocess = \App\TaskAssignment::where('status','=',0)->where('user_id','=',$user->id)->get();
+                        $count = count($task_unprocess);
+                    @endphp
                     <i class="fa fa-shopping-bag"></i>
                     <span>任務清單</span>
+                    @if($count>0 && $user->level!=2)
+                        <div
+                            style="
+                        height: 20px;
+                        width: 20px;
+                        background-color: red; color: white;
+
+                        border-radius: 50%;
+                        display: inline-block;
+                        text-align: center;">
+                            @if($count>=100)
+                                N
+                            @else
+                                {{$count}}
+                            @endif
+                        </div>
+                    @endif
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
+
+
                 <ul class="treeview-menu">
                     <li><a href="{{route('tasks.index')}}">任務列表</a></li>
                     @if(Auth::user()->level==2)
