@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 use Session;
-
+use Illuminate\Config;
 
 
 class OrderController extends Controller
@@ -250,7 +250,8 @@ class OrderController extends Controller
     public function get_code(Order $order)
     {
 //        dd($order);
-        $api_path = 'https://www.e7line.com:8081/API/CreateOrderBySales.aspx';
+        $base_url = \config('url.e7line_url');
+        $api_path = $base_url . '/API/CreateOrderBySales.aspx';
 
         $memberNo = "";
 //        if($order->customer_id != -1 && $order->customer_id != null){
@@ -316,7 +317,11 @@ class OrderController extends Controller
 
     public function get_e7line_account_info(Request $request)
     {
-        $api_path = 'https://www.e7line.com:8081/API/GetMemberByCompany.aspx';
+//        dump($base_url);
+        $base_url = \config('url.e7line_url');
+        $api_path = $base_url . '/API/GetMemberByCompany.aspx';
+//        dd($api_path);
+//        $api_path = 'https://www.e7line.com:8081/API/GetMemberByCompany.aspx';
         $search = $request->input('customer_info');
         $search = str_replace('台','臺',$search);
 
