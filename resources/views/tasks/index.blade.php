@@ -283,9 +283,10 @@
                                                     @if($task_assignment->status == 1)
                                                         <textarea class="form-control"
                                                                   id="{{$task_assignment->id}}_textbox"></textarea>
+                                                    <br>
                                                         <div style="display: inline">
                                                             <div style="width: 50%;float: left">
-                                                                <button class="form-control"
+                                                                <button class="btn btn-sm"
                                                                         id="{{$task_assignment->id}}_back"
                                                                         onclick="taskBack(this)"
                                                                         style="background-color: #bb2124;color: white">
@@ -294,7 +295,7 @@
                                                             </div>
                                                             <div style="width: 50%;float: right">
 
-                                                                <button class="form-control"
+                                                                <button class="btn  btn-sm"
                                                                         id="{{$task_assignment->id}}_checked"
                                                                         onclick="taskChecked(this)"
                                                                         style="background-color: forestgreen;color: white">
@@ -310,7 +311,7 @@
                                                         action="{{ route('tasks.delete', $task_assignment->id) }}"
                                                         method="post">
                                                         @csrf
-                                                        <button type="submit" class=" form-control"
+                                                        <button type="submit" class="form-control"
                                                                 style="background-color: #bb2124;color: white;vertical-align: middle;"
                                                                 onclick="return confirm('確定是否刪除')">刪除
                                                         </button>
