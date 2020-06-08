@@ -254,12 +254,10 @@ class OrderController extends Controller
         $api_path = $base_url . '/API/CreateOrderBySales.aspx';
 
         $memberNo = "";
-//        if($order->customer_id != -1 && $order->customer_id != null){
-//            $memberNo = $order->customer->name;
-//        }
-//        else{
-//            $memberNo = $order->other_customer_name;
-//        }
+
+
+
+        $OrderNoPrefix = 'HP';
 
         $data = [
             'Address' => $order->ship_to? $order->ship_to :'',
@@ -268,6 +266,7 @@ class OrderController extends Controller
             'Notice' => $order->note ?$order->note : '',
             'ShippingFee' => (integer)round($order->shipping_fee),
             'MemberNo' => $order->e7line_account?$order->e7line_account: '',
+
         ];
         //test
 
@@ -278,17 +277,22 @@ class OrderController extends Controller
         foreach ($order->order_items as $order_item) {
             $arr = [];
             $arr['ISBN'] = $order_item->product_relation->ISBN?$order_item->product_relation->ISBN:'';
-//            $arr['ISBN'] = 'P1903270016';
             $arr['Qty'] = (integer)($order_item->quantity);
             $arr['ListPrice'] = (integer)round($order_item->price);
-            $arr['SpecName'] = $order->spec_name?$order->spec_name : '';
+            $arr['SpecName'] = $order_item->spec_name?$order_item->spec_name : '';
+
+            if($order_item->product_relation->ISBN){
+                if($order_item->product_relation->ISBN == 'P1608310002' || $order_item->product_relation->ISBN == 'P1709150001'){
+                    $OrderNoPrefix = 'EL';
+                }
+            }
             array_push($orderSubs, $arr);
         }
         $data['orderSubs'] = $orderSubs;
-//        dump($data);
+        $data['OrderNoPrefix'] = $OrderNoPrefix;
 //        dump($data);
         $data_json = json_encode($data);
-//        dd(($data_json));
+//        dd($data_json);
 
         $client = new \GuzzleHttp\Client();
         $result = $client->post($api_path, [
@@ -336,10 +340,7 @@ class OrderController extends Controller
         return $resp;
     }
 
-//    public function get_code(int $order_id)
-//    {
-//
-//    }
+
 //
     public function index_get_code(Request $request)
     {
@@ -354,7 +355,12 @@ class OrderController extends Controller
                     continue;
 
                 }
-                $api_path = 'https://www.e7line.com:8081/API/CreateOrderBySales.aspx';
+
+                $base_url = \config('url.e7line_url');
+                $api_path = $base_url . '/API/CreateOrderBySales.aspx';
+
+                $OrderNoPrefix = 'HP';
+
 
                 $data = [
                     'Address' => $order->ship_to? $order->ship_to :'',
@@ -370,9 +376,15 @@ class OrderController extends Controller
                     $arr['ISBN'] = $order_item->product_relation->ISBN?$order_item->product_relation->ISBN:'';
                     $arr['Qty'] = (integer)($order_item->quantity);
                     $arr['ListPrice'] = (integer)round($order_item->price);
-                    $arr['SpecName'] = $order->spec_name?$order->spec_name : '';
+                    $arr['SpecName'] = $order_item->spec_name?$order_item->spec_name : '';
+                    if($order_item->product_relation->ISBN){
+                        if($order_item->product_relation->ISBN == 'P1608310002' || $order_item->product_relation->ISBN == 'P1709150001'){
+                            $OrderNoPrefix = 'EL';
+                        }
+                    }
                     array_push($orderSubs, $arr);
                 }
+                $data['OrderNoPrefix'] = $OrderNoPrefix;
                 $data['orderSubs'] = $orderSubs;
                 $data_json = json_encode($data);
                 $client = new \GuzzleHttp\Client();
@@ -396,7 +408,6 @@ class OrderController extends Controller
 
             }
             return $total_result;
-
 
         }
         return;

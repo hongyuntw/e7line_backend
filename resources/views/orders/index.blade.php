@@ -341,7 +341,7 @@
                                                 class="label{{$css}}"
                                                 style="min-width:60px;display: inline-block">{{ $order_status_names[$order->status] }}</label>
 
-                                        <td>{{round($order->amount)}}</td>
+                                        <td>{{round($order->amount)+round($order->shipping_fee)}}</td>
                                         <td class="text-center">{{date("Y-m-d", strtotime($order->create_date))}}</td>
                                         <td class="text-center">
                                             @if($order->receive_date){{date("Y-m-d", strtotime($order->receive_date))}}@else

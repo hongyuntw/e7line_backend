@@ -61,19 +61,13 @@ class UserController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required|string|same:password',
+            'level' => 'required',
         ]);
-//        $file = $request->file('upload');
-//        $file = $request->file('image');
         unset($request['password_confirmation']);
         $user = User::create($request->all());
         $user->password = Hash::make($user->password);
-        $user->level = 0;
         $user->update();
-//        $unique_name = $product->id.'.'.$file->extension();
-//        $product->imagename = $unique_name;
-//        $product->update();
-//        $request->file('image')->move(public_path().'/storage',$unique_name);
-        // $path = $request->file->storeAs('路路徑', '');
+
         return redirect()->route('users.index');
     }
 
@@ -130,9 +124,7 @@ class UserController extends Controller
         if($request->has('level')){
             $user->level = $request->input('level');
         }
-//        dump($request->input('is_left'));
         if($request->has('is_left')){
-//            $user->is_left = $request->input('is_left');
             $user->is_left = $request->input('is_left');
         }
         if($request->has('phone_number')){
@@ -144,7 +136,6 @@ class UserController extends Controller
 
         $user->updated_at = now();
         $user->update();
-//        dd($user);
         return redirect()->route('users.index');
 
     }

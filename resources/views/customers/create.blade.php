@@ -64,7 +64,7 @@
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <select id="user_id" name="user_id" class="form-control">
                                         @foreach($users as $user)
-                                            @if($user->is_left || $user->level==1)
+                                            @if($user->is_left || $user->level>=1)
                                                 @continue
                                             @endif
                                             <option

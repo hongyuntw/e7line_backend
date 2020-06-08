@@ -149,6 +149,16 @@
                     <li><a href="{{route('quote.index')}}">報價參考</a></li>
                     <li><a href="{{route('quote.create')}}">新增報價參考</a></li>
                 </ul>
+                <a href="{{route('report.index')}}">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>業務報表</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('report.index')}}">報表</a></li>
+                </ul>
             </li>
         </ul>
         <!-- /.sidebar-menu -->

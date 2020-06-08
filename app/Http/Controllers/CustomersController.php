@@ -208,12 +208,25 @@ class CustomersController extends Controller
 
         if($request->has('redirect_to')){
             unset($request_data['redirect_to']);
+        }
 
+        if ($request->has('user_id')) {
+            $user_id = $request->input('user_id');
+        }
+
+//        user choose the user
+        if ($user_id > 1) {
+            $request_data['already_set_sales'] = 1;
+            $request_data['set_sales_date'] = now();
         }
 
 
         $customer = Customer::create($request_data);
         $customer->create_date = now();
+        if($request_data['active_status']==1){
+            $customer->active_time = now();
+        }
+
         $customer->update();
 
         $this->addWelfareStatus($customer);
@@ -323,6 +336,7 @@ class CustomersController extends Controller
         if ($user_id > 1) {
             $to_be_update_data['user_id'] = $user_id;
             $to_be_update_data['already_set_sales'] = 1;
+            $to_be_update_data['set_sales_date'] = now();
         }
 
         $to_be_update_data['update_date'] = now();
@@ -331,6 +345,11 @@ class CustomersController extends Controller
         if($request->has('source_html')){
             unset($to_be_update_data['source_html']);
         }
+        if($to_be_update_data['active_status']==1 && $customer->active_status ==0 ){
+            $to_be_update_data['active_time'] = now();
+        }
+
+
 
         $customer->update($to_be_update_data);
         if($request->has('source_html')){

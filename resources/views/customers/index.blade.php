@@ -249,7 +249,7 @@
                                         <td>
                                             {{count($customer->business_concat_persons)}}
                                             /
-                                            {{count($customer->concat_records)}}
+                                            {{count($customer->concat_records()->get()->where('is_deleted','=','0'))}}
 
                                         </td>
                                         <td class="text-center">

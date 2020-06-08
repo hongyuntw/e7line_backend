@@ -197,7 +197,21 @@ Route::middleware('auth')->group(function () {
 
 
 
+// report
+    Route::get('report','ReportController@index')->name('report.index');
+//    Route::get('report/admin','ReportController@indexAdmin')->name('report.indexAdmin');
+//    Route::get('report/user','ReportController@indexUser')->name('report.indexUser');
+    Route::get("ajax/report/createActiveCustomerChart",'ReportController@createActiveCustomerChart')->name('report.createActiveCustomerChart');
+    Route::get("ajax/report/createRecordCountChart",'ReportController@createRecordCountChart')->name('report.createRecordCountChart');
+    Route::get("ajax/report/createTotalAmountChart",'ReportController@createTotalAmountChart')->name('report.createTotalAmountChart');
 
+    Route::get("ajax/report/createActiveCustomerChart_user",'ReportController@createActiveCustomerChart_user')->name('report.createActiveCustomerChart_user');
+    Route::get("ajax/report/createRecordCountChart_user",'ReportController@createRecordCountChart_user')->name('report.createRecordCountChart_user');
+    Route::get("ajax/report/createTotalAmountChart_user",'ReportController@createTotalAmountChart_user')->name('report.createTotalAmountChart_user');
+
+
+//    Route::get("ajax/create",'ReportController@createTotalAmountChart')->name('report.createTotalAmountChart');
+//    Route::get("ajax/createTotalAmountChart",'ReportController@createTotalAmountChart')->name('report.createTotalAmountChart');
 
 
 
