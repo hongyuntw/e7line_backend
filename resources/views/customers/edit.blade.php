@@ -62,23 +62,7 @@
                             <div class="col-md-4 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-{{--                                    <select id="user_id" name="user_id" class="form-control selectpicker"--}}
-{{--                                            >--}}
-{{--                                        --}}{{--                                    @if($customer->already_set_sales==0)--}}
-{{--                                        --}}{{--                                        <option>無</option>--}}
-{{--                                        --}}{{--                                    @else--}}
-{{--                                        @foreach($users as $user)--}}
-{{--                                            @if($customer->already_set_sales==0)--}}
-{{--                                                <option value="0">無</option>--}}
-{{--                                                @break--}}
-{{--                                            @endif--}}
-{{--                                            <option--}}
-{{--                                                value="{{ $user->id }}"{{ (old('$user_id',$user->id) == $customer->user_id)? ' selected' : '' }}>--}}
-{{--                                                {{ $user->name }}--}}
-{{--                                            </option>--}}
-{{--                                        @endforeach--}}
-{{--                                        --}}{{--                                    @endif--}}
-{{--                                    </select>--}}
+
                                     @if(Auth::user()->level==2)
 {{--                                        <div class="form-group">--}}
                                             <select id="user_id" name="user_id" class="form-control">

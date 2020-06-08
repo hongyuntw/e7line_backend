@@ -749,12 +749,7 @@
                                     var new_select_id = "#product" + count;
                                     make_selectize(new_select_id);
                                     computeSum();
-                                    // window.scrollTo(0,$("product_list").scrollHeight);
-                                    // $("product_list").scrollTop = $("product_list").scrollHeight;
-                                    // window.scrollTo({
-                                    //     top: document.body.scrollHeight - document.body.scrollHeight * 0.1,
-                                    //     behavior: "smooth",
-                                    // });
+
 
 
                                 }
@@ -775,6 +770,11 @@
                                     node.remove();
                                     // console.log(node);
                                     computeSum();
+
+                                    if(num==1){
+                                        var node  = document.getElementById("first_delete_node");
+                                        node.remove();
+                                    }
                                 }
 
                                 function computeSum() {
@@ -812,6 +812,10 @@
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                     add product
                                 </a>
+                                <a id="first_delete_node" class="btn btn-link" onclick="delete_product(1);">
+                                    <i class="glyphicon glyphicon-minus-sign"></i>
+                                    delete product
+                                </a>
                             @endif
 
                             @foreach($order_items as $order_item)
@@ -824,8 +828,9 @@
 
                                 @endif
                                 @if($loop->index==0)
-                                    <div id="product_list">
                                         <div id="insertField"></div>
+                                    <div id="product_list1">
+
 
                                         @else
                                             <div id="product_list{{$loop->index+1}}">

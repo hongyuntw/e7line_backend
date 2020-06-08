@@ -231,7 +231,7 @@
                                                 <td style="text-align: center">
                                                     <ul class="fa-ul" style="display: inline-block">
                                                         @foreach($asm->task_reply_msgs()->orderBy('create_date','DESC')->get() as $msg)
-                                                            <li>
+                                                            <li style="word-break: break-all">
                                                                 @if($msg->user_id == Auth::user()->id)
                                                                     <i class="fa fa-li fa-mail-forward"
                                                                        style="color: green"></i>
@@ -374,7 +374,7 @@
                                                 <td style="text-align: center">
                                                     <ul class="fa-ul" style="display: inline-block">
                                                         @foreach($asm->task_reply_msgs()->orderBy('create_date','DESC')->get() as $msg)
-                                                            <li>
+                                                            <li style="word-break: break-all">
                                                                 @if($msg->user_id == Auth::user()->id)
                                                                     <i class="fa fa-li fa-mail-forward"
                                                                        style="color: green"></i>
@@ -501,7 +501,7 @@
                                                     <td style="text-align: center">
                                                         <ul class="fa-ul" style="display: inline-block">
                                                             @foreach($asm->task_reply_msgs()->orderBy('create_date','DESC')->get() as $msg)
-                                                                <li>
+                                                                <li style="word-break: break-all">
                                                                     @if($msg->user_id == Auth::user()->id)
                                                                         <i class="fa fa-li fa-mail-forward"
                                                                            style="color: green"></i>

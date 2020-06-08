@@ -183,8 +183,8 @@
                                 <tr>
                                     <td class="text-center" style="width: 5%">業務</td>
                                     <td class="text-center" style="width: 5%">狀態</td>
-                                    <td class="text-center" style="width: 20%">訊息</td>
-                                    <td class="text-center" style="width: 30%">回覆</td>
+                                    <td class="text-center" style="width: 30%">訊息</td>
+                                    <td class="text-center" style="width: 20%">回覆</td>
                                     <td class="text-center" style="width: 10%">功能</td>
 
 
@@ -262,7 +262,7 @@
                                             <td >
                                                 <ul class="fa-ul" style="display: inline-block">
                                                     @foreach($task_assignment->task_reply_msgs as $msg)
-                                                        <li>
+                                                        <li style="word-break: break-all">
                                                             @if($msg->user_id == Auth::user()->id)
                                                                 <i class="fa fa-li fa-mail-forward"
                                                                    style="color: green"></i>
@@ -286,7 +286,7 @@
                                                     <br>
                                                         <div style="display: inline">
                                                             <div style="width: 50%;float: left">
-                                                                <button class="btn btn-sm"
+                                                                <button class="form-control"
                                                                         id="{{$task_assignment->id}}_back"
                                                                         onclick="taskBack(this)"
                                                                         style="background-color: #bb2124;color: white">
@@ -295,7 +295,7 @@
                                                             </div>
                                                             <div style="width: 50%;float: right">
 
-                                                                <button class="btn  btn-sm"
+                                                                <button class="form-control"
                                                                         id="{{$task_assignment->id}}_checked"
                                                                         onclick="taskChecked(this)"
                                                                         style="background-color: forestgreen;color: white">
