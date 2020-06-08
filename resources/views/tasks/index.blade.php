@@ -169,7 +169,7 @@
                             </script>
 
 
-                            <table class="table table-bordered table-hover" width="100%">
+                            <table class="table table-bordered table-hover" style="width: 100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
                                     <th rowspan="2" class="text-center align-middle"
@@ -183,8 +183,8 @@
                                 <tr>
                                     <td class="text-center" style="width: 5%">業務</td>
                                     <td class="text-center" style="width: 5%">狀態</td>
-                                    <td class="text-center" style="width: 30%">訊息</td>
-                                    <td class="text-center" style="width: 20%">回覆</td>
+                                    <td class="text-center" style="width: 20%">訊息</td>
+                                    <td class="text-center" style="width: 30%">回覆</td>
                                     <td class="text-center" style="width: 10%">功能</td>
 
 
@@ -259,7 +259,7 @@
                                                     style="min-width:100px;display: inline-block;color: #0f0f0f">{{ $task_status_names[$task_assignment->status] }}</label>
                                                 {{--                                                <i class="fa fa-comment-o"></i>&nbsp{{count($task_assignment->task_reply_msgs)}}--}}
                                             </td>
-                                            <td>
+                                            <td >
                                                 <ul class="fa-ul" style="display: inline-block">
                                                     @foreach($task_assignment->task_reply_msgs as $msg)
                                                         <li>

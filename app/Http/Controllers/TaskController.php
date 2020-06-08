@@ -682,9 +682,9 @@ class TaskController extends Controller
     {
 
         $taskAsm = TaskAssignment::find($request->input('task_id'));
-        $msg = $request->input('msg');
+        $text = $request->input('msg');
 //        dd($msg);
-        if($msg == '' || $msg == null){
+        if($text == '' || $text == null){
             $taskAsm->status = 1;
             $taskAsm->update_date = now();
             $taskAsm->update();
@@ -694,7 +694,7 @@ class TaskController extends Controller
             $taskAsm->update_date = now();
             $taskAsm->return_nums =  $taskAsm->return_nums + 1;
             $task_msg = TaskReplyMsg::create([
-                'text' => $msg,
+                'text' => $text,
                 'task_assignment_id'=> $taskAsm->id,
                 'user_id' => Auth::user()->id,
                 'create_date' => now(),
@@ -723,9 +723,9 @@ class TaskController extends Controller
     public function taskChecked(Request $request)
     {
         $taskAsm = TaskAssignment::find($request->input('task_id'));
-        $msg = $request->input('msg');
+        $text = $request->input('msg');
 //        dd($msg);
-        if($msg == '' || $msg == null){
+        if($text == '' || $text == null){
             $taskAsm->status = 2;
             $taskAsm->update_date = now();
             $taskAsm->update();
@@ -735,7 +735,7 @@ class TaskController extends Controller
             $taskAsm->update_date = now();
             $taskAsm->return_nums =  $taskAsm->return_nums + 1;
             $task_msg = TaskReplyMsg::create([
-                'text' => $msg,
+                'text' => $text,
                 'task_assignment_id'=> $taskAsm->id,
                 'user_id' => Auth::user()->id,
                 'create_date' => now(),
@@ -751,8 +751,8 @@ class TaskController extends Controller
     public function taskBack(Request $request)
     {
         $taskAsm = TaskAssignment::find($request->input('task_id'));
-        $msg = $request->input('msg');
-        if($msg == '' || $msg == null){
+        $text = $request->input('msg');
+        if($text == '' || $text == null){
             $taskAsm->status = 0;
             $taskAsm->update_date = now();
             $taskAsm->update();
@@ -770,7 +770,7 @@ class TaskController extends Controller
                 $msg->update();
             }
             $task_msg = TaskReplyMsg::create([
-                'text' => $msg,
+                'text' => $text,
                 'task_assignment_id'=> $taskAsm->id,
                 'user_id' => Auth::user()->id,
                 'create_date' => now(),
