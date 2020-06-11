@@ -256,8 +256,8 @@
                                 <thead style="background-color: lightgray">
                                 <tr>
                                     <th style="width:3%"></th>
-                                    <th class="text-center" style="width:15%">Order</th>
-                                    <th class="text-center" style="width:15%">Customer</th>
+                                    <th class="text-center" style="width:12%">Order</th>
+                                    <th class="text-center" style="width:18%">Customer</th>
                                     <th class="text-center" style="width:8%">統編</th>
                                     <th class="text-center" style="width:5%">Sales</th>
                                     <th class="text-center" style="width:5%">Status</th>
