@@ -130,8 +130,9 @@
                             $be_checked_count = count(\App\TaskAssignment::where('status','=',1)->get());
 
                         @endphp
-                        <div
-                            style="
+                        @if($be_checked_count > 0 )
+                            <div
+                                style="
                         height: 20px;
                         width: 20px;
                         background-color: red; color: white;
@@ -139,12 +140,13 @@
                         border-radius: 50%;
                         display: inline-block;
                         text-align: center;">
-                            @if($be_checked_count>=99)
-                                N
-                            @else
-                                {{$be_checked_count}}
-                            @endif
-                        </div>
+                                @if($be_checked_count>=99)
+                                    N
+                                @else
+                                    {{$be_checked_count}}
+                                @endif
+                            </div>
+                        @endif
 
                     @endif
                     <span class="pull-right-container">

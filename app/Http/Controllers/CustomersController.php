@@ -702,6 +702,12 @@ class CustomersController extends Controller
                         'create_date' => now(),
                         'update_date' => now(),
                     ]);
+                    if($newCustomer -> user_id > 1){
+                        $newCustomer-> set_sales_date = now();
+                        $newCustomer ->update();
+                    }
+
+
                     $this->addWelfareStatus($newCustomer);
                     $success_count ++;
                 }

@@ -294,8 +294,11 @@
                                         </td>
 
                                         <td class="text-left">#{{ $order->no}} &nbsp  &nbsp
+
                                             @if($order->code)
+                                                <span style="color: red;font-weight: bold">
                                                 {{$order->code}}
+                                                </span>
                                             @endif
 
                                             <br>
