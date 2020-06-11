@@ -119,12 +119,33 @@
                         border-radius: 50%;
                         display: inline-block;
                         text-align: center;">
-                            @if($count>=100)
+                            @if($count>=99)
                                 N
                             @else
                                 {{$count}}
                             @endif
                         </div>
+                    @elseif($user->level == 2)
+                        @php
+                            $be_checked_count = count(\App\TaskAssignment::where('status','=',1)->get());
+
+                        @endphp
+                        <div
+                            style="
+                        height: 20px;
+                        width: 20px;
+                        background-color: red; color: white;
+
+                        border-radius: 50%;
+                        display: inline-block;
+                        text-align: center;">
+                            @if($be_checked_count>=99)
+                                N
+                            @else
+                                {{$be_checked_count}}
+                            @endif
+                        </div>
+
                     @endif
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>

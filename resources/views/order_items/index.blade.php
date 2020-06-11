@@ -340,17 +340,24 @@
                                             <input type="checkbox" id="{{$order_item->id}}"
                                                    name="change_item_status">
                                         </td>
-                                        <td class="text-left">#{{ $order->no}} &nbsp by &nbsp
-                                            @if($order->business_concat_person)
-                                                {{$order->business_concat_person->name}}
-                                            @else
-                                                {{$order->other_concat_person_name}}
+                                        <td class="text-left">#{{ $order->no}} &nbsp &nbsp
+                                            @if($order->code)
+                                                {{$order->code}}
                                             @endif
+
+
                                             <br>
                                             @if($order->email)
                                                 {{$order->email}}
                                             @else
                                                 no email
+                                            @endif
+                                            <br>
+                                            by &nbsp &nbsp
+                                            @if($order->business_concat_person)
+                                                {{$order->business_concat_person->name}}
+                                            @else
+                                                {{$order->other_concat_person_name}}
                                             @endif
                                         </td>
                                         <td class="text-center">{{date("Y-m-d", strtotime($order->create_date))}}</td>

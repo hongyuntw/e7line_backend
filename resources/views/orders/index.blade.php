@@ -293,12 +293,11 @@
                                                    name="get_code">
                                         </td>
 
-                                        <td class="text-left">#{{ $order->no}} &nbsp by &nbsp
-                                            @if($order->business_concat_person)
-                                                {{$order->business_concat_person->name}}
-                                            @else
-                                                {{$order->other_concat_person_name}}
+                                        <td class="text-left">#{{ $order->no}} &nbsp  &nbsp
+                                            @if($order->code)
+                                                {{$order->code}}
                                             @endif
+
                                             <br>
                                             @if($order->email)
                                                 {{$order->email}}
@@ -312,6 +311,13 @@
                                             @else
                                                 {{$order->other_customer_name}}
                                             @endif
+                                            <br>
+                                                by &nbsp
+                                                @if($order->business_concat_person)
+                                                    {{$order->business_concat_person->name}}
+                                                @else
+                                                    {{$order->other_concat_person_name}}
+                                                @endif
                                         </td>
                                         <td class="text-left">{{ ($order->tax_id)}}</td>
                                         <td>

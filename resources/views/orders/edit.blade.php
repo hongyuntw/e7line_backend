@@ -27,12 +27,33 @@
 
                 $(document).ready(function () {
                     computeSum();
+                    //
                     if ('{{$order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0}}') {
                         console.log("hi bro");
                         console.log($('#base_info').find('input, textarea, button, select'));
                         $('#base_info').find('input, textarea, button, select').prop('disabled', true);
                         $('#item_info').find('input, textarea, button, select').prop('disabled', true);
+                        $('#select_customer')[0].selectize.disable();
+
+
                     }
+                    var title_node = document.getElementById("title");
+                    var tax_id_node = document.getElementById("tax_id");
+                    var note_node = document.getElementById("note");
+
+                    if('{{$order->code == null || \Illuminate\Support\Facades\Auth::user()->level==2 }}'){
+                        title_node.disabled = false;
+                        tax_id_node.disabled = false;
+                        note_node.disabled  = false;
+
+                    }
+                    else{
+                        title_node.disabled = true;
+                        tax_id_node.disabled = true;
+                        note_node.disabled  = true;
+
+                    }
+
 
                 })
 
@@ -120,7 +141,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                         <select id="select_customer" name="customer_id"
-                                                @if($order->status!=0&&\Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
+                                                @if($order->status!=0 && \Illuminate\Support\Facades\Auth::user()->level==0) disabled @endif>
                                             <option value="-1">Select a customer...</option>
                                             @foreach($customers as $customer)
                                                 <option value="{{$customer->id}}"
