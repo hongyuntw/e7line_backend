@@ -216,8 +216,34 @@
                         <div class="form-group text-center">
                             <a class="btn btn-danger" href="{{ URL::previous() }}">取消</a>
                             <button type="submit" class="btn btn-primary">更新</button>
+                            <a class="btn btn-danger" onclick="deleteProduct()">刪除</a>
                         </div>
                     </form>
+                    <script>
+                        function deleteProduct(){
+                            var product_select = document.getElementById("product_select");
+                            var product_id = product_select.options[product_select.selectedIndex].value;
+                            var product_detail_select = document.getElementById("product_select");
+                            var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
+
+
+                            $.ajax({
+                                async:false,
+                                url: '{{route('products.delete')}}',
+                                data: {product_id: product_id,product_detail_id:product_detail_id}
+                            })
+                                .done(function (res) {
+                                    alert(res);
+                                    window.location.reload();
+
+
+                                })
+
+
+                        }
+
+
+                    </script>
 
 
 {{--                    產品名字變更--}}

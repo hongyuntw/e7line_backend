@@ -194,7 +194,7 @@ Route::middleware('auth')->group(function () {
     Route::post('products','ProductController@store')->name('products.store');
     Route::post('ajax/search','ProductController@search')->name('products.search');
     Route::post('ajax/validate_product_form','ProductController@validate_product_form')->name('products.validate_product_form');
-
+    Route::get('products/delete','ProductController@delete')->name('products.delete');
 
 
 // report

@@ -6,6 +6,7 @@ use App\Product;
 use App\ProductDetail;
 use App\ProductRelation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -17,6 +18,35 @@ class ProductController extends Controller
     public function index()
     {
         //
+    }
+
+
+    public function delete(Request $request)
+    {
+
+
+        if(Auth::user()->level != 2){
+            return "無權限";
+        }
+//        dd($request);
+        $product_id = $request->input('product_id');
+        $product_detail_id = $request->input('product_detail_id');
+
+
+        $product_relation = ProductRelation::where('product_id','=',$product_id)
+            ->where('product_detail_id','=',$product_detail_id)->first();
+
+
+
+
+        if($product_relation){
+            $product_relation->delete();
+            return "刪除成功";
+        }
+        else{
+            return "商品不存在";
+        }
+
     }
 
     /**
