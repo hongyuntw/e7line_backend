@@ -209,7 +209,7 @@ class OrderExport implements FromArray, WithEvents, WithDrawings
 
 //                total
                 array_push($merge_cell_info, 'J' . ($row_index) . ':K' . $row_index);
-                $event->sheet->getDelegate()->setCellValue('J' . ($row_index), $this->order->amount);
+                $event->sheet->getDelegate()->setCellValue('J' . ($row_index), $this->order->amount+$this->order->shipping_fee);
                 $event->sheet->getDelegate()->getStyle('J' . ($row_index))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('J' . ($row_index))->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
