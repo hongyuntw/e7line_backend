@@ -42,7 +42,7 @@
                                     myNode = document.getElementById("product_select_div");
                                     // console.log(myNode);
                                     myNode.innerHTML = '';
-                                    html = '<select class="form-control" name="product_detail_id" ';
+                                    html = '<select class="form-control" name="product_detail_id" id="product_detail_select" ';
                                     html += 'onchange="product_detail_change(this)">';
                                     html += '<option value=-1>請選擇產品</option>';
                                     for (let [key, value] of Object.entries(res)) {
@@ -223,7 +223,7 @@
                         function deleteProduct(){
                             var product_select = document.getElementById("product_select");
                             var product_id = product_select.options[product_select.selectedIndex].value;
-                            var product_detail_select = document.getElementById("product_select");
+                            var product_detail_select = document.getElementById("product_detail_select");
                             var product_detail_id = product_detail_select.options[product_detail_select.selectedIndex].value;
 
 
