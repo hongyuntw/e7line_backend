@@ -66,6 +66,28 @@
 
                 {{--                do validate--}}
                 function mySubmit(form) {
+                    var isbn_nodes = document.getElementsByName("ISBN[]");
+                    var spec_nodes = document.getElementsByName("spec_name[]");
+                    for(var i=0;i<isbn_nodes.length;i++){
+                        var equal_flag = false;
+                        for(var k = i-1 ; k>=0 ; k--){
+                            if(spec_nodes[i].value == spec_nodes[k].value){
+                                if(isbn_nodes[i].value == isbn_nodes[k].value ){
+                                    equal_flag = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(equal_flag){
+                            alert('ISBN及規格不能有完全一樣的商品喔！');
+                            return false;
+                        }
+                    }
+
+
+
+
+
                     $('#base_info').find('input, textarea, button, select').prop('disabled', false);
                     $('#item_info').find('input, textarea, button, select').prop('disabled', false);
                     var result = function () {
