@@ -68,19 +68,22 @@
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 15%;">聯絡電話</th>
-                                        <th class="text-center" style="width: 15%;">資本額</th>
+                                        <th class="text-center" style="width: 10%;">e7line名稱</th>
+                                        <th class="text-center" style="width: 10%;">資本額</th>
                                         <th class="text-center" style="width: 10%;">規模</th>
                                         <th class="text-center" style="width: 15%;">地區</th>
                                         <th class="text-center" style="width: 20%;">註記</th>
                                         <th class="text-center" style="width: 5%;">狀態</th>
-                                        <th class="text-center" style="width: 10%;">是否開通</th>
+
+                                        <th class="text-center" style="width: 5%;">交易否</th>
+
                                         <th class="text-center" style="width: 10%;">其他功能</th>
                                     </tr>
                                     </thead>
                                     <tr>
                                         <td class="text-center">{{$customer->phone_number}}</td>
+                                        <td class="text-center">{{$customer->e7line_name}}</td>
                                         <td class="text-center">{{$customer->capital}} </td>
-
                                         <td class="text-center">{{$customer->scales}} 人</td>
                                         <td class="text-center">{{$customer->city}}{{$customer->area}}</td>
                                         <td class="text-center">
@@ -96,31 +99,68 @@
                                                 @endforeach
                                             </select>
                                         </td>
-                                        <td class="text-center">
-                                            <select id="active_status" name="active_status">
-                                                <option
-                                                    value="0" {{ old('active_status',$customer->active_status) == 0 ? 'selected' : '' }}>
-                                                    否
-                                                </option>
-                                                <option
-                                                    value="1" {{ old('active_status',$customer->active_status) == 1 ? 'selected' : '' }}>
-                                                    是
-                                                </option>
 
-                                            </select>
+
+                                        <td class="text-center">
+                                            @if(count($orders) != 0)
+                                                <a href="{{$search_link}}">是</a>
+                                            @else
+                                                否
+                                            @endif
                                         </td>
+
                                         <td class="text-center">
                                             <button class="label label-warning" onclick="update_customer_status()">
                                                 更新狀態
                                             </button>
-                                            <a class="label label-primary"
-                                               {{--                                               href="{{route('customers.edit',$customer->id)}}"--}}
-                                               onclick="customer_edit({{$customer->id}})"
-                                            >編輯基本資訊</a>
+                                            <a class="label label-success" onclick="showE7lineInfo('{{$customer->e7line_orgid}}')">金額&會員數</a>
+                                            <a class="label label-primary" onclick="customer_edit({{$customer->id}})">編輯基本資訊</a>
 
                                         </td>
                                         {{--                                        編輯客戶狀態等--}}
                                         <script>
+                                            function showE7lineInfo(orgid) {
+                                                console.log(orgid);
+                                                if (orgid == null || orgid == '') {
+                                                    alert('客戶尚未開發');
+                                                    return;
+                                                }
+                                                $.ajax({
+                                                    async: false,
+                                                    type: "POST",
+                                                    url: '{{route('customers.showE7lineInfo')}}',
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                                                    },
+                                                    data: {
+                                                        orgid: orgid
+                                                    },
+                                                    success: function (data) {
+                                                        // console.log(data)
+                                                        var data = JSON.parse(data);
+                                                        if(data.isScuess){
+                                                            alert('交易總值:' + data.currentSumOfPurchaseProductPrice +
+                                                                '\n' + '會員人數:' + data.currentRegisterMemberCount + '\n' +
+                                                                'active會員人數:' + data.currentActiveMemberCount)
+                                                            return
+
+                                                        }
+                                                        else{
+                                                            alert('伺服器出了點問題，稍後再重試');
+                                                            return;
+                                                        }
+
+
+                                                    },
+                                                    error: function () {
+                                                        alert('伺服器出了點問題，稍後再重試');
+                                                        return;
+                                                    }
+                                                });
+
+
+                                            }
+
                                             function update_customer_status() {
                                                 var customer_status = document.getElementsByName('customer_status')[0].value;
                                                 var active_status = document.getElementsByName('active_status')[0].value;
@@ -509,6 +549,18 @@
                                         html += '<option value=2>其他</option>'
                                         html += '</select>';
 
+                                        html += '<select id="method" name="method" class="form-control">';
+                                        html += '<option selected >無</option>';
+                                        html += '<option>初訪</option>';
+                                        html += '<option>覆訪</option>';
+                                        html += '<option>電訪</option>';
+                                        html += '<option>簡報</option>';
+                                        html += '<option>活動</option>';
+                                        html += '<option>點數</option>';
+                                        html += '<option>OFL</option>';
+                                        html += '<option>其他</option>';
+                                        html += '</select>';
+
 
                                         html += '<input type="text" name="development_content" placeholder="開發內容" class="form-control"/>';
                                         html += '<input type="text" name="track_content" placeholder="追蹤內容" class="form-control"/>';
@@ -571,6 +623,8 @@
                                         var development_content = document.getElementsByName('development_content')[0].value;
                                         var track_content = document.getElementsByName('track_content')[0].value;
                                         var track_date = '';
+                                        var method_node = document.getElementById('method');
+                                        var method = method_node.options[method_node.selectedIndex].value;
                                         console.log(document.getElementsByName('track_date'));
                                         if (document.getElementsByName('track_date').length > 0) {
                                             track_date = document.getElementsByName('track_date')[0].value;
@@ -585,7 +639,8 @@
                                                 status: status,
                                                 development_content: development_content,
                                                 track_date: track_date,
-                                                customer_id: customer_id
+                                                customer_id: customer_id,
+                                                method:method,
                                             },
                                             // dataType: 'json',
                                             headers: {
@@ -630,6 +685,7 @@
                                     <thead style="background-color: lightgray">
                                     <tr class="text-center">
                                         <th class="text-center" style="width: 10%;">status</th>
+                                        <th class="text-center" style="width: 10%;">method</th>
                                         <th class="text-center" style="width: 18%;">開發note</th>
                                         <th class="text-center" style="width: 18%;">追蹤note</th>
                                         <th class="text-center" style="width: 10%;">待追蹤日期</th>
@@ -679,6 +735,29 @@
                                                 </select>
 
 
+                                            </td>
+                                            <td class="align-middle" style="vertical-align: middle;">
+                                                {{$concat_record->method}}
+                                                <select style="display:none;" class="form-control"
+                                                        name="edit_concat_record_info{{$concat_record->id}}">
+                                                    <option value="0" @if($concat_record->status==0)selected @endif>
+                                                        已完成
+                                                    </option>
+                                                    <option value="1" @if($concat_record->status==1)selected @endif>
+                                                        待追蹤
+                                                    </option>
+                                                    <option value="2" @if($concat_record->status==2)selected @endif>其他
+                                                    </option>
+                                                    <option @if($concat_record->method == '無' ) selected @endif>無</option>
+                                                    <option @if($concat_record->method == '初訪') selected @endif>初訪</option>
+                                                    <option @if($concat_record->method == '覆訪') selected @endif>覆訪</option>
+                                                    <option @if($concat_record->method == '電訪') selected @endif>電訪</option>
+                                                    <option @if($concat_record->method == '簡報') selected @endif>簡報</option>
+                                                    <option @if($concat_record->method == '活動') selected @endif>活動</option>
+                                                    <option @if($concat_record->method == '點數') selected @endif>點數</option>
+                                                    <option @if($concat_record->method == 'OFL') selected @endif>OFL</option>
+                                                    <option @if($concat_record->method == '其他') selected @endif>其他</option>
+                                                </select>
                                             </td>
                                             <style>
                                                 textarea:hover {
@@ -780,14 +859,15 @@
                                                 function update_edit_concat_record(btn_name) {
                                                     var inputs = document.getElementsByName(btn_name);
                                                     var input_values = [];
-                                                    for (var i = 0; i < 4; i++) {
+                                                    for (var i = 0; i < 5; i++) {
                                                         input_values.push(inputs[i].value);
                                                     }
                                                     // console.log(input_values[1]);
                                                     var record_status = input_values[0];
-                                                    var development_content = input_values[1];
-                                                    var track_content = input_values[2];
-                                                    var track_date = input_values[3];
+                                                    var method = input_values[1];
+                                                    var development_content = input_values[2];
+                                                    var track_content = input_values[3];
+                                                    var track_date = input_values[4];
                                                     var concat_record_id = btn_name.substring(23);
                                                     var customer_id = '{{$customer->id}}';
                                                     $.ajax({
@@ -800,6 +880,7 @@
                                                             track_date: track_date,
                                                             concat_record_id: concat_record_id,
                                                             customer_id: customer_id,
+                                                            method:method,
                                                         },
                                                         // dataType: 'json',
                                                         headers: {
@@ -829,9 +910,10 @@
                                                 function hide_edit_concat_record(btn_name) {
                                                     var inputs = document.getElementsByName(btn_name);
                                                     for (var i = 0; i < inputs.length - 1; i++) {
-                                                        if (i == 1 || i == 2) {
+                                                        if (i == 2 || i == 3) {
                                                             inputs[i].disabled = true;
-                                                        } else {
+                                                        }
+                                                        else {
                                                             inputs[i].style.display = 'none';
 
                                                         }
@@ -842,9 +924,10 @@
                                                 function show_edit_concat_record(btn_name) {
                                                     var inputs = document.getElementsByName(btn_name);
                                                     for (var i = 0; i < inputs.length; i++) {
-                                                        if (i == 1 || i == 2) {
+                                                        if (i == 2 || i == 3) {
                                                             inputs[i].disabled = false;
-                                                        } else {
+                                                        }
+                                                        else {
                                                             inputs[i].style.display = '';
 
                                                         }

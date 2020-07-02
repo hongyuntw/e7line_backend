@@ -75,7 +75,9 @@ Route::middleware('auth')->group(function () {
     Route::post('add_concat_person/{request?}','CustomersController@add_concat_person')->name('customers.add_concat_person');
     Route::post('add_concat_record/{request?}','CustomersController@add_concat_record')->name('customers.add_concat_record');
     Route::get('customers/{request?}','CustomersController@index')->name('customers.index');
+    Route::post('ajax/get_e7line_info','CustomersController@get_e7line_info')->name('customers.get_e7line_info');
 
+    Route::post('ajax/showE7lineInfo','CustomersController@showE7lineInfo')->name('customers.showE7lineInfo');
 
 //    tasks
     Route::get('tasks','TaskController@index')->name('tasks.index');

@@ -185,7 +185,7 @@ class CustomersController extends Controller
     public function store(Request $request)
     {
         //
-
+//        dd($request);
         $this->validate($request, [
             'user_id' => 'required',
             'name' => 'required|unique:customers',
@@ -197,14 +197,20 @@ class CustomersController extends Controller
             'address' => 'max:50|nullable',
             'capital' => 'max:25|nullable',
 
+
+
             'status' => 'required',
             'city' => 'required',
             'area' => 'required',
-            'active_status' => 'required',
+//            'active_status' => 'required',
         ]);
+
 //        twzipcode 會包含zipcode 要移除掉
         $request_data = $request->all();
         unset($request_data['zipcode']);
+        unset($request_data['e7line_info']);
+        unset($request_data['e7line_customer_info']);
+
 
         if($request->has('redirect_to')){
             unset($request_data['redirect_to']);
@@ -213,6 +219,21 @@ class CustomersController extends Controller
         if ($request->has('user_id')) {
             $user_id = $request->input('user_id');
         }
+
+        if($request->has('e7line_name') && $request->has('e7line_orgid')){
+            if($request->input('e7line_name') != null && $request->input('e7line_orgid')!=null){
+                $request_data['active_status'] = 1;
+            }
+            else{
+                $request_data['active_status'] = 0;
+            }
+
+        }
+        else{
+            $request_data['active_status'] = 0;
+        }
+
+
 
 //        user choose the user
         if ($user_id > 1) {
@@ -315,7 +336,7 @@ class CustomersController extends Controller
 
         $this->validate($request, [
             'name' => 'required|unique:customers,name,' . $customer->id,
-            'active_status' => 'required',
+//            'active_status' => 'required',
             'status' => 'required',
             'city' => 'required',
             'area' => 'required',
@@ -341,13 +362,31 @@ class CustomersController extends Controller
 
         $to_be_update_data['update_date'] = now();
         unset($to_be_update_data['zipcode']);
+        unset($to_be_update_data['e7line_info']);
+        unset($to_be_update_data['e7line_customer_info']);
 
         if($request->has('source_html')){
             unset($to_be_update_data['source_html']);
         }
+        $to_be_update_data['active_status'] = 0;
+        if($request->has('e7line_name') && $request->has('e7line_orgid')){
+            if($request->input('e7line_name') != null && $request->input('e7line_orgid')!=null){
+                $to_be_update_data['active_status'] = 1;
+            }
+            else{
+                $to_be_update_data['active_status'] = 0;
+            }
+
+        }
+        else{
+            $to_be_update_data['active_status'] = 0;
+        }
+
         if($to_be_update_data['active_status']==1 && $customer->active_status ==0 ){
             $to_be_update_data['active_time'] = now();
         }
+
+
 
 
 
@@ -413,6 +452,15 @@ class CustomersController extends Controller
 
         $status_text = ['---', '陌生', '重要', '普通', '潛在', '無效'];
 
+        $orders = $customer->orders()->where('is_deleted','=',0)->get();
+//        dd($orders);
+
+        $search_link = '';
+        if(count($orders) != 0 ){
+            $search_link = 'http://localhost:8000/orders?search_type=2&search_info=';
+            $search_link .= $customer->name;
+        }
+
 
         $data = [
             'customer' => $customer,
@@ -421,6 +469,8 @@ class CustomersController extends Controller
             'concat_records' => $concat_records,
             'welfare_type_names' => $welfare_type_names,
             'status_text' => $status_text,
+            'orders' => $orders,
+            'search_link' => $search_link
         ];
 
         return view('customers.record', $data);
@@ -484,6 +534,7 @@ class CustomersController extends Controller
             'status' => 'required|max:2|min:0',
             'track_date' => 'nullable|date|after:' . now(),
             'development_content' => 'required',
+            'method' => 'required'
         ]);
 
 
@@ -501,6 +552,7 @@ class CustomersController extends Controller
             'development_content' => $request['development_content'],
             'track_content' => $request['track_content'],
             'track_date' => $track_date,
+            'method' => $request['method'],
             'create_date' => now(),
             'update_date' => now(),
         );
@@ -548,11 +600,48 @@ class CustomersController extends Controller
         $concat_record->track_content = $request['track_content'];
         $concat_record->track_date = $request['track_date'];
         $concat_record->user_id = Auth::user()->id;
+        $concat_record->method = $request['method'];
         $concat_record->update();
         return response()->json([
             'success' => 'update concat record success',
         ]);
 
+    }
+
+
+    public function get_e7line_info(Request $request)
+    {
+        $base_url = \config('url.e7line_url');
+        $api_path = $base_url . '/API/SearchCompanybySales.aspx';
+        $search = $request->input('customer_info');
+        $search = str_replace('台','臺',$search);
+
+        $client = new \GuzzleHttp\Client();
+        $result = $client->post($api_path, [
+            'form_params' => [
+                'searchName'=> $search,
+            ]
+        ]);
+//        dd($result);
+        $resp  = $result->getBody()->getContents();
+        return $resp;
+    }
+
+    public function showE7lineInfo(Request $request)
+    {
+        $base_url = \config('url.e7line_url');
+        $api_path = $base_url . '/API/GetCompanyInfoBySales.aspx';
+        $orgid = $request->input('orgid');
+
+        $client = new \GuzzleHttp\Client();
+        $result = $client->post($api_path, [
+            'form_params' => [
+                'orgID'=> $orgid,
+            ]
+        ]);
+        $resp  = $result->getBody()->getContents();
+//        dd($resp);
+        return $resp;
     }
 
     public function delete_concat_record(Request $request)
