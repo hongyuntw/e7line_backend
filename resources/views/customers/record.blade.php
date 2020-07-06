@@ -101,9 +101,16 @@
                                         </td>
 
 
+                                        <script>
+                                            function showOrder(url){
+                                                window.location.href = url;
+                                            }
+
+                                        </script>
+
                                         <td class="text-center">
                                             @if(count($orders) != 0)
-                                                <a href="{{$search_link}}">是</a>
+                                                <a onclick="showOrder('{{$search_link}}')" >是</a>
                                             @else
                                                 否
                                             @endif

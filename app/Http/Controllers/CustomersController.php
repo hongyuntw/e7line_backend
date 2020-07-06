@@ -458,7 +458,8 @@ class CustomersController extends Controller
         $search_link = '';
         if(count($orders) != 0 ){
             $search_link = 'http://localhost:8000/orders?search_type=2&search_info=';
-            $search_link .= $customer->name;
+            $search_link .= urlencode($customer->name);
+
         }
 
 
