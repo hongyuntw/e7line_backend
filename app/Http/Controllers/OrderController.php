@@ -216,7 +216,7 @@ class OrderController extends Controller
             'customer_id' => 'required',
             'welfare_id' => 'required',
             'business_concat_person_id' => 'required',
-
+            'tax_id' => 'numeric|digits_between:8,8|nullable',
             'payment_method' => 'required',
             'product_id' => 'required',
             'product_detail_id' => 'required',
