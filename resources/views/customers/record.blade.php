@@ -110,7 +110,7 @@
 
                                         <td class="text-center">
                                             @if(count($orders) != 0)
-                                                <a onclick="showOrder('{{$search_link}}')" >是</a>
+                                                <a href="{{$search_link}}" >是</a>
                                             @else
                                                 否
                                             @endif
