@@ -304,12 +304,18 @@
                             <label class="col-md-4 control-label">e7line開通</label>
                             <div class="col-md-4 selectContainer">
                                 {{--                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>--}}
+                                @php($search_info = '')
+                                @if($customer->e7line_name)
+                                    @php($search_info = $customer->e7line_name)
+                                @else
+                                    @php($search_info = $customer->name)
+                                @endif
                                 <input class="form-control" id="e7line_customer_info" name="e7line_customer_info"
-                                       placeholder="請輸入客戶資訊以供查詢" value="{{old('e7line_customer_info',$customer->e7line_name)}}">
+                                       placeholder="請輸入客戶資訊以供查詢" value="{{old('e7line_customer_info',$search_info)}}">
                                 <input name="e7line_orgid" type="hidden"
                                        id="e7line_orgid" class="form-control" placeholder="e7line orgid"
                                        value="{{old('e7line_orgid',$customer->e7line_orgid)}}">
-                                <input type="text" class="form-control" name="e7line_name" id="e7line_name"
+                                <input type="hidden" class="form-control" name="e7line_name" id="e7line_name"
                                        placeholder="e7line姓名"
                                        value="{{old('e7line_name',$customer->e7line_name)}}">
                                 <div id="e7line_field">

@@ -282,8 +282,8 @@
                                        placeholder="請輸入客戶資訊以供查詢">
                                 <input value="" name="e7line_orgid" type="hidden"
                                        id="e7line_orgid" class="form-control" placeholder="e7line orgid">
-                                <input type="text" class="form-control" name="e7line_name" id="e7line_name"
-                                       placeholder="e7line姓名"
+                                <input  class="form-control" name="e7line_name" id="e7line_name"
+                                       placeholder="e7line姓名" type="hidden"
                                        value="">
                                 <div id="e7line_field">
 
