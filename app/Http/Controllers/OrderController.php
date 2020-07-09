@@ -320,6 +320,47 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
+
+    public function getTaxIds(Request $request)
+    {
+
+        $customer_id = $request->input('customer_id');
+        $other_customer_name = $request->input('other_customer_name');
+
+
+        $taxId = [];
+
+        if($customer_id == -1){
+            $orders = Order::where('other_customer_name','=',$other_customer_name)->where('is_deleted','=',0)->get();
+            foreach($orders as $order){
+                if($order->tax_id){
+                    if(array_key_exists($order->tax_id,$taxId)){
+                        $taxId[$order->tax_id] += 1;
+                    }
+                    else{
+                        $taxId[$order->tax_id] = 1;
+                    }
+                }
+            }
+        }
+        else{
+            $orders = Order::where('customer_id','=',$customer_id)->where('is_deleted','=',0)->get();
+            foreach($orders as $order){
+                if($order->tax_id){
+                    if(array_key_exists($order->tax_id,$taxId)){
+                        $taxId[$order->tax_id] += 1;
+                    }
+                    else{
+                        $taxId[$order->tax_id] = 1;
+                    }
+                }
+            }
+        }
+        return $taxId;
+
+
+    }
+
     public function get_e7line_account_info(Request $request)
     {
 //        dump($base_url);

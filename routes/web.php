@@ -170,7 +170,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('ajax/changeStatus2Success','OrderController@changeStatus2Success')->name('orders.changeStatus2Success');
 
-
+    Route::get('ajax/getTaxIds','OrderController@getTaxIds')->name('orders.getTaxIds');
 
 
     Route::get('ajax/get_customer_info', 'OrderController@get_customer_info')->name('orders.get_customer_info');

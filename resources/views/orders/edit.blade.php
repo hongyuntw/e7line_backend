@@ -591,8 +591,60 @@
                         <div id="item_info">
                             <div class="form-group">
 
+                                <script>
+                                    function getTaxIds(){
+                                        var customer_select = document.getElementById("select_customer");
+                                        var customer_id = customer_select.options[customer_select.selectedIndex].value;
+                                        var other_customer_name = document.getElementById("other_customer_name").value;
+                                        if(customer_id == -1 && other_customer_name == '') {
+                                            alert('請先選擇客戶名稱呦！！');
+                                            return;
+                                        }
+
+                                        $.ajax({
+                                            url: '/ajax/getTaxIds',
+                                            data: {
+                                                customer_id: customer_id,
+                                                other_customer_name : other_customer_name,
+                                            }
+                                        })
+                                            .done(function (res) {
+                                                // console.log(res);
+                                                var node = document.getElementById("recommand_taxid");
+                                                node.style.display = 'block';
+                                                node.innerHTML = "";
+                                                var html = "";
+                                                for (const [key, value] of Object.entries(res)) {
+                                                    console.log(`${key}: ${value}`);
+                                                    html += key;
+                                                    html += '\t/\t';
+                                                    html += value;
+                                                    html += '次\t';
+                                                    html += '<a onclick="useTaxId('+ key + ')" style="color:white;cursor: pointer">use</a>'
+                                                    html += '<br>'
+                                                }
+                                                node.innerHTML = html;
+
+                                            })
+                                    }
+                                    function useTaxId(taxid){
+                                        var node = document.getElementById("tax_id");
+                                        node.value = taxid;
+                                    }
+                                    function clearTaxIds(){
+                                        var node = document.getElementById("recommand_taxid");
+                                        node.style.display = 'none';
+                                    }
+
+                                </script>
+
+
                                 <div class="col-md-3 inputGroupContainer">
                                     <label class=" control-label">統編及抬頭</label>
+                                    <a  onclick="getTaxIds()">建議統編</a>
+                                    <a onclick="clearTaxIds()">清除</a>
+                                    <div style="display: none" class="alert-success" id="recommand_taxid">
+                                    </div>
                                     <div class="input-group">
                                             <span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-lock"></i></span>

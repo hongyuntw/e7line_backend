@@ -232,7 +232,7 @@
                                     <th style="width:4%"></th>
                                     <th class="text-center" style="width:15%">Order</th>
                                     <th class="text-center" style="width:10%">建單日期</th>
-                                    <th class="text-center" style="width:15%">Product</th>
+                                    <th class="text-center" style="width:15%">Product(規格)</th>
                                     <th class="text-center" style="width:8%">Status</th>
                                     <th class="text-center" style="width:8%">Qty</th>
                                     <th class="text-center" style="width:8%">Amount</th>
@@ -307,6 +307,13 @@
                                         node.innerHTML = html;
                                         // alert(msg);
                                     }
+
+                                    function clearCountResult() {
+                                        var node = document.getElementById("detail_msg");
+                                        // node.style.display = "";
+                                        node.innerHTML = "";
+                                    }
+
                                     window.showDetail = showDetail;
 
                                 </script>
@@ -323,7 +330,8 @@
                                     @if(Auth::user()->level >=1 )
                                         <button class="btn-sm btn-dark" onclick="change_status()">更改選中狀態</button>
                                     @endif
-                                    <button class="btn-sm btn-dark" onclick="showDetail({{json_encode($msg)}})">顯示詳細數量</button>
+                                    <button class="btn-sm btn-dark" onclick="showDetail({{json_encode($msg)}})">顯示詳細數量
+                                    </button>
 
                                 </div>
 
@@ -366,6 +374,11 @@
                                         <td>
                                             {{$order_item->product_relation->product->name}}
                                             {{$order_item->product_relation->product_detail->name}}
+                                            @if($order_item->spec_name)
+                                                ({{$order_item->spec_name}})
+
+                                            @endif
+
                                         </td>
                                         @switch($order_item->status)
                                             @case(0)

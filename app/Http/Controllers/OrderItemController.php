@@ -151,23 +151,38 @@ class OrderItemController extends Controller
 //        this is record every product and every item total quantity
         $qt_arr = [];
         foreach ($order_items_all as $item) {
+
+
             if (array_key_exists($item->product_relation->product->name, $qt_arr)) {
-                if (array_key_exists($item->product_relation->product_detail->name, $qt_arr[$item->product_relation->product->name])) {
-                    $qt_arr[$item->product_relation->product->name][$item->product_relation->product_detail->name] += $item->quantity;
-                } else {
-                    $qt_arr[$item->product_relation->product->name][$item->product_relation->product_detail->name] = $item->quantity;
+                $detail_and_spec = $item->product_relation->product_detail->name;
+                if($item->spec_name){
+                    $detail_and_spec .= '(' . $item->spec_name .')';
                 }
-            } else {
-                $qt_arr[$item->product_relation->product->name][$item->product_relation->product_detail->name] = $item->quantity;
+                if (array_key_exists($detail_and_spec, $qt_arr[$item->product_relation->product->name])) {
+                    $qt_arr[$item->product_relation->product->name][$detail_and_spec] += $item->quantity;
+                }
+                else {
+                    $qt_arr[$item->product_relation->product->name][$detail_and_spec] = $item->quantity;
+                }
+            }
+            else {
+                $detail_and_spec = $item->product_relation->product_detail->name;
+                if($item->spec_name){
+                    $detail_and_spec .= '(' . $item->spec_name .')';
+                }
+                $qt_arr[$item->product_relation->product->name][$detail_and_spec] = $item->quantity;
             }
         }
-        $msg = '產品數量統計:<br>';
+        $msg = '<a style="color:black;cursor: pointer" onclick="clearCountResult()">清除查詢結果</a> <br>';
+        $msg .= '產品數量統計:<br>';
         foreach ($qt_arr as $key => $value) {
             $msg .= '-----' . $key . '-----<br>';
             foreach ($value as $name => $qty) {
                 $msg .= $name . ' 總數量: ' . $qty . '<br>';
             }
         }
+        $msg .= '<a style="color:black;cursor: pointer" onclick="clearCountResult()">清除查詢結果</a> <br>';
+
 
 
         $order_items = $query->paginate(15);
