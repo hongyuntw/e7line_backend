@@ -614,6 +614,9 @@
                                                 node.style.display = 'block';
                                                 node.innerHTML = "";
                                                 var html = "";
+                                                if(!Object.keys(res).length){
+                                                    html += '找不到使用過的統編!!';
+                                                }
                                                 for (const [key, value] of Object.entries(res)) {
                                                     console.log(`${key}: ${value}`);
                                                     html += key;
