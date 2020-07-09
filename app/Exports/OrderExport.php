@@ -34,7 +34,7 @@ class OrderExport implements FromArray, WithEvents, WithDrawings
         $this->order = $order;
 //        $this->order = [];
         $order_item_count = count($order->order_items) < 5 ? 5 : count($order->order_items);
-        $this->row_index = $order_item_count + 23;
+        $this->row_index = $order_item_count + 24;
 
 
     }
@@ -77,10 +77,16 @@ class OrderExport implements FromArray, WithEvents, WithDrawings
 //                    收貨地址
                     'E7:F7',
                     'G7:K7',
+//                    備註
+                    'A8:B8',
+                    'C8:K8',
 //                    訂購商品明細
-                    'A8:K8',
+
+
+
+                    'A9:K9',
 //                    商品名稱
-                    'A9:H9',
+                    'A10:H10',
 //                    'I12:I13',
 //                    'J12:J13',
 //                    'K12:K13',
@@ -167,13 +173,18 @@ class OrderExport implements FromArray, WithEvents, WithDrawings
                 $event->sheet->getDelegate()->setCellValue('E7', '收貨地址');
                 $event->sheet->getDelegate()->setCellValue('G7', $this->order->ship_to);
 //                商品
-                $event->sheet->getDelegate()->setCellValue('A8', '商品訂購明細');
-                $event->sheet->getDelegate()->setCellValue('A9', '商品名稱');
-                $event->sheet->getDelegate()->setCellValue('I9', '金額');
-                $event->sheet->getDelegate()->setCellValue('J9', '數量');
-                $event->sheet->getDelegate()->setCellValue('K9', '小計');
 
-                $row_index = 10;
+                $event->sheet->getDelegate()->setCellValue('A8', '備註');
+                $event->sheet->getDelegate()->setCellValue('C8', $this->order->note);
+
+
+                $event->sheet->getDelegate()->setCellValue('A9', '商品訂購明細');
+                $event->sheet->getDelegate()->setCellValue('A10', '商品名稱');
+                $event->sheet->getDelegate()->setCellValue('I10', '金額');
+                $event->sheet->getDelegate()->setCellValue('J10', '數量');
+                $event->sheet->getDelegate()->setCellValue('K10', '小計');
+
+                $row_index = 11;
                 foreach ($this->order->order_items()->orderBy('product_relation_id')->get() as $order_item) {
                     array_push($merge_cell_info, 'A' . $row_index . ':H' . $row_index);
                     $event->sheet->getDelegate()->setCellValue('A' . $row_index, $order_item->product_relation->product->name . ' ' . $order_item->product_relation->product_detail->name);
