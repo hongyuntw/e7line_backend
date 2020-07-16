@@ -321,6 +321,46 @@ class OrderController extends Controller
     }
 
 
+    public function copy(Order $order)
+    {
+        $copyData = $order->toArray();
+        unset($copyData['id']);
+        unset($copyData['create_date']);
+        unset($copyData['code']);
+        unset($copyData['update_date']);
+
+        $currentMonth = date('m');
+        $this_month_data = Order::whereRaw('MONTH(create_date) = ?',[$currentMonth])->get();
+        $no = date("y").date("m").str_pad(count($this_month_data)+1, 4, '0', STR_PAD_LEFT);
+        $copyData['no'] = $no;
+
+        $newOrder = Order::create($copyData);
+        $newOrder->create_date = now();
+        $newOrder->update_date = now();
+        $newOrder->update();
+
+
+        foreach($order->order_items as $order_item){
+            $copy_item = $order_item->toArray();
+            unset($copy_item['id']);
+            $copy_item['order_id'] = $newOrder->id;
+            $copy_item['create_date'] = now();
+            $copy_item['update_date'] = now();
+            $newOrderItem = OrderItem::create($copy_item);
+        }
+
+
+        return redirect()->route('orders.edit',$newOrder->id);
+//        $order = Order::create($data);
+
+
+
+
+
+
+    }
+
+
     public function getTaxIds(Request $request)
     {
 

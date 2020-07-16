@@ -255,17 +255,16 @@
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th style="width:3%"></th>
-                                    <th class="text-center" style="width:12%">Order</th>
-                                    <th class="text-center" style="width:18%">Customer</th>
+                                    <th style="width:2%"></th>
+                                    <th class="text-center" style="width:10%">Order</th>
+                                    <th class="text-center" style="width:20%">Customer</th>
                                     <th class="text-center" style="width:8%">統編</th>
                                     <th class="text-center" style="width:5%">Sales</th>
                                     <th class="text-center" style="width:5%">Status</th>
                                     <th class="text-center" style="width:5%">Amount</th>
-                                    <th class="text-center" style="width:10%">建單日期</th>
-                                    <th class="text-center" style="width:10%">收貨日期</th>
+                                    <th class="text-center" style="width:15%">建單日期</th>
+                                    <th class="text-center" style="width:15%">收貨日期</th>
                                     <th class="text-center" style="width:10%">Note</th>
-
                                     <th class="text-center" style="width:20%">Other</th>
                                 </tr>
                                 </thead>
@@ -288,12 +287,12 @@
                                     @endif
 
                                     <tr ondblclick="" class="text-center">
-                                        <td>
+                                        <td class="align-middle " style="vertical-align: middle">
                                             <input type="checkbox" id="{{$order->id}}"
                                                    name="get_code">
                                         </td>
 
-                                        <td class="text-left">#{{ $order->no}} &nbsp  &nbsp
+                                        <td class="align-middle " style="vertical-align: middle">#{{ $order->no}} &nbsp  &nbsp
 
                                             @if($order->code)
                                                 <span style="color: red;font-weight: bold">
@@ -308,7 +307,7 @@
                                                 no email
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="align-middle " style="vertical-align: middle">
                                             @if($order->customer)
                                                 {{$order->customer->name}}
                                             @else
@@ -322,8 +321,8 @@
                                                     {{$order->other_concat_person_name}}
                                                 @endif
                                         </td>
-                                        <td class="text-left">{{ ($order->tax_id)}}</td>
-                                        <td>
+                                        <td class="align-middle " style="vertical-align: middle">{{ ($order->tax_id)}}</td>
+                                        <td class="align-middle " style="vertical-align: middle">
                                             {{$order->user->name}}
                                         </td>
 
@@ -350,14 +349,14 @@
                                                 class="label{{$css}}"
                                                 style="min-width:60px;display: inline-block">{{ $order_status_names[$order->status] }}</label>
 
-                                        <td>{{round($order->amount)+round($order->shipping_fee)}}</td>
-                                        <td class="text-center">{{date("Y-m-d", strtotime($order->create_date))}}</td>
-                                        <td class="text-center">
+                                        <td class="align-middle " style="vertical-align: middle">{{round($order->amount)+round($order->shipping_fee)}}</td>
+                                        <td class="align-middle " style="vertical-align: middle">{{date("Y-m-d", strtotime($order->create_date))}}</td>
+                                        <td class="align-middle " style="vertical-align: middle">
                                             @if($order->receive_date){{date("Y-m-d", strtotime($order->receive_date))}}@else
                                                 -
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="align-middle " style="vertical-align: middle">
                                             {{$order->note}}
                                         </td>
 
@@ -372,11 +371,16 @@
 
                                             <a href="{{route('orders.detail',$order->id)}}"
                                                class="btn btn-xs btn-primary">詳細</a>
+                                            <br>
                                             <a onclick="order_edit({{$order->id}})"
                                                class="btn btn-xs btn-primary">編輯</a>
+                                            <br>
                                             <a href="{{route('orders.export',$order->id)}}" class="btn-xs btn btn-primary">匯出</a>
+                                            <br>
+                                            <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')" class="btn-xs btn btn-primary">複製</a>
+                                            <br>
 
-                                            @if( Auth::user()->level==2)
+                                            @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )
                                                 <form action="{{route('orders.delete',$order->id)}}"
                                                       method="post"
                                                       style="display: inline-block">
@@ -396,6 +400,15 @@
                                 @endforeach
                             </table>
                             <script>
+                                function copyOnclick(OrderNo,OrderId){
+                                    var result  = confirm('確定要複製 訂單編號:' + OrderNo + ' 此筆訂單？' );
+                                    if(!result){
+                                        return;
+                                    }
+                                    window.location.href  = '/orders/' + OrderId + '/copy';
+
+                                }
+
                                 function changeOrderStatusBack(id) {
                                     console.log(id);
                                     $.ajax({

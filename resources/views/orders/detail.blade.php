@@ -290,7 +290,7 @@
                                     <a class="btn btn-primary" href="{{route('orders.export',$order->id)}}">匯出</a>
 
 
-                                    @if( Auth::user()->level==2)
+                                    @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )
 
                                         <form action="{{ route('orders.delete_backto_index', $order->id) }}"
                                               method="post"

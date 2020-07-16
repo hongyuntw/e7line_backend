@@ -153,6 +153,8 @@ Route::middleware('auth')->group(function () {
     Route::get('orders/{order}/edit{request?}', 'OrderController@edit')->name('orders.edit');
     Route::post('orders/update/{order}', 'OrderController@update')->name('orders.update');
     Route::post('orders/{order}', 'OrderController@delete')->name('orders.delete');
+    Route::get('orders/{order}/copy', 'OrderController@copy')->name('orders.copy');
+
     Route::post('orders/delete_backto_index/{order}', 'OrderController@delete_backto_index')->name('orders.delete_backto_index');
 
     Route::get('orders/{order}/export','OrderController@export')->name('orders.export');
