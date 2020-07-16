@@ -661,6 +661,11 @@ class OrderController extends Controller
         $product_details = ProductDetail::all();
         $product_relations = ProductRelation::all();
 
+
+        if(!$request->has('source_html')){
+            $request['source_html'] = '/orders';
+        }
+
         $order_items = $order->order_items;
         $data = [
             'customers' => $customers,

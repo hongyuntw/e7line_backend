@@ -263,8 +263,8 @@
                                     <th class="text-center" style="width:5%">Status</th>
                                     <th class="text-center" style="width:5%">Amount</th>
                                     <th class="text-center" style="width:13%">建單日期</th>
-                                    <th class="text-center" style="width:11%">收貨日期</th>
-                                    <th class="text-center" style="width:6%">Note</th>
+                                    <th class="text-center" style="width:8%">收貨日期</th>
+                                    <th class="text-center" style="width:15%">Note</th>
                                     <th class="text-center" style="width:20%">Other</th>
                                 </tr>
                                 </thead>
@@ -356,12 +356,12 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td class="align-middle " style="vertical-align: middle">
+                                        <td class="align-middle" style="vertical-align: middle;word-break: break-all">
                                             {{$order->note}}
                                         </td>
 
 
-                                        <td>
+                                        <td class="align-middle" style="vertical-align: middle;">
                                             <script>
                                                 function order_edit(order_id) {
                                                     // console.log(encodeURIComponent(window.location.href));
@@ -374,11 +374,11 @@
 {{--                                            <br>--}}
                                             <a onclick="order_edit({{$order->id}})"
                                                class="btn btn-xs btn-primary">編輯</a>
-{{--                                            <br>--}}
+                                            <br>
                                             <a href="{{route('orders.export',$order->id)}}" class="btn-xs btn btn-primary">匯出</a>
 {{--                                            <br>--}}
                                             <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')" class="btn-xs btn btn-primary">複製</a>
-{{--                                            <br>--}}
+                                            <br>
 
                                             @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )
                                                 <form action="{{route('orders.delete',$order->id)}}"
@@ -405,7 +405,7 @@
                                     if(!result){
                                         return;
                                     }
-                                    window.location.href  = '/orders/' + OrderId + '/copy';
+                                    window.location.href  = '/orders/' + OrderId + '/copy?';
 
                                 }
 
