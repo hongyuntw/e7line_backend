@@ -264,7 +264,7 @@
                                     <th class="text-center" style="width:5%">Amount</th>
                                     <th class="text-center" style="width:13%">建單日期</th>
                                     <th class="text-center" style="width:11%">收貨日期</th>
-                                    <th class="text-center" style="width:1%">Note</th>
+                                    <th class="text-center" style="width:6%">Note</th>
                                     <th class="text-center" style="width:20%">Other</th>
                                 </tr>
                                 </thead>
