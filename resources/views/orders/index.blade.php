@@ -257,14 +257,14 @@
                                 <tr>
                                     <th style="width:2%"></th>
                                     <th class="text-center" style="width:10%">Order</th>
-                                    <th class="text-center" style="width:20%">Customer</th>
-                                    <th class="text-center" style="width:8%">統編</th>
+                                    <th class="text-center" style="width:18%">Customer</th>
+                                    <th class="text-center" style="width:5%">統編</th>
                                     <th class="text-center" style="width:5%">Sales</th>
                                     <th class="text-center" style="width:5%">Status</th>
                                     <th class="text-center" style="width:5%">Amount</th>
-                                    <th class="text-center" style="width:15%">建單日期</th>
-                                    <th class="text-center" style="width:15%">收貨日期</th>
-                                    <th class="text-center" style="width:10%">Note</th>
+                                    <th class="text-center" style="width:13%">建單日期</th>
+                                    <th class="text-center" style="width:11%">收貨日期</th>
+                                    <th class="text-center" style="width:1%">Note</th>
                                     <th class="text-center" style="width:20%">Other</th>
                                 </tr>
                                 </thead>
@@ -352,7 +352,7 @@
                                         <td class="align-middle " style="vertical-align: middle">{{round($order->amount)+round($order->shipping_fee)}}</td>
                                         <td class="align-middle " style="vertical-align: middle">{{date("Y-m-d", strtotime($order->create_date))}}</td>
                                         <td class="align-middle " style="vertical-align: middle">
-                                            @if($order->receive_date){{date("Y-m-d", strtotime($order->receive_date))}}@else
+                                            @if($order->receive_date){{date("m-d", strtotime($order->receive_date))}}@else
                                                 -
                                             @endif
                                         </td>
@@ -371,14 +371,14 @@
 
                                             <a href="{{route('orders.detail',$order->id)}}"
                                                class="btn btn-xs btn-primary">詳細</a>
-                                            <br>
+{{--                                            <br>--}}
                                             <a onclick="order_edit({{$order->id}})"
                                                class="btn btn-xs btn-primary">編輯</a>
-                                            <br>
+{{--                                            <br>--}}
                                             <a href="{{route('orders.export',$order->id)}}" class="btn-xs btn btn-primary">匯出</a>
-                                            <br>
+{{--                                            <br>--}}
                                             <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')" class="btn-xs btn btn-primary">複製</a>
-                                            <br>
+{{--                                            <br>--}}
 
                                             @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )
                                                 <form action="{{route('orders.delete',$order->id)}}"

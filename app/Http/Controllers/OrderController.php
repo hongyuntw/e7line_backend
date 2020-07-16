@@ -337,6 +337,7 @@ class OrderController extends Controller
         $newOrder = Order::create($copyData);
         $newOrder->create_date = now();
         $newOrder->update_date = now();
+        $newOrder->status = 0;
         $newOrder->update();
 
 
@@ -346,6 +347,7 @@ class OrderController extends Controller
             $copy_item['order_id'] = $newOrder->id;
             $copy_item['create_date'] = now();
             $copy_item['update_date'] = now();
+            $copy_item['status'] = 0;
             $newOrderItem = OrderItem::create($copy_item);
         }
 
