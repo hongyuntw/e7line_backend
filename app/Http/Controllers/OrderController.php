@@ -333,6 +333,8 @@ class OrderController extends Controller
         $this_month_data = Order::whereRaw('MONTH(create_date) = ?',[$currentMonth])->get();
         $no = date("y").date("m").str_pad(count($this_month_data)+1, 4, '0', STR_PAD_LEFT);
         $copyData['no'] = $no;
+        $copyData['user_id'] = Auth::user()->id;
+
 
         $newOrder = Order::create($copyData);
         $newOrder->create_date = now();
