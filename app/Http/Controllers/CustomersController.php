@@ -878,7 +878,7 @@ class CustomersController extends Controller
             }
             $records = $query->paginate(15);
 
-            $users = User::where('is_left','=',0)->where('level','=',0)->get();
+            $users = User::where('is_left','=',0)->where('level','=',0)->where('id','!=',1)->get();
 
 
             $data = [
