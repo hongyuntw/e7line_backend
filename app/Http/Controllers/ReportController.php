@@ -34,7 +34,8 @@ class ReportController extends Controller
             ];
 
             return view('report.indexAdmin', $data);
-        } else {
+        }
+        else {
             $date_from_interval1 = now()->subDays(14)->format('Y-m-d');
             $date_to_interval1 = now()->subDays(7)->format('Y-m-d');
 

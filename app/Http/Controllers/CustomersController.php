@@ -8,6 +8,7 @@ use App\Customer;
 use App\Exports\CustomerTemplateExport;
 use App\Exports\OrderExport;
 use App\Imports\CustomersImport;
+use App\ProductRelation;
 use App\Status;
 use App\User;
 use App\Welfare;
@@ -842,4 +843,114 @@ class CustomersController extends Controller
         return Excel::download(new CustomerTemplateExport(), '客戶資料格式參考.xlsx');
 
     }
+
+
+    public function record_index(Request $request)
+    {
+        if (Auth::user()->level == 2) {
+
+
+
+            $date_from = now()->subDays(7)->format('Y-m-d');
+            $date_to = now()->format('Y-m-d');
+
+
+            if($request->has('date_from')){
+                $date_from = $request->input('date_from');
+            }
+            if($request->has('date_to')){
+                $date_to = $request->input('date_to');
+            }
+            $user_filter = -1;
+            if($request->has('user_filter')){
+                $user_filter = $request->input('user_filter');
+            }
+
+            $date_from_addtime = $date_from . " 00:00:00";
+            $date_to_addtime = $date_to . " 23:59:59";
+
+            $query = ConcatRecord::query();
+
+            $query->whereBetween('create_date', [$date_from_addtime, $date_to_addtime]);
+
+            if($user_filter>0){
+                $query->where('user_id','=',$user_filter);
+            }
+            $records = $query->paginate(15);
+
+            $users = User::where('is_left','=',0)->where('level','=',0)->get();
+
+
+            $data = [
+                'date_to' => $date_to,
+                'date_from' => $date_from,
+                'users' => $users,
+                'user_filter' => $user_filter,
+                'records' => $records,
+
+            ];
+
+            return view('records.indexAdmin', $data);
+        }
+        else {
+            $date_from = now()->subDays(7)->format('Y-m-d');
+            $date_to = now()->format('Y-m-d');
+
+
+            if($request->has('date_from')){
+                $date_from = $request->input('date_from');
+            }
+            if($request->has('date_to')){
+                $date_to = $request->input('date_to');
+            }
+
+
+            $date_from_addtime = $date_from . " 00:00:00";
+            $date_to_addtime = $date_to . " 23:59:59";
+
+            $query = ConcatRecord::query();
+
+            $query->whereBetween('create_date', [$date_from_addtime, $date_to_addtime])->where('user_id','=',Auth::user()->id);
+
+            $records = $query->paginate(15);
+
+
+
+            $data = [
+                'date_to' => $date_to,
+                'date_from' => $date_from,
+                'records' => $records,
+
+            ];
+
+            return view('records.indexUser', $data);
+
+
+        }
+    }
+
+
+    public function show_record($id)
+    {
+        $record = ConcatRecord::find($id);
+        $records_pages = $record->customer->concat_records()->orderBy('update_date', 'DESC')->get();
+        $perpage = 10;
+
+        $page = 1;
+        $count = 0;
+        foreach ($records_pages as $records_page){
+            $count += 1;
+            if($records_page->id == $id){
+                $page = (int)ceil($count / $perpage);
+                break;
+            }
+        }
+        $url = 'customers/' . $record->customer->id . '/record?page=' . $page . '#Development_Record';
+        return Redirect::to($url);
+
+    }
+
+
+
+
 }

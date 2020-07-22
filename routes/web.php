@@ -214,6 +214,10 @@ Route::middleware('auth')->group(function () {
     Route::get("ajax/report/createTotalAmountChart_user",'ReportController@createTotalAmountChart_user')->name('report.createTotalAmountChart_user');
 
 
+//    record
+    Route::get('concat_records','CustomersController@record_index')->name('record.index');
+    Route::get('concat_records/{id}','CustomersController@show_record')->name('record.show_record');
+
 //    Route::get("ajax/create",'ReportController@createTotalAmountChart')->name('report.createTotalAmountChart');
 //    Route::get("ajax/createTotalAmountChart",'ReportController@createTotalAmountChart')->name('report.createTotalAmountChart');
 

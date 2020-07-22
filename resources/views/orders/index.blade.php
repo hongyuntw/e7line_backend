@@ -401,7 +401,7 @@
                             </table>
                             <script>
                                 function copyOnclick(OrderNo,OrderId){
-                                    var result  = confirm('確定要複製 訂單編號:' + OrderNo + ' 此筆訂單？' );
+                                    var result  = confirm('訂單複製後，即使取消編輯仍會產生一筆訂單，請務必注意! \n 確定要複製 訂單編號:' + OrderNo + ' 此筆訂單？' );
                                     if(!result){
                                         return;
                                     }

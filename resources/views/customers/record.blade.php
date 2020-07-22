@@ -58,6 +58,16 @@
                                     </h4>
                                 </div>
                                 <script>
+                                    $(document).ready(function() {
+                                        let hash = window.location.href.split('#')[1];
+                                        let hashTop = document.getElementById(hash);
+                                        var topPos = hashTop.getBoundingClientRect().top + window.scrollY;
+                                        // $(window).scrollTop(topPos);
+                                        $("html, body").animate({ scrollTop: topPos  }, topPos);
+
+                                    });
+
+
                                     function customer_edit(customer_id) {
                                         console.log(encodeURIComponent(window.location.href));
                                         window.location.href = '/customers/' + customer_id + '/edit' + '?source_html=' + encodeURIComponent(window.location.href);

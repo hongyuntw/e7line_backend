@@ -181,6 +181,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{route('report.index')}}">報表</a></li>
+                    <li><a href="{{route('record.index')}}">開發紀錄</a></li>
                 </ul>
             </li>
         </ul>
