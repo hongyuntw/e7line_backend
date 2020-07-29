@@ -38,11 +38,6 @@ class DashboardController extends Controller
         }
         $query->orderBy('concat_records.update_date','ASC');
 
-//        $query->select('customers.id as customer_id','customers.name as customer_name',
-//            'concat_records.status as track_status','track_date','business_concat_persons.name as concat_person_name','concat_records.track_content',
-//            'business_concat_persons.email as concat_person_email', 'business_concat_persons.phone_number as concat_person_phone_number',
-//            'concat_records.id as concat_record_id'
-//            );
 
         $query->select('customers.id as customer_id','customers.name as customer_name',
             'concat_records.status as track_status','track_date','concat_records.track_content',

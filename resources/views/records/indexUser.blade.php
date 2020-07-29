@@ -108,7 +108,13 @@
 
                             <div class="box-footer clearfix">
                                 {{ $records->appends(request()->input())->links() }}
+
+                                <div class="text-right" style="alignment: right">
+                                    total ： {{$total}}
+                                </div>
                             </div>
+
+
 
                         </section>
 

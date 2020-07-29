@@ -379,17 +379,11 @@
                                         var edit_inputs = document.getElementsByName(edit_btn_name);
                                         // console.log(edit_inputs)
                                         for (var i = 0; i < edit_inputs.length - 1; i++) {
-                                            // edit_inputs[i].setAttribute("class", "democlass");
-                                            // if(i>=edit_inputs.length-3){
-                                            //     edit_inputs[i].style.visibility= 'hidden'
-                                            // }
-                                            // else{
+
                                             edit_inputs[i].style.display = 'none';
 
-                                            // }
 
                                         }
-                                        // console.log(edit_inputs)
                                     };
 
                                     //show btn
@@ -398,14 +392,9 @@
                                         // console.log(edit_inputs)
 
                                         for (var i = 0; i < edit_inputs.length; i++) {
-                                            // edit_inputs[i].setAttribute("class", "democlass");
-                                            // if(i>=edit_inputs.length-3){
-                                            //     edit_inputs[i].style.visibility= 'visible'
-                                            // }
-                                            // else{
+
                                             edit_inputs[i].style.display = '';
-                                            // }
-                                        }
+d                                        }
                                         // console.log(edit_inputs)
                                     };
                                 </script>
