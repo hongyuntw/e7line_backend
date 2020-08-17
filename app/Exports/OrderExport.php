@@ -434,13 +434,7 @@ class OrderExport implements FromArray, WithEvents, WithDrawings
 
                 //                合併儲存格
                 $event->sheet->getDelegate()->setMergeCells($merge_cell_info);
-//                $pageMargins = new \PhpOffice\PhpSpreadsheet\Worksheet\PageMargins();
-//                $pageMargins->setTop(1.91);
-//                $pageMargins->setRight(2);
-//                $pageMargins->setBottom(1.91);
-//                $pageMargins->setLeft(2);
-//
-//                $event->sheet->getDelegate()->setPageMargins($pageMargins);
+
                 $event->sheet->getDelegate()->getPageSetup()->setFitToPage(true);
 
 

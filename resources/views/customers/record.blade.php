@@ -303,7 +303,6 @@
                                     }
 
                                 </script>
-
                                 {{--                        edit聯絡人--}}
                                 <script>
                                     {{--                            when edit btn be clicked--}}
@@ -389,13 +388,9 @@
                                     //show btn
                                     function show_edit_concat(edit_btn_name) {
                                         var edit_inputs = document.getElementsByName(edit_btn_name);
-                                        // console.log(edit_inputs)
-
                                         for (var i = 0; i < edit_inputs.length; i++) {
-
                                             edit_inputs[i].style.display = '';
-d                                        }
-                                        // console.log(edit_inputs)
+                                        }
                                     };
                                 </script>
 

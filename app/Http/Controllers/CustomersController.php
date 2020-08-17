@@ -878,11 +878,15 @@ class CustomersController extends Controller
             if($user_filter>0){
                 $query->where('user_id','=',$user_filter);
             }
+
+            $query_buf  = $query;
+
+            $total = count($query_buf->get());
             $records = $query->paginate(15);
 
             $users = User::where('is_left','=',0)->where('level','=',0)->where('id','!=',1)->get();
 
-            $total = count($query->get());
+
 
             $data = [
                 'date_to' => $date_to,
@@ -918,7 +922,9 @@ class CustomersController extends Controller
             $query->whereBetween('create_date', [$date_from_addtime, $date_to_addtime])->where('user_id','=',Auth::user()->id);
 
 
-            $total = count($query->get());
+            $query_buf  = $query;
+
+            $total = count($query_buf->get());
 
             $records = $query->paginate(15);
 

@@ -536,7 +536,7 @@ class OrderController extends Controller
         if($request->has('ids')){
             foreach ($request->input('ids')as $id){
                 $order = Order::find($id);
-                return Excel::download(new OrderExport($order), $order->no.'.xlsx');
+                return Excel::download(new OrderExport($order), $order->no.'.xlsx' );
             }
             return $total_result;
         }
@@ -545,8 +545,9 @@ class OrderController extends Controller
 
     public function export(Order $order)
     {
-//        dd($order);
-        return Excel::download(new OrderExport($order), $order->no.'.xlsx');
+
+        return Excel::download(new OrderExport($order), $order->no.'.pdf');
+
     }
 
 

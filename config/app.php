@@ -169,6 +169,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
 
+
     ],
 
     /*

@@ -12,8 +12,9 @@ return [
     | Right now, the only deployment type available is "git"
     |
     */
+
     'deployment' => [
-        
+
         'type' => 'git',
 
         'repository' => '',
@@ -21,6 +22,6 @@ return [
         'branch' => 'gh-pages',
 
         'message' => 'Site updated: ' . strftime('%YYYY-%MM-%DD %HH:%mm:%ss')
-        
+
     ]
 ];
