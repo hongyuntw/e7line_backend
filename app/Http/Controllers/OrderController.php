@@ -546,7 +546,7 @@ class OrderController extends Controller
     public function export(Order $order)
     {
 
-        return Excel::download(new OrderExport($order), $order->no.'.pdf');
+        return Excel::download(new OrderExport($order), $order->no.'.xlsx');
 
     }
 
