@@ -101,6 +101,12 @@
                                                 <option value="4" @if(request()->get('search_type')==4) selected @endif>
                                                     訂購人名稱
                                                 </option>
+                                                <option value="5" @if(request()->get('search_type')==5) selected @endif>
+                                                    後五碼
+                                                </option>
+                                                <option value="6" @if(request()->get('search_type')==6) selected @endif>
+                                                    e7line編號
+                                                </option>
                                             </select>
                                             <div class="inline">
                                                 <input type="text" name="search_info" class="form-control"

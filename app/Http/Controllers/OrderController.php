@@ -133,6 +133,12 @@ class OrderController extends Controller
                         return $query;
                     });
                     break;
+                case 5:
+                    $query->where('orders.last_five_nums','like',"%{$search_info}%");
+                    break;
+                case 6:
+                    $query->where('orders.code','like', "%{$search_info}%");
+                    break;
                 default:
                     break;
             }
