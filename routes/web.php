@@ -221,6 +221,12 @@ Route::middleware('auth')->group(function () {
 //    Route::get("ajax/create",'ReportController@createTotalAmountChart')->name('report.createTotalAmountChart');
 //    Route::get("ajax/createTotalAmountChart",'ReportController@createTotalAmountChart')->name('report.createTotalAmountChart');
 
+    //senao orders
+    Route::post('senao_orders/import', 'SenaoOrderController@import')->name('senao_orders.import');
+    Route::post('senao_orders/export', 'SenaoOrderController@export')->name('senao_orders.export');
+
+    Route::get('senao_orders', 'SenaoOrderController@index')->name('senao_orders.index');
+    Route::post('ajax/senao_orders/set_status_to_return', 'SenaoOrderController@set_status_to_return')->name('senao_orders.set_status_to_return');
 
 
 

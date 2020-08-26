@@ -6,17 +6,21 @@ use App\BusinessConcatPerson;
 use App\Customer;
 use App\Exports\InvoicesExport;
 use App\Exports\OrderExport;
+use App\Imports\CustomersImport;
+use App\Imports\SenaoOrdersImport;
 use App\Order;
 use App\OrderItem;
 use App\Product;
 use App\ProductDetail;
 use App\ProductRelation;
+use App\SenaoOrder;
 use App\User;
 use App\Welfare;
 use App\WelfareStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 use Session;
@@ -125,7 +129,6 @@ class OrderController extends Controller
                     break;
                 case 4:
                     $query->leftJoin('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
-//                    dd($query->get());
                     $query->select('orders.*','business_concat_persons.name');
                     $query->where(function ($query) use ($search_info) {
                         $query->where('business_concat_persons.name', 'like', "%{$search_info}%")
@@ -929,6 +932,14 @@ class OrderController extends Controller
 //            'ISBN' => '123',
         ];
     }
+
+    function containsOnlyNull($input)
+    {
+        return empty(array_filter($input, function ($a) { return $a !== null;}));
+    }
+
+
+
 
 
 }

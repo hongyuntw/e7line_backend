@@ -20,7 +20,23 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
-            <!--------------------------
+            @if(session('msg'))
+                @if(session('msg')=='')
+                    <div class="alert alert-success text-center">{{'Success'}}</div>
+                @else
+                    <div class="alert alert-danger text-center">{{session('msg')}}</div>
+                @endif
+            @endif
+
+            @if(session('msgs'))
+                <div class="alert-danger alert text-center">
+                    @foreach(session('msgs') as $msg)
+                        {{$msg}} <br>
+
+                    @endforeach
+                </div>
+        @endif
+        <!--------------------------
               | Your Page Content Here |
               -------------------------->
             <div class="row">
@@ -136,7 +152,9 @@
                                 <div class="col-md-1">
                                     <label>特殊功能</label><br>
                                     <a class="btn btn-success btn-sm" href="{{route('orders.create')}}">新增訂單</a>
+
                                 </div>
+
 
                             </div>
 
@@ -148,6 +166,15 @@
 
                         <!-- /.box-header -->
                         <div class="box-body ">
+                            <div class="inline">
+                                <form action="{{ route('senao_orders.import') }}" method="POST"
+                                      enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="file" class="form-control-file">
+                                    <button class="btn btn-success btn-sm">匯入神腦訂單</button>
+                                </form>
+
+                            </div>
                             <script>
                                 function select_all() {
                                     var select_boxes = document.getElementsByName("get_code");
@@ -200,30 +227,35 @@
                                         }
                                     });
                                 }
-                                function exportOrders(){
-                                    var inputs = document.getElementsByName("get_code");
-                                    var ids = [];
-                                    for (var i = 0; i < inputs.length; i++) {
-                                        if (inputs[i].checked ? 1 : 0) {
-                                            ids.push(inputs[i].id);
-                                        }
-                                    }
-                                    $.ajax({
-                                        type: "POST",
-                                        url: '{{route('orders.exportFromIndex')}}',
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-                                        },
-                                        data: {
-                                            ids: ids,
-                                        },
-                                        success: function (data) {},
-                                        error: function () {
-                                            alert('伺服器出了點問題，稍後再重試');
-                                        }
-                                    });
 
-                                }
+                                {{--function exportOrders() {--}}
+                                {{--    var inputs = document.getElementsByName("get_code");--}}
+                                {{--    // var ids = [];--}}
+                                {{--    // for (var i = 0; i < inputs.length; i++) {--}}
+                                {{--    //     if (inputs[i].checked ? 1 : 0) {--}}
+                                {{--    //         ids.push(inputs[i].id);--}}
+                                {{--    //     }--}}
+                                {{--    // }--}}
+                                {{--    var ids = [1,2,3,4,5];--}}
+                                {{--    $.ajax({--}}
+                                {{--        type: "POST",--}}
+                                {{--        --}}{{--url: '{{route('orders.exportFromIndex')}}',--}}
+                                {{--        url:'{{route('senao_orders.export')}}',--}}
+                                {{--        // headers: {--}}
+                                {{--        //     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')--}}
+                                {{--        // },--}}
+                                {{--        data: {--}}
+                                {{--            ids: ids,--}}
+                                {{--        },--}}
+                                {{--        success: function (data) {--}}
+                                {{--        },--}}
+                                {{--        error: function () {--}}
+                                {{--            alert('伺服器出了點問題，稍後再重試');--}}
+                                {{--        }--}}
+                                {{--    });--}}
+
+                                {{--}--}}
+
                                 function changeStatus2Success() {
                                     var inputs = document.getElementsByName("get_code");
                                     var ids = [];
@@ -282,8 +314,8 @@
                                         <button class="btn-sm btn-dark" onclick="get_code()">拋單已選中</button>
 
                                     @endif
-                                        <button class="btn-sm btn-dark" onclick="changeStatus2Success()">設為已完成</button>
-{{--                                        <button class="btn-sm btn-dark" onclick="exportOrders()">匯出已選中</button>--}}
+                                    <button class="btn-sm btn-dark" onclick="changeStatus2Success()">設為已完成</button>
+                                    {{--                                        <button class="btn-sm btn-dark" onclick="exportOrders()">匯出已選中</button>--}}
 
                                 </div>
 
@@ -298,7 +330,8 @@
                                                    name="get_code">
                                         </td>
 
-                                        <td class="align-middle " style="vertical-align: middle">#{{ $order->no}} &nbsp  &nbsp
+                                        <td class="align-middle " style="vertical-align: middle">#{{ $order->no}} &nbsp
+                                            &nbsp
 
                                             @if($order->code)
                                                 <span style="color: red;font-weight: bold">
@@ -320,14 +353,15 @@
                                                 {{$order->other_customer_name}}
                                             @endif
                                             <br>
-                                                by &nbsp
-                                                @if($order->business_concat_person)
-                                                    {{$order->business_concat_person->name}}
-                                                @else
-                                                    {{$order->other_concat_person_name}}
-                                                @endif
+                                            by &nbsp
+                                            @if($order->business_concat_person)
+                                                {{$order->business_concat_person->name}}
+                                            @else
+                                                {{$order->other_concat_person_name}}
+                                            @endif
                                         </td>
-                                        <td class="align-middle " style="vertical-align: middle">{{ ($order->tax_id)}}</td>
+                                        <td class="align-middle "
+                                            style="vertical-align: middle">{{ ($order->tax_id)}}</td>
                                         <td class="align-middle " style="vertical-align: middle">
                                             {{$order->user->name}}
                                         </td>
@@ -355,8 +389,10 @@
                                                 class="label{{$css}}"
                                                 style="min-width:60px;display: inline-block">{{ $order_status_names[$order->status] }}</label>
 
-                                        <td class="align-middle " style="vertical-align: middle">{{round($order->amount)+round($order->shipping_fee)}}</td>
-                                        <td class="align-middle " style="vertical-align: middle">{{date("Y-m-d", strtotime($order->create_date))}}</td>
+                                        <td class="align-middle "
+                                            style="vertical-align: middle">{{round($order->amount)+round($order->shipping_fee)}}</td>
+                                        <td class="align-middle "
+                                            style="vertical-align: middle">{{date("Y-m-d", strtotime($order->create_date))}}</td>
                                         <td class="align-middle " style="vertical-align: middle">
                                             @if($order->receive_date){{date("m-d", strtotime($order->receive_date))}}@else
                                                 -
@@ -377,13 +413,15 @@
 
                                             <a href="{{route('orders.detail',$order->id)}}"
                                                class="btn btn-xs btn-primary">詳細</a>
-{{--                                            <br>--}}
+                                            {{--                                            <br>--}}
                                             <a onclick="order_edit({{$order->id}})"
                                                class="btn btn-xs btn-primary">編輯</a>
                                             <br>
-                                            <a href="{{route('orders.export',$order->id)}}" class="btn-xs btn btn-primary">匯出</a>
-{{--                                            <br>--}}
-                                            <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')" class="btn-xs btn btn-primary">複製</a>
+                                            <a href="{{route('orders.export',$order->id)}}"
+                                               class="btn-xs btn btn-primary">匯出</a>
+                                            {{--                                            <br>--}}
+                                            <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')"
+                                               class="btn-xs btn btn-primary">複製</a>
                                             <br>
 
                                             @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )
@@ -406,12 +444,12 @@
                                 @endforeach
                             </table>
                             <script>
-                                function copyOnclick(OrderNo,OrderId){
-                                    var result  = confirm('訂單複製後，即使取消編輯仍會產生一筆訂單，請務必注意! \n 確定要複製 訂單編號:' + OrderNo + ' 此筆訂單？' );
-                                    if(!result){
+                                function copyOnclick(OrderNo, OrderId) {
+                                    var result = confirm('訂單複製後，即使取消編輯仍會產生一筆訂單，請務必注意! \n 確定要複製 訂單編號:' + OrderNo + ' 此筆訂單？');
+                                    if (!result) {
                                         return;
                                     }
-                                    window.location.href  = '/orders/' + OrderId + '/copy?';
+                                    window.location.href = '/orders/' + OrderId + '/copy?';
 
                                 }
 

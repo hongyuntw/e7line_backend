@@ -13,6 +13,11 @@ class Order extends Model
 
     protected $guarded = ['id',];
 
+    public function senao_order()
+    {
+        return $this->belongsTo(SenaoOrder::class);
+    }
+
 
     public function order_items()
     {

@@ -41,9 +41,7 @@ class OrderExport implements FromArray, WithEvents, WithDrawings
 
     public function array(): array
     {
-//        dd($this->order);
         return array();
-//        return $this->order->toArray();
     }
 
     public function registerEvents(): array
