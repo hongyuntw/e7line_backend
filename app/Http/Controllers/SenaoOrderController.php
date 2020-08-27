@@ -8,9 +8,14 @@ use App\Exports\OrderExport;
 use App\Exports\SenaoOrderExport;
 use App\Exports\SenaoOrdersExport;
 use App\Imports\SenaoOrdersImport;
+use App\Imports\SenaoProductsImport;
+use App\IsbnRelation;
 use App\Order;
+use App\OrderItem;
 use App\Product;
+use App\ProductRelation;
 use App\SenaoOrder;
+use App\SenaoProduct;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,13 +51,6 @@ class SenaoOrderController extends Controller
         if($request->has('sortBy')){
             $sortBy = $request->input('sortBy');
         }
-////        user
-//        if($request->has('user_filter')){
-//            $user_filter = $request->input('user_filter');
-//        }
-//        if($user_filter>0) {
-//            $query->where('user_id','=',$user_filter);
-//        }
 // status
         if ($request->has('status_filter')) {
             $status_filter = $request->input('status_filter');
@@ -127,9 +125,99 @@ class SenaoOrderController extends Controller
         return empty(array_filter($input, function ($a) { return $a !== null;}));
     }
 
+    public function import_product(Request $request)
+    {
+        if($request->file('file') == null){
+            $msg = '必須上傳檔案';
+            \Illuminate\Support\Facades\Session::flash('msg',$msg);
+            return redirect()->back();
+        }
+
+        $extension = $request->file->getClientOriginalExtension();
+        if(!in_array($extension, ['csv', 'xls', 'xlsx'])){
+            $msg = '檔案必需為excel格式(副檔名為csv,xls,xlsx)';
+            Session::flash('msg',$msg);
+            return redirect()->back();
+        }
+        try{
+            $import = new SenaoProductsImport();
+            Excel::import($import, request()->file('file'));
+            $rows = $import->getRows()->toArray();
+            array_shift($rows);
+
+            $msgs = [];
+            $msg = '';
+            foreach($rows as $row){
+                if($this->containsOnlyNull($row)){
+                    continue;
+                }
+                $rename_row = [
+                    'senao_isbn' => $row[0],
+                    'ISBN' => $row[1],
+                    'price' =>$row[2],
+                ];
+//                check product isbn exists
+                $product_relation = ProductRelation::where('ISBN','=',$rename_row['ISBN'])->first();
+                if(is_null($product_relation)){
+                    $msg = '商品ISBN: ' . $rename_row['ISBN'] . '不存在，請先去建立此商品';
+                    array_push($msgs,$msg);
+                    continue;
+                }
+
+//                先找出是否有神腦的這個isbn in系統
+                $senao_product = SenaoProduct::where('senao_isbn','=',$rename_row['senao_isbn'])->first();
+
+                if(is_null($senao_product)){
+//                    建立神腦的isbn
+                    $senao_product = SenaoProduct::create([
+                        'senao_isbn' => $rename_row['senao_isbn'],
+                    ]);
+                }
+
+//                判斷relation 是否已存在
+                $isbn_relation = IsbnRelation::where('senao_product_id','=',$senao_product->id)
+                    ->where('product_relation_id','=',$product_relation->id)->first();
+
+                if(is_null($isbn_relation)){
+//                    不存在，建立一個
+                    $isbn_relation = IsbnRelation::create([
+                        'senao_product_id' => $senao_product->id,
+                        'product_relation_id' => $product_relation->id,
+                        'price' => $rename_row['price'],
+                    ]);
+                    $msg = '神腦ISBN: ' . $rename_row['senao_isbn'] . ' 業務系統isbn: '. $rename_row['ISBN'] . '建立成功';
+                    array_push($msgs,$msg);
+                }
+                else{
+                    $msg = '神腦ISBN: ' . $rename_row['senao_isbn'] . ' 業務系統isbn: '. $rename_row['ISBN'] . '已存在系統';
+                    array_push($msgs,$msg);
+
+                }
+            }
+
+
+            Session::flash('msgs',$msgs);
+            return redirect()->back();
+
+        }
+        catch (\Exception $exception){
+            dd($exception);
+            $msg = '格式錯誤！請檢查檔案格式是否正確';
+            Session::flash('msg',$msg);
+            return redirect()->back();
+        }
+
+    }
+
 
     public function import(Request $request)
     {
+
+        \App\SenaoOrder::truncate();
+        \App\Order::truncate();
+        \App\OrderItem::truncate();
+
+
 
         if($request->file('file') == null){
             $msg = '必須上傳檔案';
@@ -210,8 +298,17 @@ class SenaoOrderController extends Controller
                 ];
 
 //                find if seq id already exist in db
-                $seano_order = SenaoOrder::where('seq_id','=',$rename_row['seq_id'])->first();
-                if(is_null($seano_order)){
+                $senao_order = SenaoOrder::where('seq_id','=',$rename_row['seq_id'])->first();
+                if(is_null($senao_order)){
+//                    check senao product is in our system
+                    $senao_product = SenaoProduct::where('senao_isbn','=',$rename_row['senao_isbn'])->first();
+                    if(is_null($senao_product)){
+                        $msg = '神腦訂單編號' . $rename_row['seq_id'] . '新增失敗，請先新增神腦商品isbn: ' . $rename_row['senao_isbn'];
+                        array_push($msgs,$msg);
+                        continue;
+                    }
+
+
 //                    create senao order for that
                     $newSenaoOrder = SenaoOrder::create($rename_row);
                     $newSenaoOrder->create_date = now();
@@ -241,6 +338,19 @@ class SenaoOrderController extends Controller
                     $newOrder->senao_order_id = $newSenaoOrder->id;
                     $newOrder->update();
 //                    create order item for new order.....
+                    $isbn_relations = $senao_product->isbn_relations;
+//                    dd($isbn_relations);
+                    foreach($isbn_relations as $isbn_relation){
+                        $order_item = OrderItem::create([
+                            'order_id' => $newOrder->id,
+                            'product_relation_id' => $isbn_relation->product_relation_id,
+                            'price' => $isbn_relation->price,
+                            'quantity' => 1,
+                        ]);
+                        $order_item->create_date = now();
+                        $order_item->update_date = now();
+                        $order_item->update();
+                    }
 
                     $msg = '新增神腦訂單編號' . $rename_row['seq_id'] . '成功';
                     array_push($msgs,$msg);
@@ -248,58 +358,21 @@ class SenaoOrderController extends Controller
                 }
                 else{
 //                    update that
-                    $seano_order->update($rename_row);
-                    $seano_order->update_date = now();
-                    $seano_order->update();
-
-//                    update in our order......
+//                    更新出貨日期 都要不一樣
+                    if($senao_order->status!=$rename_row['status'] and $senao_order->shipment_code != $rename_row['shipment_code'] and $senao_order->shipment_company != $rename_row['shipment_company']){
+                        $order = $senao_order->order;
+                        $order->receive_date = now();
+                        $order->update();
+                    }
+                    $senao_order->update($rename_row);
+                    $senao_order->update_date = now();
+                    $senao_order->update();
                     $msg = '更新神腦訂單編號' . $rename_row['seq_id'] . '成功';
                     array_push($msgs,$msg);
                 }
 
-//                $validator = Validator::make($rename_row,$rules,$error_messages);
-//                if ($validator->fails()) {
-//                    $msg = '第'.$index.'筆資料新增失敗, ';
-//                    foreach ($validator->errors()->all() as $error){
-//                        $msg .= $error . ' ,';
-//                    }
-//                    array_push($msgs,$msg);
-//                }
-//                else{
-//                    $user = User::where('name','=',$rename_row['user_name'])->first();
-//                    $newCustomer = Customer::create([
-//                        'name'=>$rename_row['name'],
-//                        'status' => 1,
-//                        'user_id'=>$user->id,
-//                        'tax_id' => $rename_row['tax_id'],
-//                        'capital' => $rename_row['capital'],
-//                        'scales' =>  $rename_row['scales'],
-//                        'city' => $rename_row['city'],
-//                        'area' => $rename_row['area'],
-//                        'phone_number' => $rename_row['phone_number'],
-//                        'fax_number' => $rename_row['fax_number'],
-//                        'address' => $rename_row['address'],
-//                        'note' => $rename_row['note'],
-//                        'active_status'=> 0,
-//                        'already_set_sales' => $user->id == 1? 0 : 1,
-//                        'is_deleted'=>0,
-//                        'create_date' => now(),
-//                        'update_date' => now(),
-//                    ]);
-//                    if($newCustomer -> user_id > 1){
-//                        $newCustomer-> set_sales_date = now();
-//                        $newCustomer ->update();
-//                    }
-//
-//
-//                    $this->addWelfareStatus($newCustomer);
-//                    $success_count ++;
-//                }
-//                $index ++;
             }
 
-
-//            array_push($msgs,'成功新增'.$success_count.'筆客戶');
             Session::flash('msgs',$msgs);
             return redirect()->back();
 
@@ -337,9 +410,7 @@ class SenaoOrderController extends Controller
         $id_string = $request->input('ids');
         $ids  = explode(",", $id_string);
         $senao_orders = SenaoOrder::whereIn('id', $ids)->get();
-//        $filename = date("D M d, Y G:i");
         $response = Excel::download(new SenaoOrdersExport($senao_orders), 'senaoOrders.xlsx' );
-
         return $response;
     }
 

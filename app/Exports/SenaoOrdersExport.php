@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
@@ -15,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 
-class SenaoOrdersExport implements FromArray, WithEvents,WithColumnFormatting
+class SenaoOrdersExport implements FromArray, WithEvents,WithColumnFormatting,ShouldAutoSize
 {
 
     public $senao_orders;
@@ -79,10 +80,14 @@ class SenaoOrdersExport implements FromArray, WithEvents,WithColumnFormatting
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $cols = ['A', 'B', 'C', 'D', 'E', 'G','P','Q','R','S','T','U','V'];
+//                $event->sheet->getDelegate()->getStyle('A1:U99')->getFont()->setSize(14);
+                $event->sheet->getDelegate()->getStyle('A1:U99')->getFont()->setSize(14);
+
+                $cols = ['A', 'B', 'C', 'D', 'E', 'G','P','Q','R','S','T','U'];
                 foreach ($cols as $col) {
-                    $event->sheet->getColumnDimension($col)->setAutoSize(false);
-                    $event->sheet->getColumnDimension($col)->setWidth(20);
+                    $event->sheet->getColumnDimension($col)->setAutoSize(true);
+//                    $event->sheet->getColumnDimension($col)->setWidth(20);
+
                     $event->sheet->formatColumn($col,'@');
 
                 }

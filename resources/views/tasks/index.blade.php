@@ -331,7 +331,6 @@
                                                 </td>
                                                 @php($edit_flag = false)
                                             @endif
-                                            {{--                                        </tr>--}}
                                             @if($loop->last)
                                     </tr>
                                     @else
@@ -339,7 +338,6 @@
                                     <tr>
                                     @endif
                                 @endforeach
-                                {{--                                        </td>--}}
 
                                 @endforeach
 

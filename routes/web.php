@@ -224,12 +224,16 @@ Route::middleware('auth')->group(function () {
     //senao orders
     Route::post('senao_orders/import', 'SenaoOrderController@import')->name('senao_orders.import');
     Route::post('senao_orders/export', 'SenaoOrderController@export')->name('senao_orders.export');
-
+    Route::post('senao_orders/import_product','SenaoOrderController@import_product')->name('senao_orders.import_product');
     Route::get('senao_orders', 'SenaoOrderController@index')->name('senao_orders.index');
     Route::post('ajax/senao_orders/set_status_to_return', 'SenaoOrderController@set_status_to_return')->name('senao_orders.set_status_to_return');
 
-
-
+//    senao products
+    Route::get('senao_products','SenaoProductController@index')->name('senao_products.index');
+    Route::get('senao_products/create','SenaoProductController@create')->name('senao_products.create');
+    Route::get('senao_products/{isbn_relation}/edit','SenaoProductController@edit')->name('senao_products.edit');
+    Route::post('senao_products/{isbn_relation}/update','SenaoProductController@update')->name('senao_products.update');
+    Route::post('senao_products/store','SenaoProductController@store')->name('senao_products.store');
 });
 
 Auth::routes();

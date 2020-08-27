@@ -41,6 +41,7 @@ class OrderItemController extends Controller
         $product_relation = null;
         $date_from = null;
         $date_to = null;
+        $senao_order_filter = -1;
 
         $query->join('orders', 'order_items.order_id', '=', 'orders.id');
         $query->select('order_items.*', 'orders.user_id as user_id', 'order_items.status as status');
@@ -58,6 +59,16 @@ class OrderItemController extends Controller
         }
         if ($user_filter > 0) {
             $query->where('user_id', '=', $user_filter);
+        }
+
+        if($request->has('senao_order_filter')){
+            $senao_order_filter  = $request->input('senao_order_filter');
+        }
+        if($senao_order_filter == 0) {
+            $query->whereNull('orders.senao_order_id');
+        }
+        else if($senao_order_filter == 1){
+            $query->whereNotNull('orders.senao_order_id');
         }
 
 // status
@@ -203,6 +214,7 @@ class OrderItemController extends Controller
             'date_from' => $date_from,
             'date_to' => $date_to,
             'msg' => $msg,
+            'senao_order_filter' => $senao_order_filter,
         ];
 
         return view('order_items.index', $data);

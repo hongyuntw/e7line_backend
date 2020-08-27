@@ -31,4 +31,10 @@ class ProductRelation extends Model
     }
 
 
+    public function isbn_relations()
+    {
+        return $this->hasMany(IsbnRelation::class);
+    }
+
+
 }

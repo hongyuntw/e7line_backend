@@ -133,11 +133,12 @@
                                     <label>特殊功能</label><br>
                                     <div class="inline">
                                         <form action="{{ route('senao_orders.import') }}" method="POST"
-                                              enctype="multipart/form-data">
+                                                     enctype="multipart/form-data">
                                             @csrf
                                             <input type="file" name="file" class="form-control-file">
                                             <button class="btn btn-success btn-sm">匯入神腦訂單</button>
                                         </form>
+
 
                                     </div>
                                 </div>

@@ -116,6 +116,8 @@
                                             @endforeach
 
                                         </select>
+
+
                                     </div>
                                     <div class="col-md-1">
                                         <label>細項狀態</label>
@@ -162,14 +164,24 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <label>排序方式</label>
+                                        <label>排序方式 及 訂單種類</label>
                                         <select name="sortBy" class="form-control form-control-sm">
                                             @foreach(['create_date','receive_date'] as $col)
                                                 <option @if($sortBy == $col) selected
                                                         @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
                                             @endforeach
                                         </select>
-                                        <br>
+                                        {{--                                        <br>--}}
+                                        {{--                                        <label>訂單種類</label>--}}
+                                        <select name="senao_order_filter" class="form-control ">
+                                            <option value="-1" @if($senao_order_filter==-1) selected @endif>所有訂單
+                                            </option>
+                                            <option value="0" @if($senao_order_filter==0) selected @endif>一般訂單
+                                            </option>
+                                            <option value="1" @if($senao_order_filter==1) selected @endif>神腦訂單
+                                            </option>
+                                        </select>
+                                        {{--                                        <br>--}}
                                         <button type="submit" class=" btn btn-sm bg-blue" style="width: 100%">篩選
                                         </button>
                                     </div>
@@ -210,6 +222,8 @@
                                         <input hidden name="date_from" value="{{$date_from}}">
                                         <input hidden name="date_to" value="{{$date_to}}">
                                         <input hidden name="sortBy" value="{{$sortBy}}">
+                                        <input hidden name="senao_order_filter" value="{{$senao_order_filter}}">
+
 
                                     </form>
                                     <!-- /.search form -->

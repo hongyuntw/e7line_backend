@@ -54,6 +54,7 @@
                                                         @endif value="{{$user->id}}">{{$user->name}}</option>
                                             @endforeach
                                         </select>
+
                                     </div>
                                     <div class="col-md-2">
                                         <label>訂單狀態</label>
@@ -84,14 +85,19 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label>排序方式</label>
+                                        <label>排序方式 及 訂單種類</label>
                                         <select name="sortBy" class="form-control form-control-sm">
                                             @foreach(['create_date','receive_date'] as $col)
                                                 <option @if($sortBy == $col) selected
                                                         @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
                                             @endforeach
                                         </select>
-                                        <br>
+{{--                                        <label>訂單種類</label>--}}
+                                        <select name="senao_order_filter" class="form-control form-control-sm">
+                                            <option value="-1" @if($senao_order_filter==-1) selected @endif>所有訂單</option>
+                                            <option value="0" @if($senao_order_filter==0) selected @endif>一般訂單</option>
+                                            <option value="1" @if($senao_order_filter==1) selected @endif>神腦訂單</option>
+                                        </select>
                                         <button type="submit" class=" btn btn-sm bg-blue" style="width: 100%">篩選
                                         </button>
                                     </div>
@@ -141,6 +147,7 @@
                                         <input hidden name="date_from" value="{{$date_from}}">
                                         <input hidden name="date_to" value="{{$date_to}}">
                                         <input hidden name="sortBy" value="{{$sortBy}}">
+                                        <input hidden name="senao_order_filter" value="{{$senao_order_filter}}">
 
 
                                     </form>
@@ -166,15 +173,6 @@
 
                         <!-- /.box-header -->
                         <div class="box-body ">
-                            <div class="inline">
-                                <form action="{{ route('senao_orders.import') }}" method="POST"
-                                      enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="file" name="file" class="form-control-file">
-                                    <button class="btn btn-success btn-sm">匯入神腦訂單</button>
-                                </form>
-
-                            </div>
                             <script>
                                 function select_all() {
                                     var select_boxes = document.getElementsByName("get_code");
@@ -228,33 +226,6 @@
                                     });
                                 }
 
-                                {{--function exportOrders() {--}}
-                                {{--    var inputs = document.getElementsByName("get_code");--}}
-                                {{--    // var ids = [];--}}
-                                {{--    // for (var i = 0; i < inputs.length; i++) {--}}
-                                {{--    //     if (inputs[i].checked ? 1 : 0) {--}}
-                                {{--    //         ids.push(inputs[i].id);--}}
-                                {{--    //     }--}}
-                                {{--    // }--}}
-                                {{--    var ids = [1,2,3,4,5];--}}
-                                {{--    $.ajax({--}}
-                                {{--        type: "POST",--}}
-                                {{--        --}}{{--url: '{{route('orders.exportFromIndex')}}',--}}
-                                {{--        url:'{{route('senao_orders.export')}}',--}}
-                                {{--        // headers: {--}}
-                                {{--        //     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')--}}
-                                {{--        // },--}}
-                                {{--        data: {--}}
-                                {{--            ids: ids,--}}
-                                {{--        },--}}
-                                {{--        success: function (data) {--}}
-                                {{--        },--}}
-                                {{--        error: function () {--}}
-                                {{--            alert('伺服器出了點問題，稍後再重試');--}}
-                                {{--        }--}}
-                                {{--    });--}}
-
-                                {{--}--}}
 
                                 function changeStatus2Success() {
                                     var inputs = document.getElementsByName("get_code");

@@ -47,24 +47,27 @@ class DashboardController extends Controller
             'concat_records.id as concat_record_id'
         );
 
-        $query_future = clone $query;
-        $query_past  = clone $query;
+//        $query_future = clone $query;
+//        $query_past  = clone $query;
+////
+//        $future_track_customers = $query_future->WhereNotNull('concat_records.track_date')
+//            ->whereDate('concat_records.track_date', '>=', Carbon::now())
+//            ->orderBy('concat_records.track_date', 'asc')
+//            ->get();
 //
-        $future_track_customers = $query_future->WhereNotNull('concat_records.track_date')
-            ->whereDate('concat_records.track_date', '>=', Carbon::now())
-            ->orderBy('concat_records.track_date', 'asc')
-            ->get();
+//        $past_track_customers = $query_past->WhereNotNull('concat_records.track_date')
+//            ->whereDate('concat_records.track_date', '<', Carbon::now())
+//            ->orderBy('concat_records.track_date', 'desc')
+//            ->get();
+//
+//
+////        dump($future_track_customers);
+////        dump($past_track_customers);
+//
+//        $customers = $future_track_customers->concat($past_track_customers);
 
-        $past_track_customers = $query_past->WhereNotNull('concat_records.track_date')
-            ->whereDate('concat_records.track_date', '<', Carbon::now())
-            ->orderBy('concat_records.track_date', 'desc')
-            ->get();
-
-
-//        dump($future_track_customers);
-//        dump($past_track_customers);
-
-        $customers = $future_track_customers->concat($past_track_customers);
+        $query->orderBy('concat_records.track_date', 'asc');
+        $customers = $query->get();
 
 //        dd(count($customers));
 
@@ -87,8 +90,8 @@ class DashboardController extends Controller
         $offset = ($page-1)*$rev;
 
 
-//        $customers = $query->skip($offset)->limit($rev)->get();
-        $customers = $customers->slice($offset,$rev);
+        $customers = $query->skip($offset)->limit($rev)->get();
+//        $customers = $customers->slice($offset,$rev);
 
 
         $pp = array();
@@ -389,23 +392,25 @@ class DashboardController extends Controller
         );
 
 
-        $query_future = clone $query;
-        $query_past  = clone $query;
-        $future_track_customers = $query_future->WhereNotNull('concat_records.track_date')
-            ->whereDate('concat_records.track_date', '>=', Carbon::now())
-            ->orderBy('concat_records.track_date', 'asc')
-            ->get();
-
-        $past_track_customers = $query_past->WhereNotNull('concat_records.track_date')
-            ->whereDate('concat_records.track_date', '<', Carbon::now())
-            ->orderBy('concat_records.track_date', 'desc')
-            ->get();
-
-
-//        dump($future_track_customers);
-//        dump($past_track_customers);
-
-        $customers = $future_track_customers->concat($past_track_customers);
+//        $query_future = clone $query;
+//        $query_past  = clone $query;
+//        $future_track_customers = $query_future->WhereNotNull('concat_records.track_date')
+//            ->whereDate('concat_records.track_date', '>=', Carbon::now())
+//            ->orderBy('concat_records.track_date', 'asc')
+//            ->get();
+//
+//        $past_track_customers = $query_past->WhereNotNull('concat_records.track_date')
+//            ->whereDate('concat_records.track_date', '<', Carbon::now())
+//            ->orderBy('concat_records.track_date', 'desc')
+//            ->get();
+//
+//
+////        dump($future_track_customers);
+////        dump($past_track_customers);
+//
+//        $customers = $future_track_customers->concat($past_track_customers);
+        $query->orderBy('concat_records.track_date', 'asc');
+        $customers = $query->get();
 
 
 //        $customers = $query->get();
@@ -426,8 +431,8 @@ class DashboardController extends Controller
             $prev = ($page-1)>0?$page-1:1;
             $next = ($page+1)<$sums?$page+1:$sums;
             $offset = ($page-1)*$rev;
-//            $customers = $query->skip($offset)->limit($rev)->get();
-            $customers = $customers->slice($offset,$rev);
+            $customers = $query->skip($offset)->limit($rev)->get();
+//            $customers = $customers->slice($offset,$rev);
         }
         $pp = array();
         for($i=1;$i<=$sums;$i++){
