@@ -202,8 +202,7 @@ class SenaoOrderController extends Controller
 
         }
         catch (\Exception $exception){
-            dd($exception);
-            $msg = '格式錯誤！請檢查檔案格式是否正確';
+            $msg = $exception->getMessage();
             Session::flash('msg',$msg);
             return redirect()->back();
         }
@@ -214,9 +213,9 @@ class SenaoOrderController extends Controller
     public function import(Request $request)
     {
 
-        \App\SenaoOrder::truncate();
-        \App\Order::truncate();
-        \App\OrderItem::truncate();
+//        \App\SenaoOrder::truncate();
+//        \App\Order::truncate();
+//        \App\OrderItem::truncate();
 
 
 
@@ -379,8 +378,8 @@ class SenaoOrderController extends Controller
 
         }
         catch (\Exception $exception){
-            dd($exception);
-            $msg = '格式錯誤！請檢查檔案格式是否正確';
+//            dd();
+            $msg = $exception->getMessage();
             Session::flash('msg',$msg);
             return redirect()->back();
         }

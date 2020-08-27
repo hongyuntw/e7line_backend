@@ -62,23 +62,22 @@ class OrderController extends Controller
         $perPage = 15;
 
         //   get     sort
-        if($request->has('sortBy')){
+        if ($request->has('sortBy')) {
             $sortBy = $request->input('sortBy');
         }
 //        user
-        if($request->has('user_filter')){
+        if ($request->has('user_filter')) {
             $user_filter = $request->input('user_filter');
         }
-        if($user_filter>0) {
-            $query->where('user_id','=',$user_filter);
+        if ($user_filter > 0) {
+            $query->where('user_id', '=', $user_filter);
         }
-        if($request->has('senao_order_filter')){
-            $senao_order_filter  = $request->input('senao_order_filter');
+        if ($request->has('senao_order_filter')) {
+            $senao_order_filter = $request->input('senao_order_filter');
         }
-        if($senao_order_filter == 0) {
+        if ($senao_order_filter == 0) {
             $query->whereNull('senao_order_id');
-        }
-        else if($senao_order_filter == 1){
+        } else if ($senao_order_filter == 1) {
             $query->whereNotNull('senao_order_id');
             $perPage = 99999;
         }
@@ -88,14 +87,14 @@ class OrderController extends Controller
         if ($request->has('status_filter')) {
             $status_filter = $request->input('status_filter');
         }
-        if((int)$status_filter>=0){
+        if ((int)$status_filter >= 0) {
             $query->where('orders.status', '=', (int)$status_filter);
         }
-        if($request->has('code_filter')){
+        if ($request->has('code_filter')) {
             $code_filter = $request->input('code_filter');
         }
-        if($code_filter>=0){
-            switch ($code_filter){
+        if ($code_filter >= 0) {
+            switch ($code_filter) {
                 case 0:
                     $query->whereNull('orders.code');
                     break;
@@ -108,16 +107,16 @@ class OrderController extends Controller
             }
         }
         //        date filter
-        if($request->has('date_from')){
+        if ($request->has('date_from')) {
             $date_from = $request->input('date_from');
         }
-        if($request->has('date_to')){
+        if ($request->has('date_to')) {
             $date_to = $request->input('date_to');
         }
-        if($date_from != null && $date_to != null){
-            $date_from_addtime = $date_from." 00:00:00";
-            $date_to_addtime = $date_to. " 23:59:59";
-            $query->whereBetween('orders.'.$sortBy,[$date_from_addtime,$date_to_addtime]);
+        if ($date_from != null && $date_to != null) {
+            $date_from_addtime = $date_from . " 00:00:00";
+            $date_to_addtime = $date_to . " 23:59:59";
+            $query->whereBetween('orders.' . $sortBy, [$date_from_addtime, $date_to_addtime]);
         }
         if ($request->has('search_type')) {
             $search_type = $request->query('search_type');
@@ -129,8 +128,8 @@ class OrderController extends Controller
                     $query->where('orders.no', 'like', "%{$search_info}%");
                     break;
                 case 2:
-                    $query->leftJoin('customers','customers.id','=','orders.customer_id');
-                    $query->select('orders.*','customers.name');
+                    $query->leftJoin('customers', 'customers.id', '=', 'orders.customer_id');
+                    $query->select('orders.*', 'customers.name');
                     $query->where(function ($query) use ($search_info) {
                         $query->where('customers.name', 'like', "%{$search_info}%")
                             ->orWhere('orders.other_customer_name', 'like', "%{$search_info}%");
@@ -139,11 +138,11 @@ class OrderController extends Controller
                     });
                     break;
                 case 3:
-                    $query->where("tax_id",'like',"%{$search_info}%");
+                    $query->where("tax_id", 'like', "%{$search_info}%");
                     break;
                 case 4:
-                    $query->leftJoin('business_concat_persons','business_concat_persons.id','=','orders.business_concat_person_id');
-                    $query->select('orders.*','business_concat_persons.name');
+                    $query->leftJoin('business_concat_persons', 'business_concat_persons.id', '=', 'orders.business_concat_person_id');
+                    $query->select('orders.*', 'business_concat_persons.name');
                     $query->where(function ($query) use ($search_info) {
                         $query->where('business_concat_persons.name', 'like', "%{$search_info}%")
                             ->orWhere('orders.other_concat_person_name', 'like', "%{$search_info}%");
@@ -151,10 +150,10 @@ class OrderController extends Controller
                     });
                     break;
                 case 5:
-                    $query->where('orders.last_five_nums','like',"%{$search_info}%");
+                    $query->where('orders.last_five_nums', 'like', "%{$search_info}%");
                     break;
                 case 6:
-                    $query->where('orders.code','like', "%{$search_info}%");
+                    $query->where('orders.code', 'like', "%{$search_info}%");
                     break;
                 default:
                     break;
@@ -162,32 +161,26 @@ class OrderController extends Controller
         }
 
 
-
-
-
-
-
-        $query->where('orders.is_deleted','=',0);
+        $query->where('orders.is_deleted', '=', 0);
 //        dd($sortBy);
-        $query->orderBy('orders.'.$sortBy,'DESC');
+        $query->orderBy('orders.' . $sortBy, 'DESC');
         $orders = $query->paginate($perPage);
-
 
 
         $data = [
             'orders' => $orders,
             'order_status_names' => self::$order_status_names,
             'status_filter' => $status_filter,
-            'product_id'=>$product_id,
-            'product_detail_id'=>$product_detail_id,
-            'user_filter'=>$user_filter,
-            'users'=>$users,
-            'sortBy'=>$sortBy,
-            'sortBy_text'=>$sortBy_text,
-            'date_from'=>$date_from,
-            'date_to'=>$date_to,
-            'code_filter'=>$code_filter,
-            'senao_order_filter' =>$senao_order_filter,
+            'product_id' => $product_id,
+            'product_detail_id' => $product_detail_id,
+            'user_filter' => $user_filter,
+            'users' => $users,
+            'sortBy' => $sortBy,
+            'sortBy_text' => $sortBy_text,
+            'date_from' => $date_from,
+            'date_to' => $date_to,
+            'code_filter' => $code_filter,
+            'senao_order_filter' => $senao_order_filter,
         ];
 
         return view('orders.index', $data);
@@ -250,7 +243,7 @@ class OrderController extends Controller
             'product_detail_id.*' => 'required|integer|min:1',
             'quantity.*' => 'required',
             'price.*' => 'required',
-            'shipping_fee'=>'required',
+            'shipping_fee' => 'required',
         ];
 
         // conditional rules
@@ -268,7 +261,7 @@ class OrderController extends Controller
         $order = Order::find($request->input('id'));
         $order->status = 0;
         $order->update();
-        return "已將訂單#".$order->no."狀態改回未處理";
+        return "已將訂單#" . $order->no . "狀態改回未處理";
     }
 
 
@@ -281,16 +274,15 @@ class OrderController extends Controller
         $memberNo = "";
 
 
-
         $OrderNoPrefix = 'HP';
 
         $data = [
-            'Address' => $order->ship_to? $order->ship_to :'',
+            'Address' => $order->ship_to ? $order->ship_to : '',
             'Paymethod' => self::$payment_method_names[$order->payment_method],
             'InvoiceNo' => $order->tax_id ? $order->tax_id : '',
-            'Notice' => $order->note ?$order->note : '',
+            'Notice' => $order->note ? $order->note : '',
             'ShippingFee' => (integer)round($order->shipping_fee),
-            'MemberNo' => $order->e7line_account?$order->e7line_account: '',
+            'MemberNo' => $order->e7line_account ? $order->e7line_account : '',
 
         ];
         //test
@@ -301,13 +293,13 @@ class OrderController extends Controller
 ////
         foreach ($order->order_items as $order_item) {
             $arr = [];
-            $arr['ISBN'] = $order_item->product_relation->ISBN?$order_item->product_relation->ISBN:'';
+            $arr['ISBN'] = $order_item->product_relation->ISBN ? $order_item->product_relation->ISBN : '';
             $arr['Qty'] = (integer)($order_item->quantity);
             $arr['ListPrice'] = (integer)round($order_item->price);
-            $arr['SpecName'] = $order_item->spec_name?$order_item->spec_name : '';
+            $arr['SpecName'] = $order_item->spec_name ? $order_item->spec_name : '';
 
-            if($order_item->product_relation->ISBN){
-                if($order_item->product_relation->ISBN == 'P1608310002' || $order_item->product_relation->ISBN == 'P1709150001'){
+            if ($order_item->product_relation->ISBN) {
+                if ($order_item->product_relation->ISBN == 'P1608310002' || $order_item->product_relation->ISBN == 'P1709150001') {
                     $OrderNoPrefix = 'EL';
                 }
             }
@@ -322,23 +314,26 @@ class OrderController extends Controller
         $client = new \GuzzleHttp\Client();
         $result = $client->post($api_path, [
             'form_params' => [
-                'e7lineOrder'=> $data_json
+                'e7lineOrder' => $data_json
             ]
         ]);
 //        dd($result);
-        $resp  = $result->getBody()->getContents();
+        $resp = $result->getBody()->getContents();
 //        dump(($resp));
-        $resp = json_decode($resp,true,2);
-        if($resp['isScuess']==true){
+        $resp = json_decode($resp, true, 2);
+        if ($resp['isScuess'] == true) {
             $order->code = $resp['orderNo'];
             $order->update_date = now();
             $order->update();
             Session::flash('alert', 'success');
-            Session::flash('msg',$resp['message']);
+            Session::flash('msg', $resp['message']);
+            Session::flash('gross',$resp['gross']);
         }
-        else{
+        else {
             Session::flash('alert', 'failed');
-            Session::flash('msg',$resp['message']);
+            Session::flash('msg', $resp['message']);
+            Session::flash('gross','undefined');
+
         }
 //        dd($resp);
         return redirect()->back();
@@ -354,8 +349,8 @@ class OrderController extends Controller
         unset($copyData['update_date']);
 
         $currentMonth = date('m');
-        $this_month_data = Order::whereRaw('MONTH(create_date) = ?',[$currentMonth])->get();
-        $no = date("y").date("m").str_pad(count($this_month_data)+1, 4, '0', STR_PAD_LEFT);
+        $this_month_data = Order::whereRaw('MONTH(create_date) = ?', [$currentMonth])->get();
+        $no = date("y") . date("m") . str_pad(count($this_month_data) + 1, 4, '0', STR_PAD_LEFT);
         $copyData['no'] = $no;
         $copyData['user_id'] = Auth::user()->id;
 
@@ -367,7 +362,7 @@ class OrderController extends Controller
         $newOrder->update();
 
 
-        foreach($order->order_items as $order_item){
+        foreach ($order->order_items as $order_item) {
             $copy_item = $order_item->toArray();
             unset($copy_item['id']);
             $copy_item['order_id'] = $newOrder->id;
@@ -378,12 +373,8 @@ class OrderController extends Controller
         }
 
 
-        return redirect()->route('orders.edit',$newOrder->id);
+        return redirect()->route('orders.edit', $newOrder->id);
 //        $order = Order::create($data);
-
-
-
-
 
 
     }
@@ -398,27 +389,24 @@ class OrderController extends Controller
 
         $taxId = [];
 
-        if($customer_id == -1){
-            $orders = Order::where('other_customer_name','=',$other_customer_name)->where('is_deleted','=',0)->get();
-            foreach($orders as $order){
-                if($order->tax_id){
-                    if(array_key_exists($order->tax_id,$taxId)){
+        if ($customer_id == -1) {
+            $orders = Order::where('other_customer_name', '=', $other_customer_name)->where('is_deleted', '=', 0)->get();
+            foreach ($orders as $order) {
+                if ($order->tax_id) {
+                    if (array_key_exists($order->tax_id, $taxId)) {
                         $taxId[$order->tax_id] += 1;
-                    }
-                    else{
+                    } else {
                         $taxId[$order->tax_id] = 1;
                     }
                 }
             }
-        }
-        else{
-            $orders = Order::where('customer_id','=',$customer_id)->where('is_deleted','=',0)->get();
-            foreach($orders as $order){
-                if($order->tax_id){
-                    if(array_key_exists($order->tax_id,$taxId)){
+        } else {
+            $orders = Order::where('customer_id', '=', $customer_id)->where('is_deleted', '=', 0)->get();
+            foreach ($orders as $order) {
+                if ($order->tax_id) {
+                    if (array_key_exists($order->tax_id, $taxId)) {
                         $taxId[$order->tax_id] += 1;
-                    }
-                    else{
+                    } else {
                         $taxId[$order->tax_id] = 1;
                     }
                 }
@@ -437,31 +425,112 @@ class OrderController extends Controller
 //        dd($api_path);
 //        $api_path = 'https://www.e7line.com:8081/API/GetMemberByCompany.aspx';
         $search = $request->input('customer_info');
-        $search = str_replace('台','臺',$search);
+        $search = str_replace('台', '臺', $search);
 
         $client = new \GuzzleHttp\Client();
         $result = $client->post($api_path, [
             'form_params' => [
-                'searchText'=> $search,
+                'searchText' => $search,
             ]
         ]);
 //        dd($result);
-        $resp  = $result->getBody()->getContents();
+        $resp = $result->getBody()->getContents();
         return $resp;
+    }
+
+    public function senao_get_code($ids)
+    {
+        $total_result = [];
+        foreach ($ids as $id) {
+            $order = Order::find($id);
+            if ($order->code) {
+                $total_result[$order->no]['msg'] = '已經拋單過了 '. PHP_EOL . '請重新確認再一起拋單'. PHP_EOL;
+                return $total_result;
+            }
+        }
+        $base_url = \config('url.e7line_url');
+        $api_path = $base_url . '/API/CreateOrderBySales.aspx';
+        $OrderNoPrefix = 'HP';
+        $data = [
+            'Address' => '新北市新店區中正路531號2樓',
+            'Paymethod' => '貨到付款',
+            'InvoiceNo' => '12228473',
+            'Notice' => '',
+            'ShippingFee' => 0,
+            'MemberNo' => 'c4514991@trbvn.com',
+        ];
+        foreach ($ids as $id) {
+            $order = Order::find($id);
+            $orderSubs = [];
+            foreach ($order->order_items as $order_item) {
+                $arr = [];
+                $arr['ISBN'] = $order_item->product_relation->ISBN ? $order_item->product_relation->ISBN : '';
+                $arr['Qty'] = (integer)($order_item->quantity);
+                $arr['ListPrice'] = (integer)round($order_item->price);
+                $arr['SpecName'] = $order_item->spec_name ? $order_item->spec_name : '';
+                if ($order_item->product_relation->ISBN) {
+                    if ($order_item->product_relation->ISBN == 'P1608310002' || $order_item->product_relation->ISBN == 'P1709150001') {
+                        $OrderNoPrefix = 'EL';
+                    }
+                }
+                array_push($orderSubs, $arr);
+            }
+
+        }
+        $data['OrderNoPrefix'] = $OrderNoPrefix;
+        $data['orderSubs'] = $orderSubs;
+        $data_json = json_encode($data);
+        $client = new \GuzzleHttp\Client();
+        $result = $client->post($api_path, [
+            'form_params' => [
+                'e7lineOrder' => $data_json
+            ]
+        ]);
+        $resp = $result->getBody()->getContents();
+        $resp = json_decode($resp, true, 2);
+        $gross = $resp['gross'];
+        if ($resp['isScuess'] == true) {
+            foreach ($ids as $id) {
+                $order = Order::find($id);
+                $order->code = $resp['orderNo'];
+                $order->update_date = now();
+                $order->update();
+                $total_result[$order->no]['msg'] = $resp['message'];
+                $total_result[$order->no]['gross'] = $gross;
+            }
+        }
+        else {
+            $total_result[$order->no]['msg'] = $resp['message'];
+            $total_result[$order->no]['gross'] = 'undefined';
+        }
+        Session::flash('get_code_result', $total_result);
+        Session::flash('gross_type','senao');
+        return $total_result;
+
+
     }
 
 
 //
     public function index_get_code(Request $request)
     {
+
+        if ($request->input('get_code_type') == 1) {
+//            神腦訂單
+            $ids = $request->input('ids');
+            $response = $this->senao_get_code($ids);
+            return $response;
+        }
+
 //        id => msg
         $total_result = [];
-        if($request->has('ids')){
-            foreach ($request->input('ids')as $id){
+        if ($request->has('ids')) {
+            foreach ($request->input('ids') as $id) {
                 $order = Order::find($id);
 //                dd($order);
-                if($order->code){
-                    $total_result[$order->no] = '已經拋單過了';
+                if ($order->code) {
+                    $total_result[$order->no]['msg'] = '已經拋單過了';
+                    $total_result[$order->no]['gross'] = 'undefined';
                     continue;
 
                 }
@@ -473,22 +542,22 @@ class OrderController extends Controller
 
 
                 $data = [
-                    'Address' => $order->ship_to? $order->ship_to :'',
+                    'Address' => $order->ship_to ? $order->ship_to : '',
                     'Paymethod' => self::$payment_method_names[$order->payment_method],
                     'InvoiceNo' => $order->tax_id ? $order->tax_id : '',
-                    'Notice' => $order->note ?$order->note : '',
+                    'Notice' => $order->note ? $order->note : '',
                     'ShippingFee' => (integer)round($order->shipping_fee),
-                    'MemberNo' => $order->e7line_account?$order->e7line_account: '',
+                    'MemberNo' => $order->e7line_account ? $order->e7line_account : '',
                 ];
                 $orderSubs = [];
                 foreach ($order->order_items as $order_item) {
                     $arr = [];
-                    $arr['ISBN'] = $order_item->product_relation->ISBN?$order_item->product_relation->ISBN:'';
+                    $arr['ISBN'] = $order_item->product_relation->ISBN ? $order_item->product_relation->ISBN : '';
                     $arr['Qty'] = (integer)($order_item->quantity);
                     $arr['ListPrice'] = (integer)round($order_item->price);
-                    $arr['SpecName'] = $order_item->spec_name?$order_item->spec_name : '';
-                    if($order_item->product_relation->ISBN){
-                        if($order_item->product_relation->ISBN == 'P1608310002' || $order_item->product_relation->ISBN == 'P1709150001'){
+                    $arr['SpecName'] = $order_item->spec_name ? $order_item->spec_name : '';
+                    if ($order_item->product_relation->ISBN) {
+                        if ($order_item->product_relation->ISBN == 'P1608310002' || $order_item->product_relation->ISBN == 'P1709150001') {
                             $OrderNoPrefix = 'EL';
                         }
                     }
@@ -500,23 +569,27 @@ class OrderController extends Controller
                 $client = new \GuzzleHttp\Client();
                 $result = $client->post($api_path, [
                     'form_params' => [
-                        'e7lineOrder'=> $data_json
+                        'e7lineOrder' => $data_json
                     ]
                 ]);
-                $resp  = $result->getBody()->getContents();
-//        dump(($resp));
-                $resp = json_decode($resp,true,2);
-                if($resp['isScuess']==true){
+                $resp = $result->getBody()->getContents();
+                $resp = json_decode($resp, true, 2);
+                dd($resp);
+                if ($resp['isScuess'] == true) {
                     $order->code = $resp['orderNo'];
                     $order->update_date = now();
                     $order->update();
-                    $total_result[$order->no] = $resp['message'];
+                    $total_result[$order->no]['msg'] = $resp['message'];
+                    $total_result[$order->no]['gross'] = $resp['gross'];
                 }
-                else{
-                    $total_result[$order->no] = $resp['message'];
+                else {
+                    $total_result[$order->no]['msg'] = $resp['message'];
+                    $total_result[$order->no]['gross'] = 'undefined';
                 }
 
             }
+            Session::flash('get_code_result', $total_result);
+            Session::flash('gross_type','normal');
             return $total_result;
 
         }
@@ -526,13 +599,12 @@ class OrderController extends Controller
     public function changeStatus2Success(Request $request)
     {
         $total_result = [];
-        if($request->has('ids')){
-            foreach ($request->input('ids')as $id){
+        if ($request->has('ids')) {
+            foreach ($request->input('ids') as $id) {
                 $order = Order::find($id);
-                if($order->status !=2 ){
+                if ($order->status != 2) {
                     $total_result[$order->no] = '狀態非貨已到，無法變更為已完成。';
-                }
-                else{
+                } else {
                     //                3 = 已完成
                     $order->status = 3;
                     $order->update();
@@ -557,10 +629,10 @@ class OrderController extends Controller
     public function exportFromIndex(Request $request)
     {
         $total_result = [];
-        if($request->has('ids')){
-            foreach ($request->input('ids')as $id){
+        if ($request->has('ids')) {
+            foreach ($request->input('ids') as $id) {
                 $order = Order::find($id);
-                return Excel::download(new OrderExport($order), $order->no.'.xlsx' );
+                return Excel::download(new OrderExport($order), $order->no . '.xlsx');
             }
             return $total_result;
         }
@@ -570,7 +642,7 @@ class OrderController extends Controller
     public function export(Order $order)
     {
 
-        return Excel::download(new OrderExport($order), $order->no.'.xlsx');
+        return Excel::download(new OrderExport($order), $order->no . '.xlsx');
 
     }
 
@@ -582,10 +654,6 @@ class OrderController extends Controller
         return $this->validate($request, $this->rules($request));
 
     }
-
-
-
-
 
 
     /**
@@ -607,7 +675,7 @@ class OrderController extends Controller
             'quantity' => $data['quantity'],
             'price' => $data['price'],
             'spec_name' => $data['spec_name'],
-            'ISBN'=>$data['ISBN'],
+            'ISBN' => $data['ISBN'],
         ];
         unset($data['_token']);
         if ($data['customer_id'] == -1) {
@@ -627,8 +695,8 @@ class OrderController extends Controller
         unset($data['e7line_customer_info']);
         $data['user_id'] = Auth::user()->id;
         $currentMonth = date('m');
-        $this_month_data = Order::whereRaw('MONTH(create_date) = ?',[$currentMonth])->get();
-        $no = date("y").date("m").str_pad(count($this_month_data)+1, 4, '0', STR_PAD_LEFT);
+        $this_month_data = Order::whereRaw('MONTH(create_date) = ?', [$currentMonth])->get();
+        $no = date("y") . date("m") . str_pad(count($this_month_data) + 1, 4, '0', STR_PAD_LEFT);
         $data['no'] = $no;
         $order = Order::create($data);
 
@@ -689,7 +757,7 @@ class OrderController extends Controller
         $product_relations = ProductRelation::all();
 
 
-        if(!$request->has('source_html')){
+        if (!$request->has('source_html')) {
             $request['source_html'] = '/orders';
         }
 
@@ -740,8 +808,7 @@ class OrderController extends Controller
             $order->customer_id = null;
             $order->update();
             unset($data['customer_id']);
-        }
-        else{
+        } else {
             $order->other_customer_name = null;
 
         }
@@ -749,8 +816,7 @@ class OrderController extends Controller
             $order->business_concat_person_id = null;
             $order->update();
             unset($data['business_concat_person_id']);
-        }
-        else{
+        } else {
             $order->other_concat_person_name = null;
         }
         unset($data['redirect_to']);
@@ -763,7 +829,6 @@ class OrderController extends Controller
         unset($data['e7line_info']);
         unset($data['ISBN']);
         unset($data['e7line_customer_info']);
-
 
 
         $order->update($data);
@@ -884,16 +949,16 @@ class OrderController extends Controller
     public function get_customer_info(Request $request)
     {
         $customer_id = $request['customer_select_id'];
-        $customer  = Customer::find($customer_id);
+        $customer = Customer::find($customer_id);
         $res = [
-            'address'=>'',
-            'phone_number'=>'',
+            'address' => '',
+            'phone_number' => '',
         ];
 
 
-        if($customer){
+        if ($customer) {
             $res['address'] = $customer->city . $customer->area . $customer->address;
-            if($customer->phone_number){
+            if ($customer->phone_number) {
                 $res['phone_number'] = $customer->phone_number;
             }
         }
@@ -903,19 +968,19 @@ class OrderController extends Controller
     public function get_concat_person_info(Request $request)
     {
         $concat_person_id = $request['selected_concat_person_id'];
-        $concat_person  = BusinessConcatPerson::find($concat_person_id);
+        $concat_person = BusinessConcatPerson::find($concat_person_id);
         $res = [
-            'email'=>'',
-            'phone_number'=>'',
+            'email' => '',
+            'phone_number' => '',
         ];
 
 
-        if($concat_person){
+        if ($concat_person) {
 
-            if($concat_person->phone_number){
+            if ($concat_person->phone_number) {
                 $res['phone_number'] = $concat_person->phone_number;
             }
-            if($concat_person->email){
+            if ($concat_person->email) {
                 $res['email'] = $concat_person->email;
             }
         }
@@ -950,11 +1015,10 @@ class OrderController extends Controller
 
     function containsOnlyNull($input)
     {
-        return empty(array_filter($input, function ($a) { return $a !== null;}));
+        return empty(array_filter($input, function ($a) {
+            return $a !== null;
+        }));
     }
-
-
-
 
 
 }

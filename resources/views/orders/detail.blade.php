@@ -34,7 +34,12 @@
                             <div class="box-body">
 
                                 @if(session('alert')=='success')
-                                    <div class="alert alert-success text-center">{{session('msg')}}</div>
+                                    <div class="alert alert-success text-center">
+                                        {{session('msg')}}
+                                        <p style="font-size: 20px">
+                                            利率:{{session('gross')}}
+                                        </p>
+                                    </div>
                                 @elseif(session('alert')=='failed')
                                     <div class="alert alert-danger text-center">{{session('msg')}}</div>
                                 @endif
@@ -281,13 +286,15 @@
                                     {{--                                <a class="btn btn-primary" href="{{route('customers.index')}}">客戶列表</a>--}}
 
 
-                                    @if(!$order->code && Auth::user()->level==2)
+                                    @if(!$order->code && Auth::user()->level==2 && is_null($order->senao_order_id))
                                         <a class="btn btn-success" href="{{route('orders.get_code',$order->id)}}">送出訂單至業務系統</a>
                                     @endif
 
 
                                     <a class="btn btn-primary" onclick="order_edit({{$order->id}})">編輯</a>
-                                    <a class="btn btn-primary" href="{{route('orders.export',$order->id)}}">匯出</a>
+                                    @if(is_null($order->senao_order_id))
+                                        <a class="btn btn-primary" href="{{route('orders.export',$order->id)}}">匯出</a>
+                                    @endif
 
 
                                     @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )

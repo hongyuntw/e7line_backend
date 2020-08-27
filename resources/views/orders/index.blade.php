@@ -28,6 +28,7 @@
                 @endif
             @endif
 
+
             @if(session('msgs'))
                 <div class="alert-danger alert text-center">
                     @foreach(session('msgs') as $msg)
@@ -35,7 +36,22 @@
 
                     @endforeach
                 </div>
+            @endif
+
+            @if(session('get_code_result'))
+                <div class="alert-danger alert text-center">
+                    @foreach(session('get_code_result') as  $no=>$result)
+                        訂單編號:{{$no}}&nbsp;{{$result['msg']}} <br>
+                        @if((session('gross_type')=='normal' || $loop->last) )
+{{--                            {{dd($result)}}--}}
+                            <p style="font-size: 20px">利率:{{$result['gross']}} </p><br>
+                        @endif
+                    @endforeach
+
+                </div>
         @endif
+
+
         <!--------------------------
               | Your Page Content Here |
               -------------------------->
@@ -92,9 +108,11 @@
                                                         @endif value="{{$col}}">{{$sortBy_text[$loop->index]}}</option>
                                             @endforeach
                                         </select>
-{{--                                        <label>訂單種類</label>--}}
-                                        <select name="senao_order_filter" class="form-control form-control-sm">
-                                            <option value="-1" @if($senao_order_filter==-1) selected @endif>所有訂單</option>
+                                        {{--                                        <label>訂單種類</label>--}}
+                                        <select name="senao_order_filter" class="form-control form-control-sm"
+                                                id="senao_order_filter">
+                                            <option value="-1" @if($senao_order_filter==-1) selected @endif>所有訂單
+                                            </option>
                                             <option value="0" @if($senao_order_filter==0) selected @endif>一般訂單</option>
                                             <option value="1" @if($senao_order_filter==1) selected @endif>神腦訂單</option>
                                         </select>
@@ -196,6 +214,14 @@
                                             ids.push(inputs[i].id);
                                         }
                                     }
+                                    var get_code_type_select = document.getElementById('senao_order_filter');
+                                    var get_code_type = get_code_type_select.options[get_code_type_select.selectedIndex].value;
+                                    console.log(get_code_type);
+                                    if ('{{$senao_order_filter}}' == -1 || get_code_type == -1) {
+                                        alert('請先篩選訂單種類，避免同時選到神腦訂單及一般訂單！');
+                                        return
+                                    }
+                                    // return;
                                     $.ajax({
                                         type: "POST",
                                         url: '{{route('orders.index_gex_code')}}',
@@ -204,6 +230,7 @@
                                         },
                                         data: {
                                             ids: ids,
+                                            get_code_type: get_code_type,
                                         },
                                         success: function (data) {
                                             console.log(data);
@@ -211,13 +238,11 @@
                                             // console.log(msg);
                                             var msg = '';
                                             for (let [key, value] of Object.entries(data)) {
-                                                // msg_str += value;
-                                                // console.log(key);
-                                                msg += '訂單編號:' + key + '\t' + value;
+                                                console.log(value);
+                                                msg += '訂單編號:' + key + '\t' + value.msg + '利率: ' + value.gross;
                                                 msg += '\n';
                                             }
                                             alert(msg);
-                                            // tmp = false;
                                             window.location.reload();
                                         },
                                         error: function () {
@@ -388,12 +413,14 @@
                                             <a onclick="order_edit({{$order->id}})"
                                                class="btn btn-xs btn-primary">編輯</a>
                                             <br>
-                                            <a href="{{route('orders.export',$order->id)}}"
-                                               class="btn-xs btn btn-primary">匯出</a>
-                                            {{--                                            <br>--}}
-                                            <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')"
-                                               class="btn-xs btn btn-primary">複製</a>
-                                            <br>
+                                            @if(is_null($order->senao_order_id))
+                                                <a href="{{route('orders.export',$order->id)}}"
+                                                   class="btn-xs btn btn-primary">匯出</a>
+                                                {{--                                            <br>--}}
+                                                <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')"
+                                                   class="btn-xs btn btn-primary">複製</a>
+                                                <br>
+                                            @endif
 
                                             @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )
                                                 <form action="{{route('orders.delete',$order->id)}}"
