@@ -16,7 +16,6 @@ class AddSenaoNoInOrdersTable extends Migration
         Schema::table('orders', function (Blueprint $table) {
             //
             $table->string('senao_order_id')->nullable();
-            $table->unsignedInteger('profit')->nullable();
         });
     }
 
@@ -30,7 +29,6 @@ class AddSenaoNoInOrdersTable extends Migration
         Schema::table('orders', function (Blueprint $table) {
             //
             $table->dropColumn('senao_order_id');
-            $table->dropColumn('profit');
         });
     }
 }

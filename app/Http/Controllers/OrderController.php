@@ -59,6 +59,7 @@ class OrderController extends Controller
         $date_from = null;
         $date_to = null;
         $senao_order_filter = -1;
+        $perPage = 15;
 
         //   get     sort
         if($request->has('sortBy')){
@@ -79,6 +80,7 @@ class OrderController extends Controller
         }
         else if($senao_order_filter == 1){
             $query->whereNotNull('senao_order_id');
+            $perPage = 99999;
         }
 
 
@@ -168,7 +170,7 @@ class OrderController extends Controller
         $query->where('orders.is_deleted','=',0);
 //        dd($sortBy);
         $query->orderBy('orders.'.$sortBy,'DESC');
-        $orders = $query->paginate(15);
+        $orders = $query->paginate($perPage);
 
 
 

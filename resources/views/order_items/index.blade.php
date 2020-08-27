@@ -334,6 +334,10 @@
                                 <button onclick="select_all()" class="btn-sm btn-dark">全選</button>
                                 <button onclick="unselect_all()" class="btn-sm btn-dark">取消全選</button>
 
+                                <form action="{{route('senao_orders.exportItems')}}" method="post" name="exportForm"
+                                      id="exportForm" onsubmit="return exportFormSubmit()">
+                                    @csrf
+
                                 <div style="float: right">
                                     <select id="status_select" name="status_select"
                                             class="select2-container float-right">
@@ -346,112 +350,113 @@
                                     @endif
                                     <button class="btn-sm btn-dark" onclick="showDetail({{json_encode($msg)}})">顯示詳細數量
                                     </button>
+                                    <button class="btn-sm btn-dark" type="submit">匯出叫貨單(神腦)
+                                    </button>
 
                                 </div>
+                                <script>
+                                    function exportFormSubmit() {
+                                        var inputs = document.getElementsByName("change_item_status");
+                                        var ids = [];
+                                        for (var i = 0; i < inputs.length; i++) {
+                                            if (inputs[i].checked ? 1 : 0) {
+                                                ids.push(inputs[i].id);
+                                            }
+                                        }
+
+                                        var exportForm = document.getElementById('exportForm');
+                                        var input = document.createElement('input');//prepare a new input DOM element
+                                        input.setAttribute('name', 'ids');//set the param name
+                                        input.setAttribute('value', ids);//set the value
+                                        input.setAttribute('type', 'hidden');//set the type, like "hidden" or other
+                                        exportForm.appendChild(input);//append the input to the form
+                                        return true;
+                                    }
+                                </script>
 
 
-                                @foreach ($order_items as $order_item)
-                                    {{--                                    @if($order->is_deleted)--}}
-                                    {{--                                        @continue--}}
-                                    {{--                                    @endif--}}
 
-                                    @php($order = $order_item->order)
 
-                                    <tr ondblclick="go_to_detail({{$order->id}})" class="text-center">
-                                        <td>
-                                            <input type="checkbox" id="{{$order_item->id}}"
-                                                   name="change_item_status">
-                                        </td>
-                                        <td class="text-left">#{{ $order->no}} &nbsp &nbsp
-                                            @if($order->code)
-                                                <span style="color: red;font-weight: bold">
+                                    @foreach ($order_items as $order_item)
+                                        {{--                                    @if($order->is_deleted)--}}
+                                        {{--                                        @continue--}}
+                                        {{--                                    @endif--}}
+
+                                        @php($order = $order_item->order)
+
+                                        <tr ondblclick="go_to_detail({{$order->id}})" class="text-center">
+                                            <td>
+                                                <input type="checkbox" id="{{$order_item->id}}"
+                                                       name="change_item_status">
+                                            </td>
+                                            <td class="text-left">#{{ $order->no}} &nbsp &nbsp
+                                                @if($order->code)
+                                                    <span style="color: red;font-weight: bold">
                                                 {{$order->code}}
                                                 </span>
-                                            @endif
+                                                @endif
 
 
-                                            <br>
-                                            @if($order->email)
-                                                {{$order->email}}
-                                            @else
-                                                no email
-                                            @endif
-                                            <br>
-                                            by &nbsp &nbsp
-                                            @if($order->business_concat_person)
-                                                {{$order->business_concat_person->name}}
-                                            @else
-                                                {{$order->other_concat_person_name}}
-                                            @endif
-                                        </td>
-                                        <td class="text-center">{{date("Y-m-d", strtotime($order->create_date))}}</td>
-                                        <td>
-                                            {{$order_item->product_relation->product->name}}
-                                            {{$order_item->product_relation->product_detail->name}}
-                                            @if($order_item->spec_name)
-                                                ({{$order_item->spec_name}})
+                                                <br>
+                                                @if($order->email)
+                                                    {{$order->email}}
+                                                @else
+                                                    no email
+                                                @endif
+                                                <br>
+                                                by &nbsp &nbsp
+                                                @if($order->business_concat_person)
+                                                    {{$order->business_concat_person->name}}
+                                                @else
+                                                    {{$order->other_concat_person_name}}
+                                                @endif
+                                            </td>
+                                            <td class="text-center">{{date("Y-m-d", strtotime($order->create_date))}}</td>
+                                            <td>
+                                                {{$order_item->product_relation->product->name}}
+                                                {{$order_item->product_relation->product_detail->name}}
+                                                @if($order_item->spec_name)
+                                                    ({{$order_item->spec_name}})
 
-                                            @endif
+                                                @endif
 
-                                        </td>
-                                        @switch($order_item->status)
-                                            @case(0)
-                                            @php($css='label label-danger')
-                                            @break
-                                            @case(1)
-                                            @php($css='label label-warning')
-                                            @break
-                                            @case(2)
-                                            @php($css='label label-info')
-                                            @break
-                                            @case(3)
-                                            @php($css='label label-success')
-                                            @break
-                                            @case(4)
-                                            @php($css='label label-primary')
-                                            @break
-                                            @default
-                                            @break
-                                        @endswitch
-                                        <td class="align-middle " style="vertical-align: middle"><label
-                                                class="label{{$css}}"
-                                                style="min-width:60px;display: inline-block">{{ $order_item_status_names[$order_item->status] }}</label>
+                                            </td>
+                                            @switch($order_item->status)
+                                                @case(0)
+                                                @php($css='label label-danger')
+                                                @break
+                                                @case(1)
+                                                @php($css='label label-warning')
+                                                @break
+                                                @case(2)
+                                                @php($css='label label-info')
+                                                @break
+                                                @case(3)
+                                                @php($css='label label-success')
+                                                @break
+                                                @case(4)
+                                                @php($css='label label-primary')
+                                                @break
+                                                @default
+                                                @break
+                                            @endswitch
+                                            <td class="align-middle " style="vertical-align: middle"><label
+                                                    class="label{{$css}}"
+                                                    style="min-width:60px;display: inline-block">{{ $order_item_status_names[$order_item->status] }}</label>
 
-                                        <td name="quantity">{{round($order_item->quantity)}}</td>
-                                        <td>${{$order_item->quantity * $order_item->price}}</td>
-                                        <td>
-                                            {{$order->user->name}}
-                                        </td>
-                                        <td>
-                                            @if($order->receive_date)
-                                                {{date("Y-m-d", strtotime($order->receive_date))}}
-                                            @endif
-                                        </td>
-                                        {{--                                        <td>--}}
-                                        {{--                                            <script>--}}
-                                        {{--                                                function order_edit(order_id){--}}
-                                        {{--                                                    // console.log(encodeURIComponent(window.location.href));--}}
-                                        {{--                                                    window.location.href = '/orders/'+order_id+'/edit'+ '?source_html=' + encodeURIComponent(window.location.href);--}}
-                                        {{--                                                }--}}
-                                        {{--                                            </script>--}}
-                                        {{--                                            <a href="{{route('orders.detail',$order->id)}}"--}}
-                                        {{--                                               class="btn btn-xs btn-primary">詳細</a>--}}
-                                        {{--                                            <a onclick="order_edit({{$order->id}})"--}}
-                                        {{--                                               class="btn btn-xs btn-primary">編輯</a>--}}
-
-                                        {{--                                            @if( Auth::user()->level==2)--}}
-                                        {{--                                                <form action="{{route('orders.delete',$order->id)}}"--}}
-                                        {{--                                                      method="post"--}}
-                                        {{--                                                      style="display: inline-block">--}}
-                                        {{--                                                    @csrf--}}
-                                        {{--                                                    <button type="submit" class="btn btn-xs btn-danger"--}}
-                                        {{--                                                            onclick="return confirm('確定是否刪除')">刪除--}}
-                                        {{--                                                    </button>--}}
-                                        {{--                                                </form>--}}
-                                        {{--                                            @endif--}}
-                                        {{--                                        </td>--}}
-                                    </tr>
-                                @endforeach
+                                            <td name="quantity">{{round($order_item->quantity)}}</td>
+                                            <td>${{$order_item->quantity * $order_item->price}}</td>
+                                            <td>
+                                                {{$order->user->name}}
+                                            </td>
+                                            <td>
+                                                @if($order->receive_date)
+                                                    {{date("Y-m-d", strtotime($order->receive_date))}}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </form>
                             </table>
                         </div>
 

@@ -42,6 +42,7 @@ class OrderItemController extends Controller
         $date_from = null;
         $date_to = null;
         $senao_order_filter = -1;
+        $perPage = 15;
 
         $query->join('orders', 'order_items.order_id', '=', 'orders.id');
         $query->select('order_items.*', 'orders.user_id as user_id', 'order_items.status as status');
@@ -69,6 +70,7 @@ class OrderItemController extends Controller
         }
         else if($senao_order_filter == 1){
             $query->whereNotNull('orders.senao_order_id');
+            $perPage = 99999;
         }
 
 // status
@@ -162,8 +164,6 @@ class OrderItemController extends Controller
 //        this is record every product and every item total quantity
         $qt_arr = [];
         foreach ($order_items_all as $item) {
-
-
             if (array_key_exists($item->product_relation->product->name, $qt_arr)) {
                 $detail_and_spec = $item->product_relation->product_detail->name;
                 if($item->spec_name){
@@ -196,10 +196,8 @@ class OrderItemController extends Controller
 
 
 
-        $order_items = $query->paginate(15);
-//        dd($order_items_all);
-//        dd($order_items);
-//        $orders = Order::paginate(15);
+        $order_items = $query->paginate($perPage);
+
         $data = [
             'products' => $products,
             'order_items' => $order_items,

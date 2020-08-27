@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessConcatPerson;
 use App\Exports\InvoicesExport;
 use App\Exports\OrderExport;
+use App\Exports\SenaoItemsExport;
 use App\Exports\SenaoOrderExport;
 use App\Exports\SenaoOrdersExport;
 use App\Imports\SenaoOrdersImport;
@@ -410,7 +411,18 @@ class SenaoOrderController extends Controller
         $id_string = $request->input('ids');
         $ids  = explode(",", $id_string);
         $senao_orders = SenaoOrder::whereIn('id', $ids)->get();
-        $response = Excel::download(new SenaoOrdersExport($senao_orders), 'senaoOrders.xlsx' );
+        $response = Excel::download(new SenaoOrdersExport($senao_orders), '神腦訂單.xlsx' );
+        return $response;
+    }
+
+    public function exportItems(Request $request)
+    {
+        $id_string = $request->input('ids');
+        $order_item_ids  = explode(",", $id_string);
+
+        $order_items = OrderItem::whereIn('id',$order_item_ids)->get();
+
+        $response = Excel::download(new SenaoItemsExport($order_items), '神腦叫貨單.xlsx' );
         return $response;
     }
 
