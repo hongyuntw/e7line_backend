@@ -14,7 +14,8 @@
                 <small></small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="{{route('orders.index')}}"><i class="fa fa-shopping-bag"></i> 交易狀況</a></li>
+                <li><a href="{{route('senao_orders.index')}}"><i class="fa fa-shopping-bag"></i> 神腦訂單列表</a> /
+                    <a href="{{route('orders.index')}}"><i class="fa fa-shopping-bag"></i> 訂單列表</a></li>
                 <li class="active">訂單詳細</li>
             </ol>
         </section>
@@ -37,7 +38,7 @@
                                     <div class="alert alert-success text-center">
                                         {{session('msg')}}
                                         <p style="font-size: 20px">
-                                            利率:{{session('gross')}}
+                                            利潤:{{session('gross')}}
                                         </p>
                                     </div>
                                 @elseif(session('alert')=='failed')

@@ -44,7 +44,7 @@
                         訂單編號:{{$no}}&nbsp;{{$result['msg']}} <br>
                         @if((session('gross_type')=='normal' || $loop->last) )
 {{--                            {{dd($result)}}--}}
-                            <p style="font-size: 20px">利率:{{$result['gross']}} </p><br>
+                            <p style="font-size: 20px">利潤:{{$result['gross']}} </p><br>
                         @endif
                     @endforeach
 
@@ -197,6 +197,9 @@
                                     for (var i = 0; i < select_boxes.length; i++) {
                                         select_boxes[i].checked = 1;
                                     }
+                                    document.getElementById('selected_count').value = '{{count($orders)}}';
+                                    change_show_selected();
+
                                 }
 
                                 function unselect_all() {
@@ -204,6 +207,9 @@
                                     for (var i = 0; i < select_boxes.length; i++) {
                                         select_boxes[i].checked = 0;
                                     }
+                                    document.getElementById('selected_count').value = 0;
+                                    change_show_selected();
+
                                 }
 
                                 function get_code() {
@@ -239,7 +245,7 @@
                                             var msg = '';
                                             for (let [key, value] of Object.entries(data)) {
                                                 console.log(value);
-                                                msg += '訂單編號:' + key + '\t' + value.msg + '利率: ' + value.gross;
+                                                msg += '訂單編號:' + key + '\t' + value.msg + '利潤: ' + value.gross;
                                                 msg += '\n';
                                             }
                                             alert(msg);
@@ -284,12 +290,40 @@
                                         }
                                     });
                                 }
+
+                                function change_show_selected(){
+                                    var total = '{{count($orders)}}';
+                                    var selected = document.getElementById('selected_count').value;
+                                    var str = selected + '/' + total;
+                                    var show_selected_node = document.getElementById('show_selected');
+                                    show_selected_node.text = str;
+                                    console.log(show_selected_node.text);
+                                    document.getElementById('show_selected').innerText = str;
+
+                                }
+
+                                function check_box_changed(check_box){
+                                    var checked = check_box.checked;
+                                    if(checked){
+                                        document.getElementById('selected_count').value = parseInt(document.getElementById('selected_count').value) + 1;
+                                    }
+                                    else{
+                                        document.getElementById('selected_count').value = parseInt(document.getElementById('selected_count').value) - 1;
+
+                                    }
+                                    change_show_selected();
+
+                                }
+
+
+
                             </script>
 
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th style="width:2%"></th>
+                                    <input type="hidden" id="selected_count" value="0">
+                                    <th id="show_selected" class="text-center" style="width:2%">0/{{count($orders)}}</th>
                                     <th class="text-center" style="width:10%">Order</th>
                                     <th class="text-center" style="width:18%">Customer</th>
                                     <th class="text-center" style="width:5%">統編</th>
@@ -323,7 +357,7 @@
                                     <tr ondblclick="" class="text-center">
                                         <td class="align-middle " style="vertical-align: middle">
                                             <input type="checkbox" id="{{$order->id}}"
-                                                   name="get_code">
+                                                   name="get_code" onchange="check_box_changed(this)">
                                         </td>
 
                                         <td class="align-middle " style="vertical-align: middle">#{{ $order->no}} &nbsp

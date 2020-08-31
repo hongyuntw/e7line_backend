@@ -90,15 +90,6 @@ class OrderExport implements FromArray, WithEvents, WithDrawings
 //                    'K12:K13',
 
 
-//                    'A5:B6',
-//                    'H5:K5',
-//                    'H6:K6',
-//                    'A8:B9',
-//                    'C8:K9',
-//                    'A10:K11',
-//                    'A12:H13',
-//                    金額等
-
                 ];
 
 //                logo and qrcode

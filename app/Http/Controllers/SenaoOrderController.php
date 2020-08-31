@@ -57,7 +57,14 @@ class SenaoOrderController extends Controller
             $status_filter = $request->input('status_filter');
         }
         if($status_filter != 'All'){
-            $query->where('senao_orders.status', '=', $status_filter);
+            if($status_filter =='無'){
+                $query->whereNull('senao_orders.status');
+
+            }
+            else{
+                $query->where('senao_orders.status', '=', $status_filter);
+
+            }
         }
 
         //        date filter
@@ -339,7 +346,7 @@ class SenaoOrderController extends Controller
                     $newOrder->update();
 //                    create order item for new order.....
                     $isbn_relations = $senao_product->isbn_relations;
-//                    dd($isbn_relations);
+                    $amount = 0;
                     foreach($isbn_relations as $isbn_relation){
                         $order_item = OrderItem::create([
                             'order_id' => $newOrder->id,
@@ -350,7 +357,10 @@ class SenaoOrderController extends Controller
                         $order_item->create_date = now();
                         $order_item->update_date = now();
                         $order_item->update();
+                        $amount += $isbn_relation->price;
                     }
+                    $newOrder->amount = $amount;
+                    $newOrder->update();
 
                     $msg = '新增神腦訂單編號' . $rename_row['seq_id'] . '成功';
                     array_push($msgs,$msg);

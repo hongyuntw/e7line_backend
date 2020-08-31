@@ -12,7 +12,9 @@
                 <small></small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="{{route('orders.index')}}"><i class="fa fa-shopping-bag"></i> 交易管理</a></li>
+                <li><a href="{{route('senao_orders.index')}}"><i class="fa fa-shopping-bag"></i> 神腦訂單列表</a> /
+                    <a href="{{route('orders.index')}}"><i class="fa fa-shopping-bag"></i> 訂單列表</a></li>
+
                 <li class="active">編輯訂單</li>
             </ol>
         </section>
@@ -41,16 +43,15 @@
                     var tax_id_node = document.getElementById("tax_id");
                     var note_node = document.getElementById("note");
 
-                    if('{{$order->code == null || \Illuminate\Support\Facades\Auth::user()->level==2 }}'){
+                    if ('{{$order->code == null || \Illuminate\Support\Facades\Auth::user()->level==2 }}') {
                         title_node.disabled = false;
                         tax_id_node.disabled = false;
-                        note_node.disabled  = false;
+                        note_node.disabled = false;
 
-                    }
-                    else{
+                    } else {
                         title_node.disabled = true;
                         tax_id_node.disabled = true;
-                        note_node.disabled  = true;
+                        note_node.disabled = true;
 
                     }
 
@@ -68,24 +69,21 @@
                 function mySubmit(form) {
                     var isbn_nodes = document.getElementsByName("ISBN[]");
                     var spec_nodes = document.getElementsByName("spec_name[]");
-                    for(var i=0;i<isbn_nodes.length;i++){
+                    for (var i = 0; i < isbn_nodes.length; i++) {
                         var equal_flag = false;
-                        for(var k = i-1 ; k>=0 ; k--){
-                            if(spec_nodes[i].value == spec_nodes[k].value){
-                                if(isbn_nodes[i].value == isbn_nodes[k].value ){
+                        for (var k = i - 1; k >= 0; k--) {
+                            if (spec_nodes[i].value == spec_nodes[k].value) {
+                                if (isbn_nodes[i].value == isbn_nodes[k].value) {
                                     equal_flag = true;
                                     break;
                                 }
                             }
                         }
-                        if(equal_flag){
+                        if (equal_flag) {
                             alert('ISBN及規格不能有完全一樣的商品喔！');
                             return false;
                         }
                     }
-
-
-
 
 
                     $('#base_info').find('input, textarea, button, select').prop('disabled', false);
@@ -257,8 +255,7 @@
                                                 var other_concat_person_input = document.getElementById("other_concat_person_input");
                                                 if (selected_concat_person_id <= 0) {
                                                     other_concat_person_input.disabled = false;
-                                                }
-                                                else {
+                                                } else {
                                                     other_concat_person_input.disabled = true;
                                                     other_concat_person_input.value = "";
 
@@ -453,7 +450,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-envelope"></i></span>
-                                        <input type="text" class="form-control" name="email" placeholder="email" id="email"
+                                        <input type="text" class="form-control" name="email" placeholder="email"
+                                               id="email"
                                                value="{{ old('email',$order->email) }}">
                                     </div>
                                 </div>
@@ -592,11 +590,11 @@
                             <div class="form-group">
 
                                 <script>
-                                    function getTaxIds(){
+                                    function getTaxIds() {
                                         var customer_select = document.getElementById("select_customer");
                                         var customer_id = customer_select.options[customer_select.selectedIndex].value;
                                         var other_customer_name = document.getElementById("other_customer_name").value;
-                                        if(customer_id == -1 && other_customer_name == '') {
+                                        if (customer_id == -1 && other_customer_name == '') {
                                             alert('請先選擇客戶名稱呦！！');
                                             return;
                                         }
@@ -605,7 +603,7 @@
                                             url: '/ajax/getTaxIds',
                                             data: {
                                                 customer_id: customer_id,
-                                                other_customer_name : other_customer_name,
+                                                other_customer_name: other_customer_name,
                                             }
                                         })
                                             .done(function (res) {
@@ -614,7 +612,7 @@
                                                 node.style.display = 'block';
                                                 node.innerHTML = "";
                                                 var html = "";
-                                                if(!Object.keys(res).length){
+                                                if (!Object.keys(res).length) {
                                                     html += '找不到使用過的統編!!';
                                                 }
                                                 for (const [key, value] of Object.entries(res)) {
@@ -623,18 +621,20 @@
                                                     html += '\t/\t';
                                                     html += value;
                                                     html += '次\t';
-                                                    html += '<a onclick="useTaxId('+ key + ')" style="color:white;cursor: pointer">use</a>'
+                                                    html += '<a onclick="useTaxId(' + key + ')" style="color:white;cursor: pointer">use</a>'
                                                     html += '<br>'
                                                 }
                                                 node.innerHTML = html;
 
                                             })
                                     }
-                                    function useTaxId(taxid){
+
+                                    function useTaxId(taxid) {
                                         var node = document.getElementById("tax_id");
                                         node.value = taxid;
                                     }
-                                    function clearTaxIds(){
+
+                                    function clearTaxIds() {
                                         var node = document.getElementById("recommand_taxid");
                                         node.style.display = 'none';
                                     }
@@ -644,7 +644,7 @@
 
                                 <div class="col-md-3 inputGroupContainer">
                                     <label class=" control-label">統編及抬頭</label>
-                                    <a  onclick="getTaxIds()">建議統編</a>
+                                    <a onclick="getTaxIds()">建議統編</a>
                                     <a onclick="clearTaxIds()">清除</a>
                                     <div style="display: none" class="alert-success" id="recommand_taxid">
                                     </div>
@@ -849,7 +849,6 @@
                                     computeSum();
 
 
-
                                 }
 
                                 function make_selectize(id) {
@@ -869,8 +868,8 @@
                                     // console.log(node);
                                     computeSum();
 
-                                    if(num==1){
-                                        var node  = document.getElementById("first_delete_node");
+                                    if (num == 1) {
+                                        var node = document.getElementById("first_delete_node");
                                         node.remove();
                                     }
                                 }
@@ -926,7 +925,7 @@
 
                                 @endif
                                 @if($loop->index==0)
-                                        <div id="insertField"></div>
+                                    <div id="insertField"></div>
                                     <div id="product_list1">
 
 

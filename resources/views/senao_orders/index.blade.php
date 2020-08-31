@@ -160,6 +160,8 @@
                                     for (var i = 0; i < select_boxes.length; i++) {
                                         select_boxes[i].checked = 1;
                                     }
+                                    document.getElementById('selected_count').value = '{{count($senao_orders)}}';
+                                    change_show_selected();
                                 }
 
                                 function unselect_all() {
@@ -167,6 +169,8 @@
                                     for (var i = 0; i < select_boxes.length; i++) {
                                         select_boxes[i].checked = 0;
                                     }
+                                    document.getElementById('selected_count').value = 0;
+                                    change_show_selected();
                                 }
 
 
@@ -267,13 +271,38 @@
                                             alert('伺服器出了點問題，稍後再重試');
                                         }
                                     });
+
+                                }
+                                function change_show_selected(){
+                                    var total = '{{count($senao_orders)}}';
+                                    var selected = document.getElementById('selected_count').value;
+                                    var str = selected + '/' + total;
+                                    var show_selected_node = document.getElementById('show_selected');
+                                    show_selected_node.text = str;
+                                    console.log(show_selected_node.text);
+                                    document.getElementById('show_selected').innerText = str;
+
+                                }
+
+                                function check_box_changed(check_box){
+                                    var checked = check_box.checked;
+                                    if(checked){
+                                        document.getElementById('selected_count').value = parseInt(document.getElementById('selected_count').value) + 1;
+                                    }
+                                    else{
+                                        document.getElementById('selected_count').value = parseInt(document.getElementById('selected_count').value) - 1;
+
+                                    }
+                                    change_show_selected();
+
                                 }
                             </script>
 
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th style="width:2%"></th>
+                                    <input type="hidden" id="selected_count" value="0">
+                                    <th id="show_selected" class="text-center" style="width:2%">0/{{count($senao_orders)}}</th>
                                     <th class="text-center" style="width:10%">業務系統編號</th>
                                     <th class="text-center" style="width:10%">神腦編號</th>
                                     <th class="text-center" style="width:8%">收貨人</th>
@@ -337,14 +366,11 @@
 
 
                                     @foreach ($senao_orders as $senao_order)
-                                        {{--                                    @if($order->is_deleted)--}}
-                                        {{--                                        @continue--}}
-                                        {{--                                    @endif--}}
 
                                         <tr ondblclick="" class="text-center">
                                             <td class="align-middle " style="vertical-align: middle">
                                                 <input type="checkbox" id="{{$senao_order->id}}"
-                                                       name="get_code">
+                                                       name="get_code" onchange="check_box_changed(this)">
                                             </td>
 
 
@@ -415,23 +441,7 @@
                                                 <a onclick="order_edit({{$senao_order->order->id}})"
                                                    class="btn btn-xs btn-primary">編輯</a>
                                                 <br>
-                                                {{--                                            <a href="{{route('orders.export',$order->id)}}"--}}
-                                                {{--                                               class="btn-xs btn btn-primary">匯出</a>--}}
-                                                {{--                                            <br>--}}
-                                                {{--                                            <a onclick="copyOnclick('{{$order->no}}','{{$order->id}}')"--}}
-                                                {{--                                               class="btn-xs btn btn-primary">複製</a>--}}
-                                                {{--                                            <br>--}}
 
-                                                {{--                                            @if( (Auth::user()->level==2 || Auth::user()->level==0) && $order->status==0 )--}}
-                                                {{--                                                <form action="{{route('orders.delete',$order->id)}}"--}}
-                                                {{--                                                      method="post"--}}
-                                                {{--                                                      style="display: inline-block">--}}
-                                                {{--                                                    @csrf--}}
-                                                {{--                                                    <button type="submit" class="btn btn-xs btn-danger"--}}
-                                                {{--                                                            onclick="return confirm('確定是否刪除')">刪除--}}
-                                                {{--                                                    </button>--}}
-                                                {{--                                                </form>--}}
-                                                {{--                                            @endif--}}
 
                                             </td>
                                         </tr>

@@ -173,7 +173,7 @@
                                         </select>
                                         {{--                                        <br>--}}
                                         {{--                                        <label>訂單種類</label>--}}
-                                        <select name="senao_order_filter" class="form-control ">
+                                        <select name="senao_order_filter" class="form-control " id="senao_order_filter">
                                             <option value="-1" @if($senao_order_filter==-1) selected @endif>所有訂單
                                             </option>
                                             <option value="0" @if($senao_order_filter==0) selected @endif>一般訂單
@@ -243,7 +243,8 @@
                             <table class="table table-bordered table-hover" width="100%">
                                 <thead style="background-color: lightgray">
                                 <tr>
-                                    <th style="width:4%"></th>
+                                    <input type="hidden" id="selected_count" value="0">
+                                    <th id="show_selected" class="text-center" style="width:4%">0/{{count($order_items)}}</th>
                                     <th class="text-center" style="width:15%">Order</th>
                                     <th class="text-center" style="width:10%">建單日期</th>
                                     <th class="text-center" style="width:15%">Product(規格)</th>
@@ -262,6 +263,8 @@
                                         for (var i = 0; i < select_boxes.length; i++) {
                                             select_boxes[i].checked = 1;
                                         }
+                                        document.getElementById('selected_count').value = '{{count($order_items)}}';
+                                        change_show_selected();
                                     }
 
                                     function unselect_all() {
@@ -269,6 +272,8 @@
                                         for (var i = 0; i < select_boxes.length; i++) {
                                             select_boxes[i].checked = 0;
                                         }
+                                        document.getElementById('selected_count').value = 0;
+                                        change_show_selected();
                                     }
 
                                     function go_to_detail(order_id) {
@@ -276,6 +281,29 @@
                                         window.location.href = '/orders/' + order_id + '/detail';
 
                                         // console.log(window.location.href);
+                                    }
+                                    function change_show_selected(){
+                                        var total = '{{count($order_items)}}';
+                                        var selected = document.getElementById('selected_count').value;
+                                        var str = selected + '/' + total;
+                                        var show_selected_node = document.getElementById('show_selected');
+                                        show_selected_node.text = str;
+                                        console.log(show_selected_node.text);
+                                        document.getElementById('show_selected').innerText = str;
+
+                                    }
+
+                                    function check_box_changed(check_box){
+                                        var checked = check_box.checked;
+                                        if(checked){
+                                            document.getElementById('selected_count').value = parseInt(document.getElementById('selected_count').value) + 1;
+                                        }
+                                        else{
+                                            document.getElementById('selected_count').value = parseInt(document.getElementById('selected_count').value) - 1;
+
+                                        }
+                                        change_show_selected();
+
                                     }
 
                                     function change_status() {
@@ -363,6 +391,13 @@
                                                 ids.push(inputs[i].id);
                                             }
                                         }
+                                        var get_code_type_select = document.getElementById('senao_order_filter');
+                                        var get_code_type = get_code_type_select.options[get_code_type_select.selectedIndex].value;
+                                        console.log(get_code_type);
+                                        if ('{{$senao_order_filter}}' != 1 || get_code_type != 1) {
+                                            alert('此功能只能適用神腦訂單，請先篩選訂單種類！');
+                                            return false;
+                                        }
 
                                         var exportForm = document.getElementById('exportForm');
                                         var input = document.createElement('input');//prepare a new input DOM element
@@ -387,8 +422,9 @@
                                         <tr ondblclick="go_to_detail({{$order->id}})" class="text-center">
                                             <td>
                                                 <input type="checkbox" id="{{$order_item->id}}"
-                                                       name="change_item_status">
+                                                       name="change_item_status" onchange="check_box_changed(this)">
                                             </td>
+
                                             <td class="text-left">#{{ $order->no}} &nbsp &nbsp
                                                 @if($order->code)
                                                     <span style="color: red;font-weight: bold">

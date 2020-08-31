@@ -438,15 +438,20 @@ class OrderController extends Controller
         return $resp;
     }
 
+    public function stringIsNullOrWhitespace($text){
+        return ctype_space($text) || $text === "" || $text === null;
+    }
+
     public function senao_get_code($ids)
     {
         $total_result = [];
         foreach ($ids as $id) {
             $order = Order::find($id);
-            if ($order->code) {
+            if (!self::stringIsNullOrWhitespace($order->code)) {
                 $total_result[$order->no]['msg'] = '已經拋單過了 '. PHP_EOL . '請重新確認再一起拋單'. PHP_EOL;
                 return $total_result;
             }
+
         }
         $base_url = \config('url.e7line_url');
         $api_path = $base_url . '/API/CreateOrderBySales.aspx';
@@ -459,9 +464,9 @@ class OrderController extends Controller
             'ShippingFee' => 0,
             'MemberNo' => 'c4514991@trbvn.com',
         ];
+        $orderSubs = [];
         foreach ($ids as $id) {
             $order = Order::find($id);
-            $orderSubs = [];
             foreach ($order->order_items as $order_item) {
                 $arr = [];
                 $arr['ISBN'] = $order_item->product_relation->ISBN ? $order_item->product_relation->ISBN : '';
@@ -475,7 +480,6 @@ class OrderController extends Controller
                 }
                 array_push($orderSubs, $arr);
             }
-
         }
         $data['OrderNoPrefix'] = $OrderNoPrefix;
         $data['orderSubs'] = $orderSubs;
@@ -532,8 +536,9 @@ class OrderController extends Controller
                     $total_result[$order->no]['msg'] = '已經拋單過了';
                     $total_result[$order->no]['gross'] = 'undefined';
                     continue;
-
                 }
+
+
 
                 $base_url = \config('url.e7line_url');
                 $api_path = $base_url . '/API/CreateOrderBySales.aspx';
@@ -574,7 +579,6 @@ class OrderController extends Controller
                 ]);
                 $resp = $result->getBody()->getContents();
                 $resp = json_decode($resp, true, 2);
-                dd($resp);
                 if ($resp['isScuess'] == true) {
                     $order->code = $resp['orderNo'];
                     $order->update_date = now();
