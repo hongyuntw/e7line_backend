@@ -83,7 +83,7 @@ class SenaoItemsExport implements FromArray, WithEvents,ShouldAutoSize , WithHea
                 $event->sheet->getDelegate()->getStyle('A1:Z99')->getFont()->setSize(14);
 
                 $merge_cell_info = [
-                    'A1:E2'
+                    'A1:G2'
                 ];
                 $styleArray = array(
                     'borders' => array(
@@ -100,7 +100,7 @@ class SenaoItemsExport implements FromArray, WithEvents,ShouldAutoSize , WithHea
                     ),
                 );
 
-                $cols = ['A', 'B', 'C', 'D', 'E', 'F'];
+                $cols = ['A', 'B', 'C', 'D', 'E', 'F' , 'G'];
                 foreach ($cols as $col) {
                     $event->sheet->getColumnDimension($col)->setAutoSize(false);
                     $event->sheet->getColumnDimension($col)->setWidth(20);
@@ -115,7 +115,7 @@ class SenaoItemsExport implements FromArray, WithEvents,ShouldAutoSize , WithHea
                 $event->sheet->getDelegate()->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-                $cols = ['A', 'B', 'C', 'D', 'E', 'F'];
+
                 foreach ($cols as $col) {
                     $event->sheet->getColumnDimension($col)->setAutoSize(false);
                     if ($col = 'A' or $col = 'B'){
@@ -127,14 +127,18 @@ class SenaoItemsExport implements FromArray, WithEvents,ShouldAutoSize , WithHea
                 $event->sheet->getDelegate()->setCellValue('A3', 'ISBN');
                 $event->sheet->getDelegate()->setCellValue('B3', '品名');
                 $event->sheet->getDelegate()->setCellValue('C3', '數量');
-                $event->sheet->getDelegate()->setCellValue('D3', '庫存');
-                $event->sheet->getDelegate()->setCellValue('E3', '叫貨數量');
+                $event->sheet->getDelegate()->setCellValue('D3', '組數');
+                $event->sheet->getDelegate()->setCellValue('E3', '實際數量');
+                $event->sheet->getDelegate()->setCellValue('F3', '庫存');
+                $event->sheet->getDelegate()->setCellValue('G3', '叫貨數量');
 
                 $event->sheet->getDelegate()->getStyle('A3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                 $event->sheet->getDelegate()->getStyle('B3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                 $event->sheet->getDelegate()->getStyle('C3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                 $event->sheet->getDelegate()->getStyle('D3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                 $event->sheet->getDelegate()->getStyle('E3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
+                $event->sheet->getDelegate()->getStyle('F3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
+                $event->sheet->getDelegate()->getStyle('G3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
 
 
 
@@ -143,14 +147,17 @@ class SenaoItemsExport implements FromArray, WithEvents,ShouldAutoSize , WithHea
                     $event->sheet->getDelegate()->setCellValue('A'.$row, $isbn);
                     $event->sheet->getDelegate()->setCellValue('B'.$row, $this->isbn_name[$isbn]);
                     $event->sheet->getDelegate()->setCellValue('C'.$row, $qty);
-                    $event->sheet->getDelegate()->setCellValue('D'.$row, '=C'.$row.'-E'.$row);
-                    $event->sheet->getDelegate()->setCellValue('E'.$row, '=C'.$row.'-D'.$row);
+//                    $event->sheet->getDelegate()->setCellValue('D'.$row, '=C'.$row.'-E'.$row);
+                    $event->sheet->getDelegate()->setCellValue('E'.$row, '=C'.$row.'*D'.$row);
+                    $event->sheet->getDelegate()->setCellValue('G'.$row, '=E'.$row.'-F'.$row);
 
                     $event->sheet->getDelegate()->getStyle('A'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                     $event->sheet->getDelegate()->getStyle('B'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                     $event->sheet->getDelegate()->getStyle('C'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                     $event->sheet->getDelegate()->getStyle('D'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
                     $event->sheet->getDelegate()->getStyle('E'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
+                    $event->sheet->getDelegate()->getStyle('F'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
+                    $event->sheet->getDelegate()->getStyle('G'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
 
 
                     $row += 1;
@@ -190,7 +197,7 @@ class SenaoItemsExport implements FromArray, WithEvents,ShouldAutoSize , WithHea
                 $event->sheet->getDelegate()->getStyle('C'.$row)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
 
-                $event->sheet->getDelegate()->getStyle('A1:E' . ($row+1))->applyFromArray($thinBorderStyleArray);
+                $event->sheet->getDelegate()->getStyle('A1:G' . ($row+1))->applyFromArray($thinBorderStyleArray);
 
 
 
