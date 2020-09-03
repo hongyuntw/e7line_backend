@@ -136,7 +136,6 @@ class UserController extends Controller
 
         $user->updated_at = now();
         $user->update();
-        return redirect()->route('users.index');
 
     }
 

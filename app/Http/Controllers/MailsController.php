@@ -78,6 +78,9 @@ class MailsController extends Controller
                     });
 //                    $query->orderBy('area', 'DESC');
                     break;
+                case 4:
+                    $query->where('business_concat_persons.email', 'like', "%{$search_info}%");
+                    break;
                 default:
                     break;
             }

@@ -667,7 +667,9 @@
                                         myNode.innerHTML = '';
                                     }
                                     function recordStatusChange(select){
-                                        var input = document.getElementsByName(select.name)[3];
+                                        var input = document.getElementsByName(select.name)[4];
+                                        console.log(input);
+
                                         if(select.selectedIndex == 1){
                                             console.log(213123);
                                             input.value = formatDate();

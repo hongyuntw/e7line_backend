@@ -93,6 +93,9 @@
                                                 <option value="3" @if(request()->get('search_type')==3) selected @endif>
                                                     地區
                                                 </option>
+                                                <option value="4" @if(request()->get('search_type')==4) selected @endif>
+                                                    email
+                                                </option>
                                             </select>
                                             <br>
                                             <div class="inline">
