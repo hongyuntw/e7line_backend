@@ -374,9 +374,9 @@
                                         @endforeach
                                     </select>
                                     @if(Auth::user()->level >=1 )
-                                        <button class="btn-sm btn-dark" onclick="change_status()">更改選中狀態</button>
+                                        <button type="button" class="btn-sm btn-dark" onclick="change_status()">更改選中狀態</button>
                                     @endif
-                                    <button class="btn-sm btn-dark" onclick="showDetail({{json_encode($msg)}})">顯示詳細數量
+                                    <button type="button" class="btn-sm btn-dark" onclick="showDetail({{json_encode($msg)}})">顯示詳細數量
                                     </button>
                                     <button class="btn-sm btn-dark" type="submit">匯出叫貨單(神腦)
                                     </button>
