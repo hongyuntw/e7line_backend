@@ -76,9 +76,6 @@ class LoginController extends Controller
 
             return view('auth.login');
 
-//            return response()->json([
-//                'error' => 'This account is not activated.'
-//            ], 401);
         }
 
         $this->incrementLoginAttempts($request);
